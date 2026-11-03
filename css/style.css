@@ -4385,6 +4385,65 @@ input:-webkit-autofill:active {
   margin: 0 auto;
 }
 
+@media (max-width: 900px) {
+  .poster-showcase-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.8rem !important;
+  }
+
+  .poster-frame {
+    max-width: min(420px, 100%) !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 12px !important;
+  }
+
+  .poster-frame img {
+    max-height: 480px !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .poster-info-glass-card {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: clamp(1.3rem, 4vw, 2.2rem) !important;
+  }
+
+  .poster-meta-list {
+    margin-bottom: 1.2rem !important;
+    gap: 0.55rem !important;
+  }
+
+  .poster-meta-list li {
+    font-size: clamp(0.78rem, 2.5vw, 0.88rem) !important;
+    padding: 0.5rem 0.8rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.2rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .poster-meta-list li .meta-label {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.06em !important;
+  }
+
+  .poster-cta-row {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.6rem !important;
+  }
+
+  .poster-cta-row .btn {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+}
+
 .poster-frame {
   position: relative;
   background: rgba(14, 20, 34, 0.7) !important;
@@ -6112,5 +6171,78 @@ p, span, a, strong, b, em, i,
 
   .page-title {
     font-size: clamp(1.6rem, 7vw, 2.2rem) !important;
+  }
+
+  /* Mobile Content Cards Padding & Sizing */
+  .container {
+    padding-left: clamp(0.75rem, 3vw, 1.25rem) !important;
+    padding-right: clamp(0.75rem, 3vw, 1.25rem) !important;
+    box-sizing: border-box !important;
+  }
+
+  .about-card,
+  .events-preview-card,
+  .poster-info-glass-card {
+    padding: clamp(1.2rem, 3.5vw, 1.8rem) clamp(0.85rem, 3vw, 1.4rem) !important;
+    border-radius: 20px !important;
+  }
+
+  /* About Fest 2x2 Stats on Mobile */
+  .about-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.65rem !important;
+    margin-top: 1.2rem !important;
+  }
+
+  .stat-item {
+    padding: 0.85rem 0.5rem !important;
+    border-radius: 14px !important;
+  }
+
+  .stat-number {
+    font-size: 1.55rem !important;
+  }
+
+  .stat-label {
+    font-size: 0.62rem !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  /* Events Lineup Footer on Mobile */
+  .events-preview-footer {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+  }
+
+  .events-quick-tags {
+    justify-content: center !important;
+    gap: 0.35rem !important;
+  }
+
+  .events-preview-footer > div:last-child {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.55rem !important;
+  }
+
+  .events-preview-footer .btn {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  /* Winners & Gallery Grids on Mobile */
+  .winners-grid,
+  .gallery-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem !important;
+  }
+
+  .delegate-pass-grid,
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
   }
 }
