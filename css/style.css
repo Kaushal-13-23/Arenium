@@ -3846,27 +3846,35 @@ button {
 }
 
 
-/* Admin Portal Dynamic Theme Rules */
+/* Admin Portal Dedicated Theme Rules */
 body#admin-app {
-  background: var(--bg-core) !important;
-  color: var(--text-primary) !important;
+  background: #080B11 !important;
+  color: #E2E8F0 !important;
+}
+
+body#admin-app .bg-parallax-backdrop,
+body#admin-app .bg-atmospheric-scrim {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
 }
 
 #admin-lock-screen.admin-lock-overlay {
-  background: radial-gradient(circle at center, var(--bg-surface-elevated) 0%, var(--bg-core) 100%) !important;
+  background: radial-gradient(circle at center, #0F172A 0%, #050811 100%) !important;
 }
 
 .admin-lock-card {
-  background: var(--bg-surface) !important;
-  border: 2px solid var(--theme-primary) !important;
-  box-shadow: 0 0 50px rgba(var(--primary-rgb), 0.25), inset 0 0 30px rgba(var(--primary-rgb), 0.06) !important;
-  color: var(--text-primary) !important;
+  background: #0D1117 !important;
+  border: 1.5px solid #38BDF8 !important;
+  box-shadow: 0 0 50px rgba(56, 189, 248, 0.25), inset 0 0 25px rgba(56, 189, 248, 0.05) !important;
+  color: #E2E8F0 !important;
 }
 
 .admin-gateway-logo {
-  background: radial-gradient(circle, rgba(var(--primary-rgb), 0.22) 0%, var(--bg-surface-elevated) 100%) !important;
-  border: 2px solid var(--theme-primary) !important;
-  box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.45) !important;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, #0D1117 100%) !important;
+  border: 2px solid #38BDF8 !important;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.45) !important;
 }
 
 .admin-gateway-title {
@@ -6244,5 +6252,417 @@ p, span, a, strong, b, em, i,
   .contact-grid {
     grid-template-columns: 1fr !important;
     gap: 1rem !important;
+  }
+}
+
+
+/* ==========================================================================
+   DYNAMIC RESPONSIVE CARD ARCHITECTURE (PHONES & TABLETS)
+   Universal dynamic length, fluid width, and adaptive auto-grid sizing
+   ========================================================================== */
+
+/* Universal Card Safety Reset: Never exceed screen width, prevent horizontal scroll */
+.cyber-card,
+.about-card,
+.events-preview-card,
+.event-card,
+.event-matrix-card,
+.register-glass-card,
+.delegate-pass-card,
+.payment-glass-card,
+.fee-structure-announcement-card,
+.fee-tier-card,
+.poster-frame,
+.host-institution-brand-card,
+.committee-members-box,
+.team-member-card,
+.admin-card,
+.sponsor-card,
+.timeline-content,
+.scanner-card,
+.winners-podium-card,
+.winners-item-card,
+.gallery-item {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+/* Base Fee Tier Grid */
+.fee-tier-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 1.2rem !important;
+  margin-bottom: 1.2rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.fee-tier-card {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+}
+
+/* ==========================================================================
+   TABLET RESPONSIVE RULES (iPad, Android Tablets: 641px - 1024px)
+   ========================================================================== */
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Tablet Registration Glass Card */
+  .register-section {
+    padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 2.5vw, 1.8rem) !important;
+  }
+
+  .register-glass-card {
+    max-width: 740px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: clamp(1.8rem, 3.5vw, 2.5rem) clamp(1.2rem, 3vw, 2rem) !important;
+    border-radius: 24px !important;
+  }
+
+  /* Two-column balanced grids on tablet */
+  .fee-tier-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  .register-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1.1rem !important;
+  }
+
+  /* Payment card on tablet */
+  .payment-glass-card {
+    grid-template-columns: auto 1fr !important;
+    padding: 1.4rem 1.6rem !important;
+    gap: 1.4rem !important;
+    border-radius: 20px !important;
+  }
+
+  .payment-qr-img {
+    width: 135px !important;
+    height: 135px !important;
+  }
+
+  /* Delegate Pass Card on tablet */
+  .delegate-pass-card {
+    padding: 1.6rem 1.8rem !important;
+    border-radius: 20px !important;
+  }
+
+  .delegate-pass-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  /* Event matrix cards on tablet: 2 equal-height cards per row */
+  .events-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1.4rem !important;
+  }
+
+  .event-card {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  .event-poster-wrapper {
+    height: 200px !important;
+  }
+
+  /* Coordinators & Sponsors on tablet */
+  .team-grid,
+  .coordinators-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1.2rem !important;
+  }
+
+  .sponsors-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+}
+
+/* ==========================================================================
+   PHONE RESPONSIVE RULES (iPhone, Android Phones: <= 640px)
+   ========================================================================== */
+@media (max-width: 640px) {
+  /* Section & Container Fluid Breathing Room */
+  .register-section {
+    padding: 1.25rem 0.5rem 3rem !important;
+    min-height: auto !important;
+  }
+
+  .container {
+    padding-left: 0.65rem !important;
+    padding-right: 0.65rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Main Registration Glass Card on Phone: 100% width, dynamic height */
+  .register-glass-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 1.2rem 0.75rem !important;
+    border-radius: 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .register-header {
+    margin-bottom: 1.2rem !important;
+  }
+
+  .register-badge {
+    font-size: 0.7rem !important;
+    padding: 0.35rem 0.85rem !important;
+    letter-spacing: 0.8px !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    text-align: center !important;
+  }
+
+  .register-title {
+    font-size: clamp(1.6rem, 7.5vw, 2.2rem) !important;
+    letter-spacing: 0.02em !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .register-subtitle {
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Fee Structure Announcement Card on Phone */
+  .fee-structure-announcement-card {
+    padding: 1rem 0.75rem !important;
+    border-radius: 14px !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  /* Single-column stacking on phones */
+  .fee-tier-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
+
+  .fee-tier-card {
+    width: 100% !important;
+    padding: 1rem 0.8rem !important;
+    border-radius: 12px !important;
+    height: auto !important;
+  }
+
+  /* Form Grid on Phone: Single column, full-width inputs */
+  .register-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
+
+  .form-field-group {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .form-label {
+    font-size: 0.78rem !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  /* Prevent iOS zoom by enforcing 16px font-size with comfortable touch padding */
+  .form-input,
+  .form-select,
+  .form-textarea {
+    font-size: 16px !important;
+    min-height: 46px !important;
+    padding: 0.7rem 0.85rem !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Payment Card on Phone: Centered QR, full-width stack */
+  .payment-glass-card {
+    grid-template-columns: 1fr !important;
+    padding: 1.1rem 0.75rem !important;
+    gap: 1.1rem !important;
+    text-align: center !important;
+    justify-items: center !important;
+    border-radius: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .payment-qr-wrap {
+    margin: 0 auto !important;
+    padding: 6px !important;
+    border-radius: 12px !important;
+  }
+
+  .payment-qr-img {
+    width: 125px !important;
+    height: 125px !important;
+  }
+
+  .payment-details {
+    align-items: center !important;
+    width: 100% !important;
+    gap: 0.5rem !important;
+  }
+
+  .payment-upi-chip {
+    width: 100% !important;
+    max-width: 270px !important;
+    justify-content: space-between !important;
+    margin: 0 auto !important;
+    padding: 0.4rem 0.65rem !important;
+    font-size: 0.84rem !important;
+  }
+
+  .payment-fee-summary {
+    font-size: 1.05rem !important;
+    padding: 0.75rem 0.85rem !important;
+  }
+
+  /* Payment Screenshot Dropzone on Phone */
+  .payment-upload-dropzone {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #upload-idle-state {
+    padding: 1rem 0.65rem !important;
+    border-radius: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #upload-preview-state {
+    padding: 0.65rem 0.75rem !important;
+    border-radius: 10px !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  #upload-file-name {
+    max-width: 160px !important;
+  }
+
+  /* Submit Button on Phone */
+  #btn-submit-registration {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0.85rem 1rem !important;
+    font-size: 0.92rem !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Delegate Pass Card on Phone: 100% dynamic width, stacked details */
+  .delegate-pass-card {
+    padding: 1.15rem 0.75rem !important;
+    border-radius: 16px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .delegate-pass-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.65rem !important;
+    margin-bottom: 1rem !important;
+    padding-bottom: 0.85rem !important;
+  }
+
+  .delegate-pass-header > div:last-child {
+    text-align: left !important;
+    width: 100% !important;
+  }
+
+  .delegate-pass-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  .delegate-pass-field {
+    padding: 0.55rem 0.7rem !important;
+  }
+
+  .delegate-pass-label {
+    font-size: 0.7rem !important;
+  }
+
+  .delegate-pass-val {
+    font-size: 0.9rem !important;
+  }
+
+  /* All Events Matrix Cards on Phone: 1 card per row, dynamic height */
+  .events-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+    width: 100% !important;
+  }
+
+  .event-card {
+    height: auto !important;
+    min-height: 0 !important;
+    border-radius: 16px !important;
+    width: 100% !important;
+  }
+
+  .event-poster-wrapper {
+    height: 180px !important;
+    width: 100% !important;
+  }
+
+  .event-body {
+    padding: 1.1rem 0.9rem !important;
+  }
+
+  /* General Cyber Cards & Panels on Phone */
+  .cyber-card,
+  .about-card,
+  .sponsor-card,
+  .team-member-card,
+  .timeline-content,
+  .scanner-card {
+    padding: 1.15rem 0.85rem !important;
+    border-radius: 16px !important;
+    width: 100% !important;
+    height: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Action Buttons & Button Groups on Phone */
+  .btn-group,
+  .hero-cta-group,
+  .events-preview-footer > div:last-child {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.5rem !important;
+  }
+
+  .btn-group .btn,
+  .hero-cta-group .btn {
+    width: 100% !important;
+    min-height: 44px !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
   }
 }
