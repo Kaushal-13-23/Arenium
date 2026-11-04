@@ -3846,10 +3846,11 @@ button {
 }
 
 
-/* Admin Portal Dedicated Theme Rules */
+/* Admin Portal Dedicated Light Theme Rules */
 body#admin-app {
-  background: #080B11 !important;
-  color: #E2E8F0 !important;
+  background: #F8FAFC !important;
+  background-color: #F8FAFC !important;
+  color: #1E293B !important;
 }
 
 body#admin-app .bg-parallax-backdrop,
@@ -3861,7 +3862,7 @@ body#admin-app .bg-atmospheric-scrim {
 }
 
 #admin-lock-screen.admin-lock-overlay {
-  background: radial-gradient(circle at center, #0F172A 0%, #050811 100%) !important;
+  background: radial-gradient(circle at center, #FFFFFF 0%, #F1F5F9 100%) !important;
 }
 
 .admin-lock-card {
