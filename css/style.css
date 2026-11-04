@@ -6667,3 +6667,130 @@ p, span, a, strong, b, em, i,
     box-sizing: border-box !important;
   }
 }
+
+
+/* ==========================================================================
+   MOBILE & TABLET NAVIGATION SIDEBAR DRAWER: HIGH-CONTRAST BLACK TEXT
+   Ensures all menu items in the mobile drawer are completely black and clearly visible
+   ========================================================================== */
+@media (max-width: 1180px) {
+  /* Mobile Sidebar Drawer Container */
+  .nav-menu,
+  .nav-menu.is-open,
+  .site-header .nav-menu,
+  .site-header .nav-menu.is-open {
+    background: #FFFFFF !important;
+    border-left: 2px solid #CBD5E1 !important;
+    box-shadow: -15px 0 45px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  /* All Mobile Navigation Links - Forced Solid Black */
+  .nav-menu .nav-link,
+  .nav-menu a.nav-link,
+  .nav-menu button.nav-link,
+  .nav-menu .dropdown-toggle,
+  .nav-menu .dropdown-link,
+  .nav-menu .dropdown-item a,
+  .nav-menu.is-open .nav-link,
+  .nav-menu.is-open a.nav-link,
+  .nav-menu.is-open button.nav-link,
+  .nav-menu.is-open .dropdown-toggle,
+  .nav-menu.is-open .dropdown-link,
+  .site-header .nav-menu .nav-link,
+  .site-header .nav-menu a.nav-link,
+  .site-header .nav-menu button.nav-link,
+  .site-header .nav-menu .dropdown-toggle,
+  .site-header.header-scrolled .nav-menu .nav-link {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    font-weight: 800 !important;
+    font-family: 'Roboto Slab', serif !important;
+    font-size: 1.05rem !important;
+    letter-spacing: 0.05em !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Dropdown Chevron / Arrow Icon in Black */
+  .nav-menu .dropdown-chevron,
+  .nav-menu .dropdown-caret,
+  .nav-menu.is-open .dropdown-chevron,
+  .nav-menu.is-open .dropdown-caret,
+  .site-header .nav-menu .dropdown-chevron {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    border-top-color: #000000 !important;
+    opacity: 1 !important;
+  }
+
+  /* Hover State in Mobile Drawer */
+  .nav-menu .nav-link:hover,
+  .nav-menu a.nav-link:hover,
+  .nav-menu.is-open .nav-link:hover {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    background: #F1F5F9 !important;
+    border-radius: 8px !important;
+    padding-left: 0.85rem !important;
+  }
+
+  /* Active State in Mobile Drawer: High Contrast Black with Soft Sky Accent */
+  .nav-menu .nav-link.active,
+  .nav-menu a.nav-link.active,
+  .nav-menu.is-open .nav-link.active,
+  .site-header .nav-menu .nav-link.active {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    background: #E0F2FE !important;
+    border-left: 4px solid #0284C7 !important;
+    border-radius: 4px 8px 8px 4px !important;
+    font-weight: 900 !important;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.12) !important;
+  }
+
+  /* Dropdown Submenu in Mobile Drawer */
+  .nav-menu .dropdown-menu {
+    background: #F8FAFC !important;
+    border: 1.5px solid #CBD5E1 !important;
+    border-left: 3px solid #0284C7 !important;
+    border-radius: 8px !important;
+    margin-top: 0.4rem !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  .nav-menu .dropdown-menu .dropdown-link,
+  .nav-menu .dropdown-menu .dropdown-item a {
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    font-weight: 700 !important;
+    font-size: 0.88rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+
+  .nav-menu .dropdown-menu .dropdown-link:hover {
+    color: #0284C7 !important;
+    -webkit-text-fill-color: #0284C7 !important;
+    background: #EFF6FF !important;
+  }
+
+  /* Drawer Action Buttons */
+  .nav-menu .mobile-action-group .btn-register {
+    background: #B0D7D8 !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    font-weight: 800 !important;
+    border: 1.5px solid #84BCBD !important;
+    text-shadow: none !important;
+  }
+
+  .nav-menu .mobile-action-group .btn-ghost {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    -webkit-text-fill-color: #000000 !important;
+    font-weight: 800 !important;
+    border: 1.5px solid #CBD5E1 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+    text-shadow: none !important;
+  }
+}
