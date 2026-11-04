@@ -40,8 +40,8 @@ const FestDB = {
           }
         },
         tagline: "THE ARENA OF INNOVATION",
-        prizePoolText: "⚡ TOTAL CASH PRIZE POOL: ₹1,50,000 (1.5 LAKHS) // ARENIUM '27 // 4–5 FEBRUARY 2027 // SCHOOL OF INFORMATION SCIENCE, PRESIDENCY UNIVERSITY ⚡",
-        announcement: "⚡ ARENIUM ’27: THE ARENA OF INNOVATION // ₹1.5 LAKHS CASH PRIZE POOL // 24-HOUR HACKATHON, BLIND CODING, TREASURE HUNT, ESPORTS & FASHION SHOW // 4–5 FEB 2027 ⚡",
+        prizePoolText: "⚡ TOTAL CASH PRIZE POOL: ₹1,50,000 (1.5 LAKHS) • ARENIUM '27 • 4–5 FEBRUARY 2027 • SCHOOL OF INFORMATION SCIENCE, PRESIDENCY UNIVERSITY ⚡",
+        announcement: "⚡ ARENIUM ’27: THE ARENA OF INNOVATION • ₹1.5 LAKHS CASH PRIZE POOL • 24-HOUR HACKATHON, BLIND CODING, TREASURE HUNT, ESPORTS & FASHION SHOW • 4–5 FEB 2027 ⚡",
         qrCodeImg: "images/qrcode.png",
         logoImg: "images/logo.jpg",
         certificatesPublished: true,
@@ -825,7 +825,7 @@ const FestDB = {
           id: "AR27-HCK-001",
           recipient: "Team NeuralForge",
           event: "TECHNOVA '27",
-          award: "CHAMPION // FIRST PLACE",
+          award: "CHAMPION · FIRST PLACE",
           college: "Presidency University, Bengaluru",
           issueDate: "5 February 2027",
           verified: true
@@ -834,7 +834,7 @@ const FestDB = {
           id: "AR27-HCK-002",
           recipient: "CyberSentinels",
           event: "TECHNOVA '27",
-          award: "RUNNER UP // SECOND PLACE",
+          award: "RUNNER UP · SECOND PLACE",
           college: "BMS College of Engineering",
           issueDate: "5 February 2027",
           verified: true
@@ -843,7 +843,7 @@ const FestDB = {
           id: "AR27-COD-001",
           recipient: "Kiran R",
           event: "SHADOWCODE",
-          award: "CHAMPION // FIRST PLACE",
+          award: "CHAMPION · FIRST PLACE",
           college: "PES University, Bengaluru",
           issueDate: "5 February 2027",
           verified: true
@@ -852,7 +852,7 @@ const FestDB = {
           id: "AR27-TRL-001",
           recipient: "CipherKnights",
           event: "TECH ODYSSEY",
-          award: "CHAMPION // FIRST PLACE",
+          award: "CHAMPION · FIRST PLACE",
           college: "Presidency University, Bengaluru",
           issueDate: "5 February 2027",
           verified: true
@@ -861,7 +861,7 @@ const FestDB = {
           id: "AR27-LAN-001",
           recipient: "Phantom Apex",
           event: "QUAD DAMAGE",
-          award: "CHAMPION // FIRST PLACE",
+          award: "CHAMPION · FIRST PLACE",
           college: "Presidency University, Bengaluru",
           issueDate: "5 February 2027",
           verified: true
@@ -870,7 +870,7 @@ const FestDB = {
           id: "AR27-DSN-001",
           recipient: "PixelCraft Duo",
           event: "DESIGNNOVA",
-          award: "CHAMPION // FIRST PLACE",
+          award: "CHAMPION · FIRST PLACE",
           college: "National Institute of Design / PU",
           issueDate: "5 February 2027",
           verified: true
@@ -879,7 +879,7 @@ const FestDB = {
           id: "AR27-FSH-001",
           recipient: "Atelier Synthesis",
           event: "BIOCHROMA",
-          award: "CHAMPION // FIRST PLACE",
+          award: "CHAMPION · FIRST PLACE",
           college: "Presidency University (SOIS)",
           issueDate: "5 February 2027",
           verified: true
@@ -888,7 +888,7 @@ const FestDB = {
           id: "AR27-APL-001",
           recipient: "Titan Conglomerate",
           event: "APL (ARENIUM PREMIER LEAGUE)",
-          award: "CHAMPION // FIRST PLACE",
+          award: "CHAMPION · FIRST PLACE",
           college: "Presidency University, Bengaluru",
           issueDate: "5 February 2027",
           verified: true
@@ -1736,7 +1736,7 @@ function openRulebookModal(eventId) {
   if (!modal || !contentEl) return;
 
   titleEl.textContent = ev.name;
-  catEl.textContent = `${ev.category} // ${ev.group === 'pre' ? 'PRE-EVENT' : 'MAIN ARENA'}`;
+  catEl.textContent = `${ev.category} · ${ev.group === 'pre' ? 'PRE-EVENT' : 'MAIN ARENA'}`;
   if (regBtn) regBtn.href = db.settings.registerUrl || "#";
 
   const rb = ev.rulebook || {};
@@ -1999,9 +1999,9 @@ function initCertificateStudio(db) {
     if (params.get("event")) eventSelect.value = params.get("event");
     if (params.get("rank")) {
       const r = parseInt(params.get("rank"), 10);
-      if (r === 1) awardSelect.value = "CHAMPION // FIRST PLACE";
-      else if (r === 2) awardSelect.value = "RUNNER UP // SECOND PLACE";
-      else if (r === 3) awardSelect.value = "2ND RUNNER UP // THIRD PLACE";
+      if (r === 1) awardSelect.value = "CHAMPION · FIRST PLACE";
+      else if (r === 2) awardSelect.value = "RUNNER UP · SECOND PLACE";
+      else if (r === 3) awardSelect.value = "2ND RUNNER UP · THIRD PLACE";
     }
 
     function updatePreview() {
@@ -2196,7 +2196,7 @@ function generateHighResCertificate(db) {
   ctx.fillStyle = "#A52A2A";
   ctx.font = "20px 'JetBrains Mono', monospace";
   ctx.textAlign = "left";
-  ctx.fillText(`VERIFICATION HASH: AR27-CERT-${String(hash).slice(0, 6)} // SOIS-PRESIDENCY-VALIDATED`, 90, 1330);
+  ctx.fillText(`VERIFICATION HASH: AR27-CERT-${String(hash).slice(0, 6)} · SOIS-PRESIDENCY-VALIDATED`, 90, 1330);
 
   // Download Trigger
   const link = document.createElement("a");
@@ -2558,7 +2558,7 @@ function initAdminPanel() {
       if (err) err.style.display = "none";
       if (succ) {
         succ.style.display = "block";
-        succ.textContent = `⚡ ACCESS GRANTED // WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
+        succ.textContent = `⚡ ACCESS GRANTED · WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
       }
 
       setTimeout(() => {
@@ -3071,7 +3071,7 @@ window.addNewAdminCertificate = function() {
   const recipient = prompt("Recipient Student or Team Name:");
   if (!recipient) return;
   const eventName = prompt("Event Name (e.g. TECHVERSE ’27, TECH TRAIL, CODE IN THE DARK):") || "TECHVERSE ’27";
-  const award = prompt("Award / Tier (e.g. CHAMPION // FIRST PLACE, RUNNER UP, PARTICIPATION):") || "CERTIFICATE OF MERIT & PARTICIPATION";
+  const award = prompt("Award / Tier (e.g. CHAMPION · FIRST PLACE, RUNNER UP, PARTICIPATION):") || "CERTIFICATE OF MERIT & PARTICIPATION";
   const college = prompt("College / University:", "Presidency University, Bengaluru") || "Presidency University, Bengaluru";
   const id = prompt("Certificate ID (e.g. AR27-CRT-" + Math.floor(100 + Math.random() * 900) + "):") || ("AR27-CRT-" + Date.now().toString().slice(-4));
   const issueDate = prompt("Issue Date (e.g. 5 February 2027):", "5 February 2027") || "5 February 2027";
@@ -3601,7 +3601,7 @@ window.viewAdminProof = function(regId) {
   const img = document.getElementById("proof-modal-img");
   const openBtn = document.getElementById("proof-modal-open-btn");
 
-  if (title) title.textContent = `PAYMENT PROOF // ${reg.id}`;
+  if (title) title.textContent = `PAYMENT PROOF · ${reg.id}`;
   if (meta) {
     const arenas = [reg.event1Name || reg.eventName, reg.event2Name, reg.event3Name].filter(Boolean).join(" &bull; ");
     meta.innerHTML = `
