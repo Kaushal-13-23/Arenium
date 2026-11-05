@@ -1046,6 +1046,9 @@
       <button type="button" class="admin-nav-btn" data-tab="tab-registrations" onclick="switchAdminTab(\'tab-registrations\')">
         📝 Registrations &amp; Portal
       </button>
+      <button type="button" class="admin-nav-btn" data-tab="tab-scanner" onclick="switchAdminTab('tab-scanner')" style="color: #0284C7; font-weight: 800;">
+        📷 Gate QR Scanner Terminal
+      </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-schedule" onclick="switchAdminTab(\'tab-schedule\')">
         📅 Event Schedules
       </button>
@@ -1148,6 +1151,9 @@
             ⚡ QUICK ADMIN SHORTCUTS
           </h3>
           <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="switchAdminTab('tab-scanner')" style="background: rgba(2, 132, 199, 0.15); border: 1.5px solid #0284C7; color: #0284C7; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem;">
+              📷 Launch Gate QR Scanner
+            </button>
             <button class="btn btn-primary" onclick="addNewAdminEvent()">➕ Add New Event</button>
             <button class="btn btn-ghost" onclick="addNewAdminScheduleItem()">📅 Add Schedule Milestone</button>
             <button class="btn btn-ghost" onclick="addNewAdminSponsor()">➕ Add Sponsor</button>
@@ -1204,6 +1210,7 @@
             </p>
           </div>
           <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="switchAdminTab('tab-scanner')" style="background: rgba(2, 132, 199, 0.15); border: 1.5px solid #0284C7; color: #0284C7; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; font-size: 0.82rem;">📷 Scan Pass QR</button>
             <button class="btn btn-secondary" id="btn-sync-sheet" onclick="syncRegistrationsFromGoogleSheet()" style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10B981; color: #6EE7B7; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; font-size: 0.82rem; font-weight: 700;">
               🔄 Sync from Google Sheet
             </button>
@@ -1380,6 +1387,96 @@
                 <!-- Dynamically rendered -->
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------
+           TAB: GATE QR SCANNER & CHECK-IN TERMINAL
+           -------------------------------------------------------------------- -->
+      <div id="tab-scanner" class="admin-tab-pane" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <span class="section-tag" style="color: #0284C7; background: #E0F2FE; border-color: #BAE6FD;">[GATE SECURITY &amp; CHECK-IN TERMINAL]</span>
+            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #0F172A; margin: 0.2rem 0;">OFFICIAL GATE QR SCANNER &amp; CHECK-IN</h2>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.2rem;">
+              Scan delegate passes using your device webcam, mobile camera, or QR screenshot file to verify registration authenticity and clear gate entry in real time.
+            </p>
+          </div>
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="syncRegistrationsFromGoogleSheet()" style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10B981; color: #047857; font-weight: 700; padding: 0.5rem 1rem; font-size: 0.8rem;">
+              🔄 Sync / Refresh Database
+            </button>
+            <button class="btn btn-ghost" onclick="switchAdminTab('tab-registrations')" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+              👥 View All Registrations
+            </button>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+          <!-- Left: Live Scanner Box -->
+          <div class="cyber-card" style="padding: 1.5rem; background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="color: #0284C7; font-family: var(--font-display); font-size: 1.15rem; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                📷 LIVE CAMERA SCANNER
+              </h3>
+              <span id="scanner-status-indicator" style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: #F1F5F9; color: #64748B;">
+                READY
+              </span>
+            </div>
+
+            <!-- Video Camera Viewport -->
+            <div id="gate-qr-reader" style="width: 100%; min-height: 280px; background: #0F172A; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #94A3B8; text-align: center; border: 2px dashed #38BDF8;">
+              <div id="gate-qr-reader-placeholder" style="padding: 2rem 1rem;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📷</div>
+                <div style="color: #FFFFFF; font-weight: 700; margin-bottom: 0.3rem;">Camera Terminal Idle</div>
+                <div style="font-size: 0.78rem; color: #94A3B8; margin-bottom: 1rem;">Click the button below to start live scanning with your device camera.</div>
+                <button type="button" class="btn btn-primary" onclick="startGateQrScanner()" style="padding: 0.6rem 1.6rem; font-size: 0.85rem; border-radius: 50px;">
+                  ⚡ START CAMERA SCANNER
+                </button>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap;">
+              <button type="button" id="btn-stop-scanner" class="btn btn-ghost" onclick="stopGateQrScanner()" style="display: none; padding: 0.4rem 1rem; font-size: 0.8rem; color: #EF4444; border-color: #EF4444;">
+                ⏹️ Stop Camera
+              </button>
+              <label class="btn btn-ghost" style="padding: 0.4rem 1rem; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; color: #0284C7; border-color: #0284C7; margin: 0;">
+                📁 Scan QR Image File
+                <input type="file" id="gate-qr-file-input" accept="image/*" style="display: none;" onchange="scanQrFromFile(this.files[0])">
+              </label>
+            </div>
+
+            <!-- Manual Reg ID / USN Search Fallback -->
+            <div style="margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px dashed #CBD5E1;">
+              <label class="admin-label" style="font-size: 0.75rem; color: #475569; font-weight: 800;">MANUAL USN / REG ID LOOKUP</label>
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
+                <input type="text" id="manual-scan-input" class="admin-input" placeholder="e.g. ARENIUM27-REG-7911 or 20241BCI0063" style="font-family: var(--font-mono); font-size: 0.85rem;" onkeydown="if(event.key==='Enter') lookupManualGatePass()">
+                <button type="button" class="btn btn-primary" onclick="lookupManualGatePass()" style="padding: 0.5rem 1.1rem; font-size: 0.82rem; white-space: nowrap;">
+                  🔍 Lookup
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Scan Result & Gate Clearance Card -->
+          <div class="cyber-card" style="padding: 1.5rem; background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.15rem; margin: 0;">
+                🛡️ VERIFICATION &amp; CLEARANCE
+              </h3>
+              <span id="gate-clearance-pill" style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: #F1F5F9; color: #64748B;">
+                AWAITING SCAN
+              </span>
+            </div>
+
+            <div id="gate-scan-result-body" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #94A3B8; padding: 2rem 1rem; border: 1.5px dashed #E2E8F0; border-radius: 12px; background: #F8FAFC;">
+              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</div>
+              <div style="font-weight: 700; color: #475569; font-size: 0.95rem;">No Pass Scanned Yet</div>
+              <div style="font-size: 0.78rem; color: #64748B; max-width: 260px; margin-top: 0.3rem;">
+                Position a delegate's QR code in front of the camera, or upload their pass image, or type their Reg ID above.
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1753,6 +1850,7 @@
   </div>
   </div><!-- /#admin-main-interface -->
 
+  <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
   <script src="js/main.js?v=2027_WHITE_TEXT_V1"></script>
   <!-- ========================================================================

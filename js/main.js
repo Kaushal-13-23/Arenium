@@ -4020,3 +4020,238 @@ window.viewAdminPassModal = function(regId) {
     }
   }
 };
+
+// ==========================================================================
+// 18.3 GATE QR SCANNER & LIVE VERIFICATION TERMINAL
+// ==========================================================================
+let gateHtml5QrCode = null;
+let currentScannedReg = null;
+
+function playScanBeep(success = true) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(success ? 880 : 330, ctx.currentTime);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    osc.start();
+    osc.stop(ctx.currentTime + (success ? 0.15 : 0.3));
+  } catch(e) {}
+}
+
+window.startGateQrScanner = function() {
+  const placeholder = document.getElementById("gate-qr-reader-placeholder");
+  const stopBtn = document.getElementById("btn-stop-scanner");
+  const indicator = document.getElementById("scanner-status-indicator");
+
+  if (typeof Html5Qrcode === "undefined") {
+    alert("QR Scanner engine is initializing or blocked. Please refresh the page.");
+    return;
+  }
+
+  if (placeholder) placeholder.style.display = "none";
+  if (stopBtn) stopBtn.style.display = "inline-flex";
+  if (indicator) {
+    indicator.textContent = "● ACTIVE SCANNING";
+    indicator.style.background = "#ECFDF5";
+    indicator.style.color = "#047857";
+  }
+
+  if (!gateHtml5QrCode) {
+    gateHtml5QrCode = new Html5Qrcode("gate-qr-reader");
+  }
+
+  const config = { fps: 10, qrbox: { width: 220, height: 220 } };
+
+  gateHtml5QrCode.start(
+    { facingMode: "environment" },
+    config,
+    (decodedText) => {
+      handleGateQrScanned(decodedText);
+    },
+    (errorMessage) => {}
+  ).catch(err => {
+    console.error("Camera start error:", err);
+    alert("Camera access denied or device has no camera: " + err + "\n\nYou can still click '📁 Scan QR Image File' or use 'Manual Lookup'!");
+    stopGateQrScanner();
+  });
+};
+
+window.stopGateQrScanner = function() {
+  const placeholder = document.getElementById("gate-qr-reader-placeholder");
+  const stopBtn = document.getElementById("btn-stop-scanner");
+  const indicator = document.getElementById("scanner-status-indicator");
+
+  if (gateHtml5QrCode && gateHtml5QrCode.isScanning) {
+    gateHtml5QrCode.stop().then(() => {
+      gateHtml5QrCode.clear();
+      if (placeholder) placeholder.style.display = "block";
+      if (stopBtn) stopBtn.style.display = "none";
+      if (indicator) {
+        indicator.textContent = "STOPPED";
+        indicator.style.background = "#F1F5F9";
+        indicator.style.color = "#64748B";
+      }
+    }).catch(err => console.error(err));
+  } else {
+    if (placeholder) placeholder.style.display = "block";
+    if (stopBtn) stopBtn.style.display = "none";
+    if (indicator) {
+      indicator.textContent = "IDLE";
+      indicator.style.background = "#F1F5F9";
+      indicator.style.color = "#64748B";
+    }
+  }
+};
+
+window.scanQrFromFile = function(file) {
+  if (!file) return;
+  if (!gateHtml5QrCode) {
+    gateHtml5QrCode = new Html5Qrcode("gate-qr-reader");
+  }
+
+  gateHtml5QrCode.scanFile(file, true)
+    .then(decodedText => {
+      handleGateQrScanned(decodedText);
+    })
+    .catch(err => {
+      alert("No valid QR code could be detected in this image: " + err);
+    });
+};
+
+window.lookupManualGatePass = function() {
+  const input = document.getElementById("manual-scan-input");
+  const query = input ? input.value.trim() : "";
+  if (!query) {
+    alert("Please enter a Registration ID or USN to look up.");
+    return;
+  }
+  handleGateQrScanned(query);
+};
+
+window.handleGateQrScanned = function(rawText) {
+  playScanBeep(true);
+  const resultBody = document.getElementById("gate-scan-result-body");
+  const clearancePill = document.getElementById("gate-clearance-pill");
+  if (!resultBody) return;
+
+  const db = FestDB.getData();
+  const list = db.registrations || [];
+
+  // 1. Try to find Registration ID in rawText
+  let matchedReg = null;
+
+  // Exact ID match or substring
+  const regIdMatch = rawText.match(/ARENIUM27-REG-[0-9]+/i) || rawText.match(/AR27-[A-Z0-9-]+/i) || rawText.match(/TEST-[A-Z0-9-]+/i);
+  const targetId = regIdMatch ? regIdMatch[0].toUpperCase() : rawText.trim().toUpperCase();
+
+  matchedReg = list.find(r => 
+    (r.id && r.id.toUpperCase() === targetId) ||
+    (r.usn && r.usn.toUpperCase() === targetId) ||
+    (r.fullName && r.fullName.toUpperCase() === targetId) ||
+    (r.utrId && r.utrId.toUpperCase() === targetId)
+  );
+
+  currentScannedReg = matchedReg;
+
+  if (clearancePill) {
+    if (matchedReg) {
+      clearancePill.textContent = "✅ ACCESS GRANTED";
+      clearancePill.style.background = "#ECFDF5";
+      clearancePill.style.color = "#047857";
+    } else {
+      clearancePill.textContent = "⚠️ UNREGISTERED PASS";
+      clearancePill.style.background = "#FEF2F2";
+      clearancePill.style.color = "#DC2626";
+    }
+  }
+
+  if (matchedReg) {
+    const isTeam = matchedReg.regType === "Team";
+    const teamDisplayName = isTeam ? (matchedReg.teamName || "Squad") : matchedReg.fullName;
+    const isInt = (matchedReg.category === "internal" || !matchedReg.category);
+    const catLabel = matchedReg.categoryLabel || (isInt ? "Internal (Presidency University)" : "External (Other Institution)");
+    const arenas = [matchedReg.event1Name || matchedReg.eventName, matchedReg.event2Name, matchedReg.event3Name].filter(b => b && b !== '-').join(" • ");
+    const isCheckedIn = (matchedReg.status === "Checked In" || matchedReg.status === "Gate Cleared");
+
+    resultBody.innerHTML = `
+      <div style="width: 100%; text-align: left;">
+        <div style="background: ${isCheckedIn ? '#EFF6FF' : '#ECFDF5'}; border: 1.5px solid ${isCheckedIn ? '#93C5FD' : '#6EE7B7'}; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
+            <span style="font-size: 0.72rem; color: ${isCheckedIn ? '#1D4ED8' : '#047857'}; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+              ${isCheckedIn ? 'ℹ️ ALREADY CHECKED IN' : '✅ GATE ENTRY CLEARED • OFFICIAL PASS'}
+            </span>
+            <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; color: #0284C7;">${matchedReg.id}</span>
+          </div>
+          <div style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; color: #0F172A; margin-bottom: 0.2rem;">
+            ${isTeam ? 'Squad: ' + teamDisplayName : matchedReg.fullName}
+          </div>
+          <div style="font-size: 0.85rem; color: #475569;">
+            Delegate Lead: <strong>${matchedReg.fullName}</strong> (${matchedReg.usn || 'N/A'}) • ${matchedReg.college || 'Presidency University'}
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.84rem; margin-bottom: 1.2rem;">
+          <div><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">Category:</strong> <span style="color: #0369A1; font-weight: 700;">${catLabel}</span></div>
+          <div><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">Participation:</strong> <strong>${isTeam ? 'Team Entry' : 'Solo Entry'}</strong></div>
+          <div><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">Fee Paid:</strong> <strong style="color: #047857;">${matchedReg.feePaid || '₹200'} (Verified)</strong></div>
+          <div><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">UTR ID:</strong> <code style="color: #475569;">${matchedReg.utrId || 'N/A'}</code></div>
+          <div style="grid-column: 1 / -1;"><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">Registered Arenas:</strong> <strong style="color: #0F172A;">${arenas || 'General Fest Entry'}</strong></div>
+        </div>
+
+        ${matchedReg.teamMembers ? `
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 1.2rem; font-size: 0.78rem; color: #334155;">
+            <strong style="color: #0369A1; display: block; margin-bottom: 0.2rem;">👥 Squad Roster:</strong>
+            ${matchedReg.teamMembers}
+          </div>
+        ` : ''}
+
+        <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+          <button type="button" class="btn btn-primary" onclick="markGatePassCheckedIn('${matchedReg.id}')" style="background: #059669; border-color: #047857; padding: 0.6rem 1.4rem; font-size: 0.82rem; font-weight: 700;">
+            ${isCheckedIn ? '✓ Refresh Check-In' : '✅ MARK AS CHECKED IN'}
+          </button>
+          <button type="button" class="btn btn-ghost" onclick="viewAdminPassModal('${matchedReg.id}')" style="padding: 0.6rem 1.1rem; font-size: 0.82rem; color: #0284C7; border-color: #0284C7;">
+            🎫 Full Pass Preview
+          </button>
+        </div>
+      </div>
+    `;
+  } else {
+    // If not found in local db, display scanned raw text
+    resultBody.innerHTML = `
+      <div style="width: 100%; text-align: left;">
+        <div style="background: #FEF2F2; border: 1.5px solid #FCA5A5; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+          <div style="color: #DC2626; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem;">⚠️ Pass ID Not Found in Local Database</div>
+          <div style="font-size: 0.78rem; color: #7F1D1D; line-height: 1.45;">
+            The scanned QR code was decoded, but its ID does not match any existing local records. Click <strong>"Sync / Refresh Database"</strong> above to pull newly registered students from Google Sheets!
+          </div>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.8rem; font-size: 0.78rem; font-family: var(--font-mono); color: #334155; white-space: pre-wrap; word-break: break-all;">
+          ${rawText}
+        </div>
+        <button type="button" class="btn btn-primary" onclick="syncRegistrationsFromGoogleSheet()" style="margin-top: 1rem; padding: 0.5rem 1.2rem; font-size: 0.82rem;">
+          🔄 Sync from Google Sheet Now
+        </button>
+      </div>
+    `;
+  }
+};
+
+window.markGatePassCheckedIn = function(regId) {
+  const db = FestDB.getData();
+  const reg = (db.registrations || []).find(r => r.id === regId);
+  if (!reg) return;
+
+  reg.status = "Checked In";
+  reg.checkInTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+  FestDB.saveData(db);
+
+  renderAdminRegistrations(db);
+  renderAdminOverview(db);
+  handleGateQrScanned(regId);
+
+  alert(`✓ DELEGATE CLEARED & CHECKED IN!\n\nPass ID: ${reg.id}\nDelegate: ${reg.fullName}\nTime: ${reg.checkInTime}`);
+};
