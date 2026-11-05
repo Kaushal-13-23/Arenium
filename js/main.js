@@ -15,10 +15,13 @@ const FestDB = {
       settings: {
         eventDate: "2027-02-04T08:30:00+05:30",
         registerUrl: "register.html",
+        paymentGatewayUrl: "https://pages.razorpay.com/arenium27-pay",
         registrationConfig: {
+          googleSheetUrl: "https://script.google.com/macros/s/AKfycbyQf200fHwcydhLqNW2YXVaADme2a4p0RXyc0at1YspDawEJ9oBIQw75tKY97LN35QH/exec",
           status: "open",
           portalMode: "internal",
           externalUrl: "https://presidencyuniversity.in/arenium27-register",
+          paymentGatewayUrl: "https://pages.razorpay.com/arenium27-pay",
           upiId: "arenium27@icici",
           qrCodeImg: "images/qrcode.png",
           internalFee: 200,
@@ -1040,7 +1043,14 @@ const FestDB = {
         const parsed = JSON.parse(raw);
         const defaults = this.getDefaults();
         return {
-          settings: { ...defaults.settings, ...(parsed.settings || {}) },
+          settings: {
+            ...defaults.settings,
+            ...(parsed.settings || {}),
+            registrationConfig: {
+              ...defaults.settings.registrationConfig,
+              ...((parsed.settings && parsed.settings.registrationConfig) || {})
+            }
+          },
           coordinators: parsed.coordinators && parsed.coordinators.length ? parsed.coordinators : defaults.coordinators,
           leadership: parsed.leadership && parsed.leadership.length ? parsed.leadership : defaults.leadership,
           soisFaculty: parsed.soisFaculty && parsed.soisFaculty.length ? parsed.soisFaculty : defaults.soisFaculty,
@@ -3278,20 +3288,76 @@ function renderAdminSettings(db) {
   const regUrlInput = document.getElementById("admin-setting-regurl");
   const eventDateInput = document.getElementById("admin-setting-eventdate");
   const qrImgInput = document.getElementById("admin-setting-qrimg");
+  const gatewayUrlInput = document.getElementById("admin-setting-gatewayurl");
+  const testGatewayBtn = document.getElementById("admin-setting-test-gateway-btn");
+  const removeGatewayBtn = document.getElementById("admin-setting-remove-gateway-btn");
+  const gatewayBadge = document.getElementById("admin-setting-gateway-status");
   const saveBtn = document.getElementById("admin-save-settings-btn");
+
+  const regConfig = (db.settings && db.settings.registrationConfig) || {};
+  const currentGateway = (regConfig.paymentGatewayUrl !== undefined)
+    ? regConfig.paymentGatewayUrl
+    : (db.settings.paymentGatewayUrl || "https://pages.razorpay.com/arenium27-pay");
+
+  function updateStatus(val) {
+    if (!gatewayBadge) return;
+    if (val && val.trim()) {
+      gatewayBadge.textContent = "● ACTIVE";
+      gatewayBadge.style.background = "rgba(16, 185, 129, 0.2)";
+      gatewayBadge.style.color = "#10B981";
+      gatewayBadge.style.borderColor = "#10B981";
+    } else {
+      gatewayBadge.textContent = "○ NO LINK (DISABLED)";
+      gatewayBadge.style.background = "rgba(239, 68, 68, 0.2)";
+      gatewayBadge.style.color = "#EF4444";
+      gatewayBadge.style.borderColor = "#EF4444";
+    }
+  }
+
+  if (gatewayUrlInput) {
+    gatewayUrlInput.value = currentGateway || "";
+    updateStatus(gatewayUrlInput.value);
+    gatewayUrlInput.oninput = () => updateStatus(gatewayUrlInput.value);
+  }
+
+  if (testGatewayBtn) {
+    testGatewayBtn.onclick = () => {
+      const url = gatewayUrlInput ? gatewayUrlInput.value.trim() : "";
+      if (!url) {
+        alert("Please enter a payment gateway URL first before testing.");
+        return;
+      }
+      window.open(url, "_blank", "noopener,noreferrer");
+    };
+  }
+
+  if (removeGatewayBtn) {
+    removeGatewayBtn.onclick = () => {
+      if (confirm("Are you sure you want to remove the payment gateway link? The 'PAY NOW' button on the registration page will be marked as not configured until a new URL is provided.")) {
+        if (gatewayUrlInput) {
+          gatewayUrlInput.value = "";
+          updateStatus("");
+        }
+      }
+    };
+  }
 
   if (regUrlInput) regUrlInput.value = db.settings.registerUrl || "";
   if (eventDateInput) eventDateInput.value = db.settings.eventDate || "";
   if (qrImgInput) qrImgInput.value = db.settings.qrCodeImg || "";
 
   if (saveBtn) {
-    saveBtn.addEventListener("click", () => {
-      db.settings.registerUrl = regUrlInput.value.trim();
-      db.settings.eventDate = eventDateInput.value.trim();
-      db.settings.qrCodeImg = qrImgInput.value.trim();
+    saveBtn.onclick = () => {
+      const gVal = gatewayUrlInput ? gatewayUrlInput.value.trim() : "";
+      if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
+      db.settings.registrationConfig.paymentGatewayUrl = gVal;
+      db.settings.paymentGatewayUrl = gVal;
+      db.settings.registerUrl = regUrlInput ? regUrlInput.value.trim() : "";
+      db.settings.eventDate = eventDateInput ? eventDateInput.value.trim() : "";
+      if (qrImgInput) db.settings.qrCodeImg = qrImgInput.value.trim();
       FestDB.saveData(db);
-      alert("Festival Core Settings updated live!");
-    });
+      alert("Festival Core Settings & Payment Gateway Link updated live!");
+    };
   }
 }
 
@@ -3317,6 +3383,10 @@ function renderAdminRegistrations(db) {
   const statusSelect = document.getElementById("reg-admin-status");
   const modeSelect = document.getElementById("reg-admin-mode");
   const extUrlInput = document.getElementById("reg-admin-external-url");
+  const gatewayUrlInp = document.getElementById("reg-admin-gateway-url");
+  const testGatewayBtn = document.getElementById("admin-test-gateway-btn");
+  const removeGatewayBtn = document.getElementById("admin-remove-gateway-btn");
+  const gatewayStatusBadge = document.getElementById("gateway-status-badge");
   const upiInput = document.getElementById("reg-admin-upi");
   const qrInput = document.getElementById("reg-admin-qr");
   const internalFeeInp = document.getElementById("reg-admin-internal-fee");
@@ -3324,8 +3394,105 @@ function renderAdminRegistrations(db) {
   const externalFeeInp = document.getElementById("reg-admin-external-fee");
   const externalAddInp = document.getElementById("reg-admin-external-add");
   const instructionsTextarea = document.getElementById("reg-admin-instructions");
+  const sheetUrlInp = document.getElementById("reg-admin-sheet-url");
+  const testSheetBtn = document.getElementById("admin-test-sheet-btn");
+  const sheetStatusBadge = document.getElementById("sheet-status-badge");
+
+  const currentSheetUrl = regConfig.googleSheetUrl || "https://script.google.com/macros/s/AKfycbyQf200fHwcydhLqNW2YXVaADme2a4p0RXyc0at1YspDawEJ9oBIQw75tKY97LN35QH/exec";
+
+  function updateSheetBadge(val) {
+    if (!sheetStatusBadge) return;
+    if (val && val.trim()) {
+      sheetStatusBadge.textContent = "✓ CONNECTED & ACTIVE";
+      sheetStatusBadge.style.background = "rgba(16, 185, 129, 0.2)";
+      sheetStatusBadge.style.color = "#10B981";
+      sheetStatusBadge.style.borderColor = "#10B981";
+    } else {
+      sheetStatusBadge.textContent = "⚠ NO WEBHOOK (DISABLED)";
+      sheetStatusBadge.style.background = "rgba(239, 68, 68, 0.2)";
+      sheetStatusBadge.style.color = "#EF4444";
+      sheetStatusBadge.style.borderColor = "#EF4444";
+    }
+  }
+
+  if (sheetUrlInp) {
+    sheetUrlInp.value = currentSheetUrl;
+    updateSheetBadge(sheetUrlInp.value);
+    sheetUrlInp.oninput = () => updateSheetBadge(sheetUrlInp.value);
+  }
+
+  if (testSheetBtn) {
+    testSheetBtn.onclick = async () => {
+      const url = sheetUrlInp ? sheetUrlInp.value.trim() : "";
+      if (!url) {
+        alert("Please enter a Google Apps Script Webhook URL.");
+        return;
+      }
+      testSheetBtn.disabled = true;
+      testSheetBtn.textContent = "⏳ Testing...";
+      try {
+        const res = await fetch(url, { method: "GET" });
+        const data = await res.json();
+        alert(`✓ Webhook Connection Successful! Google Sheet is reachable and returned ${Array.isArray(data) ? data.length : 0} rows.`);
+      } catch (e) {
+        alert("Test ping failed: " + e.message + "\nPlease verify the Apps Script deployment.");
+      } finally {
+        testSheetBtn.disabled = false;
+        testSheetBtn.textContent = "⚡ Test Ping Sync";
+      }
+    };
+  }
   const feesGrid = document.getElementById("reg-admin-fees-grid");
   const saveBtn = document.getElementById("admin-save-reg-config-btn");
+
+  const currentGatewayUrl = (regConfig.paymentGatewayUrl !== undefined) 
+    ? regConfig.paymentGatewayUrl 
+    : ((db.settings && db.settings.paymentGatewayUrl) ? db.settings.paymentGatewayUrl : "https://pages.razorpay.com/arenium27-pay");
+
+  function updateGatewayBadge(val) {
+    if (!gatewayStatusBadge) return;
+    if (val && val.trim()) {
+      gatewayStatusBadge.textContent = "● ACTIVE";
+      gatewayStatusBadge.style.background = "rgba(16, 185, 129, 0.2)";
+      gatewayStatusBadge.style.color = "#10B981";
+      gatewayStatusBadge.style.borderColor = "#10B981";
+    } else {
+      gatewayStatusBadge.textContent = "○ NO LINK (DISABLED)";
+      gatewayStatusBadge.style.background = "rgba(239, 68, 68, 0.2)";
+      gatewayStatusBadge.style.color = "#EF4444";
+      gatewayStatusBadge.style.borderColor = "#EF4444";
+    }
+  }
+
+  if (gatewayUrlInp) {
+    gatewayUrlInp.value = currentGatewayUrl || "";
+    updateGatewayBadge(gatewayUrlInp.value);
+    gatewayUrlInp.oninput = () => {
+      updateGatewayBadge(gatewayUrlInp.value);
+    };
+  }
+
+  if (testGatewayBtn) {
+    testGatewayBtn.onclick = () => {
+      const url = gatewayUrlInp ? gatewayUrlInp.value.trim() : "";
+      if (!url) {
+        alert("Please enter a payment gateway URL first before testing.");
+        return;
+      }
+      window.open(url, "_blank", "noopener,noreferrer");
+    };
+  }
+
+  if (removeGatewayBtn) {
+    removeGatewayBtn.onclick = () => {
+      if (confirm("Are you sure you want to remove the payment gateway link? The 'PAY NOW' button on the registration page will be disabled until a link is added.")) {
+        if (gatewayUrlInp) {
+          gatewayUrlInp.value = "";
+          updateGatewayBadge("");
+        }
+      }
+    };
+  }
 
   if (statusSelect) statusSelect.value = regConfig.status || "open";
   if (modeSelect) modeSelect.value = regConfig.portalMode || "internal";
@@ -3364,6 +3531,10 @@ function renderAdminRegistrations(db) {
       });
 
       if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
+      const gatewayVal = gatewayUrlInp ? gatewayUrlInp.value.trim() : "";
+      db.settings.registrationConfig.paymentGatewayUrl = gatewayVal;
+      db.settings.registrationConfig.googleSheetUrl = sheetUrlInp ? sheetUrlInp.value.trim() : "https://script.google.com/macros/s/AKfycbyQf200fHwcydhLqNW2YXVaADme2a4p0RXyc0at1YspDawEJ9oBIQw75tKY97LN35QH/exec";
+      db.settings.paymentGatewayUrl = gatewayVal;
       db.settings.registrationConfig.status = statusSelect ? statusSelect.value : "open";
       db.settings.registrationConfig.portalMode = modeSelect ? modeSelect.value : "internal";
       db.settings.registrationConfig.externalUrl = extUrlInput ? extUrlInput.value.trim() : "";
@@ -3456,9 +3627,15 @@ function renderAdminRegistrations(db) {
           <code style="background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px; font-size:0.8rem; color:#FCD34D;">${r.utrId}</code>
           ${r.paymentScreenshot ? `
             <div style="margin-top: 4px;">
-              <button type="button" class="btn btn-ghost" style="padding: 2px 7px; font-size: 0.72rem; color: #38BDF8; border-color: #38BDF8; display: inline-flex; align-items: center; gap: 3px;" onclick="viewAdminProof('${r.id}')">
-                📸 View Proof
-              </button>
+              ${r.paymentScreenshot.startsWith('http') ? `
+                <a href="${r.paymentScreenshot}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="padding: 2px 7px; font-size: 0.72rem; color: #38BDF8; border-color: #38BDF8; display: inline-flex; align-items: center; gap: 3px;">
+                  🔗 View Drive Proof
+                </a>
+              ` : `
+                <button type="button" class="btn btn-ghost" style="padding: 2px 7px; font-size: 0.72rem; color: #38BDF8; border-color: #38BDF8; display: inline-flex; align-items: center; gap: 3px;" onclick="viewAdminProof('${r.id}')">
+                  📷 View Proof
+                </button>
+              `}
             </div>
           ` : `<div style="font-size:0.68rem; color:#64748B; margin-top:2px;">No SS Attached</div>`}
         </td>
@@ -3630,3 +3807,85 @@ document.addEventListener("keydown", function(e) {
     if (pModal) pModal.style.display = "none";
   }
 });
+
+// ==========================================================================
+// 18.1 LIVE GOOGLE SHEETS SYNC CONTROLLER
+// ==========================================================================
+window.syncRegistrationsFromGoogleSheet = async function() {
+  const db = FestDB.getData();
+  const scriptUrl = (db.settings && db.settings.registrationConfig && db.settings.registrationConfig.googleSheetUrl) || "https://script.google.com/macros/s/AKfycbyQf200fHwcydhLqNW2YXVaADme2a4p0RXyc0at1YspDawEJ9oBIQw75tKY97LN35QH/exec";
+
+  const syncBtn = document.getElementById("btn-sync-sheet");
+  const origText = syncBtn ? syncBtn.innerHTML : "";
+  if (syncBtn) {
+    syncBtn.disabled = true;
+    syncBtn.innerHTML = "⏳ Syncing from Google Sheet...";
+  }
+
+  try {
+    const res = await fetch(scriptUrl, { method: "GET" });
+    const sheetData = await res.json();
+
+    if (!Array.isArray(sheetData)) {
+      throw new Error("Invalid response from Google Sheets endpoint");
+    }
+
+    if (!db.registrations) db.registrations = [];
+
+    let newCount = 0;
+    sheetData.forEach(row => {
+      const regId = row["Registration ID"];
+      if (!regId) return;
+
+      const existingIndex = db.registrations.findIndex(r => r.id === regId);
+      const regObj = {
+        id: regId,
+        fullName: row["Full Name"] || "",
+        email: row["Email"] || "",
+        phone: String(row["Phone"] || "").replace(/^'/, ""),
+        college: row["College"] || "",
+        usn: row["USN / Roll No"] || "",
+        department: row["Department"] || "",
+        yearSem: row["Year / Sem"] || "",
+        category: (row["Category"] || "").toLowerCase().includes("external") ? "external" : "internal",
+        categoryLabel: row["Category"] || "Internal (Presidency University)",
+        eventName: row["Primary Event (1)"] || "",
+        event1Name: row["Primary Event (1)"] || "",
+        event2Name: (row["Second Event (2)"] && row["Second Event (2)"] !== "-") ? row["Second Event (2)"] : "",
+        event3Name: (row["Third Event (3)"] && row["Third Event (3)"] !== "-") ? row["Third Event (3)"] : "",
+        regType: row["Reg Type"] || "Solo",
+        teamName: (row["Team Name"] && row["Team Name"] !== "-") ? row["Team Name"] : "",
+        teamMembers: (row["Team Members"] && row["Team Members"] !== "-") ? row["Team Members"] : "",
+        feePaid: row["Fee Paid"] || "₹200",
+        utrId: String(row["UTR / Ref ID"] || "").replace(/^'/, ""),
+        paymentScreenshot: (row["Payment Proof (Drive Link)"] && row["Payment Proof (Drive Link)"] !== "No Screenshot") ? row["Payment Proof (Drive Link)"] : "",
+        status: row["Status"] || "Confirmed",
+        timestamp: row["Timestamp"] || new Date().toISOString()
+      };
+
+      if (existingIndex >= 0) {
+        if (!regObj.paymentScreenshot && db.registrations[existingIndex].paymentScreenshot) {
+          regObj.paymentScreenshot = db.registrations[existingIndex].paymentScreenshot;
+        }
+        db.registrations[existingIndex] = { ...db.registrations[existingIndex], ...regObj };
+      } else {
+        db.registrations.unshift(regObj);
+        newCount++;
+      }
+    });
+
+    FestDB.saveData(db);
+    renderAdminRegistrations(db);
+    renderAdminOverview(db);
+
+    alert(`✓ Google Sheet Sync Successful!\n\nSynchronized ${sheetData.length} total delegate records (${newCount} new records pulled from live Excel).`);
+  } catch (err) {
+    console.error("Sheet sync failed:", err);
+    alert("Could not sync with Google Sheet:\n" + err.message + "\n\nPlease ensure your Google Apps Script is active.");
+  } finally {
+    if (syncBtn) {
+      syncBtn.disabled = false;
+      syncBtn.innerHTML = origText || "🔄 Sync from Google Sheet";
+    }
+  }
+};

@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2027_MAP_VIEW_V2">
+  <link rel="stylesheet" href="css/style.css?v=2027_PAY_GATEWAY_V1">
 
     <style>
     /* ========================================================================
@@ -1071,7 +1071,7 @@
         📸 Gallery Photos
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-settings" onclick="switchAdminTab(\'tab-settings\')">
-        📱 Scanner &amp; Date Config
+        ⚙️ Core &amp; Payment Gateway Config
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-backup" onclick="switchAdminTab(\'tab-backup\')">
         💾 Backup, Import &amp; Reset
@@ -1204,6 +1204,9 @@
             </p>
           </div>
           <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" id="btn-sync-sheet" onclick="syncRegistrationsFromGoogleSheet()" style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10B981; color: #6EE7B7; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; font-size: 0.82rem; font-weight: 700;">
+              🔄 Sync from Google Sheet
+            </button>
             <button class="btn btn-primary" onclick="exportRegistrationsCSV()">
               📥 Export to CSV / Excel
             </button>
@@ -1240,19 +1243,61 @@
               </select>
             </div>
 
+            <!-- Google Sheet & Apps Script Webhook Configuration -->
+            <div class="admin-form-group" style="grid-column: 1 / -1; background: rgba(15, 23, 42, 0.65); border: 1.5px solid #10B981; border-radius: 12px; padding: 1.2rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+                <label class="admin-label" for="reg-admin-sheet-url" style="margin: 0; font-size: 0.88rem; color: #10B981; font-weight: 700; letter-spacing: 0.5px;">
+                  📊 GOOGLE APPS SCRIPT WEBHOOK / LIVE EXCEL SYNC URL
+                </label>
+                <span id="sheet-status-badge" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
+                  ✓ CONNECTED &amp; ACTIVE
+                </span>
+              </div>
+
+              <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                <input type="url" id="reg-admin-sheet-url" class="admin-input" placeholder="https://script.google.com/macros/s/.../exec" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
+                
+                <button type="button" id="admin-test-sheet-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                  ⚡ Test Ping Sync
+                </button>
+              </div>
+
+              <span style="font-size: 0.74rem; color: #94A3B8; margin-top: 0.5rem; display: block; line-height: 1.45;">
+                Every participant who registers on <code>register.html</code> automatically writes a row into your connected Google Sheet in real time. Payment screenshots are saved into Google Drive with direct preview links. Click <strong>"Sync from Google Sheet"</strong> anytime to pull records directly into this admin table.
+              </span>
+            </div>
+
+            <!-- Official Payment Gateway Configuration for Pay Now Button -->
+            <div class="admin-form-group" style="grid-column: 1 / -1; background: rgba(15, 23, 42, 0.65); border: 1.5px solid #38BDF8; border-radius: 12px; padding: 1.2rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+                <label class="admin-label" for="reg-admin-gateway-url" style="margin: 0; font-size: 0.88rem; color: #38BDF8; font-weight: 700; letter-spacing: 0.5px;">
+                  💳 OFFICIAL PAYMENT GATEWAY URL / EMBEDDED LINK
+                </label>
+                <span id="gateway-status-badge" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
+                  ● ACTIVE
+                </span>
+              </div>
+
+              <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                <input type="url" id="reg-admin-gateway-url" class="admin-input" placeholder="https://pages.razorpay.com/... or https://rzp.io/l/..." style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
+                
+                <button type="button" id="admin-test-gateway-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                  🔗 Test Link
+                </button>
+
+                <button type="button" id="admin-remove-gateway-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; color: #FCA5A5; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove payment gateway link">
+                  ✕ Remove Link
+                </button>
+              </div>
+
+              <span style="font-size: 0.74rem; color: #94A3B8; margin-top: 0.5rem; display: block; line-height: 1.45;">
+                This link is embedded into the <strong>"PAY NOW"</strong> button on <code>register.html</code>. When students click Pay Now, they are redirected to this payment gateway to complete their fee transaction. Admins can <strong>add</strong>, <strong>edit</strong>, or <strong>remove</strong> this URL at any time.
+              </span>
+            </div>
+
             <div class="admin-form-group">
               <label class="admin-label" for="reg-admin-external-url">EXTERNAL REGISTRATION URL</label>
               <input type="url" id="reg-admin-external-url" class="admin-input" placeholder="https://forms.google.com/...">
-            </div>
-
-            <div class="admin-form-group">
-              <label class="admin-label" for="reg-admin-upi">RECEIVING UPI ID</label>
-              <input type="text" id="reg-admin-upi" class="admin-input" placeholder="arenium27@icici">
-            </div>
-
-            <div class="admin-form-group">
-              <label class="admin-label" for="reg-admin-qr">PAYMENT QR CODE IMAGE PATH</label>
-              <input type="text" id="reg-admin-qr" class="admin-input" placeholder="images/qrcode.png">
             </div>
 
             <div class="admin-form-group">
@@ -1555,18 +1600,42 @@
       </div>
 
       <!-- --------------------------------------------------------------------
-           TAB 9: SCANNER & DATE SETTINGS
+           TAB 9: FEST CORE & PAYMENT GATEWAY SETTINGS
            -------------------------------------------------------------------- -->
       <div id="tab-settings" class="admin-tab-pane" style="display: none;">
         <div style="margin-bottom: 1.5rem;">
           <span class="section-tag">[CORE PROTOCOL]</span>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">REGISTRATION SCANNER &amp; CONFIG</h2>
+          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">FEST CORE CONFIGURATION &amp; PAYMENT GATEWAY</h2>
           <p style="color: var(--text-secondary); font-size: 0.85rem;">
-            Update master Google Form / Unstop registration link, countdown date, and scanner QR code.
+            Manage payment gateway link (embedded in Pay Now button), countdown date, and registration portal redirect.
           </p>
         </div>
 
         <div class="cyber-card" style="padding: 1.5rem;">
+          <!-- Payment Gateway Config Block in Tab 9 -->
+          <div class="admin-form-group" style="background: rgba(15, 23, 42, 0.65); border: 1.5px solid #38BDF8; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+              <label class="admin-label" for="admin-setting-gatewayurl" style="margin: 0; font-size: 0.88rem; color: #38BDF8; font-weight: 700;">
+                💳 OFFICIAL PAYMENT GATEWAY URL (PAY NOW BUTTON)
+              </label>
+              <span id="admin-setting-gateway-status" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
+                ● ACTIVE
+              </span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+              <input type="url" id="admin-setting-gatewayurl" class="admin-input" placeholder="https://pages.razorpay.com/... or https://rzp.io/l/..." style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
+              <button type="button" id="admin-setting-test-gateway-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                🔗 Test Link
+              </button>
+              <button type="button" id="admin-setting-remove-gateway-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; color: #FCA5A5; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove payment gateway link">
+                ✕ Remove Link
+              </button>
+            </div>
+            <span style="font-size: 0.74rem; color: var(--text-muted); margin-top: 0.4rem; display: block; line-height: 1.4;">
+              Embedded into the <strong>"PAY NOW"</strong> button on <code>register.html</code>. Admins can add, edit, or remove this URL.
+            </span>
+          </div>
+
           <div class="admin-form-group">
             <label class="admin-label" for="admin-setting-regurl">MASTER REGISTRATION PORTAL URL</label>
             <input type="url" id="admin-setting-regurl" class="admin-input" placeholder="https://forms.google.com/...">
@@ -1578,11 +1647,6 @@
           <div class="admin-form-group">
             <label class="admin-label" for="admin-setting-eventdate">COUNTDOWN TARGET DATE (ISO 8601)</label>
             <input type="text" id="admin-setting-eventdate" class="admin-input" placeholder="2027-02-04T08:30:00+05:30">
-          </div>
-
-          <div class="admin-form-group">
-            <label class="admin-label" for="admin-setting-qrimg">SCANNER QR CODE IMAGE PATH / URL</label>
-            <input type="text" id="admin-setting-qrimg" class="admin-input" placeholder="images/qrcode.png">
           </div>
 
           <button id="admin-save-settings-btn" class="btn btn-primary" style="margin-top: 1rem;">
@@ -1689,7 +1753,7 @@
   </div>
   </div><!-- /#admin-main-interface -->
 
-  <script src="js/main.js?v=2027_MAP_VIEW_V2"></script>
+  <script src="js/main.js?v=2027_PAY_GATEWAY_V1"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->

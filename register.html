@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=2027_MAP_VIEW_V2">
+  <link rel="stylesheet" href="css/style.css?v=2027_PAY_GATEWAY_V1">
 </head>
 <body class="subpage-body">
   <div class="bg-parallax-backdrop" aria-hidden="true"></div>
@@ -302,14 +302,16 @@
               </div>
 
               <div class="form-field-group full-width">
-                <label class="form-label" for="reg-college">COLLEGE / INSTITUTION NAME <span class="req">*</span></label>
-                <input type="text" id="reg-college" class="form-input" placeholder="e.g. Presidency University, Bengaluru" required>
+                <label class="form-label" for="reg-college">COLLEGE / PU INSTITUTION NAME <span class="req">*</span></label>
+                <input type="text" id="reg-college" class="form-input" placeholder="e.g. Presidency University / PU College, Bengaluru" required>
               </div>
 
               <div class="form-field-group">
-                <label class="form-label" for="reg-dept">DEPARTMENT / BRANCH <span class="req">*</span></label>
+                <label class="form-label" for="reg-dept">DEPARTMENT / BRANCH / STREAM <span class="req">*</span></label>
                 <select id="reg-dept" class="form-select" required>
                   <option value="">Select Department / Stream</option>
+                  <option value="PU College (Science - PCMB / PCMC / PCME)">PU College — Science (PCMB / PCMC / PCME)</option>
+                  <option value="PU College (Commerce / Arts)">PU College — Commerce / Arts</option>
                   <option value="Computer Science & Engineering (CSE)">Computer Science &amp; Engineering (CSE)</option>
                   <option value="Information Science & Engineering (ISE)">Information Science &amp; Engineering (ISE)</option>
                   <option value="AI & Machine Learning (AIML)">AI &amp; Machine Learning (AIML)</option>
@@ -325,6 +327,8 @@
                 <label class="form-label" for="reg-year">CURRENT YEAR / SEMESTER <span class="req">*</span></label>
                 <select id="reg-year" class="form-select" required>
                   <option value="">Select Year</option>
+                  <option value="PU College (1st PUC / 11th Grade)">PU College (1st PUC / 11th Grade)</option>
+                  <option value="PU College (2nd PUC / 12th Grade)">PU College (2nd PUC / 12th Grade)</option>
                   <option value="1st Year (1st / 2nd Sem)">1st Year (1st / 2nd Sem)</option>
                   <option value="2nd Year (3rd / 4th Sem)">2nd Year (3rd / 4th Sem)</option>
                   <option value="3rd Year (5th / 6th Sem)">3rd Year (5th / 6th Sem)</option>
@@ -404,47 +408,85 @@
                 <input type="text" id="reg-team-name" class="form-input" placeholder="e.g. MatrixBreakers">
               </div>
 
-              <div class="form-field-group full-width" id="group-team-members" style="display: none;">
-                <label class="form-label" for="reg-team-members">TEAM MEMBERS (NAMES &amp; USNs)</label>
-                <textarea id="reg-team-members" class="form-textarea" rows="3" placeholder="Member 2: Name - USN&#10;Member 3: Name - USN&#10;Member 4: Name - USN"></textarea>
-                <span style="font-size: 0.74rem; color: #94A3B8; margin-top: 0.3rem;">
-                  For 24-Hour Hackathon, teams must consist of 4 members. For LAN Gaming, specify your 5-player squad.
-                </span>
+              <!-- Dedicated Structured Team Members Registration Section -->
+              <div class="form-field-group full-width" id="group-team-members" style="display: none; flex-direction: column; gap: 0.8rem;">
+                <div style="background: rgba(15, 23, 42, 0.6); border: 1.5px solid rgba(56, 189, 248, 0.3); border-radius: 14px; padding: 1.25rem; width: 100%; box-sizing: border-box;">
+                  
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.09); padding-bottom: 0.65rem;">
+                    <div>
+                      <strong style="color: #38BDF8; font-size: 0.95rem; letter-spacing: 0.5px; display: flex; align-items: center; gap: 0.4rem;">
+                        <span>👥</span> TEAM SQUAD MEMBERS (INDIVIDUAL REGISTRATION FIELDS)
+                      </strong>
+                      <span style="font-size: 0.74rem; color: #94A3B8; display: block; margin-top: 0.2rem;">
+                        Fill in distinct credentials for each participating team member.
+                      </span>
+                    </div>
+                    <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #10B981; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 20px;">
+                      👑 Member 1 = Team Leader (Auto-Assigned)
+                    </span>
+                  </div>
+
+                  <!-- Team Leader Notification -->
+                  <div style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38BDF8; border-radius: 6px; padding: 0.7rem 0.9rem; margin-bottom: 1rem; font-size: 0.8rem; color: #CBD5E1; line-height: 1.45;">
+                    👑 <strong>Team Leader (Member 1):</strong> Primary registrant credentials above are automatically linked as the Team Leader (<span id="team-lead-name-preview" style="color: #38BDF8; font-weight: 700;">Full Name</span> · <span id="team-lead-usn-preview" style="color: #38BDF8; font-weight: 700;">USN</span>).
+                  </div>
+
+                  <!-- Dynamic Member Entry Cards -->
+                  <div id="team-members-container" style="display: flex; flex-direction: column; gap: 0.9rem;">
+                    <!-- Injected via JavaScript with distinct Name, USN, Phone/Email fields -->
+                  </div>
+
+                  <!-- Add Member Action -->
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.09); padding-top: 0.85rem;">
+                    <button type="button" id="btn-add-team-member" class="btn btn-secondary" style="padding: 0.55rem 1.1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 8px;">
+                      <span>➕</span> Add Another Team Member
+                    </button>
+                    <span style="font-size: 0.74rem; color: #94A3B8;">
+                      💡 Hackathon: 4 members &bull; LAN Gaming: 5 players &bull; Tech Odyssey/APL: 2-3 members
+                    </span>
+                  </div>
+
+                </div>
               </div>
             </div>
 
-            <!-- SECTION 3: UPI PAYMENT & VERIFICATION -->
+            <!-- SECTION 3: ONLINE PAYMENT & VERIFICATION -->
             <div style="margin-top: 2rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding-bottom: 0.5rem;">
               <span class="section-tag">[03 · PAYMENT &amp; TRANSACTION ID]</span>
             </div>
 
-            <div class="payment-glass-card">
-              <div class="payment-qr-wrap">
-                <img id="reg-qr-img" src="images/qrcode.png" alt="ARENIUM'27 UPI Payment QR Code" class="payment-qr-img">
-              </div>
-
-              <div class="payment-details">
-                <div style="font-size: 0.8rem; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.05em;">
-                  OFFICIAL UPI PAYMENT GATEWAY
-                </div>
-                
-                <div class="payment-upi-chip">
-                  <span id="reg-upi-id">arenium27@icici</span>
-                  <button type="button" class="btn-copy-upi" id="btn-copy-upi" title="Copy UPI ID">
-                    📋 COPY
-                  </button>
-                </div>
-
-                <div class="payment-fee-summary" id="reg-fee-display" style="background: rgba(30, 41, 59, 0.75); border: 1.5px solid #38BDF8; border-radius: 12px; padding: 0.85rem 1.2rem; margin: 0.8rem 0;">
-                  <div style="font-size: 0.75rem; color: #94A3B8; text-transform: uppercase; letter-spacing: 1px;">TOTAL REGISTRATION FEE PAYABLE</div>
-                  <div style="font-size: 1.8rem; font-weight: 900; color: #38BDF8;" id="reg-fee-amount">₹200</div>
-                  <div id="reg-fee-breakdown" style="font-size: 0.8rem; color: #CBD5E1; margin-top: 0.2rem; font-weight: 500;">
-                    Internal Category Base: 1st Event included + 2nd Event FREE (₹200 total)
+            <div class="payment-glass-card payment-gateway-card">
+              <div class="payment-fee-summary" id="reg-fee-display" style="background: rgba(30, 41, 59, 0.85); border: 1.5px solid #38BDF8; border-radius: 14px; padding: 1.1rem 1.4rem; width: 100%; box-sizing: border-box; text-align: left;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem;">
+                  <div>
+                    <div style="font-size: 0.75rem; color: #94A3B8; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;">TOTAL REGISTRATION FEE PAYABLE</div>
+                    <div style="font-size: 2.2rem; font-weight: 900; color: #38BDF8; line-height: 1.2; margin: 0.2rem 0;" id="reg-fee-amount">₹200</div>
+                    <div id="reg-fee-breakdown" style="font-size: 0.84rem; color: #CBD5E1; font-weight: 500;">
+                      Internal Category Base: 1st Event included + 2nd Event FREE (₹200 total)
+                    </div>
+                  </div>
+                  <div style="text-align: right;">
+                    <span class="payment-badge" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38BDF8; color: #38BDF8; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 700; padding: 0.3rem 0.65rem; border-radius: 20px; display: inline-block;">
+                      SECURE GATEWAY
+                    </span>
                   </div>
                 </div>
+              </div>
 
-                <p style="font-size: 0.82rem; color: #CBD5E1; margin: 0; line-height: 1.5;">
-                  Scan QR code with GPay, PhonePe, Paytm, or BHIM. After payment, enter your 12-digit UTR / UPI Transaction Reference Number below.
+              <!-- Pay Now Action Button with Embedded Payment Gateway Link -->
+              <div class="payment-gateway-action-box" style="width: 100%; text-align: center; margin: 0.8rem 0;">
+                <a id="btn-pay-now" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-pay-now" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem 2.4rem; font-size: 1.12rem; font-weight: 800; border-radius: 50px; text-decoration: none; box-shadow: 0 10px 25px rgba(56, 189, 248, 0.35); transition: all 0.25s ease;">
+                  <span style="font-size: 1.3rem;">💳</span>
+                  <span id="btn-pay-now-text">PAY NOW (₹200) VIA GATEWAY ↗</span>
+                </a>
+                <div id="pay-now-status-hint" style="font-size: 0.78rem; color: #94A3B8; margin-top: 0.5rem; line-height: 1.4;">
+                  ⚡ Click to open official payment gateway in a secure window
+                </div>
+              </div>
+
+              <div style="background: rgba(15, 23, 42, 0.6); border-left: 3px solid #38BDF8; padding: 0.85rem 1.1rem; border-radius: 8px; width: 100%; box-sizing: border-box; text-align: left;">
+                <p style="font-size: 0.82rem; color: #CBD5E1; margin: 0; line-height: 1.55;">
+                  <strong>After Payment:</strong> Once your payment is successfully completed via the gateway, enter your 12-digit UTR / Transaction Reference Number below and attach the payment screenshot as proof.
                 </p>
               </div>
             </div>
@@ -452,7 +494,7 @@
             <div class="register-form-grid">
               <div class="form-field-group">
                 <label class="form-label" for="reg-utr">
-                  12-DIGIT UPI / UTR TRANSACTION ID <span class="req">*</span>
+                  12-DIGIT TRANSACTION ID / UTR / REF NO. <span class="req">*</span>
                 </label>
                 <input type="text" id="reg-utr" class="form-input" placeholder="e.g. 429184719204" maxlength="20" required>
                 <span style="font-size: 0.74rem; color: #5D6B6B; margin-top: 0.3rem;">
@@ -532,6 +574,9 @@
                   <span class="admin-badge-confirmed" id="pass-status-badge">
                     ✓ VERIFIED REGISTRATION
                   </span>
+                  <div style="font-size: 0.72rem; color: #10B981; font-weight: 700; margin-top: 3px;">
+                    ✓ Logged to Official Registry (Excel)
+                  </div>
                   <div id="pass-id-display" style="font-family: var(--font-mono); font-size: 0.9rem; color: #93C5FD; margin-top: 0.4rem; font-weight: 700;">
                     ARENIUM27-REG-8472
                   </div>
@@ -688,7 +733,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="js/main.js?v=2027_MAP_VIEW_V2"></script>
+  <script src="js/main.js?v=2027_PAY_GATEWAY_V1"></script>
   <script>
     // Live Registration Page Controller
     document.addEventListener("DOMContentLoaded", () => {
@@ -745,25 +790,48 @@
         if (externalLink) externalLink.href = regConfig.externalUrl;
       }
 
-      // 3. UPI Payment Details
-      const upiIdEl = document.getElementById("reg-upi-id");
-      const qrImgEl = document.getElementById("reg-qr-img");
-      if (upiIdEl && regConfig.upiId) upiIdEl.textContent = regConfig.upiId;
-      if (qrImgEl && (regConfig.qrCodeImg || (db.settings && db.settings.qrCodeImg))) {
-        qrImgEl.src = regConfig.qrCodeImg || db.settings.qrCodeImg;
-      }
+      // 3. Official Payment Gateway Link Handling
+      const payNowBtn = document.getElementById("btn-pay-now");
+      const payNowText = document.getElementById("btn-pay-now-text");
+      const payStatusHint = document.getElementById("pay-now-status-hint");
 
-      const copyBtn = document.getElementById("btn-copy-upi");
-      if (copyBtn) {
-        copyBtn.addEventListener("click", () => {
-          const upi = upiIdEl.textContent.trim();
-          navigator.clipboard.writeText(upi).then(() => {
-            copyBtn.textContent = "✓ COPIED!";
-            setTimeout(() => { copyBtn.textContent = "📋 COPY"; }, 2000);
-          }).catch(() => {
-            alert("UPI ID: " + upi);
-          });
-        });
+      function syncPaymentGatewayButton(totalAmount) {
+        if (!payNowBtn) return;
+        const rawUrl = (regConfig && regConfig.paymentGatewayUrl !== undefined) 
+          ? regConfig.paymentGatewayUrl 
+          : ((db.settings && db.settings.paymentGatewayUrl) ? db.settings.paymentGatewayUrl : "https://pages.razorpay.com/arenium27-pay");
+        const url = (rawUrl || "").trim();
+        const amtText = totalAmount ? ` (₹${totalAmount})` : "";
+
+        if (url && url !== "#") {
+          payNowBtn.href = url;
+          payNowBtn.target = "_blank";
+          payNowBtn.rel = "noopener noreferrer";
+          payNowBtn.classList.remove("btn-disabled");
+          payNowBtn.style.pointerEvents = "auto";
+          payNowBtn.style.opacity = "1";
+          payNowBtn.style.cursor = "pointer";
+          if (payNowText) payNowText.textContent = `PAY NOW${amtText} VIA GATEWAY ↗`;
+          if (payStatusHint) {
+            payStatusHint.innerHTML = `⚡ Official gateway active &bull; Click to pay <strong style="color:#38BDF8;">₹${totalAmount || 200}</strong> on official portal ↗`;
+          }
+          payNowBtn.onclick = null;
+        } else {
+          // Link has been removed or cleared by admin
+          payNowBtn.href = "javascript:void(0);";
+          payNowBtn.removeAttribute("target");
+          payNowBtn.classList.add("btn-disabled");
+          payNowBtn.style.opacity = "0.6";
+          payNowBtn.style.cursor = "not-allowed";
+          if (payNowText) payNowText.textContent = `PAYMENT LINK NOT CONFIGURED`;
+          if (payStatusHint) {
+            payStatusHint.innerHTML = `<span style="color:#F87171;">⚠️ Payment gateway link has been temporarily removed or not set by administrators. Please contact fest coordinators.</span>`;
+          }
+          payNowBtn.onclick = (e) => {
+            e.preventDefault();
+            alert("Payment gateway link has not been set or has been removed by the fest administrator. Please contact event coordinators.");
+          };
+        }
       }
 
       // 4. Multi-Event Dropdowns Population & Fee Calculation
@@ -866,6 +934,7 @@
 
         if (feeAmountEl) feeAmountEl.textContent = `₹${totalFee}`;
         if (feeBreakdownEl) feeBreakdownEl.textContent = breakdownText;
+        syncPaymentGatewayButton(totalFee);
 
         // Team mode detection for selected events
         const typeSelect = document.getElementById("reg-type");
@@ -931,6 +1000,116 @@
         });
       }
 
+      // Distinct Team Members Controller Logic
+      const teamMembersContainer = document.getElementById("team-members-container");
+      const btnAddMember = document.getElementById("btn-add-team-member");
+      const teamLeadNamePreview = document.getElementById("team-lead-name-preview");
+      const teamLeadUsnPreview = document.getElementById("team-lead-usn-preview");
+
+      // Sync Team Lead preview
+      const fullNameInput = document.getElementById("reg-fullname");
+      const usnInputEl = document.getElementById("reg-usn");
+
+      function updateLeadPreview() {
+        if (teamLeadNamePreview) {
+          teamLeadNamePreview.textContent = (fullNameInput && fullNameInput.value.trim()) ? fullNameInput.value.trim() : "Full Name";
+        }
+        if (teamLeadUsnPreview) {
+          teamLeadUsnPreview.textContent = (usnInputEl && usnInputEl.value.trim()) ? usnInputEl.value.trim() : "USN";
+        }
+      }
+
+      if (fullNameInput) fullNameInput.addEventListener("input", updateLeadPreview);
+      if (usnInputEl) usnInputEl.addEventListener("input", updateLeadPreview);
+      updateLeadPreview();
+
+      function createMemberEntry(memberIndex, canRemove = true, nameVal = "", usnVal = "", contactVal = "") {
+        const div = document.createElement("div");
+        div.className = "team-member-entry-box";
+        div.dataset.memberIndex = memberIndex;
+        div.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.55rem;">
+            <div style="font-size: 0.84rem; font-weight: 700; color: #38BDF8; font-family: var(--font-mono); display: flex; align-items: center; gap: 0.4rem;">
+              <span>👤</span> MEMBER ${memberIndex} ${memberIndex === 2 ? '<span style="color:#EF4444; font-size:0.75rem;">* (Required)</span>' : '<span style="color:#94A3B8; font-size:0.75rem;">(Optional)</span>'}
+            </div>
+            ${canRemove ? `<button type="button" class="btn-remove-member" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;" title="Remove Member ${memberIndex}">✕ Remove</button>` : ''}
+          </div>
+          <div class="team-member-grid">
+            <div>
+              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem;">FULL NAME ${memberIndex === 2 ? '<span class="req">*</span>' : ''}</label>
+              <input type="text" class="form-input member-field-name" placeholder="Member ${memberIndex} Full Name" value="${nameVal}">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem;">USN / STUDENT ID ${memberIndex === 2 ? '<span class="req">*</span>' : ''}</label>
+              <input type="text" class="form-input member-field-usn" placeholder="e.g. 20231CSE0291" value="${usnVal}">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem;">PHONE / WHATSAPP / EMAIL</label>
+              <input type="text" class="form-input member-field-contact" placeholder="Phone or email (optional)" value="${contactVal}">
+            </div>
+          </div>
+        `;
+
+        if (canRemove) {
+          const removeBtn = div.querySelector(".btn-remove-member");
+          if (removeBtn) {
+            removeBtn.addEventListener("click", () => {
+              div.remove();
+              reindexMembers();
+            });
+          }
+        }
+
+        return div;
+      }
+
+      function reindexMembers() {
+        if (!teamMembersContainer) return;
+        const boxes = teamMembersContainer.querySelectorAll(".team-member-entry-box");
+        boxes.forEach((box, idx) => {
+          const num = idx + 2;
+          box.dataset.memberIndex = num;
+          const headerEl = box.querySelector("div > div");
+          if (headerEl) {
+            headerEl.innerHTML = `<span>👤</span> MEMBER ${num} ${num === 2 ? '<span style="color:#EF4444; font-size:0.75rem;">* (Required)</span>' : '<span style="color:#94A3B8; font-size:0.75rem;">(Optional)</span>'}`;
+          }
+          const nameInput = box.querySelector(".member-field-name");
+          if (nameInput) nameInput.placeholder = `Member ${num} Full Name`;
+        });
+        if (btnAddMember) {
+          btnAddMember.disabled = boxes.length >= 4; // Max 4 members + Lead = 5 total
+          btnAddMember.style.opacity = boxes.length >= 4 ? "0.5" : "1";
+        }
+      }
+
+      function initTeamMembers(count = 3) {
+        if (!teamMembersContainer) return;
+        teamMembersContainer.innerHTML = "";
+        // Member 2 is required, cannot be removed
+        teamMembersContainer.appendChild(createMemberEntry(2, false));
+        // Add additional member slots up to count (default Member 3)
+        for (let i = 3; i <= count; i++) {
+          teamMembersContainer.appendChild(createMemberEntry(i, true));
+        }
+        reindexMembers();
+      }
+
+      // Initialize with Member 2 and Member 3 initially
+      initTeamMembers(3);
+
+      if (btnAddMember) {
+        btnAddMember.addEventListener("click", () => {
+          const currentCount = teamMembersContainer.querySelectorAll(".team-member-entry-box").length;
+          if (currentCount >= 4) {
+            alert("Maximum team size is 5 members (Team Leader + 4 members).");
+            return;
+          }
+          const nextIndex = currentCount + 2;
+          teamMembersContainer.appendChild(createMemberEntry(nextIndex, true));
+          reindexMembers();
+        });
+      }
+
       const typeSelect = document.getElementById("reg-type");
       if (typeSelect) {
         typeSelect.addEventListener("change", () => {
@@ -939,6 +1118,7 @@
           if (typeSelect.value === "Team") {
             if (teamNameGroup) teamNameGroup.style.display = "flex";
             if (teamMembersGroup) teamMembersGroup.style.display = "flex";
+            updateLeadPreview();
           } else {
             if (teamNameGroup) teamNameGroup.style.display = "none";
             if (teamMembersGroup) teamMembersGroup.style.display = "none";
@@ -1099,7 +1279,63 @@
 
           const regType = document.getElementById("reg-type").value;
           const teamName = document.getElementById("reg-team-name").value.trim();
-          const teamMembers = document.getElementById("reg-team-members").value.trim();
+          
+          let teamMembers = "";
+          let teamMembersList = [];
+
+          if (regType === "Team") {
+            if (!teamName) {
+              alert("Please enter your Team / Squad Name.");
+              const tInp = document.getElementById("reg-team-name");
+              if (tInp) { tInp.focus(); tInp.scrollIntoView({ behavior: "smooth" }); }
+              return;
+            }
+
+            const memberBoxes = teamMembersContainer ? teamMembersContainer.querySelectorAll(".team-member-entry-box") : [];
+            const memberDetails = [];
+
+            for (let i = 0; i < memberBoxes.length; i++) {
+              const box = memberBoxes[i];
+              const mNum = i + 2;
+              const nameInp = box.querySelector(".member-field-name");
+              const usnInp = box.querySelector(".member-field-usn");
+              const contactInp = box.querySelector(".member-field-contact");
+
+              const mName = nameInp ? nameInp.value.trim() : "";
+              const mUsn = usnInp ? usnInp.value.trim() : "";
+              const mContact = contactInp ? contactInp.value.trim() : "";
+
+              // Member 2 is required
+              if (i === 0 && (!mName || !mUsn)) {
+                alert("Please fill in Member 2's Full Name and USN/ID for your team.");
+                if (!mName && nameInp) { nameInp.focus(); nameInp.scrollIntoView({ behavior: "smooth" }); }
+                else if (usnInp) { usnInp.focus(); usnInp.scrollIntoView({ behavior: "smooth" }); }
+                return;
+              }
+
+              if (mName || mUsn) {
+                if (!mName) {
+                  alert(`Please provide the Full Name for Team Member ${mNum}.`);
+                  if (nameInp) { nameInp.focus(); nameInp.scrollIntoView({ behavior: "smooth" }); }
+                  return;
+                }
+                if (!mUsn) {
+                  alert(`Please provide the USN / Student ID for Team Member ${mNum}.`);
+                  if (usnInp) { usnInp.focus(); usnInp.scrollIntoView({ behavior: "smooth" }); }
+                  return;
+                }
+                memberDetails.push(`Member ${mNum}: ${mName} (${mUsn}${mContact ? ', ' + mContact : ''})`);
+                teamMembersList.push({
+                  memberIndex: mNum,
+                  name: mName,
+                  usn: mUsn,
+                  contact: mContact
+                });
+              }
+            }
+
+            teamMembers = `Lead (M1): ${fullName} (${usn}) | ` + memberDetails.join(" | ");
+          }
           const utr = document.getElementById("reg-utr").value.trim();
           const terms = document.getElementById("reg-terms").checked;
 
@@ -1172,11 +1408,53 @@
             regType,
             teamName: regType === "Team" ? teamName : "",
             teamMembers: regType === "Team" ? teamMembers : "",
+            teamMembersList: regType === "Team" ? teamMembersList : [],
             utrId: utr,
             paymentScreenshot: uploadedScreenshotBase64,
             status: "Confirmed",
             timestamp: new Date().toISOString()
           };
+
+          // Push to Google Sheets in real-time
+          const googleSheetWebhook = (regConfig && regConfig.googleSheetUrl) || "https://script.google.com/macros/s/AKfycbyQf200fHwcydhLqNW2YXVaADme2a4p0RXyc0at1YspDawEJ9oBIQw75tKY97LN35QH/exec";
+          
+          const payload = {
+            id: regId,
+            fullName: fullName,
+            email: email,
+            phone: phone,
+            college: college,
+            usn: usn,
+            department: dept,
+            yearSem: year,
+            category: category,
+            categoryLabel: isInternal ? "Internal (Presidency University)" : "External (Other College)",
+            event1Name: ev1Name,
+            event2Name: ev2Name || "-",
+            event3Name: ev3Name || "-",
+            regType: regType,
+            teamName: regType === "Team" ? teamName : "-",
+            teamMembers: regType === "Team" ? teamMembers : "-",
+            feePaid: `₹${totalFee}`,
+            utrId: utr,
+            screenshotBase64: uploadedScreenshotBase64,
+            status: "Pending Verification"
+          };
+
+          try {
+            fetch(googleSheetWebhook, {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify(payload)
+            }).then(() => {
+              console.log("Registration successfully transmitted to Google Sheets Webhook.");
+            }).catch(e => {
+              console.warn("Background sheet sync failed:", e);
+            });
+          } catch (netErr) {
+            console.warn("Network dispatch error:", netErr);
+          }
 
           // Save into FestDB
           const currentDB = FestDB.getData();
@@ -1202,9 +1480,19 @@
           document.getElementById("pass-utr").textContent = utr;
 
           const teamSec = document.getElementById("pass-team-section");
-          if (regType === "Team" && teamMembers) {
+          if (regType === "Team" && (teamName || teamMembers)) {
             teamSec.style.display = "block";
-            document.getElementById("pass-team-members-val").textContent = teamMembers;
+            let squadHtml = `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; flex-wrap:wrap; gap:0.4rem; border-bottom:1px solid rgba(255,255,255,0.12); padding-bottom:0.4rem;">` +
+              `<strong style="color: #93C5FD; font-size:0.92rem;">👥 Squad: <span style="color:#38BDF8;">${teamName || 'Squad'}</span></strong>` +
+              `<span style="font-size:0.75rem; color:#10B981; font-weight:700;">${teamMembersList.length + 1} Confirmed Members</span>` +
+              `</div>`;
+            squadHtml += `<div style="display:flex; flex-direction:column; gap:0.4rem; font-size:0.83rem; line-height:1.5;">`;
+            squadHtml += `<div style="background:rgba(255,255,255,0.06); padding:0.45rem 0.75rem; border-radius:6px;">👑 <strong>Lead (Member 1):</strong> ${fullName} <span style="color:#94A3B8;">(${usn} · ${phone})</span></div>`;
+            teamMembersList.forEach(m => {
+              squadHtml += `<div style="background:rgba(255,255,255,0.04); padding:0.45rem 0.75rem; border-radius:6px;">👤 <strong>Member ${m.memberIndex}:</strong> ${m.name} <span style="color:#94A3B8;">(${m.usn}${m.contact ? ' · ' + m.contact : ''})</span></div>`;
+            });
+            squadHtml += `</div>`;
+            document.getElementById("pass-team-members-val").innerHTML = squadHtml;
           } else {
             teamSec.style.display = "none";
           }
@@ -1222,6 +1510,7 @@
       if (regAnotherBtn) {
         regAnotherBtn.addEventListener("click", () => {
           form.reset();
+          initTeamMembers(3);
           populateEventSelects();
           updatePricing();
           form.style.display = "block";
