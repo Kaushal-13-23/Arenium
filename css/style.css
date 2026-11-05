@@ -8800,6 +8800,154 @@ h1, h2, h3, h4, h5, h6,
   margin: 0 auto !important;
 }
 
+/* ========================================================================
+   ACTIVE REGISTRATION QUICK-ACCESS BANNER & MOBILE BUTTON ALIGNMENT
+   Guarantees button never overflows card edges on mobile and stays inside
+   ======================================================================== */
+.recent-reg-banner {
+  background: #ECFDF5 !important;
+  border: 1.5px solid #10B981 !important;
+  border-radius: 14px !important;
+  padding: 1rem 1.25rem !important;
+  margin-bottom: 1.8rem !important;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.12) !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.recent-reg-banner-content {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.85rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.recent-reg-banner-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  flex: 1 1 240px !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.recent-reg-banner-icon {
+  font-size: 1.4rem !important;
+  flex-shrink: 0 !important;
+  line-height: 1 !important;
+}
+
+.recent-reg-banner-text {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.recent-reg-banner-tag {
+  font-size: 0.72rem !important;
+  color: #047857 !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.3 !important;
+  margin-bottom: 0.15rem !important;
+}
+
+.recent-reg-banner-title {
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  color: #065F46 !important;
+  word-break: break-word !important;
+  line-height: 1.4 !important;
+}
+
+.recent-reg-banner-title code {
+  color: #047857 !important;
+  font-family: var(--font-mono, monospace) !important;
+  font-weight: 700 !important;
+  word-break: break-all !important;
+}
+
+/* Button inside recent-reg-banner: Strictly Green, No Color Change on Hover, Perfectly Aligned */
+#btn-view-recent-pass,
+.btn-view-recent-pass {
+  background: #059669 !important;
+  background-color: #059669 !important;
+  background-image: none !important;
+  border: 1.5px solid #047857 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  padding: 0.65rem 1.15rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.03em !important;
+  border-radius: 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.4rem !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  transition: none !important;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25) !important;
+  white-space: normal !important;
+  text-align: center !important;
+  max-width: 100% !important;
+  flex-shrink: 0 !important;
+}
+
+/* Strict Zero color change on hover, focus, active for recent pass button */
+#btn-view-recent-pass:hover,
+#btn-view-recent-pass:focus,
+#btn-view-recent-pass:active,
+.btn-view-recent-pass:hover,
+.btn-view-recent-pass:focus,
+.btn-view-recent-pass:active {
+  background: #059669 !important;
+  background-color: #059669 !important;
+  background-image: none !important;
+  border-color: #047857 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25) !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Mobile responsive alignment for recent reg banner */
+@media (max-width: 640px) {
+  .recent-reg-banner {
+    padding: 0.85rem 0.85rem !important;
+  }
+  .recent-reg-banner-content {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.8rem !important;
+  }
+  .recent-reg-banner-info {
+    width: 100% !important;
+    flex: none !important;
+  }
+  #btn-view-recent-pass,
+  .btn-view-recent-pass {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0.75rem 0.75rem !important;
+    font-size: 0.8rem !important;
+    line-height: 1.35 !important;
+    white-space: normal !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+}
+
 /* Delegate Pass Footer & Button Alignments */
 .pass-footer-bar {
   border-top: 1px dashed rgba(255, 255, 255, 0.2) !important;
@@ -8809,6 +8957,8 @@ h1, h2, h3, h4, h5, h6,
   align-items: center !important;
   gap: 1.1rem !important;
   width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
 }
 
 .pass-footer-note {
@@ -8817,6 +8967,7 @@ h1, h2, h3, h4, h5, h6,
   text-align: center !important;
   line-height: 1.5 !important;
   width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .pass-actions-group {
@@ -8826,22 +8977,24 @@ h1, h2, h3, h4, h5, h6,
   justify-content: center !important;
   align-items: center !important;
   flex-wrap: wrap !important;
+  box-sizing: border-box !important;
 }
 
 .pass-actions-group .btn-pass-action {
-  flex: 1 1 200px !important;
+  flex: 1 1 180px !important;
   min-height: 48px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   text-align: center !important;
-  padding: 0.75rem 1.4rem !important;
+  padding: 0.75rem 1rem !important;
   font-size: 0.88rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.04em !important;
   border-radius: 12px !important;
   box-sizing: border-box !important;
-  white-space: nowrap !important;
+  white-space: normal !important;
+  max-width: 100% !important;
 }
 
 /* Mobile Pass Button Alignments: Stacks cleanly so neither button is cut off */
@@ -8855,69 +9008,146 @@ h1, h2, h3, h4, h5, h6,
     width: 100% !important;
     flex: none !important;
     min-width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
 }
 
 /* ========================================================================
-   REMOVE HOVER COLOR CHANGES ACROSS THE WEBSITE & BUTTONS
-   Per user specification: "remove hover to colour change from it"
+   GLOBAL REMOVAL OF HOVER COLOR CHANGES ACROSS ALL BUTTONS & CARDS
+   Per user specification: "remove the hover to colour changee and fix button aligment"
    Buttons and interactive elements maintain their solid, resting colors
    without flashing, darkening, shifting gradients, or changing color on hover.
    ======================================================================== */
-.btn:hover,
-.btn:focus,
-.btn:active,
+
+/* 1. Neutralize pseudo-element hover sheens / animations */
+.btn::before,
+.btn::after,
+.btn:hover::before,
+.btn:hover::after,
+.btn-primary::before,
+.btn-primary:hover::before,
+.btn-ghost::before,
+.btn-ghost:hover::before,
+.btn-register::before,
+.btn-register:hover::before,
+.btn-pay-now::before,
+.btn-pay-now:hover::before {
+  display: none !important;
+  opacity: 0 !important;
+  content: none !important;
+}
+
+/* 2. Disable transition flashes on buttons */
+.btn,
+.btn-primary,
+.btn-ghost,
+.btn-register,
+.btn-pay-now,
+.btn-pass-action,
+.btn-view-recent-pass,
+#btn-submit-registration,
+#btn-register-another {
+  transition: none !important;
+}
+
+/* 3. Freeze resting colors for Primary Buttons (Aqua Teal, Dark Text) */
+.btn-primary,
 .btn-primary:hover,
 .btn-primary:focus,
-.btn-primary:active {
+.btn-primary:active,
+#btn-submit-registration,
+#btn-submit-registration:hover,
+#btn-submit-registration:focus,
+#btn-submit-registration:active {
   background: linear-gradient(135deg, #B0D7D8 0%, #8CC1C2 100%) !important;
+  background-color: #B0D7D8 !important;
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
   border-color: rgba(255, 255, 255, 0.7) !important;
   box-shadow: none !important;
   filter: none !important;
+  transform: none !important;
 }
 
+/* 4. Freeze resting colors for Ghost Buttons (Dark Navy Glass, Cyan Text) */
+.btn-ghost,
 .btn-ghost:hover,
 .btn-ghost:focus,
 .btn-ghost:active,
+#btn-register-another,
 #btn-register-another:hover,
 #btn-register-another:focus,
 #btn-register-another:active {
   background: rgba(15, 23, 42, 0.85) !important;
+  background-color: rgba(15, 23, 42, 0.85) !important;
   color: #38BDF8 !important;
   -webkit-text-fill-color: #38BDF8 !important;
   border-color: rgba(56, 189, 248, 0.5) !important;
   box-shadow: none !important;
   filter: none !important;
+  transform: none !important;
 }
 
+/* 5. Freeze resting colors for Register Buttons */
+.btn-register,
 .btn-register:hover,
 .btn-register:focus,
 .btn-register:active {
   background: linear-gradient(135deg, #B0D7D8 0%, #8CC1C2 100%) !important;
+  background-color: #B0D7D8 !important;
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
   border-color: rgba(255, 255, 255, 0.7) !important;
   box-shadow: none !important;
   filter: none !important;
+  transform: none !important;
 }
 
+/* 6. Freeze resting colors for Pay Now Buttons */
+.btn-pay-now,
 .btn-pay-now:hover,
 .btn-pay-now:focus,
 .btn-pay-now:active {
   background: linear-gradient(135deg, #0284C7, #06B6D4) !important;
+  background-color: #0284C7 !important;
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
   border-color: rgba(255, 255, 255, 0.25) !important;
   box-shadow: none !important;
   filter: none !important;
+  transform: none !important;
 }
 
+/* 7. General button stability - no filter, no shadow, no jump */
+button:hover,
+button:focus,
+button:active,
+.btn:hover,
+.btn:focus,
+.btn:active,
+.schedule-tab-btn:hover,
+.schedule-tab-btn:focus,
+.lightbox-nav-btn:hover,
+.rulebook-close-btn:hover,
+.footer-map-btn:hover,
+.admin-nav-btn:hover,
+.admin-eye-btn:hover,
+.btn-copy-upi:hover,
+.theme-toggle-btn:hover {
+  filter: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* 8. Pass cards and preview cards maintain neutral resting states */
 .delegate-pass-card:hover,
 .pass-qr-container:hover,
-.pass-qrcode-target:hover {
+.pass-qrcode-target:hover,
+.recent-reg-banner:hover {
   background: inherit !important;
   color: inherit !important;
   border-color: inherit !important;
+  box-shadow: none !important;
+  transform: none !important;
 }

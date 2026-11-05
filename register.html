@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=2027_CENTER_SCANNER_ALIGNED_V8">
+  <link rel="stylesheet" href="css/style.css?v=2027_BANNER_BTN_FIX_V9">
 </head>
 <body class="subpage-body">
   <div class="bg-parallax-backdrop" aria-hidden="true"></div>
@@ -171,19 +171,19 @@
           </div>
 
           <!-- Active Delegate Pass Quick-Access Alert Banner -->
-          <div id="recent-reg-banner" style="display: none; background: #ECFDF5; border: 1.5px solid #10B981; border-radius: 14px; padding: 1rem 1.4rem; margin-bottom: 1.8rem; box-shadow: 0 4px 15px rgba(16,185,129,0.12);">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <span style="font-size: 1.4rem;">🎫</span>
-                <div>
-                  <div style="font-size: 0.72rem; color: #047857; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">ACTIVE REGISTRATION FOUND ON THIS BROWSER</div>
-                  <div style="font-size: 0.95rem; font-weight: 800; color: #065F46;">
-                    <span id="recent-reg-banner-name">Delegate Name</span> &bull; <code id="recent-reg-banner-id" style="color: #047857; font-family: var(--font-mono); font-weight: 700;">ARENIUM27-REG-XXXX</code>
+          <div id="recent-reg-banner" class="recent-reg-banner" style="display: none;">
+            <div class="recent-reg-banner-content">
+              <div class="recent-reg-banner-info">
+                <span class="recent-reg-banner-icon">🎫</span>
+                <div class="recent-reg-banner-text">
+                  <div class="recent-reg-banner-tag">ACTIVE REGISTRATION FOUND ON THIS BROWSER</div>
+                  <div class="recent-reg-banner-title">
+                    <span id="recent-reg-banner-name">Delegate Name</span> &bull; <code id="recent-reg-banner-id">ARENIUM27-REG-XXXX</code>
                   </div>
                 </div>
               </div>
-              <button type="button" id="btn-view-recent-pass" class="btn btn-primary" style="background: #059669; border-color: #047857; padding: 0.55rem 1.25rem; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem;">
-                🎫 VIEW YOUR DELEGATE PASS &amp; QR CODE &gt;
+              <button type="button" id="btn-view-recent-pass" class="btn btn-view-recent-pass">
+                <span>🎫 VIEW YOUR DELEGATE PASS &amp; QR CODE &gt;</span>
               </button>
             </div>
           </div>
@@ -787,7 +787,7 @@
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_CENTER_SCANNER_ALIGNED_V8"></script>
+  <script src="js/main.js?v=2027_BANNER_BTN_FIX_V9"></script>
   <script>
     // Live Registration Page Controller
     document.addEventListener("DOMContentLoaded", () => {
