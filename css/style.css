@@ -7701,3 +7701,57 @@ h1, h2, h3, h4, h5, h6,
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
 }
+
+
+/* ========================================================================
+   REGISTRATION SCANNER FEE PILL: HIGH-CONTRAST PURE WHITE TYPOGRAPHY
+   Fixes unreadable black text on dark slate badge in scanner section.
+   ======================================================================== */
+.scanner-fee-pill,
+.scanner-container .scanner-fee-pill,
+.cyber-card .scanner-fee-pill {
+  background: #0F172A !important;
+  border: 1.5px solid #38BDF8 !important;
+  border-radius: 12px !important;
+  padding: 0.75rem 1.2rem !important;
+  max-width: 520px !important;
+  margin: 0 auto 1.4rem !important;
+  font-size: 0.88rem !important;
+  line-height: 1.6 !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25) !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  text-align: center !important;
+}
+
+.scanner-fee-pill *,
+.scanner-fee-pill strong,
+.scanner-fee-pill em,
+.scanner-fee-pill span,
+.scanner-container .scanner-fee-pill *,
+.scanner-container .scanner-fee-pill strong,
+.scanner-container .scanner-fee-pill em,
+.cyber-card .scanner-fee-pill *,
+.cyber-card .scanner-fee-pill strong,
+.cyber-card .scanner-fee-pill em {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+.scanner-fee-pill strong,
+.scanner-container .scanner-fee-pill strong,
+.cyber-card .scanner-fee-pill strong {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  font-weight: 800 !important;
+}
+
+.scanner-fee-pill em,
+.scanner-container .scanner-fee-pill em,
+.cyber-card .scanner-fee-pill em {
+  color: #FBBF24 !important;
+  -webkit-text-fill-color: #FBBF24 !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+}
