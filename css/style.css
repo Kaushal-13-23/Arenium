@@ -540,22 +540,22 @@ button {
 .section-header {
   text-align: center;
   max-width: 780px;
-  margin: 0 auto clamp(2rem, 4vw, 3.2rem);
-  padding: clamp(1.6rem, 3.2vw, 2.4rem) clamp(1.4rem, 3.5vw, 2.6rem);
-  background: linear-gradient(135deg, rgba(213, 229, 229, 0.78) 0%, rgba(176, 215, 216, 0.6) 45%, rgba(247, 203, 202, 0.5) 100%) !important;
-  backdrop-filter: blur(28px) saturate(170%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(170%) !important;
-  border: 1.5px solid var(--palette-mauve, #DDD3D3) !important;
-  border-radius: 28px !important;
-  box-shadow: 0 16px 45px rgba(93, 107, 107, 0.08), inset 0 1.5px 2px rgba(255, 255, 255, 0.9) !important;
+  margin: 0 auto clamp(2.4rem, 5vw, 3.6rem) !important;
+  padding: clamp(1.2rem, 3vw, 1.8rem) clamp(1.2rem, 4vw, 2.4rem) !important;
+  background: rgba(15, 23, 42, 0.94) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.28) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35) !important;
   position: relative;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease !important;
   z-index: 3;
+  transform: none !important;
 }
 
 .section-header:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 55px rgba(93, 107, 107, 0.12), inset 0 1.5px 2px #FFFFFF !important;
+  transform: none !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35) !important;
 }
 
 .section-tag {
@@ -8400,4 +8400,262 @@ h1, h2, h3, h4, h5, h6,
   border-color: var(--palette-aqua, #B0D7D8) !important;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2) !important;
   transform: translateY(-4px) scale(1.02) !important;
+}
+
+/* ========================================================================
+   MOBILE PARALLAX & SCRIM CALIBRATION: ELIMINATE HORIZONTAL CUT-OFF LINE
+   Ensures the hero background completely fades out within the hero section
+   and NEVER bleeds across or cuts through the About card or section content.
+   ======================================================================== */
+@media (max-width: 768px) {
+  .bg-parallax-backdrop,
+  .bg-atmospheric-scrim {
+    height: 560px !important;
+    max-height: 75vh !important;
+    -webkit-mask-image: linear-gradient(to bottom, 
+      rgba(0, 0, 0, 1) 0%, 
+      rgba(0, 0, 0, 1) 68%, 
+      rgba(0, 0, 0, 0) 95%
+    ) !important;
+    mask-image: linear-gradient(to bottom, 
+      rgba(0, 0, 0, 1) 0%, 
+      rgba(0, 0, 0, 1) 68%, 
+      rgba(0, 0, 0, 0) 95%
+    ) !important;
+  }
+}
+
+/* ========================================================================
+   SECTION BREATHING ROOM, ELEGANT GAPS & NON-AI TECH STYLING
+   Creates generous, professional whitespace and crisp human-crafted typography.
+   ======================================================================== */
+.about-section,
+.events-preview-section,
+.poster-section,
+.patrons-section,
+.team-section,
+.sponsors-section {
+  position: relative !important;
+  z-index: 10 !important;
+  padding: clamp(3.2rem, 6.5vw, 4.8rem) 0 !important;
+}
+
+/* Clean Section Header Typography */
+.section-header .section-title,
+.section-title {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-size: clamp(1.6rem, 3.8vw, 2.3rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.5px !important;
+  text-transform: uppercase !important;
+  margin-bottom: 0.45rem !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.section-header .section-subtitle,
+.section-subtitle {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  font-size: clamp(0.85rem, 2vw, 0.98rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.4px !important;
+  line-height: 1.6 !important;
+  margin: 0 auto !important;
+}
+
+/* About Fest Card: Opaque Solid Deep Slate (No Background Bleed-Through) */
+.about-card {
+  max-width: 900px !important;
+  margin: 0 auto !important;
+  padding: clamp(1.8rem, 4vw, 3rem) clamp(1.2rem, 3.5vw, 2.5rem) !important;
+  background: #0F172A !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.28) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45) !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.about-card .about-text {
+  color: #E2E8F0 !important;
+  -webkit-text-fill-color: #E2E8F0 !important;
+  font-size: clamp(0.95rem, 2vw, 1.06rem) !important;
+  line-height: 1.85 !important;
+  margin-bottom: 1.4rem !important;
+  text-align: left !important;
+}
+
+.about-card .about-text strong {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  font-weight: 700 !important;
+}
+
+.about-card .about-text em {
+  color: #FDE047 !important;
+  -webkit-text-fill-color: #FDE047 !important;
+  font-style: italic !important;
+}
+
+.about-host-pill {
+  background: rgba(56, 189, 248, 0.08) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  border-radius: 50px !important;
+  padding: 0.55rem 1.4rem !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 1.2px !important;
+  margin: 1.5rem auto !important;
+  display: inline-block !important;
+}
+
+.about-host-pill span {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.about-stats-grid .stat-item {
+  background: rgba(30, 41, 59, 0.75) !important;
+  border: 1px solid rgba(56, 189, 248, 0.22) !important;
+  border-radius: 14px !important;
+}
+
+.about-stats-grid .stat-number {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+.about-stats-grid .stat-label {
+  color: #94A3B8 !important;
+  -webkit-text-fill-color: #94A3B8 !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+}
+
+/* ========================================================================
+   COMPLETE GLOBAL HOVER REMOVAL ACROSS ENTIRE WEBSITE
+   User specification: "remove the hovers i dont want anything to get hover"
+   Stops all movement, jumping, scaling, translation, and disorienting hover states.
+   ======================================================================== */
+*:hover,
+*::before:hover,
+*::after:hover {
+  transform: none !important;
+}
+
+/* Prevent transitions from causing hover jumping */
+.cyber-card,
+.about-card,
+.events-preview-card,
+.host-institution-brand-card,
+.committee-members-box,
+.team-member-card,
+.team-card,
+.sponsor-card,
+.title-sponsor-card,
+.event-card,
+.winner-card,
+.gallery-card,
+.poster-info-glass-card,
+.register-glass-card,
+.hero-main-glass-card,
+.payment-glass-card,
+.payment-gateway-card,
+.fee-structure-announcement-card,
+.fee-tier-card,
+.delegate-pass-card,
+.admin-card,
+.admin-stat-card,
+.timeline-content,
+.timeline-card,
+.section-header,
+.countdown-box,
+.stat-item,
+.btn,
+.btn-primary,
+.btn-ghost,
+.btn-register,
+.btn-pay-now,
+.nav-link,
+.social-pill,
+.filter-chip,
+.schedule-tab-btn,
+.gallery-card img,
+.event-poster-img,
+.team-avatar-img {
+  transition: color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease !important;
+}
+
+/* Neutralize card hover states: completely motionless and stable */
+.cyber-card:hover,
+.about-card:hover,
+.events-preview-card:hover,
+.host-institution-brand-card:hover,
+.committee-members-box:hover,
+.team-member-card:hover,
+.team-card:hover,
+.sponsor-card:hover,
+.title-sponsor-card:hover,
+.event-card:hover,
+.event-matrix-card:hover,
+.winner-card:hover,
+.gallery-card:hover,
+.poster-info-glass-card:hover,
+.register-glass-card:hover,
+.hero-main-glass-card:hover,
+.payment-glass-card:hover,
+.payment-gateway-card:hover,
+.fee-structure-announcement-card:hover,
+.fee-tier-card:hover,
+.delegate-pass-card:hover,
+.admin-card:hover,
+.admin-stat-card:hover,
+.timeline-content:hover,
+.timeline-card:hover,
+.cert-controls-panel:hover,
+.section-header:hover,
+.countdown-box:hover,
+.stat-item:hover,
+.poster-frame:hover {
+  transform: none !important;
+}
+
+/* Neutralize button hover leaps */
+.btn:hover,
+.btn-primary:hover,
+.btn-ghost:hover,
+.btn-register:hover,
+.btn-pay-now:hover,
+.filter-chip:hover,
+.schedule-tab-btn:hover,
+.lightbox-nav-btn:hover,
+.rulebook-close-btn:hover,
+.institution-logo-link:hover,
+.footer-map-btn:hover,
+.social-pill:hover {
+  transform: none !important;
+}
+
+/* Neutralize image zooms on hover */
+.gallery-card:hover img,
+.event-card:hover .event-poster-img,
+.team-card:hover .team-avatar-img,
+.host-institution-brand-card:hover img,
+.events-preview-img-wrap:hover .events-preview-img,
+.header-fest-logo-link:hover .header-fest-logo-img {
+  transform: none !important;
+}
+
+/* Footer links: no horizontal shifting */
+.site-footer a:hover,
+.site-footer .footer-links a:hover,
+.site-footer .footer-links-list a:hover,
+.site-footer .footer-link:hover,
+.site-footer .footer-links li a:hover,
+.site-footer .footer-links-list li a:hover {
+  transform: none !important;
 }
