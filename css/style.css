@@ -178,80 +178,37 @@ body {
   opacity: 1 !important;
   transform: translate3d(0, 0, 0);
   will-change: transform;
-  -webkit-mask-image: linear-gradient(to bottom, 
-    rgba(0, 0, 0, 1) 0%, 
-    rgba(0, 0, 0, 1) 84%, 
-    rgba(0, 0, 0, 0.7) 91%, 
-    rgba(0, 0, 0, 0.25) 96%, 
-    rgba(0, 0, 0, 0) 100%
-  ) !important;
-  mask-image: linear-gradient(to bottom, 
-    rgba(0, 0, 0, 1) 0%, 
-    rgba(0, 0, 0, 1) 84%, 
-    rgba(0, 0, 0, 0.7) 91%, 
-    rgba(0, 0, 0, 0.25) 96%, 
-    rgba(0, 0, 0, 0) 100%
-  ) !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
 }
 
-/* ATMOSPHERIC GRADIENT SCRIM (HOME / DEFAULT) */
+/* ATMOSPHERIC GRADIENT SCRIM (REMOVED / DISABLED PER USER SPECIFICATION) */
 .bg-atmospheric-scrim {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: clamp(820px, 90vh, 960px) !important;
-  background: linear-gradient(180deg, 
-    rgba(8, 14, 26, 0.45) 0%, 
-    rgba(8, 14, 26, 0.1) 15%, 
-    transparent 35%, 
-    transparent 84%, 
-    rgba(241, 247, 247, 0.3) 91%, 
-    rgba(241, 247, 247, 0.75) 96%, 
-    var(--palette-normal-bg, #F1F7F7) 100%
-  ) !important;
-  z-index: 1 !important;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
   pointer-events: none !important;
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
 }
 
-/* SUBPAGE CALIBRATION: PARALLAX EXTENDS DOWNWARDS PAST TOP CARDS TO PREVENT CUT-OFF LINES */
-.subpage-body .bg-parallax-backdrop,
-body:has(.page-header-banner) .bg-parallax-backdrop,
-.subpage-body .bg-atmospheric-scrim,
-body:has(.page-header-banner) .bg-atmospheric-scrim {
-  height: clamp(1020px, 115vh, 1200px) !important;
-  max-height: none !important;
-}
-
+/* SUBPAGE CALIBRATION: PARALLAX BACKDROP NO FADE */
 .subpage-body .bg-parallax-backdrop,
 body:has(.page-header-banner) .bg-parallax-backdrop {
-  -webkit-mask-image: linear-gradient(to bottom,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 88%,
-    rgba(0, 0, 0, 0.35) 96%,
-    rgba(0, 0, 0, 0) 100%
-  ) !important;
-  mask-image: linear-gradient(to bottom,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 88%,
-    rgba(0, 0, 0, 0.35) 96%,
-    rgba(0, 0, 0, 0) 100%
-  ) !important;
+  height: clamp(1020px, 115vh, 1200px) !important;
+  max-height: none !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
 }
 
 .subpage-body .bg-atmospheric-scrim,
 body:has(.page-header-banner) .bg-atmospheric-scrim {
-  background: linear-gradient(180deg,
-    rgba(8, 14, 26, 0.45) 0%,
-    rgba(8, 14, 26, 0.1) 15%,
-    transparent 35%,
-    transparent 75%,
-    rgba(241, 247, 247, 0.25) 88%,
-    rgba(241, 247, 247, 0.65) 95%,
-    var(--palette-normal-bg, #F1F7F7) 100%
-  ) !important;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  pointer-events: none !important;
 }
 
 :focus-visible {
@@ -8426,8 +8383,6 @@ h1, h2, h3, h4, h5, h6,
 .hero-main-glass-card:hover,
 .payment-glass-card:hover,
 .payment-gateway-card:hover,
-.fee-structure-announcement-card:hover,
-.fee-tier-card:hover,
 .delegate-pass-card:hover,
 .admin-card:hover,
 .admin-stat-card:hover,
@@ -8468,22 +8423,19 @@ h1, h2, h3, h4, h5, h6,
    Extends background downwards so cut-off lines never slice across cards.
    ======================================================================== */
 @media (max-width: 768px) {
-  .bg-parallax-backdrop,
-  .bg-atmospheric-scrim {
+  .bg-parallax-backdrop {
     height: 1060px !important;
     max-height: none !important;
-    -webkit-mask-image: linear-gradient(to bottom,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 88%,
-      rgba(0, 0, 0, 0.35) 96%,
-      rgba(0, 0, 0, 0) 100%
-    ) !important;
-    mask-image: linear-gradient(to bottom,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 88%,
-      rgba(0, 0, 0, 0.35) 96%,
-      rgba(0, 0, 0, 0) 100%
-    ) !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+  .bg-atmospheric-scrim {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    pointer-events: none !important;
   }
 }
 
@@ -9409,3 +9361,85 @@ button:active,
   transform: none !important;
   text-shadow: none !important;
 }
+
+/* ========================================================================
+   FEE STRUCTURE ANNOUNCEMENT & TIER CARDS: SOLID BLACK (#000000 / #0A0F1D)
+   Per user specification: "dont use this light blue colour in any card insted use black
+   please remove hover from here"
+   ======================================================================== */
+.fee-structure-announcement-card {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  border: 1.5px solid #1E293B !important;
+  color: #FFFFFF !important;
+  transition: none !important;
+  transform: none !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+.fee-structure-announcement-card:hover,
+.fee-structure-announcement-card:focus,
+.fee-structure-announcement-card:active {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  border-color: #1E293B !important;
+  color: #FFFFFF !important;
+  transform: none !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  filter: none !important;
+}
+
+.fee-tier-card,
+.fee-tier-internal,
+.fee-tier-external {
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border: 1.5px solid #1E293B !important;
+  color: #FFFFFF !important;
+  transition: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.fee-tier-card:hover,
+.fee-tier-card:focus,
+.fee-tier-card:active,
+.fee-tier-internal:hover,
+.fee-tier-internal:focus,
+.fee-tier-internal:active,
+.fee-tier-external:hover,
+.fee-tier-external:focus,
+.fee-tier-external:active {
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border-color: #1E293B !important;
+  color: #FFFFFF !important;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* HIGH-CONTRAST HEADER BANNER SUBTITLES (CRISP WHITE #FFFFFF) */
+.page-header-banner .section-subtitle,
+.section-header .section-subtitle,
+.section-subtitle {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 600 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* HOST SPONSOR CARD: WHITE CARD WITH OFFICIAL NAVY PU LOGO */
+.host-sponsor-card {
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+}
+
+.host-sponsor-card .pu-logo-light {
+  display: block !important;
+}
+
+.host-sponsor-card .pu-logo-dark {
+  display: none !important;
+}
+
