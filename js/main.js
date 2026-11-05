@@ -3622,7 +3622,7 @@ function renderAdminRegistrations(db) {
         <td><strong>${r.fullName}</strong><br><span style="color:#94A3B8; font-size:0.75rem;">${r.email}</span><br><span style="color:#CBD5E1; font-size:0.75rem;">📞 ${r.phone}</span></td>
         <td><strong>${r.college}</strong><br><span style="color:#93C5FD; font-size:0.75rem; font-family:var(--font-mono);">${r.usn}</span><br><span style="color:#94A3B8; font-size:0.72rem;">${r.department || ''}</span></td>
         <td>${catBadge}<br><strong style="color:#34D399; font-size:0.85rem;">${r.feePaid || '₹200'}</strong></td>
-        <td><div style="font-size:0.8rem; line-height:1.4;">${eventsDisplay}</div><span style="font-size:0.72rem; color:#94A3B8;">${r.regType === 'Team' ? '👥 ' + (r.teamName || 'Squad') : '👤 Solo'}</span></td>
+        <td><div style="font-size:0.8rem; line-height:1.4;">${eventsDisplay}</div><span style="font-size:0.72rem; color:#94A3B8;">${r.regType === 'Team' ? '👥 ' + (r.teamName || 'Squad') : (r.teamName ? '👤 Solo (' + r.teamName + ')' : '👤 Solo')}</span></td>
         <td>
           <code style="background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px; font-size:0.8rem; color:#FCD34D;">${r.utrId}</code>
           ${r.paymentScreenshot ? `
@@ -3918,7 +3918,7 @@ window.viewAdminPassModal = function(regId) {
   const isInt = (reg.category === "internal" || !reg.category);
   const catLabel = reg.categoryLabel || (isInt ? "Internal (Presidency University)" : "External (Other Institution)");
   const isTeam = reg.regType === "Team";
-  const teamDisplayName = isTeam ? (reg.teamName || "Squad") : reg.fullName;
+  const teamDisplayName = isTeam ? (reg.teamName || "Squad") : (reg.teamName ? `${reg.fullName} (${reg.teamName})` : reg.fullName);
   
   let memberCount = 1;
   if (isTeam && reg.teamMembers) {
@@ -4171,7 +4171,7 @@ window.handleGateQrScanned = function(rawText) {
 
   if (matchedReg) {
     const isTeam = matchedReg.regType === "Team";
-    const teamDisplayName = isTeam ? (matchedReg.teamName || "Squad") : matchedReg.fullName;
+    const teamDisplayName = isTeam ? (matchedReg.teamName || "Squad") : (matchedReg.teamName ? `${matchedReg.fullName} (${matchedReg.teamName})` : matchedReg.fullName);
     const isInt = (matchedReg.category === "internal" || !matchedReg.category);
     const catLabel = matchedReg.categoryLabel || (isInt ? "Internal (Presidency University)" : "External (Other Institution)");
     const arenas = [matchedReg.event1Name || matchedReg.eventName, matchedReg.event2Name, matchedReg.event3Name].filter(b => b && b !== '-').join(" • ");

@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=2027_WHITE_TEXT_V1">
+  <link rel="stylesheet" href="css/style.css?v=2027_TEAM8_WHITE_V2">
 </head>
 <body class="subpage-body">
   <div class="bg-parallax-backdrop" aria-hidden="true"></div>
@@ -422,32 +422,36 @@
                 </select>
               </div>
 
-              <div class="form-field-group" id="group-team-name" style="display: none;">
-                <label class="form-label" for="reg-team-name">TEAM / SQUAD NAME <span class="req">*</span></label>
-                <input type="text" id="reg-team-name" class="form-input" placeholder="e.g. MatrixBreakers">
+              <div class="form-field-group" id="group-team-name" style="display: flex; flex-direction: column;">
+                <label class="form-label" for="reg-team-name">
+                  <span id="label-team-name-text">TEAM / SQUAD NAME / ALIAS (OPTIONAL)</span>
+                  <span id="label-team-req" class="req" style="display: none;">*</span>
+                </label>
+                <input type="text" id="reg-team-name" class="form-input" placeholder="e.g. MatrixBreakers or Gaming Tag / Alias">
+                <span id="hint-team-name" style="font-size: 0.73rem; color: #64748B; margin-top: 0.25rem;">Optional for solo delegates: Enter your gaming handle, squad alias, or team name.</span>
               </div>
 
               <!-- Dedicated Structured Team Members Registration Section -->
               <div class="form-field-group full-width" id="group-team-members" style="display: none; flex-direction: column; gap: 0.8rem;">
-                <div style="background: rgba(15, 23, 42, 0.6); border: 1.5px solid rgba(56, 189, 248, 0.3); border-radius: 14px; padding: 1.25rem; width: 100%; box-sizing: border-box;">
+                <div class="team-squad-outer-card" style="background: rgba(15, 23, 42, 0.78); border: 1.5px solid rgba(56, 189, 248, 0.4); border-radius: 14px; padding: 1.25rem; width: 100%; box-sizing: border-box; color: #FFFFFF !important;">
                   
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.09); padding-bottom: 0.65rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding-bottom: 0.65rem;">
                     <div>
-                      <strong style="color: #38BDF8; font-size: 0.95rem; letter-spacing: 0.5px; display: flex; align-items: center; gap: 0.4rem;">
+                      <strong style="color: #38BDF8 !important; font-size: 0.95rem; letter-spacing: 0.5px; display: flex; align-items: center; gap: 0.4rem;">
                         <span>👥</span> TEAM SQUAD MEMBERS (INDIVIDUAL REGISTRATION FIELDS)
                       </strong>
-                      <span style="font-size: 0.74rem; color: #94A3B8; display: block; margin-top: 0.2rem;">
+                      <span style="font-size: 0.74rem; color: #E2E8F0 !important; display: block; margin-top: 0.2rem;">
                         Fill in distinct credentials for each participating team member.
                       </span>
                     </div>
-                    <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #10B981; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 20px;">
+                    <span style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; color: #10B981 !important; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 20px;">
                       👑 Member 1 = Team Leader (Auto-Assigned)
                     </span>
                   </div>
 
                   <!-- Team Leader Notification -->
-                  <div style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38BDF8; border-radius: 6px; padding: 0.7rem 0.9rem; margin-bottom: 1rem; font-size: 0.8rem; color: #CBD5E1; line-height: 1.45;">
-                    👑 <strong>Team Leader (Member 1):</strong> Primary registrant credentials above are automatically linked as the Team Leader (<span id="team-lead-name-preview" style="color: #38BDF8; font-weight: 700;">Full Name</span> · <span id="team-lead-usn-preview" style="color: #38BDF8; font-weight: 700;">USN</span>).
+                  <div style="background: rgba(56, 189, 248, 0.12); border-left: 3px solid #38BDF8; border-radius: 6px; padding: 0.7rem 0.9rem; margin-bottom: 1rem; font-size: 0.8rem; color: #FFFFFF !important; line-height: 1.45;">
+                    👑 <strong style="color: #38BDF8 !important;">Team Leader (Member 1):</strong> Primary registrant credentials above are automatically linked as the Team Leader (<span id="team-lead-name-preview" style="color: #38BDF8 !important; font-weight: 700;">Full Name</span> · <span id="team-lead-usn-preview" style="color: #38BDF8 !important; font-weight: 700;">USN</span>).
                   </div>
 
                   <!-- Dynamic Member Entry Cards -->
@@ -456,12 +460,12 @@
                   </div>
 
                   <!-- Add Member Action -->
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.09); padding-top: 0.85rem;">
-                    <button type="button" id="btn-add-team-member" class="btn btn-secondary" style="padding: 0.55rem 1.1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 8px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem; border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 0.85rem;">
+                    <button type="button" id="btn-add-team-member" class="btn btn-secondary" style="padding: 0.55rem 1.1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 8px; background: rgba(56, 189, 248, 0.15); border: 1.5px solid #38BDF8; color: #FFFFFF !important; font-weight: 700;">
                       <span>➕</span> Add Another Team Member
                     </button>
-                    <span style="font-size: 0.74rem; color: #94A3B8;">
-                      💡 Hackathon: 4 members &bull; LAN Gaming: 5 players &bull; Tech Odyssey/APL: 2-3 members
+                    <span style="font-size: 0.74rem; color: #E2E8F0 !important;">
+                      💡 Maximum team capacity: Up to 8 participants (1 Team Leader + 7 squad members)
                     </span>
                   </div>
 
@@ -783,7 +787,7 @@
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_WHITE_TEXT_V1"></script>
+  <script src="js/main.js?v=2027_TEAM8_WHITE_V2"></script>
   <script>
     // Live Registration Page Controller
     document.addEventListener("DOMContentLoaded", () => {
@@ -1079,23 +1083,23 @@
         div.dataset.memberIndex = memberIndex;
         div.innerHTML = `
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.55rem;">
-            <div style="font-size: 0.84rem; font-weight: 700; color: #38BDF8; font-family: var(--font-mono); display: flex; align-items: center; gap: 0.4rem;">
-              <span>👤</span> MEMBER ${memberIndex} ${memberIndex === 2 ? '<span style="color:#EF4444; font-size:0.75rem;">* (Required)</span>' : '<span style="color:#94A3B8; font-size:0.75rem;">(Optional)</span>'}
+            <div class="member-title" style="font-size: 0.84rem; font-weight: 700; color: #38BDF8 !important; font-family: var(--font-mono); display: flex; align-items: center; gap: 0.4rem;">
+              <span>👤</span> MEMBER ${memberIndex} ${memberIndex === 2 ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#CBD5E1 !important; font-size:0.75rem;">(Optional)</span>'}
             </div>
-            ${canRemove ? `<button type="button" class="btn-remove-member" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;" title="Remove Member ${memberIndex}">✕ Remove</button>` : ''}
+            ${canRemove ? `<button type="button" class="btn-remove-member" style="background: rgba(239, 68, 68, 0.25); border: 1px solid #EF4444; color: #FCA5A5 !important; font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;" title="Remove Member ${memberIndex}">✕ Remove</button>` : ''}
           </div>
           <div class="team-member-grid">
             <div>
-              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem;">FULL NAME ${memberIndex === 2 ? '<span class="req">*</span>' : ''}</label>
-              <input type="text" class="form-input member-field-name" placeholder="Member ${memberIndex} Full Name" value="${nameVal}">
+              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">FULL NAME ${memberIndex === 2 ? '<span class="req" style="color:#EF4444 !important;">*</span>' : ''}</label>
+              <input type="text" class="form-input member-field-name" placeholder="Member ${memberIndex} Full Name" value="${nameVal}" style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important;">
             </div>
             <div>
-              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem;">USN / STUDENT ID ${memberIndex === 2 ? '<span class="req">*</span>' : ''}</label>
-              <input type="text" class="form-input member-field-usn" placeholder="e.g. 20231CSE0291" value="${usnVal}">
+              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">USN / STUDENT ID ${memberIndex === 2 ? '<span class="req" style="color:#EF4444 !important;">*</span>' : ''}</label>
+              <input type="text" class="form-input member-field-usn" placeholder="e.g. 20231CSE0291" value="${usnVal}" style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important;">
             </div>
             <div>
-              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem;">PHONE / WHATSAPP / EMAIL</label>
-              <input type="text" class="form-input member-field-contact" placeholder="Phone or email (optional)" value="${contactVal}">
+              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">PHONE / WHATSAPP / EMAIL</label>
+              <input type="text" class="form-input member-field-contact" placeholder="Phone or email (optional)" value="${contactVal}" style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important;">
             </div>
           </div>
         `;
@@ -1119,16 +1123,17 @@
         boxes.forEach((box, idx) => {
           const num = idx + 2;
           box.dataset.memberIndex = num;
-          const headerEl = box.querySelector("div > div");
+          const headerEl = box.querySelector("div > .member-title") || box.querySelector("div > div");
           if (headerEl) {
-            headerEl.innerHTML = `<span>👤</span> MEMBER ${num} ${num === 2 ? '<span style="color:#EF4444; font-size:0.75rem;">* (Required)</span>' : '<span style="color:#94A3B8; font-size:0.75rem;">(Optional)</span>'}`;
+            headerEl.innerHTML = `<span>👤</span> MEMBER ${num} ${num === 2 ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#CBD5E1 !important; font-size:0.75rem;">(Optional)</span>'}`;
           }
           const nameInput = box.querySelector(".member-field-name");
           if (nameInput) nameInput.placeholder = `Member ${num} Full Name`;
         });
         if (btnAddMember) {
-          btnAddMember.disabled = boxes.length >= 4; // Max 4 members + Lead = 5 total
-          btnAddMember.style.opacity = boxes.length >= 4 ? "0.5" : "1";
+          // Up to 7 squad members + 1 Team Leader = 8 Total Participants
+          btnAddMember.disabled = boxes.length >= 7;
+          btnAddMember.style.opacity = boxes.length >= 7 ? "0.5" : "1";
         }
       }
 
@@ -1150,8 +1155,9 @@
       if (btnAddMember) {
         btnAddMember.addEventListener("click", () => {
           const currentCount = teamMembersContainer.querySelectorAll(".team-member-entry-box").length;
-          if (currentCount >= 4) {
-            alert("Maximum team size is 5 members (Team Leader + 4 members).");
+          // Maximum 7 additional members (1 Team Leader + 7 members = 8 Total Participants)
+          if (currentCount >= 7) {
+            alert("Maximum team size is 8 participants (1 Team Leader + 7 members).");
             return;
           }
           const nextIndex = currentCount + 2;
@@ -1161,19 +1167,35 @@
       }
 
       const typeSelect = document.getElementById("reg-type");
+      function syncParticipationType() {
+        const teamNameGroup = document.getElementById("group-team-name");
+        const teamMembersGroup = document.getElementById("group-team-members");
+        const labelTeamText = document.getElementById("label-team-name-text");
+        const labelTeamReq = document.getElementById("label-team-req");
+        const hintTeam = document.getElementById("hint-team-name");
+        const teamNameInput = document.getElementById("reg-team-name");
+
+        if (typeSelect && typeSelect.value === "Team") {
+          if (teamNameGroup) teamNameGroup.style.display = "flex";
+          if (teamMembersGroup) teamMembersGroup.style.display = "flex";
+          if (labelTeamText) labelTeamText.textContent = "TEAM / SQUAD NAME";
+          if (labelTeamReq) labelTeamReq.style.display = "inline";
+          if (hintTeam) hintTeam.textContent = "Mandatory for Team / Squad registrations.";
+          if (teamNameInput) teamNameInput.placeholder = "e.g. MatrixBreakers";
+          updateLeadPreview();
+        } else {
+          // Solo delegates also have Team / Squad Name visible
+          if (teamNameGroup) teamNameGroup.style.display = "flex";
+          if (teamMembersGroup) teamMembersGroup.style.display = "none";
+          if (labelTeamText) labelTeamText.textContent = "TEAM / SQUAD NAME / ALIAS (OPTIONAL)";
+          if (labelTeamReq) labelTeamReq.style.display = "none";
+          if (hintTeam) hintTeam.textContent = "Optional for solo delegates: Enter your gaming handle, squad alias, or team name.";
+          if (teamNameInput) teamNameInput.placeholder = "e.g. MatrixBreakers or Gaming Tag / Alias";
+        }
+      }
       if (typeSelect) {
-        typeSelect.addEventListener("change", () => {
-          const teamNameGroup = document.getElementById("group-team-name");
-          const teamMembersGroup = document.getElementById("group-team-members");
-          if (typeSelect.value === "Team") {
-            if (teamNameGroup) teamNameGroup.style.display = "flex";
-            if (teamMembersGroup) teamMembersGroup.style.display = "flex";
-            updateLeadPreview();
-          } else {
-            if (teamNameGroup) teamNameGroup.style.display = "none";
-            if (teamMembersGroup) teamMembersGroup.style.display = "none";
-          }
-        });
+        typeSelect.addEventListener("change", syncParticipationType);
+        syncParticipationType();
       }
 
       // 5. Handle Form Submission
@@ -1328,7 +1350,7 @@
         document.getElementById("pass-usn").textContent = reg.usn || "N/A";
         document.getElementById("pass-contact").textContent = `${reg.email || ''} • ${reg.phone || ''}`;
         const isTeam = reg.regType === "Team";
-        document.getElementById("pass-type").textContent = isTeam ? `Team: ${reg.teamName || 'Squad'}` : "Solo";
+        document.getElementById("pass-type").textContent = isTeam ? `Team: ${reg.teamName || 'Squad'}` : (reg.teamName ? `Solo • Alias: ${reg.teamName}` : "Solo");
         document.getElementById("pass-utr").textContent = reg.utrId || "N/A";
 
         if (reg.paymentScreenshot) {
@@ -1372,7 +1394,7 @@
             }
           }
           const participantsLabel = isTeam ? `${memberCount} Confirmed Members` : "1 Participant (Solo)";
-          const teamDisplayName = isTeam ? (reg.teamName || "Squad") : reg.fullName;
+          const teamDisplayName = isTeam ? (reg.teamName || "Squad") : (reg.teamName ? `${reg.fullName} (${reg.teamName})` : reg.fullName);
           const categoryLabel = reg.categoryLabel || (isInternal ? "Internal (Presidency University)" : "External (Other Institution)");
 
           const qrTeamNameEl = document.getElementById("pass-qr-team-name");
@@ -1599,7 +1621,7 @@
             eventCount: (ev3Id ? 3 : (ev2Id ? 2 : 1)),
             feePaid: `₹${totalFee}`,
             regType,
-            teamName: regType === "Team" ? teamName : "",
+            teamName: teamName || "",
             teamMembers: regType === "Team" ? teamMembers : "",
             teamMembersList: regType === "Team" ? teamMembersList : [],
             utrId: utr,
@@ -1626,7 +1648,7 @@
             event2Name: ev2Name || "-",
             event3Name: ev3Name || "-",
             regType: regType,
-            teamName: regType === "Team" ? teamName : "-",
+            teamName: teamName || "-",
             teamMembers: regType === "Team" ? teamMembers : "-",
             feePaid: `₹${totalFee}`,
             utrId: utr,

@@ -7947,3 +7947,75 @@ h1, h2, h3, h4, h5, h6,
   color: #38BDF8 !important;
   -webkit-text-fill-color: #38BDF8 !important;
 }
+
+
+/* ========================================================================
+   AUTHORITATIVE WHITE TEXT ENFORCEMENT ON TEAM SQUAD MEMBERS CARD
+   Forces high-contrast pure white text for labels, titles, descriptions,
+   and badges on the dark grey container while preserving dark text on white inputs.
+   ======================================================================== */
+
+#group-team-members,
+#group-team-members .team-squad-outer-card,
+#group-team-members p,
+#group-team-members label,
+#group-team-members .form-label,
+#group-team-members span,
+#group-team-members div,
+.team-member-entry-box,
+.team-member-entry-box label,
+.team-member-entry-box .form-label,
+.team-member-entry-box span,
+.team-member-entry-box div {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+#group-team-members strong,
+.team-member-entry-box strong,
+#team-lead-name-preview,
+#team-lead-usn-preview,
+.team-member-entry-box .member-title {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+}
+
+.team-member-entry-box .req,
+.team-member-entry-box .member-required {
+  color: #EF4444 !important;
+  -webkit-text-fill-color: #EF4444 !important;
+}
+
+.team-member-entry-box .member-optional {
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+}
+
+/* Ensure user input boxes stay crystal clear: white background with dark readable text */
+.team-member-entry-box input.form-input,
+.team-member-entry-box .form-input {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  border: 1.5px solid #CBD5E1 !important;
+  font-weight: 600 !important;
+}
+
+.team-member-entry-box input.form-input::placeholder,
+.team-member-entry-box .form-input::placeholder {
+  color: #64748B !important;
+  -webkit-text-fill-color: #64748B !important;
+}
+
+.team-member-entry-box input.form-input:focus,
+.team-member-entry-box .form-input:focus {
+  border-color: #38BDF8 !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
+}
+
+.team-member-entry-box .btn-remove-member {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border: 1px solid #EF4444 !important;
+  color: #FCA5A5 !important;
+  -webkit-text-fill-color: #FCA5A5 !important;
+}
