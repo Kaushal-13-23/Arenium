@@ -7881,3 +7881,69 @@ h1, h2, h3, h4, h5, h6,
     gap: 0.6rem !important;
   }
 }
+
+
+/* ========================================================================
+   AUTHORITATIVE WHITE TEXT ENFORCEMENT ON DARK / GREY BOXES
+   Forces pure white and neon blue contrast on payment fee cards,
+   instruction banners, and pass arena cards.
+   ======================================================================== */
+
+#reg-fee-display,
+#reg-fee-display div,
+#reg-fee-display span,
+#reg-fee-display p,
+#reg-fee-breakdown,
+.payment-fee-summary,
+.payment-fee-summary div,
+.payment-fee-summary span,
+.payment-fee-summary p {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+#reg-fee-display #reg-fee-amount,
+.payment-fee-summary #reg-fee-amount {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+}
+
+#reg-fee-display .payment-badge,
+.payment-fee-summary .payment-badge {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  border-color: #38BDF8 !important;
+}
+
+/* After Payment Instructions Grey Box */
+.payment-gateway-card div[style*="border-left"],
+.payment-gateway-card div[style*="border-left"] *,
+.payment-instructions-box,
+.payment-instructions-box p,
+.payment-instructions-box span {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.payment-gateway-card div[style*="border-left"] strong,
+.payment-instructions-box strong {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+}
+
+/* Delegate Pass Registered Arenas Dark Bar */
+.delegate-pass-field[style*="border-left"],
+.delegate-pass-field[style*="border-left"] *,
+#pass-events,
+#pass-events *,
+#pass-events div,
+#pass-events span,
+#pass-events strong {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.delegate-pass-field[style*="border-left"] .delegate-pass-label {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+}
