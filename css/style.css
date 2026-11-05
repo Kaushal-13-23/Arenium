@@ -5839,8 +5839,12 @@ p, span, strong, em, b, a, button,
   transition: background 0.2s;
 }
 
-.btn-copy-upi:hover {
-  background: #99C7C8 !important;
+.btn-copy-upi:hover,
+.btn-copy-upi:focus,
+.btn-copy-upi:active {
+  background: var(--palette-aqua, #B0D7D8) !important;
+  transform: none !important;
+  filter: none !important;
 }
 
 .payment-fee-summary {
@@ -7814,28 +7818,84 @@ h1, h2, h3, h4, h5, h6,
   align-items: stretch !important;
   gap: 1.2rem !important;
   text-align: left !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.payment-gateway-action-box {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  margin: 0.8rem 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .btn-pay-now {
   background: linear-gradient(135deg, #0284C7, #06B6D4) !important;
+  background-color: #0284C7 !important;
+  background-image: linear-gradient(135deg, #0284C7, #06B6D4) !important;
   color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
   cursor: pointer !important;
   letter-spacing: 0.04em !important;
   text-transform: uppercase !important;
   position: relative !important;
-  overflow: hidden !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.65rem !important;
+  padding: 0.85rem 1.8rem !important;
+  font-size: 1rem !important;
+  font-weight: 800 !important;
+  border-radius: 50px !important;
+  text-decoration: none !important;
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.35) !important;
+  box-sizing: border-box !important;
+  width: auto !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+  text-align: center !important;
+  line-height: 1.35 !important;
+  transition: none !important;
 }
 
-.btn-pay-now:hover {
-  background: linear-gradient(135deg, #0369A1, #0891B2) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 14px 32px rgba(6, 182, 212, 0.45) !important;
+/* Zero color changes on hover, focus, active */
+.btn-pay-now:hover,
+.btn-pay-now:focus,
+.btn-pay-now:active,
+#btn-pay-now:hover,
+#btn-pay-now:focus,
+#btn-pay-now:active {
+  background: linear-gradient(135deg, #0284C7, #06B6D4) !important;
+  background-color: #0284C7 !important;
+  background-image: linear-gradient(135deg, #0284C7, #06B6D4) !important;
   color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.35) !important;
+  transform: none !important;
+  filter: none !important;
 }
 
-.btn-pay-now:active {
-  transform: translateY(0) !important;
+@media (max-width: 640px) {
+  .btn-pay-now,
+  #btn-pay-now {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    padding: 0.85rem 0.8rem !important;
+    font-size: 0.88rem !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+  }
 }
 
 .btn-pay-now.btn-disabled {
@@ -9117,6 +9177,36 @@ h1, h2, h3, h4, h5, h6,
   box-shadow: none !important;
   filter: none !important;
   transform: none !important;
+}
+
+/* Alignment & Stability for Add Member & Submit Registration Buttons */
+#btn-add-team-member:hover,
+#btn-add-team-member:focus,
+#btn-add-team-member:active {
+  background: rgba(56, 189, 248, 0.15) !important;
+  border-color: #38BDF8 !important;
+  color: #FFFFFF !important;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+#btn-submit-registration {
+  box-sizing: border-box !important;
+  white-space: normal !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 640px) {
+  #btn-submit-registration {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    padding: 0.85rem 0.9rem !important;
+    font-size: 0.92rem !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+  }
 }
 
 /* 7. General button stability - no filter, no shadow, no jump */

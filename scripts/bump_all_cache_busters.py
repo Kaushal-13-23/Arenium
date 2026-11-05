@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_BANNER_BTN_FIX_V9"
+VERSION = "2027_PAY_BTN_ALIGNED_V10"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):
