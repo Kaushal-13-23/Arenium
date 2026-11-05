@@ -1623,9 +1623,12 @@ button {
   color: var(--neon-cyan);
 }
 
-.team-phone-link:hover {
-  color: var(--neon-yellow);
-  text-shadow: 0 0 6px var(--neon-yellow);
+.team-phone-link:hover,
+.team-phone-link:focus,
+.team-phone-link:active {
+  color: var(--neon-cyan) !important;
+  text-shadow: none !important;
+  transform: none !important;
 }
 
 /* --------------------------------------------------------------------------
@@ -9371,4 +9374,38 @@ button:active,
 .host-sponsor-card:active {
   transform: none !important;
   filter: none !important;
+}
+
+/* Contact Us Page Alignment, Opaque Card Backing & Zero Hover Color Change */
+.contact-info-card {
+  background: rgba(13, 21, 38, 0.97) !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.4) !important;
+  border-radius: 16px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+@media (max-width: 640px) {
+  .contact-info-card {
+    padding: 1.25rem 1rem !important;
+  }
+  .contact-info-card .btn-primary {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 0.85rem 1rem !important;
+    font-size: 0.9rem !important;
+    justify-content: center !important;
+  }
+}
+
+.terminal-link:hover,
+.terminal-link:focus,
+.terminal-link:active {
+  color: #0284C7 !important;
+  transform: none !important;
+  text-shadow: none !important;
 }
