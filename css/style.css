@@ -7755,3 +7755,61 @@ h1, h2, h3, h4, h5, h6,
   font-style: normal !important;
   font-weight: 700 !important;
 }
+
+
+/* ========================================================================
+   FOOTER INTERACTIVE GOOGLE MAPS EMBED
+   Replaces placeholder box with real interactive Google Maps widget.
+   ======================================================================== */
+.footer-map-card,
+.site-footer .footer-map-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 12px !important;
+  padding: 0.75rem !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  box-sizing: border-box !important;
+}
+
+.footer-map-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  height: 145px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  background: #0F172A !important;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4) !important;
+}
+
+.footer-map-wrapper iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+  display: block !important;
+}
+
+.footer-map-btn,
+.footer-map-card .btn,
+.footer-map-card .btn-primary {
+  background: linear-gradient(135deg, #B0D7D8 0%, #8CC1C2 100%) !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  font-weight: 800 !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  border-radius: 50px !important;
+  box-shadow: 0 4px 14px rgba(176, 215, 216, 0.35) !important;
+  text-align: center !important;
+  display: block !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.footer-map-btn:hover,
+.footer-map-card .btn:hover,
+.footer-map-card .btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(176, 215, 216, 0.55) !important;
+  background: linear-gradient(135deg, #C2E4E5 0%, #9DD0D1 100%) !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
