@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_LINE_DOWN_ALIGNED_V11"
+VERSION = "2027_HOST_SPONSOR_ALIGNED_V12"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):

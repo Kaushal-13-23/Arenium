@@ -221,7 +221,7 @@ body {
 body:has(.page-header-banner) .bg-parallax-backdrop,
 .subpage-body .bg-atmospheric-scrim,
 body:has(.page-header-banner) .bg-atmospheric-scrim {
-  height: clamp(860px, 92vh, 980px) !important;
+  height: clamp(1020px, 115vh, 1200px) !important;
   max-height: none !important;
 }
 
@@ -229,14 +229,14 @@ body:has(.page-header-banner) .bg-atmospheric-scrim {
 body:has(.page-header-banner) .bg-parallax-backdrop {
   -webkit-mask-image: linear-gradient(to bottom,
     rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 85%,
-    rgba(0, 0, 0, 0.4) 94%,
+    rgba(0, 0, 0, 1) 88%,
+    rgba(0, 0, 0, 0.35) 96%,
     rgba(0, 0, 0, 0) 100%
   ) !important;
   mask-image: linear-gradient(to bottom,
     rgba(0, 0, 0, 1) 0%,
-    rgba(0, 0, 0, 1) 85%,
-    rgba(0, 0, 0, 0.4) 94%,
+    rgba(0, 0, 0, 1) 88%,
+    rgba(0, 0, 0, 0.35) 96%,
     rgba(0, 0, 0, 0) 100%
   ) !important;
 }
@@ -8467,18 +8467,18 @@ h1, h2, h3, h4, h5, h6,
 @media (max-width: 768px) {
   .bg-parallax-backdrop,
   .bg-atmospheric-scrim {
-    height: 880px !important;
+    height: 1060px !important;
     max-height: none !important;
     -webkit-mask-image: linear-gradient(to bottom,
       rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 85%,
-      rgba(0, 0, 0, 0.35) 94%,
+      rgba(0, 0, 0, 1) 88%,
+      rgba(0, 0, 0, 0.35) 96%,
       rgba(0, 0, 0, 0) 100%
     ) !important;
     mask-image: linear-gradient(to bottom,
       rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 1) 85%,
-      rgba(0, 0, 0, 0.35) 94%,
+      rgba(0, 0, 0, 1) 88%,
+      rgba(0, 0, 0, 0.35) 96%,
       rgba(0, 0, 0, 0) 100%
     ) !important;
   }
@@ -9317,4 +9317,58 @@ button:active,
   box-shadow: none !important;
   filter: none !important;
   transform: none !important;
+}
+
+/* Host Sponsor Card (Presidency University Logo Container in sponsors.html) */
+.host-sponsor-card {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 480px !important;
+  margin: 0 auto !important;
+  padding: 1.25rem 1.6rem !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.5) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.host-sponsor-link {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  text-decoration: none !important;
+}
+
+.host-sponsor-card .pu-official-logo {
+  max-width: min(340px, 90%) !important;
+  width: auto !important;
+  height: auto !important;
+  max-height: 75px !important;
+  object-fit: contain !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+@media (max-width: 640px) {
+  .host-sponsor-card {
+    padding: 1rem 1rem !important;
+    max-width: 100% !important;
+  }
+  .host-sponsor-card .pu-official-logo {
+    max-width: min(260px, 88%) !important;
+    max-height: 55px !important;
+  }
+}
+
+.host-sponsor-card:hover,
+.host-sponsor-card:focus,
+.host-sponsor-card:active {
+  transform: none !important;
+  filter: none !important;
 }
