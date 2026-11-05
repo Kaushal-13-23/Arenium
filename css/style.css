@@ -8019,3 +8019,333 @@ h1, h2, h3, h4, h5, h6,
   color: #FCA5A5 !important;
   -webkit-text-fill-color: #FCA5A5 !important;
 }
+
+
+/* ========================================================================
+   AUTHORITATIVE GLOBAL FOOTER & DARK SECTIONS HIGH-CONTRAST WHITE TEXT
+   Guarantees pure white and neon cyan visibility across:
+   1. The Global Footer (.site-footer) on ALL pages
+   2. Winners Page (.cyber-card CTA, winner cards, podium leaderboard)
+   3. Certificate Studio & Search (.cyber-card repository, controls panel, certificate sheet)
+   ======================================================================== */
+
+/* ---------------------------------------------------------
+   1. GLOBAL FOOTER (.site-footer) ON ALL PAGES
+   --------------------------------------------------------- */
+.site-footer {
+  background: rgba(14, 20, 32, 0.98) !important;
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+}
+
+.site-footer,
+.site-footer p,
+.site-footer li,
+.site-footer span,
+.site-footer div,
+.site-footer address,
+.site-footer .footer-desc,
+.site-footer .footer-address,
+.site-footer .footer-bottom-bar,
+.site-footer .footer-bottom-bar p,
+.site-footer .footer-bottom-bar span,
+.site-footer .footer-copy,
+.site-footer .footer-sub-links,
+.site-footer .footer-sub-links span {
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+}
+
+.site-footer h1,
+.site-footer h2,
+.site-footer h3,
+.site-footer h4,
+.site-footer h5,
+.site-footer h6,
+.site-footer .footer-heading,
+.site-footer .footer-col-title,
+.site-footer .footer-brand-title,
+.site-footer .brand-name,
+.site-footer strong {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.site-footer .footer-brand-title {
+  font-size: 1.45rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.site-footer .footer-brand-subtitle {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.15em !important;
+  margin-bottom: 0.65rem !important;
+  text-transform: uppercase !important;
+}
+
+.site-footer .footer-heading,
+.site-footer .footer-col-title {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-size: 1.02rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  border-bottom: 2px solid #38BDF8 !important;
+  display: inline-block !important;
+  padding-bottom: 0.35rem !important;
+  margin-bottom: 1.15rem !important;
+}
+
+.site-footer a,
+.site-footer a:visited,
+.site-footer .footer-links a,
+.site-footer .footer-links-list a,
+.site-footer .footer-link,
+.site-footer .footer-links li a,
+.site-footer .footer-links-list li a {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  font-size: 0.92rem !important;
+  transition: all 0.2s ease !important;
+  display: inline-block !important;
+  padding: 0.18rem 0 !important;
+}
+
+.site-footer a:hover,
+.site-footer .footer-links a:hover,
+.site-footer .footer-links-list a:hover,
+.site-footer .footer-link:hover,
+.site-footer .footer-links li a:hover,
+.site-footer .footer-links-list li a:hover {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  transform: translateX(4px) !important;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4) !important;
+}
+
+.site-footer .footer-address strong {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+.site-footer .footer-phone-link,
+.site-footer .footer-phone-lines a,
+.site-footer .footer-contacts-list a {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  font-weight: 700 !important;
+}
+
+.site-footer .footer-badge {
+  color: #10B981 !important;
+  -webkit-text-fill-color: #10B981 !important;
+  border-color: #10B981 !important;
+  background: rgba(16, 185, 129, 0.15) !important;
+}
+
+.site-footer .footer-bottom-bar,
+.site-footer .footer-bottom-bar p,
+.site-footer .footer-copy,
+.site-footer .footer-sub-links {
+  color: #94A3B8 !important;
+  -webkit-text-fill-color: #94A3B8 !important;
+  font-size: 0.84rem !important;
+}
+
+.site-footer .footer-bottom-bar a {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  font-weight: 700 !important;
+}
+
+/* ---------------------------------------------------------
+   2. WINNERS PAGE (.cyber-card CTA, WINNER CARDS)
+   --------------------------------------------------------- */
+.winners-grid,
+.winner-card {
+  color: #FFFFFF !important;
+}
+
+.winner-card {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+}
+
+.winner-card-header {
+  background: rgba(7, 10, 20, 0.95) !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.25) !important;
+}
+
+.winner-event-title {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+.winner-team-name {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+.winner-college {
+  color: #94A3B8 !important;
+  -webkit-text-fill-color: #94A3B8 !important;
+}
+
+.winner-cash-badge {
+  color: #FDE047 !important;
+  -webkit-text-fill-color: #FDE047 !important;
+  background: rgba(253, 224, 71, 0.12) !important;
+  border: 1px solid rgba(253, 224, 71, 0.4) !important;
+}
+
+/* Cyber Card CTA Banner on Winners page & Certificate Search */
+.cyber-card {
+  background: rgba(15, 23, 42, 0.82) !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+  color: #CBD5E1 !important;
+}
+
+.cyber-card h1,
+.cyber-card h2,
+.cyber-card h3,
+.cyber-card h4,
+.cyber-card h5 {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+.cyber-card p {
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+}
+
+.cyber-card strong {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+}
+
+.cyber-card code {
+  color: #FDE047 !important;
+  -webkit-text-fill-color: #FDE047 !important;
+  background: rgba(0, 0, 0, 0.3) !important;
+  padding: 0.15rem 0.4rem !important;
+  border-radius: 4px !important;
+}
+
+/* ---------------------------------------------------------
+   3. CERTIFICATE STUDIO & SEARCH (.cert-controls-panel, .cert-sheet)
+   --------------------------------------------------------- */
+#cert-search-section .cyber-card h2,
+#cert-search-section .cyber-card p {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+#cert-search-section .cyber-card p {
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+}
+
+.cert-controls-panel {
+  background: rgba(15, 23, 42, 0.88) !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+  color: #FFFFFF !important;
+}
+
+.cert-controls-panel h2 {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+.cert-controls-panel label.admin-label,
+.admin-label {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  font-weight: 700 !important;
+}
+
+.admin-input,
+.admin-select {
+  background: rgba(10, 15, 30, 0.9) !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+  font-weight: 600 !important;
+}
+
+.admin-input::placeholder {
+  color: #94A3B8 !important;
+  -webkit-text-fill-color: #94A3B8 !important;
+}
+
+.admin-input:focus,
+.admin-select:focus {
+  border-color: #38BDF8 !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4) !important;
+}
+
+.cert-controls-panel div[style*="border-left"] {
+  color: #E2E8F0 !important;
+  -webkit-text-fill-color: #E2E8F0 !important;
+}
+
+.cert-controls-panel div[style*="border-left"] strong {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+}
+
+/* Certificate Preview Sheet */
+.cert-sheet {
+  background: #080612 !important;
+  color: #FFFFFF !important;
+}
+
+.cert-sheet .cert-univ-name {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+}
+
+.cert-sheet .cert-dept-name {
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+}
+
+.cert-sheet .cert-heading-main {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 900 !important;
+}
+
+.cert-sheet .cert-recipient-name {
+  color: #FDE047 !important;
+  -webkit-text-fill-color: #FDE047 !important;
+}
+
+.cert-sheet .cert-body-text {
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+}
+
+.cert-sheet .cert-sig-line {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+}
+
+.cert-sheet .cert-sig-role {
+  color: #94A3B8 !important;
+  -webkit-text-fill-color: #94A3B8 !important;
+}
