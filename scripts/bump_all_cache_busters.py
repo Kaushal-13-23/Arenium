@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_PER_PERSON_FEE_V4"
+VERSION = "2027_NO_LIGHT_CARD_HOVER_V6"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):

@@ -631,7 +631,6 @@ button {
 }
 
 .cyber-card:hover {
-  background: var(--bg-surface-elevated);
   border-color: rgba(var(--primary-rgb), 0.6);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(var(--primary-rgb), 0.25);
   transform: translateY(-4px);
@@ -4513,8 +4512,7 @@ input:-webkit-autofill:active {
 .poster-info-glass-card:hover {
   border-color: var(--palette-aqua, #B0D7D8) !important;
   box-shadow: 
-    0 28px 75px rgba(93, 107, 107, 0.12),
-    inset 0 1px 2px rgba(255, 255, 255, 1),
+    0 28px 75px rgba(0, 0, 0, 0.35),
     0 0 35px rgba(176, 215, 216, 0.25) !important;
   transform: translateY(-4px) !important;
 }
@@ -4750,11 +4748,9 @@ html {
 .committee-members-box:hover,
 .team-member-card:hover,
 .sponsor-card:hover {
-  background: rgba(255, 255, 255, 0.95) !important;
   border-color: var(--palette-aqua, #B0D7D8) !important;
   box-shadow: 
-    0 22px 55px rgba(93, 107, 107, 0.12),
-    inset 0 1px 2px rgba(255, 255, 255, 1),
+    0 22px 55px rgba(0, 0, 0, 0.35),
     0 0 25px rgba(176, 215, 216, 0.3) !important;
   transform: translateY(-4px) !important;
 }
@@ -5266,13 +5262,11 @@ p,
 }
 
 .hero-main-glass-card:hover {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(24, 34, 52, 0.52) 45%, rgba(12, 18, 32, 0.82) 100%) !important;
-  border-color: rgba(255, 255, 255, 0.55) !important;
+  border-color: rgba(56, 189, 248, 0.55) !important;
   box-shadow: 
     0 36px 95px rgba(0, 0, 0, 0.55),
-    0 15px 40px rgba(33, 150, 243, 0.2),
-    inset 0 2px 2.5px rgba(255, 255, 255, 0.9),
-    0 0 45px rgba(255, 255, 255, 0.25) !important;
+    0 15px 40px rgba(33, 150, 243, 0.25),
+    0 0 35px rgba(56, 189, 248, 0.25) !important;
   transform: translateY(-3px);
 }
 
@@ -5646,8 +5640,7 @@ p, span, strong, em, b, a, button,
 .register-glass-card:hover {
   border-color: var(--palette-aqua, #B0D7D8) !important;
   box-shadow: 
-    0 32px 85px rgba(93, 107, 107, 0.12),
-    inset 0 1.5px 2px rgba(255, 255, 255, 1),
+    0 32px 85px rgba(0, 0, 0, 0.35),
     0 0 35px rgba(176, 215, 216, 0.25) !important;
 }
 
@@ -8348,4 +8341,63 @@ h1, h2, h3, h4, h5, h6,
 .cert-sheet .cert-sig-role {
   color: #94A3B8 !important;
   -webkit-text-fill-color: #94A3B8 !important;
+}
+
+/* ========================================================================
+   GLOBAL CARD HOVER OVERRIDE: REMOVE ALL HOVER-TO-LIGHT / WHITE FLASHES
+   Ensures cards across the entire website maintain their elegant dark
+   cyberpunk glassmorphism on hover without ever flashing white or bright light.
+   ======================================================================== */
+.cyber-card:hover,
+.about-card:hover,
+.events-preview-card:hover,
+.committee-members-box:hover,
+.team-member-card:hover,
+.team-card:hover,
+.sponsor-card:hover,
+.title-sponsor-card:hover,
+.event-card:hover,
+.event-matrix-card:hover,
+.winner-card:hover,
+.gallery-card:hover,
+.poster-info-glass-card:hover,
+.register-glass-card:hover,
+.hero-main-glass-card:hover,
+.payment-glass-card:hover,
+.payment-gateway-card:hover,
+.fee-structure-announcement-card:hover,
+.fee-tier-card:hover,
+.delegate-pass-card:hover,
+.admin-card:hover,
+.admin-stat-card:hover,
+.timeline-content:hover,
+.timeline-card:hover,
+.cert-controls-panel:hover {
+  /* Strictly prevent white or light background replacement on hover */
+  background: rgba(15, 23, 42, 0.88) !important;
+  border-color: rgba(56, 189, 248, 0.6) !important;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.55), 0 0 20px rgba(56, 189, 248, 0.25) !important;
+}
+
+/* Specific refined adjustments for unique cards */
+.hero-main-glass-card:hover {
+  background: linear-gradient(180deg, rgba(20, 28, 44, 0.65) 0%, rgba(12, 18, 32, 0.88) 100%) !important;
+}
+
+.committee-members-box:hover {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-left-color: #38BDF8 !important;
+}
+
+.sponsor-card:hover {
+  background: rgba(13, 11, 26, 0.85) !important;
+  border-color: rgba(56, 189, 248, 0.6) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.25) !important;
+}
+
+.host-institution-brand-card:hover {
+  background: #FFFFFF !important;
+  border-color: var(--palette-aqua, #B0D7D8) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2) !important;
+  transform: translateY(-4px) scale(1.02) !important;
 }
