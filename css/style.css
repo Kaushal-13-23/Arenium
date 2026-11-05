@@ -8659,3 +8659,265 @@ h1, h2, h3, h4, h5, h6,
 .site-footer .footer-links-list li a:hover {
   transform: none !important;
 }
+
+/* ========================================================================
+   DELEGATE PASS SCANNER CENTERING & PERFECT BUTTON ALIGNMENTS
+   Per user specification: "make the scanner in middle and then the buttons aligments"
+   ======================================================================== */
+.pass-qr-container {
+  background: #F8FAFC !important;
+  border: 1.5px solid #CBD5E1 !important;
+  border-radius: 18px !important;
+  padding: clamp(1.4rem, 4vw, 2rem) clamp(1rem, 3.5vw, 1.8rem) !important;
+  margin-bottom: 1.5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: 1.25rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.pass-qr-center-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: 1.15rem !important;
+  width: 100% !important;
+}
+
+/* Scanner Card Target: Horizontally and vertically centered in the middle */
+.pass-qrcode-target {
+  background: #FFFFFF !important;
+  padding: 12px !important;
+  border-radius: 16px !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 164px !important;
+  height: 164px !important;
+  min-width: 164px !important;
+  min-height: 164px !important;
+  max-width: 164px !important;
+  max-height: 164px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Strictly hide duplicate canvas element to ensure zero horizontal shift */
+.pass-qrcode-target canvas {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  visibility: hidden !important;
+}
+
+/* QR Code image perfectly centered in the dead-center of the white card */
+.pass-qrcode-target img {
+  display: block !important;
+  margin: 0 auto !important;
+  width: 140px !important;
+  height: 140px !important;
+  max-width: 140px !important;
+  max-height: 140px !important;
+  object-fit: contain !important;
+  position: relative !important;
+}
+
+.pass-qr-meta-wrap {
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  width: 100% !important;
+}
+
+.pass-qr-badge-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.pass-qr-badge-label {
+  font-size: 0.72rem !important;
+  color: #0284C7 !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+}
+
+.pass-qr-tag {
+  background: #E0F2FE !important;
+  color: #0369A1 !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  padding: 3px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid #BAE6FD !important;
+}
+
+.pass-qr-team-title {
+  font-family: var(--font-display, inherit) !important;
+  font-size: clamp(1.2rem, 3.8vw, 1.45rem) !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  margin-bottom: 0.25rem !important;
+  text-align: center !important;
+}
+
+.pass-qr-info-list {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 0.3rem !important;
+  font-size: 0.88rem !important;
+  color: #334155 !important;
+  text-align: center !important;
+}
+
+.pass-qr-verification-notice {
+  font-size: 0.76rem !important;
+  color: #64748B !important;
+  line-height: 1.55 !important;
+  text-align: center !important;
+  border-top: 1.5px dashed #CBD5E1 !important;
+  padding-top: 0.9rem !important;
+  width: 100% !important;
+  max-width: 540px !important;
+  margin: 0 auto !important;
+}
+
+/* Delegate Pass Footer & Button Alignments */
+.pass-footer-bar {
+  border-top: 1px dashed rgba(255, 255, 255, 0.2) !important;
+  padding-top: 1.25rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 1.1rem !important;
+  width: 100% !important;
+}
+
+.pass-footer-note {
+  font-size: 0.78rem !important;
+  color: #94A3B8 !important;
+  text-align: center !important;
+  line-height: 1.5 !important;
+  width: 100% !important;
+}
+
+.pass-actions-group {
+  display: flex !important;
+  gap: 0.85rem !important;
+  width: 100% !important;
+  justify-content: center !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+}
+
+.pass-actions-group .btn-pass-action {
+  flex: 1 1 200px !important;
+  min-height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 0.75rem 1.4rem !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+  border-radius: 12px !important;
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+}
+
+/* Mobile Pass Button Alignments: Stacks cleanly so neither button is cut off */
+@media (max-width: 640px) {
+  .pass-actions-group {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+  }
+  .pass-actions-group .btn-pass-action {
+    width: 100% !important;
+    flex: none !important;
+    min-width: 100% !important;
+  }
+}
+
+/* ========================================================================
+   REMOVE HOVER COLOR CHANGES ACROSS THE WEBSITE & BUTTONS
+   Per user specification: "remove hover to colour change from it"
+   Buttons and interactive elements maintain their solid, resting colors
+   without flashing, darkening, shifting gradients, or changing color on hover.
+   ======================================================================== */
+.btn:hover,
+.btn:focus,
+.btn:active,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background: linear-gradient(135deg, #B0D7D8 0%, #8CC1C2 100%) !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus,
+.btn-ghost:active,
+#btn-register-another:hover,
+#btn-register-another:focus,
+#btn-register-another:active {
+  background: rgba(15, 23, 42, 0.85) !important;
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  border-color: rgba(56, 189, 248, 0.5) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.btn-register:hover,
+.btn-register:focus,
+.btn-register:active {
+  background: linear-gradient(135deg, #B0D7D8 0%, #8CC1C2 100%) !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.btn-pay-now:hover,
+.btn-pay-now:focus,
+.btn-pay-now:active {
+  background: linear-gradient(135deg, #0284C7, #06B6D4) !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+.delegate-pass-card:hover,
+.pass-qr-container:hover,
+.pass-qrcode-target:hover {
+  background: inherit !important;
+  color: inherit !important;
+  border-color: inherit !important;
+}

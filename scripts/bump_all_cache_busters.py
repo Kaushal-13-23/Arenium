@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_STABLE_NO_HOVER_CLEAN_V7"
+VERSION = "2027_CENTER_SCANNER_ALIGNED_V8"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):
