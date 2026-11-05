@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_BLACK_CARDS_NO_FADE_V14"
+VERSION = "2027_REMOVE_HOST_SPONSOR_V15"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):
