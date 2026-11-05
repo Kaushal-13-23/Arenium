@@ -149,7 +149,7 @@ html[data-theme="dark"] {
 body {
   font-family: 'Roboto Slab', serif !important;
   line-height: 1.6;
-  background-color: var(--palette-normal-bg, #F1F7F7) !important;
+  background-color: #060B14 !important;
   color: var(--palette-slate, #5D6B6B) !important;
   overflow-x: hidden !important;
   width: 100% !important;
@@ -162,11 +162,12 @@ body {
 
 /* TOP HERO PARALLAX BACKGROUND (HOME / DEFAULT) */
 .bg-parallax-backdrop {
-  position: absolute !important;
+  position: fixed !important;
   top: 0 !important;
   left: 0 !important;
   width: 100% !important;
-  height: clamp(820px, 90vh, 960px) !important;
+  height: 100% !important;
+  min-height: 100vh !important;
   background-image: url('../images/campus-bg.jpg') !important;
   background-size: cover !important;
   background-position: center top !important;
@@ -176,8 +177,7 @@ body {
   filter: none !important;
   -webkit-filter: none !important;
   opacity: 1 !important;
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
+  transform: none !important;
   -webkit-mask-image: none !important;
   mask-image: none !important;
 }
@@ -195,8 +195,14 @@ body {
 /* SUBPAGE CALIBRATION: PARALLAX BACKDROP NO FADE */
 .subpage-body .bg-parallax-backdrop,
 body:has(.page-header-banner) .bg-parallax-backdrop {
-  height: clamp(1020px, 115vh, 1200px) !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
   max-height: none !important;
+  transform: none !important;
   -webkit-mask-image: none !important;
   mask-image: none !important;
 }
@@ -4654,7 +4660,7 @@ input:-webkit-autofill:active {
 
 /* Base Body & Layout - Normal Colour Background */
 html {
-  background-color: var(--palette-normal-bg, #F1F7F7) !important;
+  background-color: #060B14 !important;
   color: var(--palette-slate, #5D6B6B) !important;
 }
 
@@ -8424,8 +8430,14 @@ h1, h2, h3, h4, h5, h6,
    ======================================================================== */
 @media (max-width: 768px) {
   .bg-parallax-backdrop {
-    height: 1060px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100vh !important;
     max-height: none !important;
+    transform: none !important;
     -webkit-mask-image: none !important;
     mask-image: none !important;
   }
@@ -9441,5 +9453,57 @@ button:active,
 
 .host-sponsor-card .pu-logo-dark {
   display: none !important;
+}
+
+/* ========================================================================
+   SPONSOR CARDS: SOLID OPAQUE BLACK (#0A0F1D), ZERO BLEED, ZERO HOVER JUMP
+   Per user specification: "remove palla fade from here all"
+   ======================================================================== */
+.title-sponsor-card {
+  max-width: 500px !important;
+  margin: 0 auto !important;
+  padding: 2.5rem !important;
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border: 1.5px solid rgba(255, 230, 0, 0.45) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 230, 0, 0.15) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.title-sponsor-card:hover,
+.title-sponsor-card:focus,
+.title-sponsor-card:active {
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border-color: rgba(255, 230, 0, 0.45) !important;
+  transform: none !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 230, 0, 0.15) !important;
+  filter: none !important;
+}
+
+.sponsor-card {
+  padding: 1.8rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border: 1.5px solid #1E293B !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+.sponsor-card:hover,
+.sponsor-card:focus,
+.sponsor-card:active {
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border-color: #1E293B !important;
+  transform: none !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4) !important;
+  filter: none !important;
 }
 
