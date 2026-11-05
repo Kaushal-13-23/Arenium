@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=2027_WHITE_CONTRAST_V3">
+  <link rel="stylesheet" href="css/style.css?v=2027_PER_PERSON_FEE_V4">
 </head>
 <body class="subpage-body">
   <div class="bg-parallax-backdrop" aria-hidden="true"></div>
@@ -228,12 +228,12 @@
                   </span>
                 </div>
                 <div style="font-size: 1.8rem; font-weight: 900; color: #000000; margin: 0.4rem 0;">
-                  ₹200 <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">/ Registration (Up to 2 Events)</span>
+                  ₹200 <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">/ Person (Up to 2 Events)</span>
                 </div>
                 <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #000000; font-weight: 500; line-height: 1.6;">
-                  <li><strong>₹200 Base Fee:</strong> Registration for up to <strong>2 events</strong>.</li>
-                  <li><strong>2nd Event Optional &amp; FREE:</strong> Does not require any additional payment.</li>
-                  <li><strong>Additional ₹200:</strong> If participating in a <strong>3rd event</strong> (Total ₹400 for 3 events).</li>
+                  <li><strong>₹200 Per Person:</strong> Solo: ₹200 · Squad: ₹200 per member added (+₹200/person).</li>
+                  <li><strong>2nd Event Optional &amp; FREE:</strong> Included for all registered members at no extra charge.</li>
+                  <li><strong>Additional ₹200:</strong> If participating in an optional <strong>3rd arena</strong>.</li>
                 </ul>
               </div>
 
@@ -248,12 +248,12 @@
                   </span>
                 </div>
                 <div style="font-size: 1.8rem; font-weight: 900; color: #000000; margin: 0.4rem 0;">
-                  ₹300 <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">/ Registration (Up to 2 Events)</span>
+                  ₹300 <span style="font-size: 0.85rem; font-weight: 700; color: #475569;">/ Person (Up to 2 Events)</span>
                 </div>
                 <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #000000; font-weight: 500; line-height: 1.6;">
-                  <li><strong>₹300 Base Fee:</strong> Registration for up to <strong>2 events</strong>.</li>
-                  <li><strong>2nd Event Optional &amp; FREE:</strong> Does not require any additional payment.</li>
-                  <li><strong>Additional ₹300:</strong> If participating in a <strong>3rd event</strong> (Total ₹600 for 3 events).</li>
+                  <li><strong>₹300 Per Person:</strong> Solo: ₹300 · Squad: ₹300 per member added (+₹300/person).</li>
+                  <li><strong>2nd Event Optional &amp; FREE:</strong> Included for all registered members at no extra charge.</li>
+                  <li><strong>Additional ₹300:</strong> If participating in an optional <strong>3rd arena</strong>.</li>
                 </ul>
               </div>
 
@@ -465,7 +465,7 @@
                       <span>➕</span> Add Another Team Member
                     </button>
                     <span style="font-size: 0.74rem; color: #E2E8F0 !important;">
-                      💡 Maximum team capacity: Up to 8 participants (1 Team Leader + 7 squad members)
+                      💡 Pricing: ₹200/member (Internal) · ₹300/member (External) · Up to 8 participants total
                     </span>
                   </div>
 
@@ -787,7 +787,7 @@
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_WHITE_CONTRAST_V3"></script>
+  <script src="js/main.js?v=2027_PER_PERSON_FEE_V4"></script>
   <script>
     // Live Registration Page Controller
     document.addEventListener("DOMContentLoaded", () => {
@@ -952,37 +952,63 @@
 
       function updatePricing() {
         const isInternal = !catSelect || catSelect.value === "internal";
-        const baseCost = isInternal ? internalBase : externalBase;
-        const addCost = isInternal ? internalAdd : externalAdd;
+        const perPersonBase = isInternal ? internalBase : externalBase; // ₹200 Internal, ₹300 External
+        const addCost = isInternal ? internalAdd : externalAdd; // ₹200 Internal, ₹300 External
         const hasEv3 = ev3Select && ev3Select.value !== "";
         const hasEv2 = ev2Select && ev2Select.value !== "";
 
-        let totalFee = baseCost;
-        let breakdownText = "";
+        const typeSelect = document.getElementById("reg-type");
+        const isTeam = typeSelect && typeSelect.value === "Team";
 
+        let participantCount = 1;
+        if (isTeam && teamMembersContainer) {
+          const boxes = teamMembersContainer.querySelectorAll(".team-member-entry-box");
+          // 1 Team Leader + added member boxes (Member 2, Member 3, ...)
+          participantCount = 1 + boxes.length;
+        }
+
+        const baseTotal = participantCount * perPersonBase;
+        let totalFee = baseTotal;
+        if (hasEv3) {
+          totalFee += addCost;
+        }
+
+        let breakdownText = "";
         if (isInternal) {
           if (ev3TagEl) ev3TagEl.textContent = `+₹${internalAdd} ADDITIONAL FEE`;
-          if (hasEv3) {
-            totalFee = internalBase + internalAdd;
-            breakdownText = `Internal Participant: Base Fee (₹${internalBase} for 2 events) + 3rd Event (+₹${internalAdd}) = ₹${totalFee} Total`;
-          } else if (hasEv2) {
-            totalFee = internalBase;
-            breakdownText = `Internal Participant: Base Fee (₹${internalBase}) · 2nd Event FREE (₹0)`;
+          if (isTeam) {
+            breakdownText = `Internal Squad (${participantCount} Members): ${participantCount} × ₹${internalBase} = ₹${baseTotal}`;
+            if (hasEv3) {
+              breakdownText += ` + 3rd Event (+₹${internalAdd}) = ₹${totalFee} Total`;
+            } else {
+              breakdownText += ` (Includes up to 2 events per member)`;
+            }
           } else {
-            totalFee = internalBase;
-            breakdownText = `Internal Participant: Base Fee (₹${internalBase} for up to 2 events)`;
+            if (hasEv3) {
+              breakdownText = `Internal Participant (Solo): Base Fee (₹${internalBase} for 2 events) + 3rd Event (+₹${internalAdd}) = ₹${totalFee} Total`;
+            } else if (hasEv2) {
+              breakdownText = `Internal Participant (Solo): Base Fee (₹${internalBase}) · 2nd Event FREE (₹0)`;
+            } else {
+              breakdownText = `Internal Participant (Solo): Base Fee (₹${internalBase} for up to 2 events)`;
+            }
           }
         } else {
           if (ev3TagEl) ev3TagEl.textContent = `+₹${externalAdd} ADDITIONAL FEE`;
-          if (hasEv3) {
-            totalFee = externalBase + externalAdd;
-            breakdownText = `External Participant: Base Fee (₹${externalBase} for 2 events) + 3rd Event (+₹${externalAdd}) = ₹${totalFee} Total`;
-          } else if (hasEv2) {
-            totalFee = externalBase;
-            breakdownText = `External Participant: Base Fee (₹${externalBase}) · 2nd Event FREE (₹0)`;
+          if (isTeam) {
+            breakdownText = `External Squad (${participantCount} Members): ${participantCount} × ₹${externalBase} = ₹${baseTotal}`;
+            if (hasEv3) {
+              breakdownText += ` + 3rd Event (+₹${externalAdd}) = ₹${totalFee} Total`;
+            } else {
+              breakdownText += ` (Includes up to 2 events per member)`;
+            }
           } else {
-            totalFee = externalBase;
-            breakdownText = `External Participant: Base Fee (₹${externalBase} for up to 2 events)`;
+            if (hasEv3) {
+              breakdownText = `External Participant (Solo): Base Fee (₹${externalBase} for 2 events) + 3rd Event (+₹${externalAdd}) = ₹${totalFee} Total`;
+            } else if (hasEv2) {
+              breakdownText = `External Participant (Solo): Base Fee (₹${externalBase}) · 2nd Event FREE (₹0)`;
+            } else {
+              breakdownText = `External Participant (Solo): Base Fee (₹${externalBase} for up to 2 events)`;
+            }
           }
         }
 
@@ -990,11 +1016,7 @@
         if (feeBreakdownEl) feeBreakdownEl.textContent = breakdownText;
         syncPaymentGatewayButton(totalFee);
 
-        // Team mode detection for selected events
-        const typeSelect = document.getElementById("reg-type");
-        const teamNameGroup = document.getElementById("group-team-name");
-        const teamMembersGroup = document.getElementById("group-team-members");
-
+        // Auto-switch to Team if selected arena requires a team
         const selectedIds = [
           ev1Select ? ev1Select.value : "",
           ev2Select ? ev2Select.value : "",
@@ -1003,15 +1025,9 @@
         const teamEvents = ["technova-27", "apl-auction", "biochroma", "tech-odyssey"];
         const hasTeamEvent = selectedIds.some(id => teamEvents.includes(id));
 
-        if (hasTeamEvent) {
-          if (typeSelect) typeSelect.value = "Team";
-          if (teamNameGroup) teamNameGroup.style.display = "flex";
-          if (teamMembersGroup) teamMembersGroup.style.display = "flex";
-        } else {
-          if (typeSelect && typeSelect.value === "Solo") {
-            if (teamNameGroup) teamNameGroup.style.display = "none";
-            if (teamMembersGroup) teamMembersGroup.style.display = "none";
-          }
+        if (hasTeamEvent && typeSelect && typeSelect.value !== "Team") {
+          typeSelect.value = "Team";
+          if (typeof syncParticipationType === "function") syncParticipationType();
         }
       }
 
@@ -1110,6 +1126,7 @@
             removeBtn.addEventListener("click", () => {
               div.remove();
               reindexMembers();
+              if (typeof updatePricing === "function") updatePricing();
             });
           }
         }
@@ -1135,22 +1152,26 @@
           btnAddMember.disabled = boxes.length >= 7;
           btnAddMember.style.opacity = boxes.length >= 7 ? "0.5" : "1";
         }
+        if (typeof updatePricing === "function") {
+          updatePricing();
+        }
       }
 
-      function initTeamMembers(count = 3) {
+      function initTeamMembers(count = 2) {
         if (!teamMembersContainer) return;
         teamMembersContainer.innerHTML = "";
-        // Member 2 is required, cannot be removed
+        // Member 2 is required for Team registration
         teamMembersContainer.appendChild(createMemberEntry(2, false));
-        // Add additional member slots up to count (default Member 3)
+        // Add additional member slots up to count
         for (let i = 3; i <= count; i++) {
           teamMembersContainer.appendChild(createMemberEntry(i, true));
         }
         reindexMembers();
+        if (typeof updatePricing === "function") updatePricing();
       }
 
-      // Initialize with Member 2 and Member 3 initially
-      initTeamMembers(3);
+      // Initialize with Member 2 (1 Team Leader + 1 Member = 2 Participants)
+      initTeamMembers(2);
 
       if (btnAddMember) {
         btnAddMember.addEventListener("click", () => {
@@ -1163,6 +1184,7 @@
           const nextIndex = currentCount + 2;
           teamMembersContainer.appendChild(createMemberEntry(nextIndex, true));
           reindexMembers();
+          if (typeof updatePricing === "function") updatePricing();
         });
       }
 
@@ -1546,6 +1568,10 @@
                   usn: mUsn,
                   contact: mContact
                 });
+              } else if (i > 0) {
+                alert(`Please enter Full Name & USN for Member ${mNum}, or click "✕ Remove" to remove this member slot.`);
+                if (nameInp) { nameInp.focus(); nameInp.scrollIntoView({ behavior: "smooth" }); }
+                return;
               }
             }
 
@@ -1581,11 +1607,14 @@
             return;
           }
 
-          // Compute fee
+          // Compute fee per person
           const isInternal = category === "internal";
-          const baseCost = isInternal ? internalBase : externalBase;
+          const perPersonFee = isInternal ? internalBase : externalBase;
           const addCost = isInternal ? internalAdd : externalAdd;
-          const totalFee = ev3Id ? (baseCost + addCost) : baseCost;
+          const isTeam = regType === "Team";
+          const participantCount = isTeam ? (1 + teamMembersList.length) : 1;
+          const baseTeamFee = participantCount * perPersonFee;
+          const totalFee = ev3Id ? (baseTeamFee + addCost) : baseTeamFee;
 
           // Helper to get Event Name
           function getEvName(id) {
