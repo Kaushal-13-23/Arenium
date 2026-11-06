@@ -9874,29 +9874,206 @@ section {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
 }
 
-/* Guarantee Crisp Pure White Text Across All Fee Cards & Announcements */
-.fee-structure-announcement-card,
-.fee-structure-announcement-card *,
-.fee-structure-announcement-card div,
-.fee-structure-announcement-card p,
-.fee-structure-announcement-card span,
-.fee-structure-announcement-card li,
-.fee-structure-announcement-card ul,
-.fee-tier-grid,
-.fee-tier-grid *,
-.fee-tier-card,
-.fee-tier-card *,
-.fee-tier-card div,
-.fee-tier-card span,
-.fee-tier-card p,
-.fee-tier-card li,
-.fee-tier-card ul,
-.fee-tier-internal,
-.fee-tier-internal *,
-.fee-tier-external,
-.fee-tier-external * {
+/* Guarantee Crisp Pure White Text Across Dark Fee Cards (e.g. on events.html) */
+body:not(.register-page) .fee-structure-announcement-card,
+body:not(.register-page) .fee-structure-announcement-card *,
+body:not(.register-page) .fee-structure-announcement-card div,
+body:not(.register-page) .fee-structure-announcement-card p,
+body:not(.register-page) .fee-structure-announcement-card span,
+body:not(.register-page) .fee-structure-announcement-card li,
+body:not(.register-page) .fee-structure-announcement-card ul,
+body:not(.register-page) .fee-tier-grid,
+body:not(.register-page) .fee-tier-grid *,
+body:not(.register-page) .fee-tier-card,
+body:not(.register-page) .fee-tier-card *,
+body:not(.register-page) .fee-tier-card div,
+body:not(.register-page) .fee-tier-card span,
+body:not(.register-page) .fee-tier-card p,
+body:not(.register-page) .fee-tier-card li,
+body:not(.register-page) .fee-tier-card ul,
+body:not(.register-page) .fee-tier-internal,
+body:not(.register-page) .fee-tier-internal *,
+body:not(.register-page) .fee-tier-external,
+body:not(.register-page) .fee-tier-external * {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* ========================================================================
+   REGISTER.HTML WHITE CARD - HIGH-CONTRAST VISIBLE TYPOGRAPHY
+   Strictly ensures all text inside .fee-structure-announcement-card and
+   .fee-tier-card on register.html is dark, crisp, and 100% readable.
+   ======================================================================== */
+.register-page .fee-structure-announcement-card,
+.register-glass-card .fee-structure-announcement-card {
+  background: #F8FAFC !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 16px !important;
+  color: #0F172A !important;
+}
+
+.register-page .fee-structure-announcement-card h2,
+.register-glass-card .fee-structure-announcement-card h2 {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-weight: 900 !important;
+}
+
+.register-page .fee-structure-announcement-card .section-tag,
+.register-glass-card .fee-structure-announcement-card .section-tag {
+  background: #E0F2FE !important;
+  border: 1.5px solid #7DD3FC !important;
+  color: #0369A1 !important;
+  -webkit-text-fill-color: #0369A1 !important;
+  font-weight: 800 !important;
+}
+
+/* Active registration policy pill badge */
+.register-page .fee-structure-announcement-card span[style*="background: #E0F2FE"],
+.register-glass-card .fee-structure-announcement-card span[style*="background: #E0F2FE"] {
+  background: #E0F2FE !important;
+  border: 1.5px solid #7DD3FC !important;
+  color: #0284C7 !important;
+  -webkit-text-fill-color: #0284C7 !important;
+  font-weight: 800 !important;
+}
+
+/* Two Tier Cards on register.html */
+.register-page .fee-tier-card,
+.register-glass-card .fee-tier-card {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+.register-page .fee-tier-internal,
+.register-glass-card .fee-tier-internal {
+  border: 1.5px solid #BAE6FD !important;
+  border-top: 4px solid #0284C7 !important;
+}
+
+.register-page .fee-tier-external,
+.register-glass-card .fee-tier-external {
+  border: 1.5px solid #FBCFE8 !important;
+  border-top: 4px solid #DB2777 !important;
+}
+
+/* Internal / External titles */
+.register-page .fee-tier-internal span[style*="color: #0369A1"],
+.register-glass-card .fee-tier-internal span[style*="color: #0369A1"] {
+  color: #0369A1 !important;
+  -webkit-text-fill-color: #0369A1 !important;
+  font-weight: 800 !important;
+}
+
+.register-page .fee-tier-external span[style*="color: #BE185D"],
+.register-glass-card .fee-tier-external span[style*="color: #BE185D"] {
+  color: #BE185D !important;
+  -webkit-text-fill-color: #BE185D !important;
+  font-weight: 800 !important;
+}
+
+/* College badges */
+.register-page .fee-tier-internal span[style*="border: 1px solid #7DD3FC"],
+.register-glass-card .fee-tier-internal span[style*="border: 1px solid #7DD3FC"] {
+  background: #E0F2FE !important;
+  color: #0369A1 !important;
+  -webkit-text-fill-color: #0369A1 !important;
+  border: 1px solid #7DD3FC !important;
+}
+
+.register-page .fee-tier-external span[style*="border: 1px solid #F472B6"],
+.register-glass-card .fee-tier-external span[style*="border: 1px solid #F472B6"] {
+  background: #FCE7F3 !important;
+  color: #BE185D !important;
+  -webkit-text-fill-color: #BE185D !important;
+  border: 1px solid #F472B6 !important;
+}
+
+/* Prices */
+.register-page .fee-tier-internal div[style*="font-size: 1.9rem"],
+.register-glass-card .fee-tier-internal div[style*="font-size: 1.9rem"] {
+  color: #0284C7 !important;
+  -webkit-text-fill-color: #0284C7 !important;
+  font-weight: 900 !important;
+}
+
+.register-page .fee-tier-external div[style*="font-size: 1.9rem"],
+.register-glass-card .fee-tier-external div[style*="font-size: 1.9rem"] {
+  color: #DB2777 !important;
+  -webkit-text-fill-color: #DB2777 !important;
+  font-weight: 900 !important;
+}
+
+.register-page .fee-tier-card div[style*="font-size: 1.9rem"] span,
+.register-glass-card .fee-tier-card div[style*="font-size: 1.9rem"] span {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  font-weight: 700 !important;
+}
+
+/* Bullet points inside white cards (100% visible high-contrast dark slate text) */
+.register-page .fee-tier-card ul,
+.register-page .fee-tier-card li,
+.register-glass-card .fee-tier-card ul,
+.register-glass-card .fee-tier-card li {
+  color: #1E293B !important;
+  -webkit-text-fill-color: #1E293B !important;
+  font-weight: 600 !important;
+  font-size: 0.88rem !important;
+  line-height: 1.7 !important;
+}
+
+.register-page .fee-tier-card li strong,
+.register-glass-card .fee-tier-card li strong {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-weight: 800 !important;
+}
+
+.register-page .fee-tier-internal li strong[style*="color: #0284C7"],
+.register-glass-card .fee-tier-internal li strong[style*="color: #0284C7"] {
+  color: #0284C7 !important;
+  -webkit-text-fill-color: #0284C7 !important;
+}
+
+.register-page .fee-tier-external li strong[style*="color: #DB2777"],
+.register-glass-card .fee-tier-external li strong[style*="color: #DB2777"] {
+  color: #DB2777 !important;
+  -webkit-text-fill-color: #DB2777 !important;
+}
+
+/* Yellow Instructions Card (100% visible dark brown & amber text) */
+.register-page .register-instructions-yellow,
+.register-page .register-instructions-yellow *,
+.register-glass-card .register-instructions-yellow,
+.register-glass-card .register-instructions-yellow * {
+  color: #78350F !important;
+  -webkit-text-fill-color: #78350F !important;
+  font-weight: 600 !important;
+}
+
+.register-page .register-instructions-yellow strong,
+.register-glass-card .register-instructions-yellow strong {
+  color: #451A03 !important;
+  -webkit-text-fill-color: #451A03 !important;
+  font-weight: 900 !important;
+}
+
+.register-page .register-instructions-yellow a,
+.register-glass-card .register-instructions-yellow a {
+  color: #0284C7 !important;
+  -webkit-text-fill-color: #0284C7 !important;
+  font-weight: 800 !important;
+  text-decoration: underline !important;
+}
+
+.register-page .register-instructions-yellow em,
+.register-glass-card .register-instructions-yellow em {
+  color: #B45309 !important;
+  -webkit-text-fill-color: #B45309 !important;
+  font-style: italic !important;
+  font-weight: 700 !important;
 }
 
 .fee-structure-announcement-card em,

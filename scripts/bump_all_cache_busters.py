@@ -1,14 +1,18 @@
-import re, os, sys
-sys.stdout.reconfigure(encoding='utf-8')
+import glob, re
 
-VERSION = "2027_CERT_MODAL_FIX_V31"
+VERSION = "2027_BRACKETS_VISIBLE_TEXT_V32"
 
-for f in os.listdir('.'):
-    if f.endswith('.html'):
-        with open(f, 'r', encoding='utf-8') as fp:
-            c = fp.read()
-        c = re.sub(r'src="js/main\.js\?v=[^"]*"', f'src="js/main.js?v={VERSION}"', c)
-        c = re.sub(r'href="css/style\.css\?v=[^"]*"', f'href="css/style.css?v={VERSION}"', c)
-        with open(f, 'w', encoding='utf-8') as fp:
-            fp.write(c)
-        print(f"Bumped {f} to {VERSION}")
+for f in sorted(glob.glob("*.html")):
+    with open(f, "r", encoding="utf-8") as fp:
+        c = fp.read()
+    
+    # Replace ?v=... on css and js links
+    c = re.sub(r'style\.css\?v=[A-Za-z0-9_\-\.]+', f'style.css?v={VERSION}', c)
+    c = re.sub(r'main\.js\?v=[A-Za-z0-9_\-\.]+', f'main.js?v={VERSION}', c)
+    c = re.sub(r'events-data\.js\?v=[A-Za-z0-9_\-\.]+', f'events-data.js?v={VERSION}', c)
+    c = re.sub(r'admin-auth\.js\?v=[A-Za-z0-9_\-\.]+', f'admin-auth.js?v={VERSION}', c)
+    
+    with open(f, "w", encoding="utf-8") as fp:
+        fp.write(c)
+
+print(f"Bumped cache busters across all HTML files to {VERSION}")

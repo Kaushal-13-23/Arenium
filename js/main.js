@@ -2227,7 +2227,7 @@ function initCertificateSearch(db) {
           <div>
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.4rem;">
               <span style="font-family: var(--font-mono); color: #38BDF8; font-weight: 800; font-size: 0.9rem;">
-                [${m.id}]
+                ${m.id}
               </span>
               <span style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38BDF8; color: #38BDF8; font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 4px; font-family: var(--font-mono); font-weight: 700;">
                 OFFICIALLY VERIFIED ✓
@@ -2309,7 +2309,7 @@ window.openCertPreviewModal = function(certId) {
 
   if (!modal) return;
 
-  if (modalId) modalId.textContent = `[${c.id}]`;
+  if (modalId) modalId.textContent = c.id;
   if (modalTitle) modalTitle.textContent = `${(c.teamName || c.recipient).toUpperCase()} · ${c.event}`;
 
   const certDataUrl = c.fileUrl ? c.fileUrl : generateCertificateCanvasDataUrl(c.recipient, c.event, c.award, c.college, c.id, c.teamName);
@@ -2328,6 +2328,7 @@ window.openCertPreviewModal = function(certId) {
     };
   }
 
+  modal.style.display = "flex";
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
 };
@@ -2339,6 +2340,7 @@ window.closeCertModal = function(e) {
   const modal = document.getElementById("cert-preview-modal");
   if (modal) {
     modal.classList.remove("active");
+    modal.style.display = "none";
     document.body.style.overflow = "";
   }
 };
@@ -3314,7 +3316,7 @@ function renderAdminSponsors(db) {
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
           <strong style="color: var(--text-primary);">${s.name}</strong>
-          <span style="color:var(--neon-pink); font-size:0.78rem; margin-left:0.6rem;">[${s.tier}]</span>
+          <span style="color:var(--neon-pink); font-size:0.78rem; margin-left:0.6rem;">${s.tier}</span>
         </div>
         <div>
           <button class="btn btn-ghost" style="padding:0.2rem 0.6rem; font-size:0.75rem;" onclick="editAdminSponsor(${idx})">✏️ Edit</button>
