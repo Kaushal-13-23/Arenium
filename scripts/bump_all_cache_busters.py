@@ -1,6 +1,6 @@
 import glob, re
 
-VERSION = "2027_SIDEWAYS_CARDS_V35"
+VERSION = "2027_PROOF_MODAL_WHITE_V36"
 
 for f in sorted(glob.glob("*.html")):
     with open(f, "r", encoding="utf-8") as fp:

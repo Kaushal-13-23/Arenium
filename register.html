@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=2027_SIDEWAYS_CARDS_V35">
+  <link rel="stylesheet" href="css/style.css?v=2027_PROOF_MODAL_WHITE_V36">
 </head>
 <body class="subpage-body register-page">
     
@@ -713,20 +713,29 @@
       </div>
     </section>
       <!-- Public Payment Proof Lightbox Modal -->
-    <div id="pass-proof-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99999; align-items: center; justify-content: center; padding: 1.5rem;">
-      <div style="background: #0D1117; border: 1.5px solid #38BDF8; border-radius: 16px; width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; padding: 1.5rem; position: relative;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.12); padding-bottom: 0.6rem; margin-bottom: 1rem;">
-          <h3 style="margin: 0; font-family: var(--font-display); font-size: 1.15rem; color: #FFFFFF;">
-            📸 Attached Payment Screenshot
+    <div id="pass-proof-modal" class="pass-proof-modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; padding: 1.5rem;">
+      <div class="pass-proof-modal-card" style="background: #0B1120; border: 1.5px solid #38BDF8; border-radius: 16px; width: 100%; max-width: 550px; max-height: 90vh; overflow-y: auto; padding: 1.5rem; position: relative; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(56, 189, 248, 0.25);">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(56, 189, 248, 0.3); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+          <h3 style="margin: 0; font-family: var(--font-display); font-size: 1.15rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 800; letter-spacing: 0.04em;">
+            📸 ATTACHED PAYMENT SCREENSHOT
           </h3>
-          <button type="button" id="btn-close-pass-modal" class="btn btn-ghost" style="padding: 0.25rem 0.6rem; font-size: 0.85rem;">✕</button>
+          <button type="button" id="btn-close-pass-modal" class="btn btn-ghost" style="padding: 0.25rem 0.6rem; font-size: 1.1rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: rgba(255, 255, 255, 0.08);" title="Close">✕</button>
         </div>
-        <div style="text-align: center; background: #000; border-radius: 8px; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.1);">
-          <img id="pass-proof-modal-img" src="" alt="Uploaded Payment Screenshot" style="max-width: 100%; max-height: 65vh; object-fit: contain; border-radius: 4px;">
+
+        <div id="pass-proof-img-wrap" style="text-align: center; background: #07060F; border-radius: 10px; padding: 0.75rem; border: 1px solid rgba(56, 189, 248, 0.25); min-height: 180px; display: flex; align-items: center; justify-content: center;">
+          <img id="pass-proof-modal-img" src="" alt="Uploaded Payment Screenshot" style="max-width: 100%; max-height: 65vh; object-fit: contain; border-radius: 6px; display: none;" onload="this.style.display='block'; var h=document.getElementById('pass-proof-placeholder'); if(h) h.style.display='none';" onerror="this.style.display='none'; var h=document.getElementById('pass-proof-placeholder'); if(h) h.style.display='block';">
+          <div id="pass-proof-placeholder" style="color: #94A3B8; font-size: 0.88rem; font-family: var(--font-mono); text-align: center; padding: 2rem 1rem;">
+            <div style="font-size: 1.6rem; margin-bottom: 0.5rem;">📄</div>
+            <div style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 700; margin-bottom: 0.25rem;">Payment Screenshot Verified</div>
+            <div style="font-size: 0.78rem; color: #64748B;">Stored securely with registration credentials</div>
+          </div>
         </div>
-        <div style="margin-top: 1rem; text-align: right;">
-          <button type="button" id="btn-close-pass-modal-2" class="btn btn-primary" style="padding: 0.4rem 1.2rem; font-size: 0.82rem;">Close</button>
+
+        <div style="margin-top: 1.2rem; text-align: right;">
+          <button type="button" id="btn-close-pass-modal-2" class="btn btn-primary" style="padding: 0.5rem 1.4rem; font-size: 0.85rem; font-weight: 800; border-radius: 8px;">CLOSE</button>
         </div>
+
       </div>
     </div>
   </main>
@@ -806,7 +815,7 @@
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_SIDEWAYS_CARDS_V35"></script>
+  <script src="js/main.js?v=2027_PROOF_MODAL_WHITE_V36"></script>
   <script>
     // Live Registration Page Controller
     document.addEventListener("DOMContentLoaded", () => {
@@ -1355,10 +1364,20 @@
 
       if (btnViewPassSs) {
         btnViewPassSs.addEventListener("click", () => {
-          if (uploadedScreenshotBase64 && passModal && passModalImg) {
-            passModalImg.src = uploadedScreenshotBase64;
-            passModal.style.display = "flex";
+          if (!passModal) return;
+          const ssSrc = uploadedScreenshotBase64 || (window.currentActiveReg && window.currentActiveReg.paymentScreenshot) || "";
+          const ph = document.getElementById("pass-proof-placeholder");
+          if (passModalImg) {
+            if (ssSrc && ssSrc.length > 20) {
+              passModalImg.src = ssSrc;
+              passModalImg.style.display = "block";
+              if (ph) ph.style.display = "none";
+            } else {
+              passModalImg.style.display = "none";
+              if (ph) ph.style.display = "block";
+            }
           }
+          passModal.style.display = "flex";
         });
       }
       function closePassModal() {
@@ -1371,6 +1390,7 @@
       // 5.1 Centralized Delegate Pass & Terminal QR Renderer
       function renderDelegatePass(reg) {
         if (!reg) return;
+        window.currentActiveReg = reg;
 
         document.getElementById("pass-id-display").textContent = reg.id || "ARENIUM27-REG";
         document.getElementById("pass-name").textContent = reg.fullName || "Delegate";
