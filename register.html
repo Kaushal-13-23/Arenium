@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=2027_1ST_FRAME_BG_ONLY_V17">
+  <link rel="stylesheet" href="css/style.css?v=2027_HERO_CENTER_PAY_FIX_V18">
 </head>
 <body class="subpage-body">
     
@@ -495,12 +495,12 @@
               </div>
 
               <!-- Pay Now Action Button with Embedded Payment Gateway Link -->
-              <div class="payment-gateway-action-box">
-                <a id="btn-pay-now" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-pay-now">
-                  <span style="font-size: 1.25rem;">💳</span>
-                  <span id="btn-pay-now-text">PAY NOW (₹200) VIA GATEWAY ↗</span>
+              <div class="payment-gateway-action-box" style="width: 100%; box-sizing: border-box; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0.8rem 0;">
+                <a id="btn-pay-now" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-pay-now" style="width: 100%; max-width: 100%; box-sizing: border-box; white-space: normal; justify-content: center; text-align: center;">
+                  <span style="font-size: 1.25rem; flex-shrink: 0;">💳</span>
+                  <span id="btn-pay-now-text" style="white-space: normal; text-align: center; word-break: normal;">PAY NOW (₹200) VIA GATEWAY ↗</span>
                 </a>
-                <div id="pay-now-status-hint" style="font-size: 0.78rem; color: #94A3B8; margin-top: 0.5rem; line-height: 1.4;">
+                <div id="pay-now-status-hint" style="font-size: 0.78rem; color: #94A3B8; margin-top: 0.5rem; line-height: 1.4; text-align: center;">
                   ⚡ Click to open official payment gateway in a secure window
                 </div>
               </div>
@@ -785,7 +785,7 @@
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_1ST_FRAME_BG_ONLY_V17"></script>
+  <script src="js/main.js?v=2027_HERO_CENTER_PAY_FIX_V18"></script>
   <script>
     // Live Registration Page Controller
     document.addEventListener("DOMContentLoaded", () => {

@@ -7758,7 +7758,8 @@ h1, h2, h3, h4, h5, h6,
   justify-content: center !important;
 }
 
-.btn-pay-now {
+.btn-pay-now,
+#btn-pay-now {
   background: linear-gradient(135deg, #0284C7, #06B6D4) !important;
   background-color: #0284C7 !important;
   background-image: linear-gradient(135deg, #0284C7, #06B6D4) !important;
@@ -7772,20 +7773,28 @@ h1, h2, h3, h4, h5, h6,
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 0.65rem !important;
-  padding: 0.85rem 1.8rem !important;
-  font-size: 1rem !important;
+  gap: 0.5rem !important;
+  padding: clamp(0.75rem, 2.5vw, 0.9rem) clamp(0.8rem, 3vw, 1.4rem) !important;
+  font-size: clamp(0.82rem, 3.4vw, 0.98rem) !important;
   font-weight: 800 !important;
   border-radius: 50px !important;
   text-decoration: none !important;
   box-shadow: 0 8px 20px rgba(2, 132, 199, 0.35) !important;
   box-sizing: border-box !important;
-  width: auto !important;
+  width: 100% !important;
   max-width: 100% !important;
   white-space: normal !important;
+  word-break: normal !important;
   text-align: center !important;
   line-height: 1.35 !important;
   transition: none !important;
+}
+
+#btn-pay-now-text {
+  white-space: normal !important;
+  word-break: normal !important;
+  text-align: center !important;
+  line-height: 1.3 !important;
 }
 
 /* Zero color changes on hover, focus, active */
@@ -7812,9 +7821,9 @@ h1, h2, h3, h4, h5, h6,
     width: 100% !important;
     min-width: 100% !important;
     max-width: 100% !important;
-    padding: 0.85rem 0.8rem !important;
-    font-size: 0.88rem !important;
-    border-radius: 12px !important;
+    padding: 0.8rem 0.8rem !important;
+    font-size: clamp(0.8rem, 3.5vw, 0.9rem) !important;
+    border-radius: 50px !important;
     box-sizing: border-box !important;
     justify-content: center !important;
   }
@@ -9470,9 +9479,16 @@ main,
   color: #1E293B !important;
 }
 
-/* 2. First Frame on Home Page: Hero Section Only */
+/* 2. First Frame on Home Page: Hero Section Only (Centered & Fully Responsive) */
 .hero-section {
   position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  min-height: clamp(620px, calc(100vh - var(--nav-height, 70px) - 40px), 820px) !important;
   background-image: url('../images/campus-bg.jpg') !important;
   background-size: cover !important;
   background-position: center top !important;
@@ -9480,25 +9496,79 @@ main,
   border-bottom: 2px solid #E2E8F0 !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
   overflow: hidden !important;
+  box-sizing: border-box !important;
+  padding: clamp(1.5rem, 3vw, 2.5rem) 1rem !important;
 }
 
 .hero-section::before {
   content: "" !important;
   position: absolute !important;
   inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   background: rgba(8, 14, 26, 0.45) !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure background canvas and decorative grid stay absolutely positioned behind content without breaking flex flow */
+.hero-canvas,
+#hero-canvas,
+.hero-section canvas,
+.hero-overlay-grid,
+.hero-section .hero-overlay-grid {
+  position: absolute !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   z-index: 1 !important;
   pointer-events: none !important;
 }
 
-.hero-section > * {
+/* Center hero-content and hero card dead-center horizontally and vertically */
+.hero-section .hero-content,
+.hero-section .container.hero-content,
+.hero-content {
   position: relative !important;
-  z-index: 2 !important;
+  z-index: 5 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
+  max-width: 1040px !important;
+  box-sizing: border-box !important;
+  padding-left: clamp(0.75rem, 2vw, 1.5rem) !important;
+  padding-right: clamp(0.75rem, 2vw, 1.5rem) !important;
+}
+
+.hero-main-glass-card,
+.hero-content .hero-main-glass-card {
+  position: relative !important;
+  width: min(980px, calc(100% - 1.5rem)) !important;
+  max-width: 980px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
 }
 
 /* 3. First Frame on All Other Pages: Page Header Banner Only */
 .page-header-banner {
   position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
   background-image: url('../images/campus-bg.jpg') !important;
   background-size: cover !important;
   background-position: center center !important;
@@ -9509,20 +9579,30 @@ main,
   border-bottom: 2px solid #E2E8F0 !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
   overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
 .page-header-banner::before {
   content: "" !important;
   position: absolute !important;
   inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
   background: rgba(8, 14, 26, 0.55) !important;
   z-index: 1 !important;
   pointer-events: none !important;
 }
 
-.page-header-banner > * {
+.page-header-banner .container {
   position: relative !important;
-  z-index: 2 !important;
+  z-index: 5 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: min(940px, calc(100% - 2rem)) !important;
+  max-width: 940px !important;
+  box-sizing: border-box !important;
 }
 
 /* 4. Disable Floating Parallax Backdrop Everywhere */
@@ -9659,3 +9739,95 @@ section {
   background-color: #000000 !important;
 }
 
+
+
+/* ==========================================================================
+   FINAL OVERRIDE: GUARANTEE DEAD-CENTER HERO & RESPONSIVE NON-OVERFLOWING BUTTONS
+   ========================================================================== */
+.hero-section {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.hero-section canvas,
+#hero-canvas,
+.hero-canvas,
+.hero-overlay-grid {
+  position: absolute !important;
+  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.hero-section .hero-content,
+.hero-section .container.hero-content {
+  position: relative !important;
+  z-index: 5 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: 100% !important;
+  max-width: 1040px !important;
+  box-sizing: border-box !important;
+}
+
+.hero-main-glass-card {
+  position: relative !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: min(980px, calc(100% - 1.5rem)) !important;
+  max-width: 980px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+.btn-pay-now,
+#btn-pay-now {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  padding: clamp(0.75rem, 2.5vw, 0.88rem) clamp(0.8rem, 3vw, 1.4rem) !important;
+  font-size: clamp(0.82rem, 3.4vw, 0.96rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+  border-radius: 50px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: 0.5rem !important;
+  margin: 0 auto !important;
+}
+
+#btn-pay-now-text {
+  white-space: normal !important;
+  word-break: normal !important;
+  text-align: center !important;
+  line-height: 1.3 !important;
+}
+
+.payment-gateway-action-box {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 0 !important;
+  margin: 0.8rem 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
