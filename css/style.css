@@ -9705,7 +9705,6 @@ section {
 .timeline-content,
 .cert-search-card,
 .cert-controls-panel,
-.contact-info-card,
 .title-sponsor-card,
 .sponsor-card,
 .fee-tier-card,
@@ -9750,7 +9749,6 @@ section {
 .timeline-content:hover,
 .cert-search-card:hover,
 .cert-controls-panel:hover,
-.contact-info-card:hover,
 .title-sponsor-card:hover,
 .sponsor-card:hover,
 .fee-tier-card:hover,
@@ -10144,19 +10142,85 @@ section {
   -webkit-text-fill-color: #334155 !important;
 }
 
-/* 4. Contact Desk & Address Box */
-.contact-info-card,
-.contact-info-card h2,
-.contact-query-line,
-.contact-address-box p,
-.contact-address-box span {
-  color: #FFFFFF !important;
-  -webkit-text-fill-color: #FFFFFF !important;
+/* 4. Contact Desk Clean Light Card & Length Fix */
+.contact-grid {
+  align-items: start !important;
 }
 
-.contact-address-box strong {
-  color: #38BDF8 !important;
-  -webkit-text-fill-color: #38BDF8 !important;
+.contact-info-card {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+  color: #0F172A !important;
+  align-self: start !important;
+  height: fit-content !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.contact-info-card:hover {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  transform: none !important;
+  filter: none !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08) !important;
+}
+
+.contact-info-card h2 {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+}
+
+.contact-info-card .contact-query-line,
+.contact-query-line {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+.contact-info-card .contact-address-box {
+  background: #F8FAFC !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-left: 4px solid #0284C7 !important;
+  border-radius: 12px !important;
+  padding: 1.2rem !important;
+}
+
+.contact-info-card .contact-address-box strong {
+  color: #0284C7 !important;
+  -webkit-text-fill-color: #0284C7 !important;
+  font-weight: 800 !important;
+}
+
+.contact-info-card .contact-address-box p {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  font-weight: 600 !important;
+}
+
+.contact-info-card .contact-address-box span {
+  color: #64748B !important;
+  -webkit-text-fill-color: #64748B !important;
+}
+
+.contact-info-card .section-tag {
+  background: #E0F2FE !important;
+  border: 1px solid #BAE6FD !important;
+  color: #0369A1 !important;
+  -webkit-text-fill-color: #0369A1 !important;
+  font-weight: 800 !important;
+}
+
+@media (min-width: 901px) {
+  .contact-info-card {
+    position: sticky !important;
+    top: 90px !important;
+  }
 }
 
 /* 5. Schedule & Timeline */
