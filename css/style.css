@@ -3577,10 +3577,12 @@ button {
   display: block;
   font-family: 'Roboto Slab', serif;
   font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--neon-cyan);
+  font-weight: 800;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
   margin-bottom: 0.4rem;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .admin-input,
@@ -8317,15 +8319,20 @@ body:not(.register-page) .payment-instructions-box strong {
   font-weight: 800 !important;
 }
 
-.cert-controls-panel label.admin-label,
-.admin-label {
+.cert-controls-panel label.admin-label {
+  display: block;
+  font-family: 'Roboto Slab', serif;
+  font-size: 0.8rem;
+  font-weight: 800;
   color: #38BDF8 !important;
   -webkit-text-fill-color: #38BDF8 !important;
-  font-weight: 700 !important;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.admin-input,
-.admin-select {
+.cert-controls-panel .admin-input,
+.cert-controls-panel .admin-select {
   background: rgba(10, 15, 30, 0.9) !important;
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
@@ -8333,13 +8340,13 @@ body:not(.register-page) .payment-instructions-box strong {
   font-weight: 600 !important;
 }
 
-.admin-input::placeholder {
+.cert-controls-panel .admin-input::placeholder {
   color: #94A3B8 !important;
   -webkit-text-fill-color: #94A3B8 !important;
 }
 
-.admin-input:focus,
-.admin-select:focus {
+.cert-controls-panel .admin-input:focus,
+.cert-controls-panel .admin-select:focus {
   border-color: #38BDF8 !important;
   box-shadow: 0 0 12px rgba(56, 189, 248, 0.4) !important;
 }

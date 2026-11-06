@@ -3665,8 +3665,8 @@ function renderAdminRegistrations(db) {
       div.className = "admin-form-group";
       div.style.marginBottom = "0.4rem";
       div.innerHTML = `
-        <label class="admin-label" style="font-size:0.72rem; color:#CBD5E1;">${ev.name}</label>
-        <input type="text" class="admin-input reg-fee-input" data-ev-id="${ev.id}" value="${currentFee}" placeholder="e.g. ₹150 / Solo">
+        <label class="admin-label" style="font-size:0.78rem; color:#000000 !important; font-weight:800; -webkit-text-fill-color:#000000 !important;">${ev.name}</label>
+        <input type="text" class="admin-input reg-fee-input" data-ev-id="${ev.id}" value="${currentFee}" placeholder="e.g. ₹150 / Solo" style="color:#000000 !important; font-weight:700; -webkit-text-fill-color:#000000 !important; background:#FFFFFF !important; border:1.5px solid #94A3B8 !important;">
       `;
       feesGrid.appendChild(div);
     });

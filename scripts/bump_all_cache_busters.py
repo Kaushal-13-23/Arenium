@@ -1,6 +1,6 @@
 import glob, re
 
-VERSION = "2027_PROOF_MODAL_WHITE_V36"
+VERSION = "2027_ADMIN_BLACK_TEXT_V37"
 
 for f in sorted(glob.glob("*.html")):
     with open(f, "r", encoding="utf-8") as fp:

@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2027_PROOF_MODAL_WHITE_V36">
+  <link rel="stylesheet" href="css/style.css?v=2027_ADMIN_BLACK_TEXT_V37">
 
     <style>
     /* ========================================================================
@@ -450,7 +450,7 @@
 
     body#admin-app .cyber-card:hover {
       transform: none !important;
-      border-color: #CBD5E1 !important;
+      border-color: #000000 !important;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06) !important;
     }
 
@@ -689,6 +689,94 @@
       border-left: 3px solid #0284C7 !important;
       color: #334155 !important;
     }
+  
+    /* ========================================================================
+       MASTER HIGH-CONTRAST BLACK TYPOGRAPHY OVERRIDES FOR ADMIN DASHBOARD
+       Ensures 100% legibility on crisp white surfaces
+       ======================================================================== */
+    body#admin-app h1,
+    body#admin-app h2,
+    body#admin-app h3,
+    body#admin-app h4,
+    body#admin-app h5,
+    body#admin-app h6 {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.02em !important;
+    }
+
+    body#admin-app p,
+    body#admin-app span:not(.admin-badge-confirmed):not(.admin-badge-pending):not(.admin-badge-rejected):not(#sheet-status-badge):not(#gateway-status-badge):not(.admin-user-dot),
+    body#admin-app strong,
+    body#admin-app .section-subtitle {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+    }
+
+    body#admin-app .section-tag {
+      background: #E0F2FE !important;
+      border: 1.5px solid #0284C7 !important;
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      font-weight: 800 !important;
+    }
+
+    body#admin-app .admin-label,
+    body#admin-app label {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      font-weight: 800 !important;
+      font-size: 0.82rem !important;
+      letter-spacing: 0.05em !important;
+    }
+
+    body#admin-app .admin-input,
+    body#admin-app .admin-textarea,
+    body#admin-app .admin-select,
+    body#admin-app input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+    body#admin-app select,
+    body#admin-app textarea {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      background: #FFFFFF !important;
+      border: 1.5px solid #94A3B8 !important;
+      font-weight: 600 !important;
+    }
+
+    body#admin-app .admin-select option,
+    body#admin-app select option {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      background: #FFFFFF !important;
+      font-weight: 600 !important;
+    }
+
+    body#admin-app .admin-input::placeholder,
+    body#admin-app .admin-textarea::placeholder,
+    body#admin-app input::placeholder,
+    body#admin-app textarea::placeholder {
+      color: #475569 !important;
+      -webkit-text-fill-color: #475569 !important;
+      opacity: 1 !important;
+    }
+
+    body#admin-app .cyber-card {
+      color: #000000 !important;
+    }
+
+    body#admin-app .admin-table th {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      font-weight: 800 !important;
+    }
+
+    body#admin-app .admin-table td {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      font-weight: 600 !important;
+    }
+
   </style>
 </head>
 <body id="admin-app">
@@ -1102,7 +1190,7 @@
             <div>
               <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">CURRENT ACTIVE ADMINISTRATOR</div>
               <div id="overview-admin-name" style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Kaushal Kumar Singh</div>
-              <div id="overview-admin-meta" style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-secondary);">singhkaushal.2507@gmail.com · Finance &amp; Registration Manager</div>
+              <div id="overview-admin-meta" style="font-family: var(--font-mono); font-size: 0.78rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600;">singhkaushal.2507@gmail.com · Finance &amp; Registration Manager</div>
             </div>
           </div>
           <div style="display: flex; align-items: center; gap: 0.6rem;">
@@ -1113,8 +1201,8 @@
 
         <div style="margin-bottom: 1.5rem;">
           <span class="section-tag">SYSTEM METRICS</span>
-          <h1 style="font-family: var(--font-display); font-size: 1.8rem; color: #fff;">FESTIVAL CONTROL MATRIX</h1>
-          <p style="color: var(--text-secondary); font-size: 0.9rem;">
+          <h1 style="font-family: var(--font-display); font-size: 1.8rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">FESTIVAL CONTROL MATRIX</h1>
+          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.92rem; font-weight: 600;">
             Real-time status overview of ARENIUM'27 website assets, competitions, and coordinator registry.
           </p>
         </div>
@@ -1171,8 +1259,8 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <span class="section-tag">ARENAS DATABASE</span>
-            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">MANAGE EVENTS &amp; POSTERS</h2>
-            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">MANAGE EVENTS &amp; POSTERS</h2>
+            <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
               Edit event titles, categories, descriptions, cash prizes, assigned coordinator, and rulebooks.
             </p>
           </div>
@@ -1204,8 +1292,8 @@
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <span class="section-tag">DELEGATE REGISTRY &amp; CUSTOMIZATION</span>
-            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">REGISTRATION MANAGER &amp; PORTAL CONFIG</h2>
-            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">REGISTRATION MANAGER &amp; PORTAL CONFIG</h2>
+            <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
               Manage delegate registrations, update portal status, configure UPI payment gateway, customize instructions, and adjust competition fees.
             </p>
           </div>
@@ -1228,7 +1316,7 @@
 
         <!-- Portal Customization Card -->
         <div class="cyber-card" style="padding: 1.5rem; margin-bottom: 2rem;">
-          <h3 style="color: #60A5FA; font-family: var(--font-display); font-size: 1.15rem; margin-bottom: 1rem;">
+          <h3 style="color: #000000 !important; font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 1rem; font-weight: 800; -webkit-text-fill-color: #000000 !important;">
             ⚙️ REGISTRATION PORTAL CUSTOMIZATION SETTINGS
           </h3>
 
@@ -1251,54 +1339,54 @@
             </div>
 
             <!-- Google Sheet & Apps Script Webhook Configuration -->
-            <div class="admin-form-group" style="grid-column: 1 / -1; background: rgba(15, 23, 42, 0.65); border: 1.5px solid #10B981; border-radius: 12px; padding: 1.2rem;">
+            <div class="admin-form-group" style="grid-column: 1 / -1; background: #F8FAFC; border: 2px solid #10B981; border-radius: 12px; padding: 1.2rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
-                <label class="admin-label" for="reg-admin-sheet-url" style="margin: 0; font-size: 0.88rem; color: #10B981; font-weight: 700; letter-spacing: 0.5px;">
+                <label class="admin-label" for="reg-admin-sheet-url" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
                   📊 GOOGLE APPS SCRIPT WEBHOOK / LIVE EXCEL SYNC URL
                 </label>
-                <span id="sheet-status-badge" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
+                <span id="sheet-status-badge" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
                   ✓ CONNECTED &amp; ACTIVE
                 </span>
               </div>
 
               <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
-                <input type="url" id="reg-admin-sheet-url" class="admin-input" placeholder="https://script.google.com/macros/s/.../exec" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
+                <input type="url" id="reg-admin-sheet-url" class="admin-input" placeholder="https://script.google.com/macros/s/.../exec" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; font-weight: 600; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important;">
                 
-                <button type="button" id="admin-test-sheet-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                <button type="button" id="admin-test-sheet-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; color: #000000 !important; background: #E2E8F0 !important; border: 1.5px solid #94A3B8 !important;">
                   ⚡ Test Ping Sync
                 </button>
               </div>
 
-              <span style="font-size: 0.74rem; color: #94A3B8; margin-top: 0.5rem; display: block; line-height: 1.45;">
-                Every participant who registers on <code>register.html</code> automatically writes a row into your connected Google Sheet in real time. Payment screenshots are saved into Google Drive with direct preview links. Click <strong>"Sync from Google Sheet"</strong> anytime to pull records directly into this admin table.
+              <span style="font-size: 0.82rem; color: #000000 !important; margin-top: 0.5rem; display: block; line-height: 1.5; font-weight: 600; -webkit-text-fill-color: #000000 !important;">
+                Every participant who registers on <strong style="color: #000000 !important;">register.html</strong> automatically writes a row into your connected Google Sheet in real time. Payment screenshots are saved into Google Drive with direct preview links. Click <strong style="color: #000000 !important;">"Sync from Google Sheet"</strong> anytime to pull records directly into this admin table.
               </span>
             </div>
 
             <!-- Official Payment Gateway Configuration for Pay Now Button -->
-            <div class="admin-form-group" style="grid-column: 1 / -1; background: rgba(15, 23, 42, 0.65); border: 1.5px solid #38BDF8; border-radius: 12px; padding: 1.2rem;">
+            <div class="admin-form-group" style="grid-column: 1 / -1; background: #F8FAFC; border: 2px solid #0284C7; border-radius: 12px; padding: 1.2rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
-                <label class="admin-label" for="reg-admin-gateway-url" style="margin: 0; font-size: 0.88rem; color: #38BDF8; font-weight: 700; letter-spacing: 0.5px;">
+                <label class="admin-label" for="reg-admin-gateway-url" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
                   💳 OFFICIAL PAYMENT GATEWAY URL / EMBEDDED LINK
                 </label>
-                <span id="gateway-status-badge" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
+                <span id="gateway-status-badge" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
                   ● ACTIVE
                 </span>
               </div>
 
               <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
-                <input type="url" id="reg-admin-gateway-url" class="admin-input" placeholder="https://pages.razorpay.com/... or https://rzp.io/l/..." style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
+                <input type="url" id="reg-admin-gateway-url" class="admin-input" placeholder="https://pages.razorpay.com/... or https://rzp.io/l/..." style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; font-weight: 600; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important;">
                 
-                <button type="button" id="admin-test-gateway-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                <button type="button" id="admin-test-gateway-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; color: #000000 !important; background: #E2E8F0 !important; border: 1.5px solid #94A3B8 !important;">
                   🔗 Test Link
                 </button>
 
-                <button type="button" id="admin-remove-gateway-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; color: #FCA5A5; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove payment gateway link">
+                <button type="button" id="admin-remove-gateway-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.82rem; background: #FEE2E2 !important; border: 1.5px solid #EF4444 !important; color: #991B1B !important; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove payment gateway link">
                   ✕ Remove Link
                 </button>
               </div>
 
-              <span style="font-size: 0.74rem; color: #94A3B8; margin-top: 0.5rem; display: block; line-height: 1.45;">
-                This link is embedded into the <strong>"PAY NOW"</strong> button on <code>register.html</code>. When students click Pay Now, they are redirected to this payment gateway to complete their fee transaction. Admins can <strong>add</strong>, <strong>edit</strong>, or <strong>remove</strong> this URL at any time.
+              <span style="font-size: 0.82rem; color: #000000 !important; margin-top: 0.5rem; display: block; line-height: 1.5; font-weight: 600; -webkit-text-fill-color: #000000 !important;">
+                This link is embedded into the <strong style="color: #000000 !important;">"PAY NOW"</strong> button on <strong style="color: #000000 !important;">register.html</strong>. When students click Pay Now, they are redirected to this payment gateway to complete their fee transaction. Admins can <strong style="color: #000000 !important;">add</strong>, <strong style="color: #000000 !important;">edit</strong>, or <strong style="color: #000000 !important;">remove</strong> this URL at any time.
               </span>
             </div>
 
@@ -1335,7 +1423,7 @@
 
           <!-- Event Fees Editor Accordion / Grid -->
           <div style="margin-top: 1.2rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.2rem;">
-            <div style="font-size: 0.82rem; font-weight: 700; color: #93C5FD; margin-bottom: 0.8rem; letter-spacing: 0.05em;">
+            <div style="font-size: 0.95rem; font-weight: 800; color: #000000 !important; -webkit-text-fill-color: #000000 !important; margin-bottom: 0.8rem; letter-spacing: 0.05em;">
               💳 CUSTOMIZE COMPETITION REGISTRATION FEES
             </div>
             <div id="reg-admin-fees-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem;">
@@ -1364,8 +1452,8 @@
               <input type="text" id="reg-search-input" class="admin-input" placeholder="Search name, USN, college, UTR..." style="max-width: 280px;">
             </div>
 
-            <div style="font-family: var(--font-mono); font-size: 0.82rem; color: #94A3B8;">
-              Showing <span id="reg-count-display" style="color: #60A5FA; font-weight: 700;">0</span> records
+            <div style="font-family: var(--font-mono); font-size: 0.86rem; color: #000000 !important; font-weight: 700; -webkit-text-fill-color: #000000 !important;">
+              Showing <span id="reg-count-display" style="color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">0</span> records
             </div>
           </div>
 
@@ -1399,7 +1487,7 @@
           <div>
             <span class="section-tag" style="color: #0284C7; background: #E0F2FE; border-color: #BAE6FD;">GATE SECURITY &amp; CHECK-IN TERMINAL</span>
             <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #0F172A; margin: 0.2rem 0;">OFFICIAL GATE QR SCANNER &amp; CHECK-IN</h2>
-            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.2rem;">
+            <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600; margin-top: 0.2rem;">
               Scan delegate passes using your device webcam, mobile camera, or QR screenshot file to verify registration authenticity and clear gate entry in real time.
             </p>
           </div>
@@ -1488,8 +1576,8 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <span class="section-tag">TIMELINE CHRONOLOGY</span>
-            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">MANAGE EVENT SCHEDULES</h2>
-            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">MANAGE EVENT SCHEDULES</h2>
+            <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
               Update time slots, venues, categories, Day 1 / Day 2 assignments, and operational notes.
             </p>
           </div>
@@ -1520,8 +1608,8 @@
       <div id="tab-coords" class="admin-tab-pane" style="display: none;">
         <div style="margin-bottom: 1.5rem;">
           <span class="section-tag">LEADERSHIP MATRIX</span>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">4 STUDENT COORDINATORS</h2>
-          <p style="color: var(--text-secondary); font-size: 0.85rem;">
+          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">4 STUDENT COORDINATORS</h2>
+          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
             Update names, phone numbers, roles, and avatar/photo image paths for Kaushal Kumar, Ashlin, Abhyas Kathuria, and Vimal.
           </p>
         </div>
@@ -1537,8 +1625,8 @@
       <div id="tab-leadership" class="admin-tab-pane" style="display: none;">
         <div style="margin-bottom: 1.5rem;">
           <span class="section-tag">FACULTY PATRONS</span>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">DEAN, HOD &amp; SOIS FACULTY CREW</h2>
-          <p style="color: var(--text-secondary); font-size: 0.85rem;">
+          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">DEAN, HOD &amp; SOIS FACULTY CREW</h2>
+          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
             Manage Patron / Dean Dr. C. Kalaiarasan, HOD Dr. K. G. Mohan, Programme Organiser Ms. Keren Lois Daniel, and SOIS department mentors.
           </p>
         </div>
@@ -1554,8 +1642,8 @@
       <div id="tab-winners" class="admin-tab-pane" style="display: none;">
         <div style="margin-bottom: 1.5rem;">
           <span class="section-tag">CHAMPIONS REGISTRY</span>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">WINNERS &amp; RESULTS PUBLISHING</h2>
-          <p style="color: var(--text-secondary); font-size: 0.85rem;">
+          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">WINNERS &amp; RESULTS PUBLISHING</h2>
+          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
             Toggle public visibility of results on winners.html, edit 1st, 2nd, and 3rd place podium standings and cash prizes.
           </p>
         </div>
@@ -1564,7 +1652,7 @@
         <div class="cyber-card" style="padding: 1.2rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; border-color: var(--neon-yellow);">
           <div>
             <strong style="color: #fff; font-size: 1rem; display: block;">PUBLISH RESULTS ON LIVE WEBSITE</strong>
-            <span style="font-size: 0.8rem; color: var(--text-secondary);">
+            <span style="font-size: 0.8rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600;">
               When checked, winners.html displays the full podium leaderboard. When unchecked, it shows "Results Locked".
             </span>
           </div>
@@ -1586,8 +1674,8 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <span class="section-tag">ACCREDITATION REPOSITORY</span>
-            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">MANAGE PARTICIPANT CERTIFICATES</h2>
-            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">MANAGE PARTICIPANT CERTIFICATES</h2>
+            <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
               Upload certificates linked with Team Names. Once uploaded, delegates can search their Team Name on certificate.html to download their official certificate.
             </p>
           </div>
@@ -1602,7 +1690,7 @@
         <div class="cyber-card" style="padding: 1.2rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; border-color: #38BDF8;">
           <div>
             <strong style="color: #fff; font-size: 1rem; display: block;">ENABLE CERTIFICATE DOWNLOADS ON PUBLIC PORTAL</strong>
-            <span style="font-size: 0.8rem; color: var(--text-secondary);">
+            <span style="font-size: 0.8rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600;">
               When active, participants can search their Team Name and download verified certificates on certificate.html.
             </span>
           </div>
@@ -1620,7 +1708,7 @@
               <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #FFFFFF; margin: 0.3rem 0; font-weight: 800;">
                 UPLOAD CERTIFICATE WITH TEAM NAME
               </h3>
-              <p style="color: #CBD5E1; font-size: 0.84rem; margin: 0;">
+              <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.86rem; font-weight: 600; margin: 0;">
                 Assign an official certificate to a registered team. Delegates will search by this exact Team Name on certificate.html.
               </p>
             </div>
@@ -1750,8 +1838,8 @@
       <div id="tab-announcements" class="admin-tab-pane" style="display: none;">
         <div style="margin-bottom: 1.5rem;">
           <span class="section-tag">BROADCAST TRANSMISSION</span>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">PRIZE POOL TICKER &amp; ALERTS</h2>
-          <p style="color: var(--text-secondary); font-size: 0.85rem;">
+          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">PRIZE POOL TICKER &amp; ALERTS</h2>
+          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
             Edit the continuous neon moving ticker message (1.5 Lakhs Prize Pool) and emergency alert banners.
           </p>
         </div>
@@ -1780,8 +1868,8 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <span class="section-tag">PARTNERSHIP NETWORK</span>
-            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">MANAGE SPONSORS</h2>
-            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">MANAGE SPONSORS</h2>
+            <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
               Add, edit, or remove corporate partners, title sponsors, gaming brands, and logo URLs.
             </p>
           </div>
@@ -1800,8 +1888,8 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <span class="section-tag">VISUAL ARCHIVE</span>
-            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">GALLERY MOMENTS</h2>
-            <p style="color: var(--text-secondary); font-size: 0.85rem;">
+            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">GALLERY MOMENTS</h2>
+            <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
               Add new stage photos, crowds, LAN gaming captures, and hashtag categories.
             </p>
           </div>
@@ -1819,8 +1907,8 @@
       <div id="tab-settings" class="admin-tab-pane" style="display: none;">
         <div style="margin-bottom: 1.5rem;">
           <span class="section-tag">CORE PROTOCOL</span>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">FEST CORE CONFIGURATION &amp; PAYMENT GATEWAY</h2>
-          <p style="color: var(--text-secondary); font-size: 0.85rem;">
+          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">FEST CORE CONFIGURATION &amp; PAYMENT GATEWAY</h2>
+          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
             Manage payment gateway link (embedded in Pay Now button), countdown date, and registration portal redirect.
           </p>
         </div>
@@ -1875,7 +1963,7 @@
               <h3 style="color: #A52A2A; font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 0.3rem;">
                 👥 PRE-CONFIGURED FEST ADMINISTRATORS
               </h3>
-              <p style="color: var(--text-secondary); font-size: 0.8rem; margin: 0;">
+              <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600; font-size: 0.8rem; margin: 0;">
                 Authorized credentials provisioned for ARENIUM'27 organizing leadership.
               </p>
             </div>
@@ -1937,15 +2025,15 @@
       <div id="tab-backup" class="admin-tab-pane" style="display: none;">
         <div style="margin-bottom: 1.5rem;">
           <span class="section-tag">PERSISTENCE &amp; RECOVERY</span>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #fff;">DATABASE BACKUP &amp; RESTORE</h2>
-          <p style="color: var(--text-secondary); font-size: 0.85rem;">
+          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">DATABASE BACKUP &amp; RESTORE</h2>
+          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
             Export your entire fest database as a portable JSON file, restore from backup, or reset to original factory defaults.
           </p>
         </div>
 
         <div class="cyber-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
           <h3 style="color: #A52A2A; font-family: var(--font-display); margin-bottom: 0.6rem;">📥 RESTORE FROM JSON FILE</h3>
-          <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
+          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600; margin-bottom: 1rem;">
             Upload an exported <code>arenium27_data_backup.json</code> to instantly populate all events, winners, coordinators, and settings.
           </p>
           <input type="file" id="admin-import-file" accept=".json" class="admin-input" style="max-width: 400px;">
@@ -1953,7 +2041,7 @@
 
         <div class="cyber-card" style="padding: 1.5rem; border-color: #6C403E;">
           <h3 style="color: #6C403E; font-family: var(--font-display); margin-bottom: 0.6rem;">⚠️ RESET TO DEFAULT FACTORY SEED</h3>
-          <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
+          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600; margin-bottom: 1rem;">
             This will purge custom edits from localStorage and restore the complete initial Arenium'27 dataset.
           </p>
           <button id="admin-reset-btn" class="btn btn-ghost" style="color: #6C403E; border-color: #6C403E;">
@@ -1969,7 +2057,7 @@
 
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_PROOF_MODAL_WHITE_V36"></script>
+  <script src="js/main.js?v=2027_ADMIN_BLACK_TEXT_V37"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
