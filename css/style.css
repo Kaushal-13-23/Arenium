@@ -9894,3 +9894,40 @@ section {
   -webkit-text-fill-color: #FFFFFF !important;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
 }
+
+/* Guarantee Crisp Pure White Text Across All Fee Cards & Announcements */
+.fee-structure-announcement-card,
+.fee-structure-announcement-card *,
+.fee-structure-announcement-card div,
+.fee-structure-announcement-card p,
+.fee-structure-announcement-card span,
+.fee-structure-announcement-card li,
+.fee-structure-announcement-card ul,
+.fee-tier-grid,
+.fee-tier-grid *,
+.fee-tier-card,
+.fee-tier-card *,
+.fee-tier-card div,
+.fee-tier-card span,
+.fee-tier-card p,
+.fee-tier-card li,
+.fee-tier-card ul,
+.fee-tier-internal,
+.fee-tier-internal *,
+.fee-tier-external,
+.fee-tier-external * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.fee-structure-announcement-card em,
+.fee-tier-card em {
+  color: #F59E0B !important;
+  -webkit-text-fill-color: #F59E0B !important;
+}
+
+.fee-structure-announcement-card a,
+.fee-tier-card a {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+}
