@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_CERT_PORTAL_TEAM_V30"
+VERSION = "2027_CERT_MODAL_FIX_V31"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):

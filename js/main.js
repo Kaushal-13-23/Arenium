@@ -2316,7 +2316,7 @@ window.openCertPreviewModal = function(certId) {
 
   if (modalBody) {
     modalBody.innerHTML = `
-      <div style="text-align: center; background: #07060f; padding: 0.8rem; border-radius: 8px; border: 1.5px solid rgba(56, 189, 248, 0.4); max-height: 72vh; overflow: auto; display: flex; justify-content: center; align-items: center;">
+      <div style="text-align: center; background: #07060f; padding: 1rem; border-radius: 8px; border: 1.5px solid rgba(56, 189, 248, 0.4); max-height: 72vh; overflow: auto; display: flex; justify-content: center; align-items: center; width: 100%;">
         <img src="${certDataUrl}" alt="Certificate ${c.id}" style="max-width: 100%; max-height: 68vh; object-fit: contain; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.6);">
       </div>
     `;
@@ -2328,17 +2328,27 @@ window.openCertPreviewModal = function(certId) {
     };
   }
 
-  modal.style.display = "flex";
+  modal.classList.add("active");
   document.body.style.overflow = "hidden";
 };
 
 window.closeCertModal = function(e) {
+  if (e && e.target && e.target.closest && e.target.closest(".cert-modal-dialog") && !e.target.classList.contains("cert-modal-close") && e.target.id !== "cert-modal-close-btn") {
+    return;
+  }
   const modal = document.getElementById("cert-preview-modal");
   if (modal) {
-    modal.style.display = "none";
+    modal.classList.remove("active");
     document.body.style.overflow = "";
   }
 };
+
+// Global escape key listener to close modal
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    window.closeCertModal();
+  }
+});
 
 window.downloadTeamCertificate = function(certId) {
   const db = FestDB.getData();

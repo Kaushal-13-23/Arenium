@@ -30,7 +30,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2027_CERT_PORTAL_TEAM_V30">
+  <link rel="stylesheet" href="css/style.css?v=2027_CERT_MODAL_FIX_V31">
 
   <style>
     @media print {
@@ -51,7 +51,7 @@
     }
   </style>
 </head>
-<body class="subpage-body">
+<body class="subpage-body certificate-page">
     
     <!-- ========================================================================
        GLOBAL HEADER / NAVBAR
@@ -171,8 +171,8 @@
     <!-- Page Header Banner -->
     <section class="page-header-banner">
       <div class="container">
-        <h1 class="page-title">OFFICIAL CERTIFICATES</h1>
-        <p class="section-subtitle">
+        <h1 class="page-title" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; text-shadow: 0 2px 14px rgba(0,0,0,0.9) !important; font-weight: 900 !important;">OFFICIAL CERTIFICATES</h1>
+        <p class="section-subtitle" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; text-shadow: 0 1px 8px rgba(0,0,0,0.8) !important; font-weight: 600 !important;">
           Official Accreditation &amp; Certificate Portal. Enter your registered Team Name below to search, view, and download verified event certificates uploaded by the fest committee.
         </p>
       </div>
@@ -186,11 +186,11 @@
         <div class="cyber-card cert-search-card" style="padding: 2.2rem; background: rgba(13, 21, 38, 0.96) !important; border: 1.5px solid rgba(56, 189, 248, 0.4) !important; box-shadow: 0 0 35px rgba(56, 189, 248, 0.18); border-radius: 12px;">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.4rem;">
             <div>
-              <span class="section-tag">[ACCREDITATION REPOSITORY]</span>
+              <span class="section-tag" style="color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; background: rgba(56, 189, 248, 0.15) !important; border: 1px solid rgba(56, 189, 248, 0.45) !important; font-weight: 800 !important;">[ACCREDITATION REPOSITORY]</span>
               <h2 style="font-family: var(--font-display); font-size: 1.5rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; margin: 0.3rem 0; font-weight: 800; letter-spacing: 0.04em;">
                 SEARCH &amp; GET TEAM CERTIFICATES
               </h2>
-              <p style="color: #CBD5E1 !important; -webkit-text-fill-color: #CBD5E1 !important; font-size: 0.9rem; max-width: 680px; line-height: 1.6;">
+              <p style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-size: 0.92rem; max-width: 680px; line-height: 1.6; font-weight: 500;">
                 Event certificates uploaded by the organizing committee are published here. Enter your registered <strong style="color: #38BDF8 !important;">Team Name</strong> (e.g. <code style="color: #FDE047 !important; background: rgba(253, 224, 71, 0.12); padding: 0.1rem 0.4rem; border-radius: 3px;">NeuralForge</code> or <code style="color: #FDE047 !important; background: rgba(253, 224, 71, 0.12); padding: 0.1rem 0.4rem; border-radius: 3px;">CyberSentinels</code>) to retrieve, preview, and download your official verified certificates.
               </p>
             </div>
@@ -211,7 +211,7 @@
 
           <!-- Suggested / Quick-Fill Team Chips -->
           <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.6rem;">
-            <span style="font-family: var(--font-mono); font-size: 0.76rem; color: #94A3B8; text-transform: uppercase;">
+            <span style="font-family: var(--font-mono); font-size: 0.78rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 700; text-transform: uppercase;">
               SAMPLE TEAMS:
             </span>
             <button type="button" class="cert-sample-chip" onclick="searchTeamCert('Team NeuralForge')">Team NeuralForge</button>
@@ -232,25 +232,25 @@
     <!-- ====================================================================
          FULLSCREEN CERTIFICATE PREVIEW MODAL
          ==================================================================== -->
-    <div id="cert-preview-modal" class="cert-modal-backdrop" style="display: none;" onclick="closeCertModal(event)">
+    <div id="cert-preview-modal" class="cert-modal-backdrop" style="display: none !important;" onclick="closeCertModal(event)">
       <div class="cert-modal-dialog" onclick="event.stopPropagation()">
         <div class="cert-modal-header">
           <div style="display: flex; align-items: center; gap: 0.6rem;">
-            <span style="font-family: var(--font-mono); color: #38BDF8; font-size: 0.85rem; font-weight: 700;" id="cert-modal-id">[AR27-CRT-000]</span>
-            <h3 id="cert-modal-title" style="margin: 0; font-family: var(--font-display); font-size: 1.15rem; color: #FFFFFF;">
+            <span style="font-family: var(--font-mono); color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; font-size: 0.85rem; font-weight: 700;" id="cert-modal-id">[AR27-CRT-000]</span>
+            <h3 id="cert-modal-title" style="margin: 0; font-family: var(--font-display); font-size: 1.15rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 800;">
               CERTIFICATE PREVIEW
             </h3>
           </div>
-          <button type="button" class="cert-modal-close" onclick="closeCertModal()" aria-label="Close modal">✕</button>
+          <button type="button" class="cert-modal-close" onclick="closeCertModal()" aria-label="Close modal" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-size: 1.6rem; cursor: pointer; background: transparent; border: none;">✕</button>
         </div>
-        <div class="cert-modal-body" id="cert-modal-body">
+        <div class="cert-modal-body" id="cert-modal-body" style="min-height: 280px; background: #07060F; display: flex; align-items: center; justify-content: center;">
           <!-- Dynamically populated with high-res certificate image or canvas -->
         </div>
         <div class="cert-modal-footer">
           <button type="button" id="cert-modal-download-btn" class="btn btn-primary" style="padding: 0.7rem 1.4rem; font-size: 0.88rem;">
             ⚡ DOWNLOAD OFFICIAL CERTIFICATE
           </button>
-          <button type="button" class="btn btn-ghost" onclick="closeCertModal()" style="padding: 0.7rem 1.2rem; font-size: 0.88rem;">
+          <button type="button" class="btn btn-ghost" onclick="closeCertModal()" style="padding: 0.7rem 1.2rem; font-size: 0.88rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; border: 1px solid rgba(255, 255, 255, 0.4);">
             CLOSE
           </button>
         </div>
@@ -335,6 +335,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=2027_CERT_PORTAL_TEAM_V30"></script>
+  <script src="js/main.js?v=2027_CERT_MODAL_FIX_V31"></script>
 </body>
 </html>
