@@ -9879,3 +9879,18 @@ section {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
 }
+
+/* Explicit ID & Class Authority for All Section Titles & Subtitles */
+#about-heading,
+#events-heading,
+#team-heading,
+.section-header h2,
+.section-header h3,
+.section-header .section-title,
+.section-header .section-subtitle,
+.section-header p,
+.section-header span {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
+}
