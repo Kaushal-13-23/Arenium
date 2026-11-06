@@ -4208,6 +4208,8 @@ window.startGateQrScanner = function() {
     indicator.textContent = "● ACTIVE SCANNING";
     indicator.style.background = "#ECFDF5";
     indicator.style.color = "#047857";
+    indicator.style.webkitTextFillColor = "#047857";
+    indicator.style.borderColor = "#10B981";
   }
 
   if (!gateHtml5QrCode) {
@@ -4243,7 +4245,9 @@ window.stopGateQrScanner = function() {
       if (indicator) {
         indicator.textContent = "STOPPED";
         indicator.style.background = "#F1F5F9";
-        indicator.style.color = "#64748B";
+        indicator.style.color = "#000000";
+        indicator.style.webkitTextFillColor = "#000000";
+        indicator.style.borderColor = "#94A3B8";
       }
     }).catch(err => console.error(err));
   } else {
@@ -4252,7 +4256,9 @@ window.stopGateQrScanner = function() {
     if (indicator) {
       indicator.textContent = "IDLE";
       indicator.style.background = "#F1F5F9";
-      indicator.style.color = "#64748B";
+      indicator.style.color = "#000000";
+      indicator.style.webkitTextFillColor = "#000000";
+      indicator.style.borderColor = "#94A3B8";
     }
   }
 };
@@ -4312,10 +4318,14 @@ window.handleGateQrScanned = function(rawText) {
       clearancePill.textContent = "✅ ACCESS GRANTED";
       clearancePill.style.background = "#ECFDF5";
       clearancePill.style.color = "#047857";
+      clearancePill.style.webkitTextFillColor = "#047857";
+      clearancePill.style.borderColor = "#10B981";
     } else {
       clearancePill.textContent = "⚠️ UNREGISTERED PASS";
       clearancePill.style.background = "#FEF2F2";
       clearancePill.style.color = "#DC2626";
+      clearancePill.style.webkitTextFillColor = "#DC2626";
+      clearancePill.style.borderColor = "#EF4444";
     }
   }
 

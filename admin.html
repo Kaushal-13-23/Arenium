@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2027_ADMIN_BLACK_TEXT_V37">
+  <link rel="stylesheet" href="css/style.css?v=2027_ADMIN_PHONE_BLACK_V38">
 
     <style>
     /* ========================================================================
@@ -777,6 +777,68 @@
       font-weight: 600 !important;
     }
 
+  
+    /* Gate QR Scanner Tab Authoritative Black Styling */
+    body#admin-app #tab-scanner .cyber-card,
+    body#admin-app #tab-scanner .cyber-card * {
+      box-sizing: border-box;
+    }
+
+    body#admin-app #tab-scanner h3,
+    body#admin-app #tab-scanner .cyber-card h3 {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      font-weight: 800 !important;
+    }
+
+    body#admin-app #gate-clearance-pill {
+      display: inline-block !important;
+      font-family: var(--font-mono) !important;
+      font-size: 0.75rem !important;
+      font-weight: 800 !important;
+      padding: 4px 10px !important;
+      border-radius: 6px !important;
+      background: #F1F5F9 !important;
+      border: 1.5px solid #94A3B8 !important;
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+    }
+
+    body#admin-app #scanner-status-indicator {
+      display: inline-block !important;
+      font-family: var(--font-mono) !important;
+      font-size: 0.75rem !important;
+      font-weight: 800 !important;
+      padding: 4px 10px !important;
+      border-radius: 6px !important;
+      background: #F1F5F9 !important;
+      border: 1.5px solid #94A3B8 !important;
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+    }
+
+    body#admin-app #gate-scan-result-body,
+    body#admin-app #gate-scan-result-body div,
+    body#admin-app #gate-scan-result-body p,
+    body#admin-app #gate-scan-result-body span {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+    }
+
+    body#admin-app #gate-scan-result-title {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      font-weight: 800 !important;
+      font-size: 1.05rem !important;
+    }
+
+    body#admin-app #gate-scan-result-desc {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      font-weight: 600 !important;
+      font-size: 0.84rem !important;
+    }
+
   </style>
 </head>
 <body id="admin-app">
@@ -1505,10 +1567,10 @@
           <!-- Left: Live Scanner Box -->
           <div class="cyber-card" style="padding: 1.5rem; background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-              <h3 style="color: #0284C7; font-family: var(--font-display); font-size: 1.15rem; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+              <h3 style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-family: var(--font-display); font-size: 1.15rem; margin: 0; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
                 📷 LIVE CAMERA SCANNER
               </h3>
-              <span id="scanner-status-indicator" style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: #F1F5F9; color: #64748B;">
+              <span id="scanner-status-indicator" style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 6px; background: #F1F5F9; border: 1.5px solid #94A3B8; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                 READY
               </span>
             </div>
@@ -1537,10 +1599,10 @@
 
             <!-- Manual Reg ID / USN Search Fallback -->
             <div style="margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px dashed #CBD5E1;">
-              <label class="admin-label" style="font-size: 0.75rem; color: #475569; font-weight: 800;">MANUAL USN / REG ID LOOKUP</label>
+              <label class="admin-label" style="font-size: 0.82rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 800;">MANUAL USN / REG ID LOOKUP</label>
               <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
-                <input type="text" id="manual-scan-input" class="admin-input" placeholder="e.g. ARENIUM27-REG-7911 or 20241BCI0063" style="font-family: var(--font-mono); font-size: 0.85rem;" onkeydown="if(event.key==='Enter') lookupManualGatePass()">
-                <button type="button" class="btn btn-primary" onclick="lookupManualGatePass()" style="padding: 0.5rem 1.1rem; font-size: 0.82rem; white-space: nowrap;">
+                <input type="text" id="manual-scan-input" class="admin-input" placeholder="e.g. ARENIUM27-REG-7911 or 20241BCI0063" style="font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important; font-weight: 700;" onkeydown="if(event.key==='Enter') lookupManualGatePass()">
+                <button type="button" class="btn btn-primary" onclick="lookupManualGatePass()" style="padding: 0.5rem 1.1rem; font-size: 0.82rem; white-space: nowrap; font-weight: 700;">
                   🔍 Lookup
                 </button>
               </div>
@@ -1548,20 +1610,22 @@
           </div>
 
           <!-- Right: Scan Result & Gate Clearance Card -->
-          <div class="cyber-card" style="padding: 1.5rem; background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); display: flex; flex-direction: column;">
+          <div class="cyber-card" style="padding: 1.5rem; background: #FFFFFF !important; border: 1.5px solid #CBD5E1 !important; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-              <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.15rem; margin: 0;">
+              <h3 style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-family: var(--font-display); font-size: 1.15rem; margin: 0; font-weight: 800;">
                 🛡️ VERIFICATION &amp; CLEARANCE
               </h3>
-              <span id="gate-clearance-pill" style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: #F1F5F9; color: #64748B;">
+              <span id="gate-clearance-pill" style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; background: #F1F5F9; border: 1.5px solid #94A3B8; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                 AWAITING SCAN
               </span>
             </div>
 
-            <div id="gate-scan-result-body" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #94A3B8; padding: 2rem 1rem; border: 1.5px dashed #E2E8F0; border-radius: 12px; background: #F8FAFC;">
-              <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</div>
-              <div style="font-weight: 700; color: #475569; font-size: 0.95rem;">No Pass Scanned Yet</div>
-              <div style="font-size: 0.78rem; color: #64748B; max-width: 260px; margin-top: 0.3rem;">
+            <div id="gate-scan-result-body" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #000000 !important; -webkit-text-fill-color: #000000 !important; padding: 2rem 1rem; border: 1.5px dashed #CBD5E1; border-radius: 12px; background: #F8FAFC;">
+              <div style="font-size: 2.8rem; margin-bottom: 0.5rem;">🎯</div>
+              <div id="gate-scan-result-title" style="font-weight: 800; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 1.05rem; margin-bottom: 0.35rem;">
+                No Pass Scanned Yet
+              </div>
+              <div id="gate-scan-result-desc" style="font-size: 0.84rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600; max-width: 280px; line-height: 1.5;">
                 Position a delegate's QR code in front of the camera, or upload their pass image, or type their Reg ID above.
               </div>
             </div>
@@ -2057,7 +2121,7 @@
 
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_ADMIN_BLACK_TEXT_V37"></script>
+  <script src="js/main.js?v=2027_ADMIN_PHONE_BLACK_V38"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->

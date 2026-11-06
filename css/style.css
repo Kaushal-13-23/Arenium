@@ -8259,28 +8259,28 @@ body:not(.register-page) .payment-instructions-box strong {
 }
 
 /* Cyber Card CTA Banner on Winners page & Certificate Search */
-.cyber-card {
+body:not(#admin-app) .cyber-card {
   background: rgba(15, 23, 42, 0.82) !important;
   border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
   color: #CBD5E1 !important;
 }
 
-.cyber-card h1,
-.cyber-card h2,
-.cyber-card h3,
-.cyber-card h4,
-.cyber-card h5 {
+body:not(#admin-app) .cyber-card h1,
+body:not(#admin-app) .cyber-card h2,
+body:not(#admin-app) .cyber-card h3,
+body:not(#admin-app) .cyber-card h4,
+body:not(#admin-app) .cyber-card h5 {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
   font-weight: 800 !important;
 }
 
-.cyber-card p {
+body:not(#admin-app) .cyber-card p {
   color: #CBD5E1 !important;
   -webkit-text-fill-color: #CBD5E1 !important;
 }
 
-.cyber-card strong {
+body:not(#admin-app) .cyber-card strong {
   color: #38BDF8 !important;
   -webkit-text-fill-color: #38BDF8 !important;
 }
@@ -10486,14 +10486,14 @@ body:not(.register-page) .fee-tier-external * {
   -webkit-text-fill-color: #38BDF8 !important;
 }
 
-/* 6. Universal Dark Cyber Cards Protection */
-.cyber-card,
-.cyber-card h2,
-.cyber-card h3,
-.cyber-card h4,
-.cyber-card p,
-.cyber-card span,
-.cyber-card strong {
+/* 6. Universal Dark Cyber Cards Protection (excluding light admin app) */
+body:not(#admin-app) .cyber-card,
+body:not(#admin-app) .cyber-card h2,
+body:not(#admin-app) .cyber-card h3,
+body:not(#admin-app) .cyber-card h4,
+body:not(#admin-app) .cyber-card p,
+body:not(#admin-app) .cyber-card span,
+body:not(#admin-app) .cyber-card strong {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
 }
