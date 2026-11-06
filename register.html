@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=2027_BRACKETS_VISIBLE_TEXT_V32">
+  <link rel="stylesheet" href="css/style.css?v=2027_BRACKETS_PAYMENT_VISIBILITY_V33">
 </head>
 <body class="subpage-body register-page">
     
@@ -787,7 +787,7 @@
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_BRACKETS_VISIBLE_TEXT_V32"></script>
+  <script src="js/main.js?v=2027_BRACKETS_PAYMENT_VISIBILITY_V33"></script>
   <script>
     // Live Registration Page Controller
     document.addEventListener("DOMContentLoaded", () => {
@@ -910,7 +910,7 @@
           eventsList.forEach(ev => {
             const opt = document.createElement("option");
             opt.value = ev.id;
-            opt.textContent = `${ev.name} [${ev.category}]`;
+            opt.textContent = `${ev.name} (${ev.category})`;
             opt.dataset.eventName = ev.name;
             if (ev.id === sel1) opt.selected = true;
             ev1Select.appendChild(opt);
@@ -924,7 +924,7 @@
             if (ev.id !== sel1) {
               const opt = document.createElement("option");
               opt.value = ev.id;
-              opt.textContent = `${ev.name} [${ev.category}] — [FREE / INCLUDED]`;
+              opt.textContent = `${ev.name} (${ev.category}) — FREE / INCLUDED`;
               opt.dataset.eventName = ev.name;
               if (ev.id === sel2) opt.selected = true;
               ev2Select.appendChild(opt);
@@ -941,7 +941,7 @@
             if (ev.id !== sel1 && ev.id !== sel2) {
               const opt = document.createElement("option");
               opt.value = ev.id;
-              opt.textContent = `${ev.name} [${ev.category}] — [+₹${addCost}]`;
+              opt.textContent = `${ev.name} (${ev.category}) — +₹${addCost}`;
               opt.dataset.eventName = ev.name;
               if (ev.id === sel3) opt.selected = true;
               ev3Select.appendChild(opt);

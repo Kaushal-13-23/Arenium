@@ -3238,7 +3238,7 @@ window.handleAdminUploadCert = function(e) {
   if (form) form.reset();
   resetAdminCertUpload();
 
-  alert(`✅ Certificate [${certId}] for Team "${teamName}" successfully uploaded and published!
+  alert(`✅ Certificate (${certId}) for Team "${teamName}" successfully uploaded and published!
 
 Participants can now visit certificate.html, enter "${teamName}", and download their official certificate.`);
 };
@@ -3265,7 +3265,7 @@ window.adminPreviewCert = function(id) {
 
   if (proofModal && proofImg) {
     proofImg.src = certDataUrl;
-    if (proofTitle) proofTitle.textContent = `Certificate: ${c.teamName || c.recipient} [${c.id}]`;
+    if (proofTitle) proofTitle.textContent = `Certificate: ${c.teamName || c.recipient} (${c.id})`;
     if (proofMeta) proofMeta.textContent = `Event: ${c.event} · Award: ${c.award} · ${c.college}`;
     proofModal.style.display = "flex";
   } else {
