@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_WINNERS_WHITE_TEXT_V25"
+VERSION = "2027_REGISTER_WHITE_CARD_V26"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):

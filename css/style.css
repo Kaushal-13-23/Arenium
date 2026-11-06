@@ -9709,8 +9709,7 @@ section {
 .title-sponsor-card,
 .sponsor-card,
 .fee-tier-card,
-.fee-structure-announcement-card,
-.register-glass-card {
+.fee-structure-announcement-card {
   background: #0A0F1D !important;
   background-color: #0A0F1D !important;
   border: 1.5px solid #1E293B !important;
@@ -9755,8 +9754,7 @@ section {
 .title-sponsor-card:hover,
 .sponsor-card:hover,
 .fee-tier-card:hover,
-.fee-structure-announcement-card:hover,
-.register-glass-card:hover {
+.fee-structure-announcement-card:hover {
   background: #0A0F1D !important;
   background-color: #0A0F1D !important;
   border-color: #1E293B !important;
@@ -10040,38 +10038,110 @@ section {
   font-weight: 800 !important;
 }
 
-/* 3. Register Page Cards & Form Labels */
-.register-glass-card,
-.register-glass-card h1,
-.register-glass-card h2,
-.register-glass-card h3,
-.register-glass-card p,
-.register-glass-card label,
+/* 3. Register Page Clean White Card & High-Contrast Typography */
+.register-glass-card {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 28px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+  color: #0F172A !important;
+}
+
+.register-glass-card:hover {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+  transform: none !important;
+  filter: none !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08) !important;
+}
+
+.register-glass-card .register-title,
+.register-title {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.04em !important;
+  text-shadow: none !important;
+}
+
+.register-glass-card .register-subtitle,
+.register-subtitle {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+.register-glass-card .section-tag {
+  background: #F1F5F9 !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #0369A1 !important;
+  -webkit-text-fill-color: #0369A1 !important;
+  font-weight: 800 !important;
+}
+
 .register-glass-card .form-label,
-.register-title,
-.register-subtitle,
-.form-label,
-.form-group label,
-label {
-  color: #FFFFFF !important;
-  -webkit-text-fill-color: #FFFFFF !important;
+.register-glass-card label {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-weight: 800 !important;
+  font-size: 0.86rem !important;
+  letter-spacing: 0.03em !important;
 }
 
-.register-instructions-box,
-.register-instructions-box span,
-.register-instructions-box p {
-  color: #FFFFFF !important;
-  -webkit-text-fill-color: #FFFFFF !important;
+.register-glass-card .form-label span.req {
+  color: #DC2626 !important;
+  -webkit-text-fill-color: #DC2626 !important;
 }
 
-.form-label span.req {
-  color: #EF4444 !important;
-  -webkit-text-fill-color: #EF4444 !important;
+.register-glass-card .form-field-group span:not(.req),
+.register-glass-card #hint-team-name {
+  color: #64748B !important;
+  -webkit-text-fill-color: #64748B !important;
 }
 
-.form-field-group span {
+.register-glass-card .form-input,
+.register-glass-card .form-select,
+.register-glass-card .form-textarea {
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+}
+
+.register-glass-card .form-input:focus,
+.register-glass-card .form-select:focus,
+.register-glass-card .form-textarea:focus {
+  border-color: #0284C7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+  outline: none !important;
+}
+
+.register-glass-card .form-input::placeholder {
   color: #94A3B8 !important;
   -webkit-text-fill-color: #94A3B8 !important;
+}
+
+.register-glass-card .register-instructions-box {
+  background: #F0F9FF !important;
+  border: 1.5px solid #BAE6FD !important;
+  border-left: 4px solid #0284C7 !important;
+  color: #0C4A6E !important;
+  -webkit-text-fill-color: #0C4A6E !important;
+  border-radius: 12px !important;
+}
+
+.register-glass-card .register-instructions-box strong {
+  color: #0284C7 !important;
+  -webkit-text-fill-color: #0284C7 !important;
+}
+
+.register-glass-card .register-instructions-box span {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
 }
 
 /* 4. Contact Desk & Address Box */
