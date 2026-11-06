@@ -9931,3 +9931,54 @@ section {
   color: #38BDF8 !important;
   -webkit-text-fill-color: #38BDF8 !important;
 }
+
+/* Guarantee Crisp Pure White Text on All Event Cards, Meta & Coordinators */
+.event-card,
+.event-card *,
+.event-card div,
+.event-card span,
+.event-card p,
+.event-card h3,
+.event-body,
+.event-body *,
+.event-category-badge,
+.event-coord-mini,
+.event-coord-mini *,
+.event-coord-details,
+.event-coord-name,
+.event-coord-phone,
+.event-desc,
+.event-title,
+.event-meta,
+.event-rule,
+.meta-label,
+.meta-val,
+.rulebook-modal-content,
+.rulebook-modal-content * {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.event-category-badge {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  font-weight: 800 !important;
+}
+
+.event-coord-phone {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  font-weight: 700 !important;
+}
+
+.event-coord-name {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+.event-coord-mini {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(56, 189, 248, 0.25) !important;
+  border-radius: 8px !important;
+}

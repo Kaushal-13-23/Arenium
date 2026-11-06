@@ -1595,27 +1595,27 @@ function initEventsPage(db) {
             📍 ${ev.venue || 'SOIS Campus'}
           </span>
         </div>
-        <div class="event-body">
+        <div class="event-body" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-            <span class="event-category-badge">${ev.category}</span>
-            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-pink); font-weight: 700;">${ev.date || '4-5 Feb'}</span>
+            <span class="event-category-badge" style="color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; font-weight: 800;">${ev.category}</span>
+            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 700;">${ev.date || '4-5 Feb'}</span>
           </div>
-          <h3 class="event-title">${ev.name}</h3>
-          <p class="event-desc">${ev.description}</p>
+          <h3 class="event-title" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">${ev.name}</h3>
+          <p class="event-desc" style="color: #E2E8F0 !important; -webkit-text-fill-color: #E2E8F0 !important;">${ev.description}</p>
           
           <!-- Event Coordinator with Photo & Direct Phone Call -->
-          <div class="event-coord-mini">
+          <div class="event-coord-mini" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px;">
             <img src="${coord.photo || 'images/coord-generic.svg'}" alt="${coord.name}" class="event-coord-thumb">
             <div class="event-coord-details">
-              <div class="event-coord-name">${coord.name}</div>
-              <a href="tel:${coord.phone.replace(/[^0-9+]/g, '')}" class="event-coord-phone">
+              <div class="event-coord-name" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 700;">${coord.name}</div>
+              <a href="tel:${coord.phone.replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; font-weight: 700;">
                 📞 ${coord.phone}
               </a>
             </div>
           </div>
 
           <div class="event-action-footer" style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-            <button type="button" class="btn btn-ghost open-rulebook-btn" data-event-id="${ev.id}" style="flex: 1; padding: 0.7rem 0.8rem; font-size: 0.78rem;">
+            <button type="button" class="btn btn-ghost open-rulebook-btn" data-event-id="${ev.id}" style="flex: 1; padding: 0.7rem 0.8rem; font-size: 0.78rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">
               📖 RULEBOOK
             </button>
             <a href="${regUrl}" class="btn btn-register" style="flex: 1.2; padding: 0.7rem 0.8rem; font-size: 0.78rem; text-align: center;" data-register-btn>
