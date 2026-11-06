@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_CONTACT_LIGHT_CARD_V27"
+VERSION = "2027_REMOVE_BREADCRUMBS_V28"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):

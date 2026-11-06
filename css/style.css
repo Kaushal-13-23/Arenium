@@ -2229,22 +2229,7 @@ button {
 }
 
 .breadcrumbs {
-  font-family: 'Roboto Slab', serif !important;
-  font-size: clamp(0.68rem, 1vw, 0.78rem) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.12em !important;
-  color: var(--palette-slate, #5D6B6B) !important;
-  text-transform: uppercase !important;
-  display: inline-block !important;
-  margin-bottom: 0.65rem !important;
-  padding: 0.3rem clamp(0.7rem, 2vw, 1.15rem) !important;
-  max-width: 100% !important;
-  white-space: normal !important;
-  word-break: break-word !important;
-  background: rgba(255, 255, 255, 0.8) !important;
-  border: 1px solid var(--palette-mauve, #DDD3D3) !important;
-  border-radius: 50px !important;
-  box-shadow: 0 2px 8px rgba(93, 107, 107, 0.05), inset 0 1px 1px #FFFFFF !important;
+  display: none !important;
 }
 
 .page-title {
@@ -9673,9 +9658,7 @@ body:has(.page-header-banner) .bg-parallax-backdrop {
 }
 
 .page-header-banner .breadcrumbs {
-  color: #38BDF8 !important;
-  background: rgba(15, 23, 42, 0.75) !important;
-  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  display: none !important;
 }
 
 /* 6. Section Backgrounds Below 1st Frame: Strictly Clean White */
