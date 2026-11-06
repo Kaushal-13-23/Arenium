@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_WHITE_TEXT_INLINE_V20"
+VERSION = "2027_WHITE_TAGS_V21"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):

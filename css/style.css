@@ -9728,10 +9728,15 @@ section {
   color: #FFFFFF !important;
 }
 
+.quick-tag,
+.events-quick-tags .quick-tag,
 .events-preview-card .quick-tag {
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #38BDF8 !important;
-  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Strictly Lock Zero-Hover Changes Across All Cards */
@@ -9864,6 +9869,13 @@ section {
 .section-header h2,
 .section-header h3,
 .section-header p {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.quick-tag,
+.events-quick-tags .quick-tag,
+.events-preview-card .quick-tag {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
 }
