@@ -1899,11 +1899,11 @@ function initWinnersPage(db) {
 
     if (!db.settings.resultsPublished) {
       container.innerHTML = `
-        <div class="cyber-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem;">
-          <h3 style="font-family: var(--font-display); color: var(--neon-yellow); margin-bottom: 0.8rem;">
+        <div class="cyber-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem; background: #0A0F1D !important; border: 1.5px solid rgba(56, 189, 248, 0.3) !important;">
+          <h3 style="font-family: var(--font-display); color: #FDE047 !important; -webkit-text-fill-color: #FDE047 !important; margin-bottom: 0.8rem; font-weight: 800;">
             ⚡ OFFICIAL RESULTS LOCK ENGAGED ⚡
           </h3>
-          <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto;">
+          <p style="color: #CBD5E1 !important; -webkit-text-fill-color: #CBD5E1 !important; max-width: 500px; margin: 0 auto; font-size: 0.95rem; line-height: 1.6;">
             The festival competitions are currently underway. Verified podium positions will be unlocked here after the Grand Valedictory Ceremony!
           </p>
         </div>
@@ -1914,6 +1914,7 @@ function initWinnersPage(db) {
     db.winners.forEach(w => {
       const card = document.createElement("div");
       card.className = "winner-card reveal-on-scroll is-visible";
+      card.setAttribute("style", "background: #0A0F1D !important; border: 1.5px solid #1E293B !important; color: #FFFFFF !important;");
       
       let tiersHtml = "";
       (w.tiers || []).forEach(tier => {
@@ -1928,16 +1929,16 @@ function initWinnersPage(db) {
         }
 
         tiersHtml += `
-          <div class="winner-tier-row">
+          <div class="winner-tier-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
             <div class="winner-medal ${medalClass}">${medalIcon}</div>
             <div style="flex: 1;">
-              <div class="winner-team-name">${tier.team}</div>
-              <div class="winner-college">${tier.college}</div>
+              <div class="winner-team-name" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 800;">${tier.team}</div>
+              <div class="winner-college" style="color: #CBD5E1 !important; -webkit-text-fill-color: #CBD5E1 !important; font-size: 0.82rem;">${tier.college}</div>
             </div>
             <div style="text-align: right;">
-              <div class="winner-cash-badge">${tier.prize}</div>
+              <div class="winner-cash-badge" style="color: #FDE047 !important; -webkit-text-fill-color: #FDE047 !important; background: rgba(253, 224, 71, 0.12) !important; border: 1px solid rgba(253, 224, 71, 0.4) !important; font-weight: 800;">${tier.prize}</div>
               <a href="certificate.html?winner=${encodeURIComponent(tier.team)}&event=${encodeURIComponent(w.eventName)}&rank=${tier.rank}&cert=${tier.certId || ''}" 
-                 style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-cyan); text-decoration: none; display: block; margin-top: 0.3rem;">
+                 style="font-family: var(--font-mono); font-size: 0.72rem; color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; text-decoration: none; display: block; margin-top: 0.3rem; font-weight: 700;">
                 📜 Frame Cert &gt;
               </a>
             </div>
@@ -1946,12 +1947,12 @@ function initWinnersPage(db) {
       });
 
       card.innerHTML = `
-        <div class="winner-card-header">
+        <div class="winner-card-header" style="background: rgba(15, 23, 42, 0.95) !important; border-bottom: 1px solid rgba(56, 189, 248, 0.25) !important; padding: 1.2rem;">
           <div>
-            <span class="event-category-badge" style="font-size: 0.65rem;">${w.category}</span>
-            <div class="winner-event-title">${w.eventName}</div>
+            <span class="event-category-badge" style="font-size: 0.65rem; background: rgba(2, 132, 199, 0.2) !important; color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; border: 1px solid rgba(56, 189, 248, 0.4) !important; font-weight: 800;">${w.category}</span>
+            <div class="winner-event-title" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-size: 1.15rem; font-weight: 900; margin-top: 0.4rem;">${w.eventName}</div>
           </div>
-          <span style="color: var(--neon-yellow); font-size: 1.4rem;">🏆</span>
+          <span style="color: #FDE047; font-size: 1.4rem;">🏆</span>
         </div>
         <div class="winner-tier-list">
           ${tiersHtml}
