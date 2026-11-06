@@ -1,7 +1,7 @@
 import re, os, sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-VERSION = "2027_HERO_CENTER_PAY_FIX_V18"
+VERSION = "2027_WHITE_TEXT_FIX_V19"
 
 for f in os.listdir('.'):
     if f.endswith('.html'):
