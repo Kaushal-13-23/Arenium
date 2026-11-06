@@ -10733,3 +10733,51 @@ body.certificate-page .section-subtitle {
   -webkit-text-fill-color: #FFFFFF !important;
   border: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
+
+/* Student Coordinators Footer Contacts */
+.site-footer .footer-contacts-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0.85rem 0 0 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.55rem !important;
+}
+
+.site-footer .footer-contacts-list li {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  line-height: 1.35 !important;
+}
+
+.site-footer .footer-contact-name {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  margin-bottom: 0.15rem !important;
+}
+
+.site-footer .footer-contacts-list li a,
+.site-footer .footer-phone-link {
+  color: #F472B6 !important;
+  -webkit-text-fill-color: #F472B6 !important;
+  font-size: 0.86rem !important;
+  font-weight: 700 !important;
+  font-family: var(--font-mono, 'Roboto Slab', monospace) !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.35rem !important;
+  transition: color 0.2s ease, transform 0.2s ease !important;
+}
+
+.site-footer .footer-contacts-list li a:hover,
+.site-footer .footer-phone-link:hover {
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  transform: translateX(3px) !important;
+}

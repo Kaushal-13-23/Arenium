@@ -106,7 +106,7 @@ const FestDB = {
           name: "Kaushal Kumar Singh",
           role: "Finance & Registration Manager",
           dept: "5BCA01 (Reg: 20241BCA0051) · SOIS",
-          phone: "+91 91087 40761",
+          phone: "+91 87977 86686",
           photo: "images/coord-kaushal.svg"
         },
         {
@@ -120,9 +120,9 @@ const FestDB = {
         {
           id: "coord-3",
           name: "Ashlin Siddharth",
-          role: "Marketing and Registration Manager",
+          role: "Marketing & Registration Manager",
           dept: "5BCADS01 · SOIS",
-          phone: "+91 87976 86786",
+          phone: "+91 91087 40761",
           photo: "images/coord-ashlin.svg"
         },
         {
@@ -131,7 +131,7 @@ const FestDB = {
           role: "Technical Manager",
           dept: "5BCAAIML01 · SOIS",
           phone: "+91 85958 48421",
-          photo: "images/coord-abhyas.svg"
+          photo: "images/ABHYAS.png"
         }
       ],
       leadership: [
@@ -1481,7 +1481,7 @@ function initTeamSections(db) {
     const studentGrids = document.querySelectorAll("[data-student-coords-grid]");
     studentGrids.forEach(grid => {
       grid.innerHTML = "";
-      db.coordinators.forEach(c => {
+      (db.coordinators || []).filter(c => c.id !== "coord-lead").forEach(c => {
         const card = document.createElement("div");
         card.className = "cyber-card team-card reveal-on-scroll is-visible";
         card.innerHTML = `

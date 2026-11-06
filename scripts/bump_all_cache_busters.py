@@ -1,6 +1,6 @@
 import glob, re
 
-VERSION = "2027_BRACKETS_PAYMENT_VISIBILITY_V33"
+VERSION = "2027_COORDINATORS_NAMES_V34"
 
 for f in sorted(glob.glob("*.html")):
     with open(f, "r", encoding="utf-8") as fp:
