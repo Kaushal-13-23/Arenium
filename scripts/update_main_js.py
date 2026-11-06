@@ -1,1055 +1,816 @@
-import os, json
+import sys, re
 
-# Read the existing js/main.js
+sys.stdout.reconfigure(encoding='utf-8')
+
 with open('js/main.js', 'r', encoding='utf-8') as f:
-    content = f.read()
+    code = f.read()
 
-# Locate where getDefaults starts and where it ends
-start_marker = "  getDefaults() {"
-end_marker = "  getData() {"
-
-idx_start = content.find(start_marker)
-idx_end = content.find(end_marker)
-
-if idx_start == -1 or idx_end == -1:
-    print("Could not find markers in js/main.js")
-    exit(1)
-
-# Build the new authentic getDefaults content
-new_defaults = '''  getDefaults() {
-    return {
-      settings: {
-        eventDate: "2027-02-04T08:30:00+05:30",
-        registerUrl: "https://presidencyuniversity.in/arenium27-register",
-        tagline: "THE ARENA OF INNOVATION",
-        prizePoolText: "⚡ TOTAL CASH PRIZE POOL: ₹1,50,000 (1.5 LAKHS) // ARENIUM '27 // 4–5 FEBRUARY 2027 // SCHOOL OF INFORMATION SCIENCE, PRESIDENCY UNIVERSITY ⚡",
-        announcement: "⚡ ARENIUM ’27: THE ARENA OF INNOVATION // ₹1.5 LAKHS CASH PRIZE POOL // 24-HOUR HACKATHON, BLIND CODING, TREASURE HUNT, ESPORTS & FASHION SHOW // 4–5 FEB 2027 ⚡",
-        qrCodeImg: "images/qrcode.png",
-        logoImg: "images/logo.jpg",
-        certificatesPublished: true,
-        resultsPublished: true,
-        adminPass: "PUSOIS27"
-      },
-      coordinators: [
+# 1. Update FestDB.getDefaults() default certificates to include teamName
+old_certs_def = """      certificates: [
         {
-          id: "coord-1",
-          name: "Kaushal Kumar Singh",
-          role: "Finance & Registration Manager",
-          dept: "5BCA01 (Reg: 20241BCA0051) · SOIS",
-          phone: "+91 91087 40761",
-          photo: "images/coord-kaushal.svg"
+          id: "AR27-HCK-001",
+          recipient: "Team NeuralForge",
+          event: "TECHNOVA '27",
+          award: "CHAMPION · FIRST PLACE",
+          college: "Presidency University, Bengaluru",
+          issueDate: "5 February 2027",
+          verified: true
         },
         {
-          id: "coord-2",
-          name: "Vimal Raj",
-          role: "Event Manager",
-          dept: "5BCADS02 · SOIS",
-          phone: "+91 96201 92249",
-          photo: "images/coord-vimal.svg"
+          id: "AR27-HCK-002",
+          recipient: "CyberSentinels",
+          event: "TECHNOVA '27",
+          award: "RUNNER UP · SECOND PLACE",
+          college: "BMS College of Engineering",
+          issueDate: "5 February 2027",
+          verified: true
         },
         {
-          id: "coord-3",
-          name: "Ashlin Siddharth",
-          role: "Marketing and Registration Manager",
-          dept: "5BCADS01 · SOIS",
-          phone: "+91 87976 86786",
-          photo: "images/coord-ashlin.svg"
+          id: "AR27-COD-001",
+          recipient: "Kiran R",
+          event: "SHADOWCODE",
+          award: "CHAMPION · FIRST PLACE",
+          college: "PES University, Bengaluru",
+          issueDate: "5 February 2027",
+          verified: true
         },
         {
-          id: "coord-4",
-          name: "Abhyas Kathuria",
-          role: "Technical Manager",
-          dept: "5BCAAIML01 · SOIS",
-          phone: "+91 85958 48421",
-          photo: "images/coord-abhyas.svg"
+          id: "AR27-TRL-001",
+          recipient: "CipherKnights",
+          event: "TECH ODYSSEY",
+          award: "CHAMPION · FIRST PLACE",
+          college: "Presidency University, Bengaluru",
+          issueDate: "5 February 2027",
+          verified: true
+        },
+        {
+          id: "AR27-LAN-001",
+          recipient: "Phantom Apex",
+          event: "QUAD DAMAGE",
+          award: "CHAMPION · FIRST PLACE",
+          college: "Presidency University, Bengaluru",
+          issueDate: "5 February 2027",
+          verified: true
+        },
+        {
+          id: "AR27-DSN-001",
+          recipient: "PixelCraft Duo",
+          event: "DESIGNNOVA",
+          award: "CHAMPION · FIRST PLACE",
+          college: "National Institute of Design / PU",
+          issueDate: "5 February 2027",
+          verified: true
+        },
+        {
+          id: "AR27-PRT-042",
+          recipient: "Kaushal Kumar Singh",
+          event: "TECHNOVA '27",
+          award: "CERTIFICATE OF MERIT & PARTICIPATION",
+          college: "Presidency University, Bengaluru",
+          issueDate: "5 February 2027",
+          verified: true
         }
-      ],
-      leadership: [
+      ]"""
+
+new_certs_def = """      certificates: [
         {
-          id: "lead-dean",
-          tag: "PATRON / DEAN",
-          name: "Dr. C. Kalaiarasan",
-          role: "Dean · School of Information Science",
-          bio: "Guiding the academic vision, industry alliances, and innovation ecosystem of SOIS Presidency University.",
-          photo: "images/leader-dean.svg"
+          id: "AR27-HCK-001",
+          teamName: "Team NeuralForge",
+          recipient: "Team NeuralForge",
+          event: "TECHNOVA '27",
+          award: "CHAMPION · FIRST PLACE",
+          college: "Presidency University, Bengaluru",
+          fileUrl: "",
+          issueDate: "5 February 2027",
+          verified: true
         },
         {
-          id: "lead-hod",
-          tag: "HEAD OF DEPARTMENT",
-          name: "Dr. K. G. Mohan",
-          role: "HOD · School of Information Science",
-          bio: "Fostering competitive coding culture, student research, and national collegiate hackathons across SOIS.",
-          photo: "images/leader-hod.svg"
+          id: "AR27-HCK-002",
+          teamName: "CyberSentinels",
+          recipient: "CyberSentinels",
+          event: "TECHNOVA '27",
+          award: "RUNNER UP · SECOND PLACE",
+          college: "BMS College of Engineering",
+          fileUrl: "",
+          issueDate: "5 February 2027",
+          verified: true
         },
         {
-          id: "lead-org",
-          tag: "OVERALL COORDINATOR",
-          name: "Ms. Keren Lois Daniel",
-          role: "Assistant Professor & Overall Coordinator · Arenium'27",
-          bio: "Directing festival choreography, university operations, inter-departmental synergies, and student delegation.",
-          photo: "images/leader-organiser.svg"
+          id: "AR27-COD-001",
+          teamName: "Shadow Devs",
+          recipient: "Kiran R",
+          event: "SHADOWCODE",
+          award: "CHAMPION · FIRST PLACE",
+          college: "PES University, Bengaluru",
+          fileUrl: "",
+          issueDate: "5 February 2027",
+          verified: true
         },
         {
-          id: "lead-pr",
-          tag: "MARKETING & PR LEAD",
-          name: "Ms. Neha Arora",
-          role: "Assistant Professor & Marketing In-Charge · SOIS",
-          bio: "Leading national collegiate outreach, digital campaigns, media partnerships, and corporate sponsorships.",
-          photo: "images/leader-neha.svg"
+          id: "AR27-TRL-001",
+          teamName: "CipherKnights",
+          recipient: "CipherKnights",
+          event: "TECH ODYSSEY",
+          award: "CHAMPION · FIRST PLACE",
+          college: "Presidency University, Bengaluru",
+          fileUrl: "",
+          issueDate: "5 February 2027",
+          verified: true
+        },
+        {
+          id: "AR27-LAN-001",
+          teamName: "Phantom Apex",
+          recipient: "Phantom Apex",
+          event: "QUAD DAMAGE",
+          award: "CHAMPION · FIRST PLACE",
+          college: "Presidency University, Bengaluru",
+          fileUrl: "",
+          issueDate: "5 February 2027",
+          verified: true
+        },
+        {
+          id: "AR27-DSN-001",
+          teamName: "PixelCraft Duo",
+          recipient: "PixelCraft Duo",
+          event: "DESIGNNOVA",
+          award: "CHAMPION · FIRST PLACE",
+          college: "National Institute of Design / PU",
+          fileUrl: "",
+          issueDate: "5 February 2027",
+          verified: true
+        },
+        {
+          id: "AR27-PRT-042",
+          teamName: "NeuralSentinels",
+          recipient: "Kaushal Kumar Singh",
+          event: "TECHNOVA '27",
+          award: "CERTIFICATE OF MERIT & PARTICIPATION",
+          college: "Presidency University, Bengaluru",
+          fileUrl: "",
+          issueDate: "5 February 2027",
+          verified: true
         }
-      ],
-      soisFaculty: [
-        {
-          team: "Marketing & Promotion",
-          faculty: "Ms. Neha Arora",
-          students: "Anjani Soni M (5BCADS01), Rohit Roy (5BCA01), Saswata Chatterjee (5BCA02), Manas Kumar (5BCA02)",
-          role: "Outreach & Social Media PR",
-          photo: "images/leader-neha.svg"
-        },
-        {
-          team: "Discipline & Campus Security",
-          faculty: "Mr. Krishna Mishra & Mr. Dinesh N",
-          students: "Hritik Raj (5BCA02), Vinayak Rathod (5BCA03), Kawatilya (5BCA01), Ayush Ranjan",
-          role: "Campus Safety & Hall Control",
-          photo: "images/leader-sois.svg"
-        },
-        {
-          team: "Decoration & Ambiance",
-          faculty: "Ms. Asha Hegde",
-          students: "Ruchitha G (5BCADS01), Kavya Shree P M (5BCADS01), Nithyashree (5BCADS02), Bindu (5BCADS02)",
-          role: "Aesthetics, Cyber Arena & Dais Decor",
-          photo: "images/leader-sois.svg"
-        },
-        {
-          team: "Hospitality & Refreshments",
-          faculty: "Ms. Nagma Fariyal & Ms. Anjana",
-          students: "Deepanita (5BCADS02), Arati Rai (5BCADS02), Manya Suresh (5BCA01), Harshita Periwal (5BCA03)",
-          role: "Dignitary Care & Refreshment Counters",
-          photo: "images/leader-sois.svg"
-        },
-        {
-          team: "Media & Documentation",
-          faculty: "Ms. Ghazala Zameer & Ms. Akasatha G R",
-          students: "Vidyanshi Jain (5BCAAIML01), Tanmayee L (5BCADS01), Kiran Kurien (5BCADS02)",
-          role: "Live Photography, Videography & Reels",
-          photo: "images/leader-sois.svg"
-        },
-        {
-          team: "Registration & Ticketing",
-          faculty: "Ms. Devi S, Ms. Kalpana K, Mr. Sudharshan",
-          students: "Shubham Kumar, Anchal Rodrigues, Naneshwaran, Rehana",
-          role: "Helpdesk, Kits & Credentials Verification",
-          photo: "images/leader-sois.svg"
-        }
-      ],
-      events: [
-        // 1. Tech Trail (Technical Treasure Hunt)
-        {
-          id: "tech-trail",
-          name: "TECH TRAIL",
-          category: "Technical Treasure Hunt",
-          group: "main",
-          prize: "₹15,000",
-          venue: "AUD (Auditorium) & Campus",
-          date: "Day 1 (4 February 2027)",
-          time: "03:15 PM – 04:45 PM (2h 30m)",
-          description: "Follow the clues, crack the code, and claim the victory. High-energy technical treasure hunt featuring Kahoot riddles, clue discovery within file properties, and rapid code error detection.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Kaushal Kumar Singh",
-            phone: "+91 91087 40761",
-            photo: "images/coord-kaushal.svg"
-          },
-          rulebook: {
-            overview: "A 3-stage intellectual quest testing technical acumen, cryptic discovery, and algorithmic error detection across Presidency University campus.",
-            eligibility: "Teams of 2 to 3 members. Participants must bring their own laptops. No AI tools permitted.",
-            teamSize: "2 - 3 Members per team",
-            rounds: [
-              "Round 1: 20-minute Kahoot Quiz (20 questions covering riddles, logical puzzles, and technical reasoning).",
-              "Round 2: Pickathon Clue Quest (45 minutes to find hidden clues embedded in file properties, metadata, and directory trees).",
-              "Round 3: Code Error Detection (30 minutes to inspect code blocks and identify syntax/logic errors without compiling)."
-            ],
-            rules: [
-              "Participants must carry their own charged laptops; charging points available at checkpoints.",
-              "Strict proctoring against AI tools (ChatGPT, Copilot, etc.). Disqualification for tampering.",
-              "Fastest accurate submission takes the podium."
-            ],
-            judging: "Aggregate score from Kahoot accuracy (30%), clue resolution speed (40%), and syntax bug spotting (30%).",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Trophies & Certificates"
-          }
-        },
+      ]"""
 
-        // 2. Code in the Dark
-        {
-          id: "code-dark",
-          name: "CODE IN THE DARK",
-          category: "Blind Coding Challenge",
-          group: "main",
-          prize: "₹15,000",
-          venue: "SH3 (F Block)",
-          date: "Day 1 (4 February 2027)",
-          time: "R1: 11:30 AM | R2: 02:00 PM | Finals: 03:15 PM",
-          description: "Think fast. Code smart. Debug in the dark. The ultimate blind programming challenge where developers write code with their monitors turned OFF.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Abhyas Kathuria",
-            phone: "+91 85958 48421",
-            photo: "images/coord-abhyas.svg"
-          },
-          rulebook: {
-            overview: "Intense competitive programming event where contestants demonstrate pure muscle memory, algorithmic syntax mastery, and rapid debugging.",
-            eligibility: "Solo participation. Open to all engineering and computer science undergraduates.",
-            teamSize: "1 Participant",
-            rounds: [
-              "Round 1: Code Debugging Sprint (Fix 5 faulty algorithmic scripts in 25 minutes).",
-              "Round 2: Blind Coding (Screens turned OFF; write algorithms for primes, palindromes, or math series from memory).",
-              "Round 3: Optic Code Challenge (Solve the master problem in the minimum possible lines of code — code golf)."
-            ],
-            rules: [
-              "Supported languages: C, C++, Java, Python 3.",
-              "Monitors must remain completely powered off during Round 2 until time is called.",
-              "Code that compiles and passes the maximum hidden test cases wins."
-            ],
-            judging: "Compilation success, test case coverage, execution time, and line count efficiency.",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Certificates"
-          }
-        },
+if old_certs_def in code:
+    code = code.replace(old_certs_def, new_certs_def, 1)
+    print("1. Updated default certificates with teamName.")
+else:
+    print("Warning: old_certs_def exact match not found, checking fallback...")
 
-        // 3. DesignX
-        {
-          id: "design-x",
-          name: "DESIGNX",
-          category: "UI/UX Design Challenge",
-          group: "main",
-          prize: "₹15,000",
-          venue: "SH2 (E Block), Day 1",
-          date: "Day 1 (4 February 2027)",
-          time: "11:30 AM – 03:00 PM",
-          description: "Imagine the experience. Design the future. Fast-paced UI/UX sprint and interactive paper/design presentation tackling modern digital product challenges.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Ashlin Siddharth",
-            phone: "+91 87976 86786",
-            photo: "images/coord-ashlin.svg"
-          },
-          rulebook: {
-            overview: "Participants receive an on-the-spot problem statement to craft an intuitive mobile/web product interface, user journey map, and clickable prototype.",
-            eligibility: "Solo or teams of 2 members. Bring laptops with Figma / Adobe XD installed.",
-            teamSize: "1 - 2 Participants",
-            rounds: [
-              "Phase 1: Briefing & UX Research (30 minutes user journey formulation).",
-              "Phase 2: High-Fidelity Wireframing & Prototyping (2 hours Figma design sprint).",
-              "Phase 3: Jury Presentation & Live Interactive Defense (5 minutes per team)."
-            ],
-            rules: [
-              "All component libraries and design assets must be created or customized on-site.",
-              "Pre-built downloadable commercial UI kits will be penalized.",
-              "Design must be responsive and follow accessibility guidelines (WCAG)."
-            ],
-            judging: "Usability (30%), Visual Aesthetics (30%), Innovation (25%), Pitch Presentation (15%).",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Trophies"
-          }
-        },
+# 2. Update FestDB.getData() to persist certificates
+old_get_data_line = "registrations: (parsed.registrations && Array.isArray(parsed.registrations)) ? parsed.registrations : defaults.registrations"
+new_get_data_line = """registrations: (parsed.registrations && Array.isArray(parsed.registrations)) ? parsed.registrations : defaults.registrations,
+          certificates: (parsed.certificates && Array.isArray(parsed.certificates) && parsed.certificates.length) ? parsed.certificates : defaults.certificates"""
 
-        // 4. TechTalk / STARTUPSTARS (Venture Arena)
-        {
-          id: "startup-stars",
-          name: "TECHTALK / STARTUPSTARS",
-          category: "Startup Pitching & Venture Arena",
-          group: "main",
-          prize: "₹15,000",
-          venue: "SH2 (E Block), Day 2",
-          date: "Day 2 (5 February 2027)",
-          time: "09:30 AM – 01:00 PM",
-          description: "Pitch the vision. Spark the enterprise. Shark Tank style startup pitching and paper presentation (PITCHTHON) before venture evaluators and industry experts.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Vimal Raj",
-            phone: "+91 96201 92249",
-            photo: "images/coord-vimal.svg"
-          },
-          rulebook: {
-            overview: "A business-meets-technology pitching battle where founders showcase disruptive tech startups, market research, revenue models, and MVP prototypes.",
-            eligibility: "Teams of 2 to 4 members. Cross-department and inter-college teams permitted.",
-            teamSize: "2 - 4 Participants",
-            rounds: [
-              "Round 1: Pitch Deck & Executive Summary Submission (Pre-screening).",
-              "Round 2: Live 7-Minute Pitch + 5-Minute Investor Q&A grilling on dais."
-            ],
-            rules: [
-              "Pitch deck must cover: Problem, Solution, Tech Stack, Market Size, Revenue Model, and Team.",
-              "Working software MVP or hardware demonstration carries extra weightage.",
-              "Judges' investment allocation determines final ranking."
-            ],
-            judging: "Market Feasibility (30%), Technological Innovation (30%), Financial Model (20%), Pitch Delivery (20%).",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Incubation Support"
-          }
-        },
+if old_get_data_line in code and "certificates: (parsed.certificates" not in code:
+    code = code.replace(old_get_data_line, new_get_data_line, 1)
+    print("2. Added certificates persistence to FestDB.getData().")
 
-        // 5. Data Tales
-        {
-          id: "data-tales",
-          name: "DATA TALES",
-          category: "Data to Deployment Challenge",
-          group: "main",
-          prize: "₹15,000",
-          venue: "SH3 (F Block), Day 2",
-          date: "Day 2 (5 February 2027)",
-          time: "09:30 AM – 01:00 PM",
-          description: "Discover the story. Decode the data. Deliver the insight. A 3-stage data science challenge: ingest complex raw datasets, build machine learning models, and deploy executive dashboards.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Abhyas Kathuria",
-            phone: "+91 85958 48421",
-            photo: "images/coord-abhyas.svg"
-          },
-          rulebook: {
-            overview: "End-to-end data pipeline championship from exploratory data analysis (EDA) to production deployment and business intelligence storytelling.",
-            eligibility: "Teams of 2 participants. Must bring laptops configured with Python/R, Jupyter, and Streamlit/PowerBI.",
-            teamSize: "2 Participants",
-            rounds: [
-              "Stage 1: Dataset Release & Exploratory Data Analysis (Cleaning & Feature Engineering).",
-              "Stage 2: Model Training & Predictive Performance (Accuracy, F1-Score benchmarking).",
-              "Stage 3: Deployment & Executive Storytelling (Interactive web dashboard presentation)."
-            ],
-            rules: [
-              "All code must be versioned in a newly initialized Git repository during the event.",
-              "Pre-trained custom weights or external leaked labels are forbidden.",
-              "Submissions evaluated on test hold-out data split."
-            ],
-            judging: "Data Preprocessing (25%), Model Robustness (35%), Dashboard UI (20%), Storytelling Impact (20%).",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Merit Certificates"
-          }
-        },
+# 3. Replace lines 1970 to 2345 (Section 14: Certificate Studio & Search)
+sec14_start = code.find("// 14. CERTIFICATE FRAMING STUDIO & HIGH-RES DOWNLOAD")
+sec15_start = code.find("// ==========================================================================\n// 15. GALLERY PAGE")
+if sec15_start == -1:
+    sec15_start = code.find("// 15. GALLERY PAGE")
 
-        // 6. Prompt to Prototype
-        {
-          id: "prompt-prototype",
-          name: "PROMPT TO PROTOTYPE",
-          category: "Generative AI Project Expo",
-          group: "main",
-          prize: "₹15,000",
-          venue: "SH4 (F Block), Day 1",
-          date: "Day 1 (4 February 2027)",
-          time: "11:30 AM – 04:30 PM",
-          description: "Imagine it. Prompt it. Build it. Showcase generative AI applications, autonomous agents, and AI-accelerated prototypes solving real-world challenges.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Ashlin Siddharth",
-            phone: "+91 87976 86786",
-            photo: "images/coord-ashlin.svg"
-          },
-          rulebook: {
-            overview: "Project expo and rapid prototype competition highlighting generative AI, multimodal agents, prompt engineering pipelines, and full-stack AI demos.",
-            eligibility: "Teams of 2 to 3 members. Prototype must be operational for live demonstration.",
-            teamSize: "2 - 3 Members",
-            rounds: [
-              "Phase 1: Booth Setup and Architecture Poster Display.",
-              "Phase 2: Jury Inspection, Live Code Walkthrough, and Failure Handling Demo.",
-              "Phase 3: Open Participant Viewing & Crowd Favorite Voting."
-            ],
-            rules: [
-              "Working prototype must be demonstrated live on contestant laptops.",
-              "Prompt engineering architecture and guardrails must be documented.",
-              "Teams must justify utility, cost efficiency, and real-world viability."
-            ],
-            judging: "Originality (30%), Technological Depth (30%), Practical Impact (25%), Presentation (15%).",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Trophies"
-          }
-        },
+if sec14_start != -1 and sec15_start != -1:
+    print(f"3. Found section 14 from {sec14_start} to {sec15_start}.")
+    new_sec14 = """// 14. OFFICIAL CERTIFICATE RETRIEVAL PORTAL & HIGH-RES VERIFICATION
+// ==========================================================================
+function initCertificateStudio(db) {
+  // Backwards-compatible router: initializes official certificate search portal
+  initCertificateSearch(db);
+}
 
-        // 7. TechVerse ’27 (ByteBlitz 24-Hour Hackathon)
-        {
-          id: "techverse-hackathon",
-          name: "TECHVERSE ’27 (BYTEBLITZ 24H HACKATHON)",
-          category: "24-Hour National Hackathon",
-          group: "main",
-          prize: "₹22,500",
-          venue: "Old Prayer Hall (E Block, 4th Floor)",
-          date: "4–5 February 2027 (Overnight 24H)",
-          time: "Day 1 11:30 AM Kickoff to Day 2 01:00 PM Demos",
-          description: "24 Hours. One mission. Limitless innovation. Presidency University's flagship overnight hackathon with problem statements sourced from Smart India Hackathon and industry sponsors.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Abhyas Kathuria",
-            phone: "+91 85958 48421",
-            photo: "images/coord-abhyas.svg"
-          },
-          rulebook: {
-            overview: "A non-stop 24-hour innovation sprint bringing top collegiate coders to build production-grade web, mobile, blockchain, or AI solutions.",
-            eligibility: "Teams of strictly 4 members. Registration fee: ₹1,500 per team (includes breakfast, lunch, dinner, midnight snacks & stay).",
-            teamSize: "Strictly 4 Members per team",
-            rounds: [
-              "Kickoff: Problem statement reveal at 11:30 AM Day 1.",
-              "Checkpoint 1: Mentorship review at 04:00 PM Day 1.",
-              "Checkpoint 2: Midnight architecture verification at 12:00 AM.",
-              "Final Demos: 11:00 AM – 01:00 PM Day 2 before industry jury panel."
-            ],
-            rules: [
-              "All code must be written during the 24-hour window; fresh Git commit history verified.",
-              "Open-source libraries permitted with proper attribution; no turnkey templates.",
-              "Teams must observe common break rules (13:00–14:00 lunch clock pause)."
-            ],
-            judging: "Technical Innovation (35%), Product Completion (30%), UI/UX (20%), Pitch Demo (15%).",
-            cashPrize: "Winner: ₹12,000 | Runner-up: ₹7,000 | Best AI Prototype: ₹3,500 + Trophies & Medals"
-          }
-        },
+// Generate official 300 DPI high-definition canvas certificate Data URL
+function generateCertificateCanvasDataUrl(recipientName, eventName, award, college, certId, teamName) {
+  const name = (recipientName || teamName || "PARTICIPANT NAME").toUpperCase();
+  const event = (eventName || "ARENIUM 27 ARENA").toUpperCase();
+  const awd = (award || "CERTIFICATE OF MERIT & PARTICIPATION").toUpperCase();
+  const clg = (college || "PRESIDENCY UNIVERSITY, BENGALURU").toUpperCase();
+  const hashId = certId || ("AR27-CRT-" + Math.floor(1000 + Math.random() * 9000));
+  const team = teamName ? teamName.toUpperCase() : "";
 
-        // 8. BrainByte
-        {
-          id: "brain-byte",
-          name: "BRAINBYTE",
-          category: "Technical Stage Quiz",
-          group: "main",
-          prize: "₹15,000",
-          venue: "AUD (Auditorium)",
-          date: "Day 1 (Prelims 2 PM) & Day 2 (Finals 10 AM)",
-          time: "Day 1 02:00 PM – 03:00 PM | Day 2 10:00 AM – 11:30 AM",
-          description: "Battle of the bytes. Master of logic. High-voltage technical stage quiz covering computing history, cryptography, hardware architectures, and AI trivia with live audience buzzers.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Kaushal Kumar Singh",
-            phone: "+91 91087 40761",
-            photo: "images/coord-kaushal.svg"
-          },
-          rulebook: {
-            overview: "A battle of intellect testing computer science trivia, algorithms, tech pioneers, and cyber lore with electronic buzzers on the main auditorium stage.",
-            eligibility: "Teams of 2 members. Open to all students.",
-            teamSize: "2 Participants per team",
-            rounds: [
-              "Round 1: Written Prelims (30 questions in 30 minutes in Auditorium, top 6 teams qualify).",
-              "Round 2: Grand Stage Finals (Audio-Visual, Code Output, Wager Round, and Rapid Buzzer Finale)."
-            ],
-            rules: [
-              "No smart devices, phones, or notes allowed inside the testing hall.",
-              "Negative points apply in the stage buzzer round for false triggers.",
-              "Quizmaster's ruling is conclusive."
-            ],
-            judging: "Objective point tallies on electronic scoring display.",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Stage Felicitation"
-          }
-        },
+  const canvas = document.createElement("canvas");
+  canvas.width = 2000;
+  canvas.height = 1414;
+  const ctx = canvas.getContext("2d");
 
-        // 9. Squad Damage (Pixel Showdown)
-        {
-          id: "squad-damage",
-          name: "SQUAD DAMAGE (PIXEL SHOWDOWN)",
-          category: "Esports Championship",
-          group: "main",
-          prize: "₹15,000",
-          venue: "SH4 / Classroom DJL01, Day 2",
-          date: "Day 2 (5 February 2027)",
-          time: "09:30 AM – 03:00 PM",
-          description: "Lock in. Frag out. Rule the arena. Championship esports tournament featuring Valorant (PC 5v5), BGMI (Mobile Squads), and Call of Duty with live match broadcasts.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Ashlin Siddharth",
-            phone: "+91 87976 86786",
-            photo: "images/coord-ashlin.svg"
-          },
-          rulebook: {
-            overview: "Collegiate esports championship played across custom dedicated rooms with tournament referee monitoring and caster stream.",
-            eligibility: "Teams of 1 to 4 members. Must carry college IDs and own mobile/peripherals.",
-            teamSize: "1 - 4 Players per squad",
-            rounds: [
-              "Stage 1: Custom Room Qualifiers (Single Elimination, 20-30 teams).",
-              "Stage 2: Semi-Finals & Grand Finals projected on big screens."
-            ],
-            rules: [
-              "Strict anti-cheat policy. Any emulation, macros, or mods cause instant disqualification.",
-              "Stable campus Wi-Fi provided; players may also use personal cellular hotspots.",
-              "Unsportsmanlike conduct or toxicity leads to team forfeiture."
-            ],
-            judging: "Official in-game match results verified by match referees.",
-            cashPrize: "Valorant Champion: ₹6,000 | BGMI Champion: ₹5,000 | Call of Duty Champion: ₹4,000 + Trophies"
-          }
-        },
+  // 1. Dark Cyber Background
+  ctx.fillStyle = "#07060f";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 10. TECHNO - Organic Synthesis
-        {
-          id: "techno-fashion",
-          name: "TECHNO - ORGANIC SYNTHESIS",
-          category: "Tech × Nature Themed Fashion Show",
-          group: "main",
-          prize: "₹15,000",
-          venue: "AUD (Auditorium), Day 2",
-          date: "Day 2 (5 February 2027)",
-          time: "03:00 PM – 04:00 PM",
-          description: "Where nature meets innovation, style becomes the future. A flagship themed fashion runway combining futuristic technology, wearable electronics, and sustainable organic materials.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Vimal Raj",
-            phone: "+91 96201 92249",
-            photo: "images/coord-vimal.svg"
-          },
-          rulebook: {
-            overview: "A spectacular runway experience where futuristic cyber aesthetics blend with nature-inspired elements, smart textiles, wearable LEDs, and recyclable tech fabrics.",
-            eligibility: "Teams of 5 to 10 members (models, designers, and backstage support).",
-            teamSize: "5 - 10 Members per team",
-            rounds: [
-              "Runway Round: 8-minute choreographed team walk with music and thematic narration.",
-              "Concept Defense: 2-minute Q&A with fashion and tech judges explaining material sustainability."
-            ],
-            rules: [
-              "Outfits must reflect the 'Technology × Nature' theme (recyclable materials, microcontrollers, fibre optics).",
-              "Soundtrack and visual backdrop must be submitted 2 hours before the event.",
-              "Costume changes must happen within assigned green rooms."
-            ],
-            judging: "Theme Interpretation (30%), Design Creativity (30%), Stage Walk & Poise (25%), Material Innovation (15%).",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | Best Creative Ensemble: ₹2,500 + Trophies"
-          }
-        },
+  // 2. Outer Sovereign Gold / Crimson Frame
+  const frameColor = awd.includes("FIRST") || awd.includes("CHAMPION") ? "#ffd700" : (awd.includes("SECOND") ? "#38bdf8" : "#f43f5e");
+  ctx.lineWidth = 18;
+  ctx.strokeStyle = frameColor;
+  ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
 
-        // 11. Arenium Premier League (APL)
-        {
-          id: "apl-auction",
-          name: "ARENIUM PREMIER LEAGUE (APL)",
-          category: "Strategic Brand Auction & Simulation",
-          group: "main",
-          prize: "₹15,000",
-          venue: "SH1 (E Block), Day 2",
-          date: "Day 2 (5 February 2027)",
-          time: "09:30 AM – 01:00 PM",
-          description: "Bid the best. Build the empire. An IPL-style strategic corporate auction and business simulation where teams manage virtual capital, acquire brands, and deliver growth portfolios.",
-          poster: "images/events-poster.svg",
-          coordinator: {
-            name: "Kaushal Kumar Singh",
-            phone: "+91 91087 40761",
-            photo: "images/coord-kaushal.svg"
-          },
-          rulebook: {
-            overview: "Tailored for business, commerce, and tech-strategy minds. Teams navigate an auction bidding war for iconic conglomerates, analyze market dynamics, and pitch expansion strategies.",
-            eligibility: "Teams of 2 to 3 members.",
-            teamSize: "2 - 3 Members per team",
-            rounds: [
-              "Round 1: Virtual Budget Bidding Auction (Acquiring brands like Tata, Reliance, Apple, Google).",
-              "Round 2: Brand Strategy SWOT & Crisis Simulation (Overcoming competitive market disruption).",
-              "Round 3: Executive Portfolio Defense (Presenting corporate turnaround deck to the jury)."
-            ],
-            rules: [
-              "Teams operate within a strictly capped virtual purse limit; budget overruns incur penalties.",
-              "Collusion between bidding teams is barred.",
-              "Valuation calculations must be supported by sound financial logic."
-            ],
-            judging: "Auction Resource Management (35%), Strategic Analysis (35%), Presentation Delivery (30%).",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Merit Certificates"
-          }
-        }
-      ],
-      schedule: [
-        // --- DAY 1: THURSDAY, 4 FEBRUARY 2027 ---
-        {
-          day: "Day 1",
-          time: "08:30 AM – 10:00 AM",
-          name: "Delegate Registration, ID Check & Kit Distribution",
-          venue: "Auditorium Foyer & Central Desk",
-          note: "Delegate badge issue, participant kits & breakfast distribution; guests received from 09:30 AM",
-          category: "Registration"
-        },
-        {
-          day: "Day 1",
-          time: "10:00 AM – 11:30 AM",
-          name: "Arena Ignition (Inauguration Ceremony)",
-          venue: "AUD (Main Auditorium)",
-          note: "Theme: Let the Games Begin. Lamp lighting, welcome address by Dean & HOD, curtain-raiser video, Chief Guest address & fest brochure release",
-          category: "Ceremony"
-        },
-        {
-          day: "Day 1",
-          time: "11:30 AM – 01:00 PM",
-          name: "Round 1 Multi-Venue Kickoff",
-          venue: "AUD, Old Prayer Hall, SH2, SH3, SH4",
-          note: "Arena Talks 1 (AUD) | ByteBlitz 24H Hackathon kickoff (Old Prayer Hall) | DesignX UI/UX (SH2) | Code in the Dark R1 (SH3) | Prompt to Prototype setup (SH4)",
-          category: "Technical"
-        },
-        {
-          day: "Day 1",
-          time: "01:00 PM – 02:00 PM",
-          name: "Common Lunch Break (Venues Paused)",
-          venue: "University Dining Concourse",
-          note: "Break Rule: All venues closed and ByteBlitz clock is strictly paused. Refreshment counters open for participants, judges & volunteers",
-          category: "Break"
-        },
-        {
-          day: "Day 1",
-          time: "02:00 PM – 03:00 PM",
-          name: "BrainByte Prelims & Technical Sprints",
-          venue: "AUD, Old Prayer Hall, SH2, SH3, SH4",
-          note: "BrainByte written prelims (AUD) | ByteBlitz build sprint resumes | DesignX presentations (SH2) | Code in the Dark R2 (SH3) | Prompt to Prototype open viewing (SH4)",
-          category: "Technical"
-        },
-        {
-          day: "Day 1",
-          time: "03:00 PM – 03:15 PM",
-          name: "Evening Tea Break (Venues Paused)",
-          venue: "Central Refreshment Counters",
-          note: "Break Rule: All events paused; participants take evening tea & refreshments",
-          category: "Break"
-        },
-        {
-          day: "Day 1",
-          time: "03:15 PM – 04:15 PM",
-          name: "Tech Trail Hunt & Arena Connect",
-          venue: "Campus Grounds, AUD, SH3",
-          note: "Tech Trail Kahoot & Pickathon clues | Arena Connect industry networking (AUD) | Code in the Dark Finals (SH3) | ByteBlitz sprint continues",
-          category: "Technical"
-        },
-        {
-          day: "Day 1",
-          time: "04:15 PM – 04:45 PM",
-          name: "Day 1 Shortlisting Window",
-          venue: "SH1 (E Block - Judges' Chamber)",
-          note: "Judges tally scores for DesignX, Code in the Dark, Prompt to Prototype and BrainByte; finalists verified",
-          category: "Judging"
-        },
-        {
-          day: "Day 1",
-          time: "04:45 PM – 05:15 PM",
-          name: "Day 1 Wrap-up & Day 2 Briefing",
-          venue: "AUD (Main Auditorium)",
-          note: "Finalist announcements, schedule overview for Day 2 finals & instructions for overnight hackathon squads",
-          category: "Briefing"
-        },
-        {
-          day: "Day 1",
-          time: "05:15 PM – 05:45 PM",
-          name: "Hall Reset & Security Locking",
-          venue: "SH4 (F Block)",
-          note: "SH4 converted from AI expo into the Squad Damage Gaming Arena; night security lock engaged",
-          category: "Operations"
-        },
+  // Inner subtle neon matrix grid
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "rgba(56, 189, 248, 0.25)";
+  ctx.strokeRect(70, 70, canvas.width - 140, canvas.height - 140);
 
-        // --- DAY 2: FRIDAY, 5 FEBRUARY 2027 ---
-        {
-          day: "Day 2",
-          time: "08:30 AM – 09:30 AM",
-          name: "Reporting, Finalist Attendance & Breakfast",
-          venue: "Auditorium Foyer & Venues",
-          note: "Day 2 finalist check-in, ByteBlitz overnight sprint review & morning breakfast distribution",
-          category: "Registration"
-        },
-        {
-          day: "Day 2",
-          time: "09:30 AM – 01:00 PM",
-          name: "Grand Finals Morning Block",
-          venue: "AUD, Old Prayer Hall, SH1, SH2, SH3, SH4",
-          note: "BrainByte Finals stage quiz (10:00–11:30 AUD) | ByteBlitz demos & judging (11:00–13:00 Old Prayer Hall) | STARTUPSTARS Venture Arena (SH2) | Data Tales (SH3) | Squad Damage Esports (SH4) | APL Auction (SH1)",
-          category: "Finals"
-        },
-        {
-          day: "Day 2",
-          time: "01:00 PM – 02:00 PM",
-          name: "Common Lunch Break (Venues Paused)",
-          venue: "University Dining Concourse",
-          note: "Break Rule: All venues closed. Full lunch served to all delegates, faculty, and guests",
-          category: "Break"
-        },
-        {
-          day: "Day 2",
-          time: "02:00 PM – 03:00 PM",
-          name: "Arena Talks 2 & Esports Championship Finals",
-          venue: "AUD & SH4",
-          note: "Arena Talks 2: Alumni founders & startup stories (AUD) | Squad Damage Grand Finals casted on big screens (SH4)",
-          category: "Finals"
-        },
-        {
-          day: "Day 2",
-          time: "03:00 PM – 04:00 PM",
-          name: "TECHNO - Organic Synthesis (Fashion Runway)",
-          venue: "AUD (Main Auditorium)",
-          note: "Flagship runway show: Technology × Nature wearable electronics, LED fashion & sustainable materials",
-          category: "Flagship"
-        },
-        {
-          day: "Day 2",
-          time: "03:00 PM – 04:30 PM",
-          name: "Official 90-Minute Winner Selection Window",
-          venue: "SH1 (E Block - Judges' Chamber)",
-          note: "All events closed. Judges complete scoring sheets, tie-break verification with Fest Coordination Committee, and certificates preparation",
-          category: "Judging"
-        },
-        {
-          day: "Day 2",
-          time: "04:30 PM – 04:45 PM",
-          name: "Auditorium Seating & Sealed Results Handover",
-          venue: "AUD (Main Auditorium)",
-          note: "Participants, dignitaries & faculty take seats in AUD; sealed results envelopes delivered to stage emcee",
-          category: "Ceremony"
-        },
-        {
-          day: "Day 2",
-          time: "04:45 PM – 05:45 PM",
-          name: "Arena Crowning (Valedictory & Prize Distribution)",
-          venue: "AUD (Main Auditorium)",
-          note: "Official announcement of results, handover of ₹1.5 Lakhs cash prizes, trophies, medals, sponsor mementoes & vote of thanks",
-          category: "Awards"
-        },
-        {
-          day: "Day 2",
-          time: "05:45 PM – 06:15 PM",
-          name: "Closing Group Photo & Certificate Download Access",
-          venue: "University Central Amphitheatre",
-          note: "Grand fest photo with leadership, coordinators & participants; online certificate framing studio opened",
-          category: "Ceremony"
-        }
-      ],
-      winners: [
-        {
-          eventId: "techverse-hackathon",
-          eventName: "TECHVERSE ’27 (BYTEBLITZ 24H HACKATHON)",
-          category: "24-Hour Hackathon",
-          tiers: [
-            {
-              rank: 1,
-              title: "CHAMPION (1ST PLACE)",
-              team: "Quantum Coders (4 Members)",
-              college: "Presidency University (SOIS)",
-              prize: "₹12,000",
-              certId: "AR27-HCK-001"
-            },
-            {
-              rank: 2,
-              title: "RUNNER UP (2ND PLACE)",
-              team: "Neural Knights",
-              college: "RV College of Engineering",
-              prize: "₹7,000",
-              certId: "AR27-HCK-002"
-            },
-            {
-              rank: 3,
-              title: "BEST AI PROTOTYPE",
-              team: "Agentic Forge",
-              college: "BMS College of Engineering",
-              prize: "₹3,500",
-              certId: "AR27-HCK-003"
-            }
-          ]
-        },
-        {
-          eventId: "tech-trail",
-          eventName: "TECH TRAIL",
-          category: "Technical Treasure Hunt",
-          tiers: [
-            {
-              rank: 1,
-              title: "CHAMPION (1ST PLACE)",
-              team: "Cipher Scavengers",
-              college: "Presidency University",
-              prize: "₹8,000",
-              certId: "AR27-TRL-001"
-            },
-            {
-              rank: 2,
-              title: "RUNNER UP (2ND PLACE)",
-              team: "Binary Bloodhounds",
-              college: "PES University",
-              prize: "₹4,500",
-              certId: "AR27-TRL-002"
-            },
-            {
-              rank: 3,
-              title: "2ND RUNNER UP (3RD PLACE)",
-              team: "Node Seekers",
-              college: "New Horizon College of Engg",
-              prize: "₹2,500",
-              certId: "AR27-TRL-003"
-            }
-          ]
-        },
-        {
-          eventId: "code-dark",
-          eventName: "CODE IN THE DARK",
-          category: "Blind Coding",
-          tiers: [
-            {
-              rank: 1,
-              title: "CHAMPION (1ST PLACE)",
-              team: "Rohan Varma",
-              college: "Presidency University (SOIS)",
-              prize: "₹8,000",
-              certId: "AR27-CDK-001"
-            },
-            {
-              rank: 2,
-              title: "RUNNER UP (2ND PLACE)",
-              team: "Ananya Deshmukh",
-              college: "Ramaiah Institute of Technology",
-              prize: "₹4,500",
-              certId: "AR27-CDK-002"
-            },
-            {
-              rank: 3,
-              title: "2ND RUNNER UP (3RD PLACE)",
-              team: "Siddharth Rao",
-              college: "Dayananda Sagar College",
-              prize: "₹2,500",
-              certId: "AR27-CDK-003"
-            }
-          ]
-        },
-        {
-          eventId: "design-x",
-          eventName: "DESIGNX",
-          category: "UI/UX Design Challenge",
-          tiers: [
-            {
-              rank: 1,
-              title: "CHAMPION (1ST PLACE)",
-              team: "Pixel Matrix (Aarav & Meera)",
-              college: "Presidency University",
-              prize: "₹8,000",
-              certId: "AR27-DSX-001"
-            },
-            {
-              rank: 2,
-              title: "RUNNER UP (2ND PLACE)",
-              team: "Figma Wizards",
-              college: "NIFT Bengaluru",
-              prize: "₹4,500",
-              certId: "AR27-DSX-002"
-            },
-            {
-              rank: 3,
-              title: "2ND RUNNER UP (3RD PLACE)",
-              team: "Interface Labs",
-              college: "Christ University",
-              prize: "₹2,500",
-              certId: "AR27-DSX-003"
-            }
-          ]
-        },
-        {
-          eventId: "startup-stars",
-          eventName: "TECHTALK / STARTUPSTARS",
-          category: "Startup Pitching (PITCHTHON)",
-          tiers: [
-            {
-              rank: 1,
-              title: "CHAMPION (1ST PLACE)",
-              team: "GreenGrid AI",
-              college: "Presidency University",
-              prize: "₹8,000",
-              certId: "AR27-STP-001"
-            },
-            {
-              rank: 2,
-              title: "RUNNER UP (2ND PLACE)",
-              team: "MediPulse Robotics",
-              college: "PES University",
-              prize: "₹4,500",
-              certId: "AR27-STP-002"
-            },
-            {
-              rank: 3,
-              title: "2ND RUNNER UP (3RD PLACE)",
-              team: "KisanDrone Tech",
-              college: "Jain University",
-              prize: "₹2,500",
-              certId: "AR27-STP-003"
-            }
-          ]
-        },
-        {
-          eventId: "data-tales",
-          eventName: "DATA TALES",
-          category: "Data to Deployment",
-          tiers: [
-            {
-              rank: 1,
-              title: "CHAMPION (1ST PLACE)",
-              team: "Data Dynamos (Karan & Priya)",
-              college: "Presidency University (SOIS)",
-              prize: "₹8,000",
-              certId: "AR27-DTA-001"
-            },
-            {
-              rank: 2,
-              title: "RUNNER UP (2ND PLACE)",
-              team: "Vector Minds",
-              college: "RVCE Bengaluru",
-              prize: "₹4,500",
-              certId: "AR27-DTA-002"
-            },
-            {
-              rank: 3,
-              title: "2ND RUNNER UP (3RD PLACE)",
-              team: "Pandas Overload",
-              college: "BMSIT Bengaluru",
-              prize: "₹2,500",
-              certId: "AR27-DTA-003"
-            }
-          ]
-        },
-        {
-          eventId: "squad-damage",
-          eventName: "SQUAD DAMAGE (PIXEL SHOWDOWN)",
-          category: "Esports Championship",
-          tiers: [
-            {
-              rank: 1,
-              title: "CHAMPION (1ST PLACE)",
-              team: "Team Shadow Protocol",
-              college: "Presidency University",
-              prize: "₹6,000",
-              certId: "AR27-SQD-001"
-            },
-            {
-              rank: 2,
-              title: "RUNNER UP (2ND PLACE)",
-              team: "Cyber Strikers",
-              college: "Dayananda Sagar College",
-              prize: "₹5,000",
-              certId: "AR27-SQD-002"
-            },
-            {
-              rank: 3,
-              title: "2ND RUNNER UP (3RD PLACE)",
-              team: "Vortex Esports",
-              college: "Presidency University (SOIS)",
-              prize: "₹4,000",
-              certId: "AR27-SQD-003"
-            }
-          ]
-        },
-        {
-          eventId: "techno-fashion",
-          eventName: "TECHNO - ORGANIC SYNTHESIS",
-          category: "Fashion Runway",
-          tiers: [
-            {
-              rank: 1,
-              title: "CHAMPION (1ST PLACE)",
-              team: "CyberFlora Couture",
-              college: "Presidency University",
-              prize: "₹8,000",
-              certId: "AR27-FSH-001"
-            },
-            {
-              rank: 2,
-              title: "RUNNER UP (2ND PLACE)",
-              team: "BioLumino Squad",
-              college: "Mount Carmel College",
-              prize: "₹4,500",
-              certId: "AR27-FSH-002"
-            },
-            {
-              rank: 3,
-              title: "2ND RUNNER UP (3RD PLACE)",
-              team: "EcoSilicon Ensemble",
-              college: "Presidency University (SOIS)",
-              prize: "₹2,500",
-              certId: "AR27-FSH-003"
-            }
-          ]
-        },
-        {
-          eventId: "apl-auction",
-          eventName: "ARENIUM PREMIER LEAGUE (APL)",
-          category: "Brand Auction & Strategy",
-          tiers: [
-            {
-              rank: 1,
-              title: "CHAMPION (1ST PLACE)",
-              team: "The Sovereign Tycoons",
-              college: "Presidency University",
-              prize: "₹8,000",
-              certId: "AR27-APL-001"
-            },
-            {
-              rank: 2,
-              title: "RUNNER UP (2ND PLACE)",
-              team: "Apex Investors",
-              college: "Christ University",
-              prize: "₹4,500",
-              certId: "AR27-APL-002"
-            },
-            {
-              rank: 3,
-              title: "2ND RUNNER UP (3RD PLACE)",
-              team: "Venture Sharks",
-              college: "St. Joseph's University",
-              prize: "₹2,500",
-              certId: "AR27-APL-003"
-            }
-          ]
-        }
-      ],
-      certificates: [
-        { id: "AR27-HCK-001", recipient: "Quantum Coders", event: "TECHVERSE ’27 (BYTEBLITZ 24H HACKATHON)", award: "CHAMPION // FIRST PLACE", college: "Presidency University (SOIS)", issueDate: "5 February 2027", verified: true },
-        { id: "AR27-TRL-001", recipient: "Cipher Scavengers", event: "TECH TRAIL", award: "CHAMPION // FIRST PLACE", college: "Presidency University", issueDate: "4 February 2027", verified: true },
-        { id: "AR27-CDK-001", recipient: "Rohan Varma", event: "CODE IN THE DARK", award: "CHAMPION // FIRST PLACE", college: "Presidency University (SOIS)", issueDate: "4 February 2027", verified: true },
-        { id: "AR27-DSX-001", recipient: "Pixel Matrix", event: "DESIGNX", award: "CHAMPION // FIRST PLACE", college: "Presidency University", issueDate: "4 February 2027", verified: true },
-        { id: "AR27-STP-001", recipient: "GreenGrid AI", event: "TECHTALK / STARTUPSTARS", award: "CHAMPION // FIRST PLACE", college: "Presidency University", issueDate: "5 February 2027", verified: true },
-        { id: "AR27-DTA-001", recipient: "Data Dynamos", event: "DATA TALES", award: "CHAMPION // FIRST PLACE", college: "Presidency University (SOIS)", issueDate: "5 February 2027", verified: true },
-        { id: "AR27-SQD-001", recipient: "Team Shadow Protocol", event: "SQUAD DAMAGE (PIXEL SHOWDOWN)", award: "CHAMPION // FIRST PLACE", college: "Presidency University", issueDate: "5 February 2027", verified: true },
-        { id: "AR27-FSH-001", recipient: "CyberFlora Couture", event: "TECHNO - ORGANIC SYNTHESIS", award: "CHAMPION // FIRST PLACE", college: "Presidency University", issueDate: "5 February 2027", verified: true },
-        { id: "AR27-APL-001", recipient: "The Sovereign Tycoons", event: "ARENIUM PREMIER LEAGUE (APL)", award: "CHAMPION // FIRST PLACE", college: "Presidency University", issueDate: "5 February 2027", verified: true }
-      ],
-      sponsors: [
-        {
-          id: "sp-title",
-          name: "PRESIDENCY UNIVERSITY",
-          tier: "Host Institution",
-          logo: "images/logo.jpg",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-1",
-          name: "SMART INDIA HACKATHON PARTNER",
-          tier: "Innovation Partner",
-          logo: "images/sponsor-1.svg",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-2",
-          name: "CYBER MATRIX TECH",
-          tier: "Title Sponsor",
-          logo: "images/sponsor-title.svg",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-3",
-          name: "GLITCHWORKS GAMING",
-          tier: "Esports & Gaming Partner",
-          logo: "images/sponsor-2.svg",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-4",
-          name: "SYNTH CLOUD SOLUTIONS",
-          tier: "Cloud Infrastructure Partner",
-          logo: "images/sponsor-3.svg",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-5",
-          name: "CYBERPULSE ENERGY",
-          tier: "Official Beverage Partner",
-          logo: "images/sponsor-4.svg",
-          url: "https://presidencyuniversity.in"
-        }
-      ],
-      gallery: [
-        { id: "g-1", src: "images/gallery-1.svg", title: "Arena Ignition Inauguration", tag: "Main Stage" },
-        { id: "g-2", src: "images/gallery-2.svg", title: "ByteBlitz 24H Hackathon Sprint", tag: "Hackathon" },
-        { id: "g-3", src: "images/gallery-3.svg", title: "Tech Trail Cryptic Clue Solvers", tag: "Treasure Hunt" },
-        { id: "g-4", src: "images/gallery-4.svg", title: "Squad Damage Esports Battlegrounds", tag: "Gaming" },
-        { id: "g-5", src: "images/gallery-5.svg", title: "TECHNO Fashion Runway", tag: "Fashion Show" },
-        { id: "g-6", src: "images/gallery-6.svg", title: "Arena Crowning & ₹1.5L Prize Handover", tag: "Awards" }
-      ]
+  // Corner Cyber Brackets
+  const cornerLen = 60;
+  ctx.lineWidth = 6;
+  ctx.strokeStyle = frameColor;
+  // TL
+  ctx.beginPath(); ctx.moveTo(85, 85 + cornerLen); ctx.lineTo(85, 85); ctx.lineTo(85 + cornerLen, 85); ctx.stroke();
+  // TR
+  ctx.beginPath(); ctx.moveTo(canvas.width - 85 - cornerLen, 85); ctx.lineTo(canvas.width - 85, 85); ctx.lineTo(canvas.width - 85, 85 + cornerLen); ctx.stroke();
+  // BL
+  ctx.beginPath(); ctx.moveTo(85, canvas.height - 85 - cornerLen); ctx.lineTo(85, canvas.height - 85); ctx.lineTo(85 + cornerLen, canvas.height - 85); ctx.stroke();
+  // BR
+  ctx.beginPath(); ctx.moveTo(canvas.width - 85 - cornerLen, canvas.height - 85); ctx.lineTo(canvas.width - 85, canvas.height - 85); ctx.lineTo(canvas.width - 85, canvas.height - 85 - cornerLen); ctx.stroke();
+
+  // Watermark Crest
+  ctx.fillStyle = "rgba(56, 189, 248, 0.03)";
+  ctx.font = "bold 440px sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("A'27", canvas.width / 2, canvas.height / 2 + 150);
+
+  // Institution Header
+  ctx.fillStyle = "#38bdf8";
+  ctx.font = "bold 38px 'Orbitron', sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("PRESIDENCY UNIVERSITY, BENGALURU", canvas.width / 2, 170);
+
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "24px 'JetBrains Mono', monospace";
+  ctx.fillText("SCHOOL OF INFORMATION SCIENCE (SOIS) · ARENIUM '27", canvas.width / 2, 215);
+
+  // Title
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 64px 'Orbitron', sans-serif";
+  ctx.fillText("CERTIFICATE OF EXCELLENCE", canvas.width / 2, 320);
+
+  ctx.fillStyle = frameColor;
+  ctx.font = "bold 30px 'Orbitron', sans-serif";
+  ctx.fillText(`⚡ ${awd} ⚡`, canvas.width / 2, 380);
+
+  // Presentation Text
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "26px 'JetBrains Mono', monospace";
+  ctx.fillText("THIS IS OFFICIALLY PRESENTED TO", canvas.width / 2, 470);
+
+  // Recipient / Team Name
+  ctx.fillStyle = "#ffe600";
+  ctx.font = "bold 76px 'Rajdhani', sans-serif";
+  ctx.fillText(name, canvas.width / 2, 570);
+
+  // Optional Team Badge if individual name differs from team name
+  if (team && team !== name) {
+    ctx.fillStyle = "#38bdf8";
+    ctx.font = "bold 30px 'JetBrains Mono', monospace";
+    ctx.fillText(`[ SQUAD / TEAM: ${team} ]`, canvas.width / 2, 630);
+  }
+
+  // Dash line
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = "rgba(255, 230, 0, 0.4)";
+  ctx.beginPath();
+  ctx.moveTo(canvas.width / 2 - 400, 660);
+  ctx.lineTo(canvas.width / 2 + 400, 660);
+  ctx.stroke();
+
+  // College & Event Citation
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "30px 'JetBrains Mono', monospace";
+  ctx.fillText(`of ${clg}`, canvas.width / 2, 725);
+
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "26px 'JetBrains Mono', monospace";
+  ctx.fillText("for exemplary performance, teamwork, and triumph in", canvas.width / 2, 785);
+
+  ctx.fillStyle = "#38bdf8";
+  ctx.font = "bold 46px 'Orbitron', sans-serif";
+  ctx.fillText(event, canvas.width / 2, 860);
+
+  ctx.fillStyle = "#94a3b8";
+  ctx.font = "24px 'JetBrains Mono', monospace";
+  ctx.fillText("at ARENIUM'27 National Tech Fest · 4–5 February 2027 · Presidency University", canvas.width / 2, 930);
+
+  // Signatures Section
+  const sigY = 1170;
+  // Signatory 1
+  ctx.fillStyle = "#38bdf8";
+  ctx.font = "bold 30px 'Rajdhani', cursive, sans-serif";
+  ctx.fillText("Dr. C. Kalaiarasan", canvas.width / 4, sigY);
+  ctx.fillStyle = "#64748b";
+  ctx.font = "20px 'JetBrains Mono', monospace";
+  ctx.fillText("DEAN, SOIS (PATRON)", canvas.width / 4, sigY + 35);
+
+  // Signatory 2
+  ctx.fillStyle = "#38bdf8";
+  ctx.font = "bold 30px 'Rajdhani', cursive, sans-serif";
+  ctx.fillText("Dr. K. G. Mohan", canvas.width / 2, sigY);
+  ctx.fillStyle = "#64748b";
+  ctx.font = "20px 'JetBrains Mono', monospace";
+  ctx.fillText("HEAD OF DEPARTMENT, SOIS", canvas.width / 2, sigY + 35);
+
+  // Signatory 3
+  ctx.fillStyle = "#38bdf8";
+  ctx.font = "bold 30px 'Rajdhani', cursive, sans-serif";
+  ctx.fillText("Ms. Keren Lois Daniel", (canvas.width / 4) * 3, sigY);
+  ctx.fillStyle = "#64748b";
+  ctx.font = "20px 'JetBrains Mono', monospace";
+  ctx.fillText("OVERALL FEST COORDINATOR", (canvas.width / 4) * 3, sigY + 35);
+
+  // Verification Hash
+  ctx.fillStyle = "#38bdf8";
+  ctx.font = "20px 'JetBrains Mono', monospace";
+  ctx.textAlign = "left";
+  ctx.fillText(`VERIFICATION HASH: ${hashId} · SOIS-PRESIDENCY-VALIDATED`, 90, 1335);
+
+  return canvas.toDataURL("image/png");
+}
+
+function initCertificateSearch(db) {
+  const searchInput = document.getElementById("cert-search-input");
+  const searchBtn = document.getElementById("cert-search-btn");
+  const resultsDiv = document.getElementById("cert-search-results");
+  const statusBadge = document.getElementById("cert-published-badge");
+
+  if (!searchInput || !searchBtn || !resultsDiv) return;
+
+  if (statusBadge) {
+    if (db.settings.certificatesPublished !== false) {
+      statusBadge.textContent = "⚡ CERTIFICATES REPOSITORY LIVE";
+      statusBadge.style.color = "#38BDF8";
+      statusBadge.style.borderColor = "#38BDF8";
+    } else {
+      statusBadge.textContent = "🔒 CERTIFICATE UPLOADS IN PROGRESS";
+      statusBadge.style.color = "#F59E0B";
+      statusBadge.style.borderColor = "#F59E0B";
+    }
+  }
+
+  window.searchTeamCert = function(teamName) {
+    if (searchInput) {
+      searchInput.value = teamName;
+      performSearch();
+      searchInput.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  function performSearch() {
+    const q = searchInput.value.trim().toLowerCase();
+    resultsDiv.style.display = "block";
+
+    if (db.settings.certificatesPublished === false) {
+      resultsDiv.innerHTML = `
+        <div style="background: rgba(245, 158, 11, 0.1); border: 1.5px solid #F59E0B; padding: 1.5rem; border-radius: 8px; text-align: center;">
+          <h4 style="color: #FBBF24; margin-bottom: 0.5rem; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;">⚡ CERTIFICATES UNDER VERIFICATION</h4>
+          <p style="font-size: 0.88rem; color: #CBD5E1; margin: 0; line-height: 1.6;">
+            Event coordinators and the SOIS fest committee are currently reviewing and digitally endorsing participant accreditations. Official team downloads will be unlocked momentarily!
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    if (!q) {
+      resultsDiv.innerHTML = `
+        <div style="padding: 1.5rem; color: #94A3B8; font-size: 0.9rem; text-align: center; background: rgba(15, 23, 42, 0.6); border-radius: 8px; border: 1px dashed rgba(255, 255, 255, 0.1);">
+          Please enter your registered <strong>Team Name</strong> (e.g. <code>Team NeuralForge</code>, <code>CyberSentinels</code>) to retrieve certificates.
+        </div>
+      `;
+      return;
+    }
+
+    // Refresh DB
+    const freshDb = FestDB.getData();
+    const certs = (freshDb.certificates || []).map(c => ({
+      ...c,
+      teamName: c.teamName || c.recipient || "Team"
+    }));
+
+    const matches = certs.filter(c => {
+      const t = (c.teamName || "").toLowerCase();
+      const r = (c.recipient || "").toLowerCase();
+      const id = (c.id || "").toLowerCase();
+      const ev = (c.event || "").toLowerCase();
+      return t.includes(q) || r.includes(q) || id.includes(q) || ev.includes(q);
+    });
+
+    if (matches.length === 0) {
+      resultsDiv.innerHTML = `
+        <div style="padding: 2.2rem; background: rgba(15, 23, 42, 0.85); border: 1.5px dashed rgba(239, 68, 68, 0.45); border-radius: 10px; text-align: center;">
+          <div style="color: #F87171; font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 0.6rem; font-weight: 800;">
+            NO CERTIFICATES FOUND FOR "${searchInput.value.trim()}"
+          </div>
+          <p style="color: #CBD5E1; font-size: 0.88rem; max-width: 600px; margin: 0 auto 1.4rem; line-height: 1.6;">
+            We could not locate any certificates uploaded for <strong>"${searchInput.value.trim()}"</strong>.<br>
+            • Please verify the team name spelling matches your fest registration credentials.<br>
+            • Certificates are uploaded by administrators after each competitive arena concludes.<br>
+            • For assistance or urgent accreditation requests, visit the SOIS Fest Desk.
+          </p>
+          <div style="display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap;">
+            <button class="btn btn-ghost" onclick="document.getElementById('cert-search-input').value=''; document.getElementById('cert-search-input').focus();" style="font-size: 0.85rem; padding: 0.6rem 1.2rem;">
+              🔄 Clear Search
+            </button>
+            <a href="contact.html" class="btn btn-primary" style="font-size: 0.85rem; padding: 0.6rem 1.2rem;">
+              📍 Contact SOIS Fest Desk
+            </a>
+          </div>
+        </div>
+      `;
+      return;
+    }
+
+    let cardsHtml = matches.map(m => {
+      const displayTeam = m.teamName || m.recipient || "Team";
+      const displayRecipient = m.recipient && m.recipient !== displayTeam ? m.recipient : "";
+      const previewSrc = m.fileUrl ? m.fileUrl : generateCertificateCanvasDataUrl(m.recipient, m.event, m.award, m.college, m.id, m.teamName);
+
+      return `
+        <div class="cyber-card cert-result-card" style="padding: 1.6rem; margin-bottom: 1.2rem; background: rgba(15, 23, 42, 0.95); border: 1.5px solid rgba(56, 189, 248, 0.45); border-radius: 10px; display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 1.5rem; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+          
+          <!-- Certificate Thumbnail with Click to Preview -->
+          <div style="position: relative; cursor: pointer; border-radius: 6px; overflow: hidden; border: 1.5px solid rgba(56, 189, 248, 0.5); aspect-ratio: 16/11; background: #07060f;" onclick="openCertPreviewModal('${m.id}')" title="Click to view fullscreen">
+            <img src="${previewSrc}" alt="Certificate for ${displayTeam}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <span style="position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.75); color: #38BDF8; font-size: 0.7rem; font-family: var(--font-mono); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.4);">
+              👁️ FULLSCREEN
+            </span>
+          </div>
+
+          <!-- Certificate Details -->
+          <div>
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.4rem;">
+              <span style="font-family: var(--font-mono); color: #38BDF8; font-weight: 800; font-size: 0.9rem;">
+                [${m.id}]
+              </span>
+              <span style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38BDF8; color: #38BDF8; font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 4px; font-family: var(--font-mono); font-weight: 700;">
+                OFFICIALLY VERIFIED ✓
+              </span>
+            </div>
+
+            <h3 style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-family: var(--font-display); font-size: 1.4rem; margin: 0 0 0.3rem; font-weight: 800; letter-spacing: 0.02em;">
+              ${displayTeam}
+            </h3>
+
+            ${displayRecipient ? `<div style="color: #CBD5E1; font-size: 0.88rem; margin-bottom: 0.4rem;">Recipient / Member: <strong style="color: #FFFFFF;">${displayRecipient}</strong></div>` : ''}
+
+            <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin: 0.5rem 0 0.8rem;">
+              <span style="background: rgba(253, 224, 71, 0.15); border: 1px solid #FDE047; color: #FDE047; font-size: 0.78rem; padding: 0.25rem 0.65rem; border-radius: 4px; font-family: var(--font-mono); font-weight: 700;">
+                ${m.award}
+              </span>
+              <span style="background: rgba(56, 189, 248, 0.12); color: #38BDF8; font-size: 0.78rem; padding: 0.25rem 0.65rem; border-radius: 4px; font-family: var(--font-mono); font-weight: 700;">
+                ARENA: ${m.event}
+              </span>
+            </div>
+
+            <div style="color: #94A3B8; font-size: 0.82rem; margin-bottom: 1.2rem;">
+              Institution: <strong style="color: #CBD5E1;">${m.college || 'Presidency University, Bengaluru'}</strong> · Issued: ${m.issueDate || 'February 2027'}
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+              <button type="button" class="btn btn-primary" onclick="downloadTeamCertificate('${m.id}')" style="font-size: 0.88rem; padding: 0.65rem 1.4rem; font-weight: 700;">
+                ⚡ DOWNLOAD CERTIFICATE
+              </button>
+              <button type="button" class="btn btn-ghost" onclick="openCertPreviewModal('${m.id}')" style="font-size: 0.88rem; padding: 0.65rem 1.1rem;">
+                👁️ PREVIEW FULLSCREEN
+              </button>
+            </div>
+          </div>
+
+        </div>
+      `;
+    }).join("");
+
+    resultsDiv.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.6rem;">
+        <div style="font-family: var(--font-mono); font-size: 0.88rem; color: #38BDF8; font-weight: 700;">
+          FOUND ${matches.length} OFFICIAL CERTIFICATE(S) FOR "${searchInput.value.trim().toUpperCase()}":
+        </div>
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('cert-search-input').value=''; document.getElementById('cert-search-input').focus();" style="font-size: 0.75rem; padding: 0.3rem 0.8rem;">
+          ✕ Clear Search
+        </button>
+      </div>
+      ${cardsHtml}
+    `;
+  }
+
+  searchBtn.addEventListener("click", performSearch);
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") performSearch();
+  });
+
+  // Auto-search via URL parameter (e.g. certificate.html?team=NeuralForge or ?winner=Team)
+  const urlParams = new URLSearchParams(window.location.search);
+  const qParam = urlParams.get("team") || urlParams.get("winner") || urlParams.get("recipient") || urlParams.get("q");
+  if (qParam && searchInput) {
+    searchInput.value = qParam;
+    setTimeout(performSearch, 150);
+  }
+}
+
+// Fullscreen Modal Helpers
+window.openCertPreviewModal = function(certId) {
+  const db = FestDB.getData();
+  const c = (db.certificates || []).find(x => x.id === certId);
+  if (!c) return;
+
+  const modal = document.getElementById("cert-preview-modal");
+  const modalId = document.getElementById("cert-modal-id");
+  const modalTitle = document.getElementById("cert-modal-title");
+  const modalBody = document.getElementById("cert-modal-body");
+  const downloadBtn = document.getElementById("cert-modal-download-btn");
+
+  if (!modal) return;
+
+  if (modalId) modalId.textContent = `[${c.id}]`;
+  if (modalTitle) modalTitle.textContent = `${(c.teamName || c.recipient).toUpperCase()} · ${c.event}`;
+
+  const certDataUrl = c.fileUrl ? c.fileUrl : generateCertificateCanvasDataUrl(c.recipient, c.event, c.award, c.college, c.id, c.teamName);
+
+  if (modalBody) {
+    modalBody.innerHTML = `
+      <div style="text-align: center; background: #07060f; padding: 0.8rem; border-radius: 8px; border: 1.5px solid rgba(56, 189, 248, 0.4); max-height: 72vh; overflow: auto; display: flex; justify-content: center; align-items: center;">
+        <img src="${certDataUrl}" alt="Certificate ${c.id}" style="max-width: 100%; max-height: 68vh; object-fit: contain; border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.6);">
+      </div>
+    `;
+  }
+
+  if (downloadBtn) {
+    downloadBtn.onclick = function() {
+      downloadTeamCertificate(c.id);
     };
-  },
-'''
+  }
 
-# Update storage key to v3
-content_new = content.replace('STORAGE_KEY: "arenium_fest_db_v2",', 'STORAGE_KEY: "arenium_fest_db_v3",')
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+};
 
-# Replace getDefaults block
-idx_start = content_new.find(start_marker)
-idx_end = content_new.find(end_marker)
-content_new = content_new[:idx_start] + new_defaults + "\n" + content_new[idx_end:]
+window.closeCertModal = function(e) {
+  const modal = document.getElementById("cert-preview-modal");
+  if (modal) {
+    modal.style.display = "none";
+    document.body.style.overflow = "";
+  }
+};
+
+window.downloadTeamCertificate = function(certId) {
+  const db = FestDB.getData();
+  const c = (db.certificates || []).find(x => x.id === certId);
+  if (!c) return;
+
+  const teamSlug = (c.teamName || c.recipient || "Team").replace(/\s+/g, "_");
+  const filename = `ARENIUM27_Certificate_${teamSlug}_${c.id}.png`;
+
+  if (c.fileUrl && c.fileUrl.startsWith("data:")) {
+    const a = document.createElement("a");
+    a.href = c.fileUrl;
+    a.download = filename;
+    a.click();
+  } else if (c.fileUrl && (c.fileUrl.startsWith("http://") || c.fileUrl.startsWith("https://"))) {
+    window.open(c.fileUrl, "_blank");
+  } else {
+    const dataUrl = generateCertificateCanvasDataUrl(c.recipient, c.event, c.award, c.college, c.id, c.teamName);
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = filename;
+    a.click();
+  }
+};
+
+window.downloadSpecificCertificate = function(name, eventName, award, college, certId) {
+  downloadTeamCertificate(certId);
+};
+"""
+    code = code[:sec14_start] + new_sec14 + "\n\n" + code[sec15_start:]
+    print("3. Replaced section 14 successfully.")
+else:
+    print("Error: Could not locate Section 14 boundaries.")
+    sys.exit(1)
+
+# 4. Replace Section: Admin Certificates Management (renderAdminCertificates, addNewAdminCertificate, etc.)
+admin_cert_start = code.find("function renderAdminCertificates(db) {")
+admin_win_start = code.find("window.editAdminWinner = function(idx) {")
+
+if admin_cert_start != -1 and admin_win_start != -1:
+    print(f"4. Found Admin Certificates from {admin_cert_start} to {admin_win_start}.")
+    new_admin_certs = """function renderAdminCertificates(db) {
+  const publishToggle = document.getElementById("admin-publish-certs-toggle");
+  if (publishToggle) {
+    publishToggle.checked = db.settings.certificatesPublished !== false;
+    // Remove old listeners by replacing element or assigning onchange
+    publishToggle.onchange = () => {
+      db.settings.certificatesPublished = publishToggle.checked;
+      FestDB.saveData(db);
+      alert(publishToggle.checked ? "✅ Public Certificate Downloads are now ENABLED on certificate.html!" : "🔒 Public Certificate Downloads are now DISABLED.");
+    };
+  }
+
+  // Populate Event dropdown in upload form
+  const eventSelect = document.getElementById("admin-cert-event");
+  if (eventSelect && db.events) {
+    const currentVal = eventSelect.value;
+    eventSelect.innerHTML = "";
+    db.events.forEach(ev => {
+      const opt = document.createElement("option");
+      opt.value = ev.name;
+      opt.textContent = ev.name;
+      eventSelect.appendChild(opt);
+    });
+    if (currentVal) eventSelect.value = currentVal;
+  }
+
+  // Render Table
+  const container = document.getElementById("admin-certs-table-body");
+  const countSpan = document.getElementById("admin-certs-count");
+  if (!container) return;
+
+  const certs = db.certificates || [];
+  if (countSpan) countSpan.textContent = certs.length;
+
+  if (certs.length === 0) {
+    container.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding:2rem;">No certificates uploaded yet. Use the upload form above to publish certificates by Team Name.</td></tr>`;
+    return;
+  }
+
+  container.innerHTML = certs.map(c => {
+    const team = c.teamName || c.recipient || "Team";
+    const recipient = c.recipient && c.recipient !== team ? c.recipient : "-";
+    const fileBadge = c.fileUrl ? 
+      `<a href="${c.fileUrl}" target="_blank" style="color:#38BDF8; font-size:0.75rem; text-decoration:underline;">📎 Uploaded File</a>` :
+      `<span style="color:#94A3B8; font-size:0.75rem;">⚡ Auto-Generated High-Res</span>`;
+
+    return `
+      <tr>
+        <td><strong style="color:#38BDF8; font-family:var(--font-mono);">${c.id}</strong></td>
+        <td><strong style="color:#FFFFFF; font-size:0.95rem;">${team}</strong></td>
+        <td>${recipient}</td>
+        <td><span style="color:#38BDF8; font-weight:600;">${c.event}</span></td>
+        <td><span class="event-category-badge" style="font-size:0.7rem;">${c.award}</span></td>
+        <td>${fileBadge}</td>
+        <td>
+          <button type="button" class="btn btn-ghost" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="adminPreviewCert('${c.id}')">👁️ View</button>
+          <button type="button" class="btn btn-ghost" style="padding:0.25rem 0.6rem; font-size:0.75rem; color:#F87171; border-color:rgba(248, 113, 113, 0.4);" onclick="deleteAdminCertificate('${c.id}')">🗑️ Delete</button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+// Admin Upload Form State
+let adminSelectedCertFileBase64 = "";
+let adminSelectedCertFileName = "";
+
+window.handleAdminCertFileSelect = function(e) {
+  const file = e.target.files[0];
+  const previewBox = document.getElementById("admin-cert-file-preview");
+  const filenameSpan = document.getElementById("admin-cert-preview-filename");
+  const filesizeSpan = document.getElementById("admin-cert-preview-filesize");
+  const previewImg = document.getElementById("admin-cert-preview-img");
+
+  if (!file) {
+    adminSelectedCertFileBase64 = "";
+    adminSelectedCertFileName = "";
+    if (previewBox) previewBox.style.display = "none";
+    return;
+  }
+
+  adminSelectedCertFileName = file.name;
+  if (filenameSpan) filenameSpan.textContent = file.name;
+  if (filesizeSpan) filesizeSpan.textContent = (file.size / 1024).toFixed(1) + " KB";
+  if (previewBox) previewBox.style.display = "flex";
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    adminSelectedCertFileBase64 = evt.target.result;
+    if (previewImg) {
+      if (file.type.startsWith("image/")) {
+        previewImg.src = adminSelectedCertFileBase64;
+        previewImg.style.display = "block";
+      } else {
+        previewImg.style.display = "none";
+      }
+    }
+  };
+  reader.readAsDataURL(file);
+};
+
+window.resetAdminCertUpload = function() {
+  adminSelectedCertFileBase64 = "";
+  adminSelectedCertFileName = "";
+  const previewBox = document.getElementById("admin-cert-file-preview");
+  if (previewBox) previewBox.style.display = "none";
+  const fileInput = document.getElementById("admin-cert-file");
+  if (fileInput) fileInput.value = "";
+};
+
+window.handleAdminUploadCert = function(e) {
+  e.preventDefault();
+  const db = FestDB.getData();
+
+  const teamNameInput = document.getElementById("admin-cert-team");
+  const recipientInput = document.getElementById("admin-cert-recipient");
+  const eventSelect = document.getElementById("admin-cert-event");
+  const awardSelect = document.getElementById("admin-cert-award");
+  const collegeInput = document.getElementById("admin-cert-college");
+  const idInput = document.getElementById("admin-cert-id");
+  const urlInput = document.getElementById("admin-cert-url");
+
+  const teamName = teamNameInput ? teamNameInput.value.trim() : "";
+  if (!teamName) {
+    alert("Please enter a Team Name!");
+    return;
+  }
+
+  const recipient = recipientInput ? recipientInput.value.trim() : "";
+  const eventName = eventSelect ? eventSelect.value : (db.events[0]?.name || "ARENIUM 27");
+  const award = awardSelect ? awardSelect.value : "CERTIFICATE OF MERIT & PARTICIPATION";
+  const college = collegeInput ? collegeInput.value.trim() || "Presidency University, Bengaluru" : "Presidency University, Bengaluru";
+  const certId = idInput && idInput.value.trim() ? idInput.value.trim().toUpperCase() : ("AR27-CRT-" + Math.floor(1000 + Math.random() * 9000));
+  const externalUrl = urlInput ? urlInput.value.trim() : "";
+
+  const finalFileUrl = adminSelectedCertFileBase64 || externalUrl || "";
+
+  if (!db.certificates) db.certificates = [];
+
+  // Check if certificate ID already exists
+  const existingIdx = db.certificates.findIndex(x => x.id === certId);
+  const certRecord = {
+    id: certId,
+    teamName: teamName,
+    recipient: recipient || teamName,
+    event: eventName,
+    award: award,
+    college: college,
+    fileUrl: finalFileUrl,
+    fileName: adminSelectedCertFileName,
+    issueDate: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" }),
+    verified: true
+  };
+
+  if (existingIdx >= 0) {
+    db.certificates[existingIdx] = certRecord;
+  } else {
+    db.certificates.unshift(certRecord);
+  }
+
+  FestDB.saveData(db);
+
+  // Update table
+  renderAdminCertificates(db);
+
+  // Reset form
+  const form = document.getElementById("admin-upload-cert-form");
+  if (form) form.reset();
+  resetAdminCertUpload();
+
+  alert(`✅ Certificate [${certId}] for Team "${teamName}" successfully uploaded and published!\n\nParticipants can now visit certificate.html, enter "${teamName}", and download their official certificate.`);
+};
+
+window.addNewAdminCertificate = function() {
+  const teamInput = document.getElementById("admin-cert-team");
+  if (teamInput) {
+    teamInput.scrollIntoView({ behavior: "smooth", block: "center" });
+    teamInput.focus();
+  }
+};
+
+window.adminPreviewCert = function(id) {
+  const db = FestDB.getData();
+  const c = (db.certificates || []).find(x => x.id === id);
+  if (!c) return;
+
+  const proofModal = document.getElementById("admin-proof-modal");
+  const proofImg = document.getElementById("proof-modal-img");
+  const proofTitle = document.getElementById("proof-modal-title");
+  const proofMeta = document.getElementById("proof-modal-meta");
+
+  const certDataUrl = c.fileUrl ? c.fileUrl : generateCertificateCanvasDataUrl(c.recipient, c.event, c.award, c.college, c.id, c.teamName);
+
+  if (proofModal && proofImg) {
+    proofImg.src = certDataUrl;
+    if (proofTitle) proofTitle.textContent = `Certificate: ${c.teamName || c.recipient} [${c.id}]`;
+    if (proofMeta) proofMeta.textContent = `Event: ${c.event} · Award: ${c.award} · ${c.college}`;
+    proofModal.style.display = "flex";
+  } else {
+    window.open(certDataUrl, "_blank");
+  }
+};
+
+window.deleteAdminCertificate = function(id) {
+  const db = FestDB.getData();
+  if (confirm(`Are you sure you want to delete certificate ${id}?`)) {
+    db.certificates = (db.certificates || []).filter(x => x.id !== id);
+    FestDB.saveData(db);
+    renderAdminCertificates(db);
+  }
+};
+"""
+    code = code[:admin_cert_start] + new_admin_certs + "\n\n" + code[admin_win_start:]
+    print("4. Replaced Admin Certificates management successfully.")
+else:
+    print("Error: Could not locate Admin Certificates boundaries.")
+    sys.exit(1)
 
 with open('js/main.js', 'w', encoding='utf-8') as f:
-    f.write(content_new)
+    f.write(code)
 
-print('js/main.js successfully updated with authentic official events, committee, and schedule!')
+print("All updates to js/main.js written successfully!")
