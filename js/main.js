@@ -105,7 +105,7 @@ const FestDB = {
           id: "coord-1",
           name: "Kaushal Kumar Singh",
           role: "Finance & Registration Manager",
-          dept: "5BCA01 (Reg: 20241BCA0051) · SOIS",
+          dept: "",
           phone: "+91 87977 86686",
           photo: "images/coord-kaushal.svg"
         },
@@ -113,7 +113,7 @@ const FestDB = {
           id: "coord-2",
           name: "Vimal Raj",
           role: "Event Manager",
-          dept: "5BCADS02 · SOIS",
+          dept: "",
           phone: "+91 96201 92249",
           photo: "images/coord-vimal.svg"
         },
@@ -121,7 +121,7 @@ const FestDB = {
           id: "coord-3",
           name: "Ashlin Siddharth",
           role: "Marketing & Registration Manager",
-          dept: "5BCADS01 · SOIS",
+          dept: "",
           phone: "+91 91087 40761",
           photo: "images/coord-ashlin.svg"
         },
@@ -129,7 +129,7 @@ const FestDB = {
           id: "coord-4",
           name: "Abhyas Kathuria",
           role: "Technical Manager",
-          dept: "5BCAAIML01 · SOIS",
+          dept: "",
           phone: "+91 85958 48421",
           photo: "images/ABHYAS.png"
         }
@@ -759,7 +759,13 @@ const FestDB = {
               ...((parsed.settings && parsed.settings.registrationConfig) || {})
             }
           },
-          coordinators: parsed.coordinators && parsed.coordinators.length ? parsed.coordinators : defaults.coordinators,
+          coordinators: (() => {
+            const list = (parsed.coordinators && parsed.coordinators.length) ? parsed.coordinators : defaults.coordinators;
+            return list.map(c => ({
+              ...c,
+              dept: "" // Class and roll number completely removed per user request
+            }));
+          })(),
           leadership: (() => {
             const stored = parsed.leadership && parsed.leadership.length ? parsed.leadership : null;
             if (!stored) return defaults.leadership;
@@ -1198,7 +1204,7 @@ function initScrollAnimations() {
 // ==========================================================================
 function initTeamSections(db) {
   try {
-    // 1. Student Coordinators Grid (Homepage & Contact page)
+    // 1. Student Coordinators Grid (Homepage & Contact page) - Classy & Professional: Name + Contact Number Only
     const studentGrids = document.querySelectorAll("[data-student-coords-grid]");
     studentGrids.forEach(grid => {
       grid.innerHTML = "";
@@ -1211,11 +1217,12 @@ function initTeamSections(db) {
           </div>
           <div class="team-card-content">
             <span class="team-card-tag">${c.role.toUpperCase()}</span>
-            <h3 class="team-name">${c.name}</h3>
-            <div class="team-role">${c.dept}</div>
-            <a href="tel:${c.phone.replace(/[^0-9+]/g, '')}" class="team-phone-link" aria-label="Call ${c.name}">
-              ${c.phone}
-            </a>
+            <h3 class="team-name" style="margin: 0.3rem 0 1rem;">${c.name}</h3>
+            <div class="team-action-footer" style="margin-top: auto; padding-top: 0.5rem;">
+              <a href="tel:${c.phone.replace(/[^0-9+]/g, '')}" class="btn-pill-outline" aria-label="Call ${c.name}" style="width: 100%; text-align: center; justify-content: center;">
+                ${c.phone}
+              </a>
+            </div>
           </div>
         `;
         grid.appendChild(card);
