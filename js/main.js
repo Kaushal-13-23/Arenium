@@ -1213,7 +1213,7 @@ function initTeamSections(db) {
           <h4 class="team-name">${c.name}</h4>
           <div class="team-role">${c.dept}</div>
           <a href="tel:${c.phone.replace(/[^0-9+]/g, '')}" class="team-phone-link" aria-label="Call ${c.name}">
-            <span>📞</span> ${c.phone}
+            ${c.phone}
           </a>
         `;
         grid.appendChild(card);
@@ -1491,13 +1491,13 @@ function initWinnersPage(db) {
       let tiersHtml = "";
       (w.tiers || []).forEach(tier => {
         let medalClass = "medal-gold";
-        let medalIcon = "🥇";
+        let medalIcon = "1st";
         if (tier.rank === 2) {
           medalClass = "medal-silver";
-          medalIcon = "🥈";
+          medalIcon = "2nd";
         } else if (tier.rank === 3) {
           medalClass = "medal-bronze";
-          medalIcon = "🥉";
+          medalIcon = "3rd";
         }
 
         tiersHtml += `
@@ -1524,7 +1524,7 @@ function initWinnersPage(db) {
             <span class="event-category-badge" style="font-size: 0.65rem; background: rgba(2, 132, 199, 0.2) !important; color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; border: 1px solid rgba(56, 189, 248, 0.4) !important; font-weight: 800;">${w.category || 'Arena'}</span>
             <div class="winner-event-title" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-size: 1.15rem; font-weight: 900; margin-top: 0.4rem;">${eventTitle}</div>
           </div>
-          <span style="color: #FDE047; font-size: 1.4rem;">🏆</span>
+          
         </div>
         <div class="winner-tier-list">
           ${tiersHtml}
@@ -1611,7 +1611,7 @@ function generateCertificateCanvasDataUrl(recipientName, eventName, award, colle
 
   ctx.fillStyle = frameColor;
   ctx.font = "bold 30px 'Orbitron', sans-serif";
-  ctx.fillText(`⚡ ${awd} ⚡`, canvas.width / 2, 380);
+  ctx.fillText(`${awd}`, canvas.width / 2, 380);
 
   // Presentation Text
   ctx.fillStyle = "#94a3b8";
@@ -1700,11 +1700,11 @@ function initCertificateSearch(db) {
 
   if (statusBadge) {
     if (db.settings.certificatesPublished !== false) {
-      statusBadge.textContent = "⚡ CERTIFICATES REPOSITORY LIVE";
+      statusBadge.textContent = "CERTIFICATES REPOSITORY LIVE";
       statusBadge.style.color = "#38BDF8";
       statusBadge.style.borderColor = "#38BDF8";
     } else {
-      statusBadge.textContent = "🔒 CERTIFICATE UPLOADS IN PROGRESS";
+      statusBadge.textContent = "CERTIFICATE UPLOADS IN PROGRESS";
       statusBadge.style.color = "#F59E0B";
       statusBadge.style.borderColor = "#F59E0B";
     }
@@ -1725,7 +1725,7 @@ function initCertificateSearch(db) {
     if (db.settings.certificatesPublished === false) {
       resultsDiv.innerHTML = `
         <div style="background: rgba(245, 158, 11, 0.1); border: 1.5px solid #F59E0B; padding: 1.5rem; border-radius: 8px; text-align: center;">
-          <h4 style="color: #FBBF24; margin-bottom: 0.5rem; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;">⚡ CERTIFICATES UNDER VERIFICATION</h4>
+          <h4 style="color: #FBBF24; margin-bottom: 0.5rem; font-family: var(--font-display); font-size: 1.2rem; font-weight: 700;"> CERTIFICATES UNDER VERIFICATION</h4>
           <p style="font-size: 0.88rem; color: #CBD5E1; margin: 0; line-height: 1.6;">
             Event coordinators and the SOIS fest committee are currently reviewing and digitally endorsing participant accreditations. Official team downloads will be unlocked momentarily!
           </p>
@@ -1772,10 +1772,10 @@ function initCertificateSearch(db) {
           </p>
           <div style="display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap;">
             <button class="btn btn-ghost" onclick="document.getElementById('cert-search-input').value=''; document.getElementById('cert-search-input').focus();" style="font-size: 0.85rem; padding: 0.6rem 1.2rem;">
-              🔄 Clear Search
+              Clear Search
             </button>
             <a href="contact.html" class="btn btn-primary" style="font-size: 0.85rem; padding: 0.6rem 1.2rem;">
-              📍 Contact SOIS Fest Desk
+              Contact SOIS Fest Desk
             </a>
           </div>
         </div>
@@ -1795,7 +1795,7 @@ function initCertificateSearch(db) {
           <div style="position: relative; cursor: pointer; border-radius: 6px; overflow: hidden; border: 1.5px solid rgba(56, 189, 248, 0.5); aspect-ratio: 16/11; background: #07060f;" onclick="openCertPreviewModal('${m.id}')" title="Click to view fullscreen">
             <img src="${previewSrc}" alt="Certificate for ${displayTeam}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
             <span style="position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.75); color: #38BDF8; font-size: 0.7rem; font-family: var(--font-mono); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.4);">
-              👁️ FULLSCREEN
+              FULLSCREEN
             </span>
           </div>
 
@@ -1806,7 +1806,7 @@ function initCertificateSearch(db) {
                 ${m.id}
               </span>
               <span style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38BDF8; color: #38BDF8; font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 4px; font-family: var(--font-mono); font-weight: 700;">
-                OFFICIALLY VERIFIED ✓
+                OFFICIALLY VERIFIED
               </span>
             </div>
 
@@ -1832,10 +1832,10 @@ function initCertificateSearch(db) {
             <!-- Action Buttons -->
             <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
               <button type="button" class="btn btn-primary" onclick="downloadTeamCertificate('${m.id}')" style="font-size: 0.88rem; padding: 0.65rem 1.4rem; font-weight: 700;">
-                ⚡ DOWNLOAD CERTIFICATE
+                DOWNLOAD CERTIFICATE
               </button>
               <button type="button" class="btn btn-ghost" onclick="openCertPreviewModal('${m.id}')" style="font-size: 0.88rem; padding: 0.65rem 1.1rem;">
-                👁️ PREVIEW FULLSCREEN
+                PREVIEW FULLSCREEN
               </button>
             </div>
           </div>
@@ -1850,7 +1850,7 @@ function initCertificateSearch(db) {
           FOUND ${matches.length} OFFICIAL CERTIFICATE(S) FOR "${searchInput.value.trim().toUpperCase()}":
         </div>
         <button type="button" class="btn btn-ghost" onclick="document.getElementById('cert-search-input').value=''; document.getElementById('cert-search-input').focus();" style="font-size: 0.75rem; padding: 0.3rem 0.8rem;">
-          ✕ Clear Search
+          Clear Search
         </button>
       </div>
       ${cardsHtml}
@@ -2174,7 +2174,7 @@ function initAdminPanel() {
       if (err) err.style.display = "none";
       if (succ) {
         succ.style.display = "block";
-        succ.textContent = `⚡ ACCESS GRANTED · WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
+        succ.textContent = `ACCESS GRANTED · WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
       }
 
       setTimeout(() => {
@@ -2185,7 +2185,7 @@ function initAdminPanel() {
     } else {
       if (err) {
         err.style.display = "block";
-        err.textContent = "⚠️ ACCESS DENIED: Invalid User ID or Password. Check your credentials.";
+        err.textContent = "ACCESS DENIED: Invalid User ID or Password. Check your credentials.";
       }
       if (succ) succ.style.display = "none";
       if (passEl) {
@@ -2320,8 +2320,8 @@ function renderAdminEvents(db) {
       <td><span style="color:var(--neon-yellow);">${ev.prize || '—'}</span></td>
       <td>${ev.coordinator ? ev.coordinator.name : '—'}</td>
       <td>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminEvent('${ev.id}')">✏️ Edit</button>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminEvent('${ev.id}')">🗑️ Delete</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminEvent('${ev.id}')"> Edit</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminEvent('${ev.id}')"> Delete</button>
       </td>
     `;
     container.appendChild(tr);
@@ -2418,10 +2418,10 @@ function renderAdminSchedule(db) {
       <td><strong>${item.day}</strong><br><span style="color:var(--neon-yellow); font-size:0.8rem; font-family:var(--font-mono);">${item.time}</span></td>
       <td><strong>${item.name}</strong><br><span style="color:var(--text-secondary); font-size:0.75rem;">${item.note || ''}</span></td>
       <td><span class="event-category-badge">${item.category || item.day}</span></td>
-      <td>📍 ${item.venue}</td>
+      <td>${item.venue}</td>
       <td style="white-space: nowrap;">
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminScheduleItem('${item.id || idx}')">✏️ Edit</button>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminScheduleItem('${item.id || idx}')">🗑️ Delete</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminScheduleItem('${item.id || idx}')"> Edit</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminScheduleItem('${item.id || idx}')"> Delete</button>
       </td>
     `;
     container.appendChild(tr);
@@ -2512,10 +2512,10 @@ function renderAdminCoordinators(db) {
         <div style="flex:1;">
           <h4 style="color: var(--text-primary); font-family:var(--font-display);">${c.name}</h4>
           <div style="color:var(--neon-pink); font-size:0.8rem;">${c.role}</div>
-          <div style="color:var(--text-secondary); font-size:0.8rem;">${c.dept} | 📞 ${c.phone}</div>
+          <div style="color:var(--text-secondary); font-size:0.8rem;">${c.dept} | ${c.phone}</div>
         </div>
         <div>
-          <button class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem;" onclick="editAdminCoordinator('${c.id}')">✏️ Edit Details / Photo</button>
+          <button class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem;" onclick="editAdminCoordinator('${c.id}')"> Edit Details / Photo</button>
         </div>
       </div>
     `;
@@ -2563,7 +2563,7 @@ function renderAdminLeadership(db) {
           <h4 style="color: var(--text-primary); font-family:var(--font-display);">${l.name}</h4>
           <div style="color:var(--text-secondary); font-size:0.8rem;">${l.role}</div>
         </div>
-        <button class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem;" onclick="editAdminLeader('${l.id}')">✏️ Edit</button>
+        <button class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem;" onclick="editAdminLeader('${l.id}')"> Edit</button>
       </div>
     `;
     container.appendChild(div);
@@ -2633,10 +2633,10 @@ function renderAdminWinners(db) {
     div.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
         <h4 style="color: var(--text-primary); font-family:var(--font-display);">${w.eventName} (${w.category})</h4>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminWinner(${idx})">✏️ Edit Winners</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminWinner(${idx})"> Edit Winners</button>
       </div>
       <div style="font-size:0.8rem; color:var(--text-secondary); line-height:1.6;">
-        ${(w.tiers || []).map(t => `🥇 Rank ${t.rank}: <strong>${t.team}</strong> (${t.college}) — Prize: ${t.prize}`).join("<br>")}
+        ${(w.tiers || []).map(t => `Rank ${t.rank}: <strong>${t.team}</strong> (${t.college}) — Prize: ${t.prize}`).join("<br>")}
       </div>
     `;
     container.appendChild(div);
@@ -2652,7 +2652,7 @@ function renderAdminCertificates(db) {
     publishToggle.onchange = () => {
       db.settings.certificatesPublished = publishToggle.checked;
       FestDB.saveData(db);
-      alert(publishToggle.checked ? "✅ Public Certificate Downloads are now ENABLED on certificate.html!" : "🔒 Public Certificate Downloads are now DISABLED.");
+      alert(publishToggle.checked ? "Public Certificate Downloads are now ENABLED on certificate.html!" : "Public Certificate Downloads are now DISABLED.");
     };
   }
 
@@ -2687,8 +2687,8 @@ function renderAdminCertificates(db) {
     const team = c.teamName || c.recipient || "Team";
     const recipient = c.recipient && c.recipient !== team ? c.recipient : "-";
     const fileBadge = c.fileUrl ? 
-      `<a href="${c.fileUrl}" target="_blank" style="color:#38BDF8; font-size:0.75rem; text-decoration:underline;">📎 Uploaded File</a>` :
-      `<span style="color:#94A3B8; font-size:0.75rem;">⚡ Auto-Generated High-Res</span>`;
+      `<a href="${c.fileUrl}" target="_blank" style="color:#38BDF8; font-size:0.75rem; text-decoration:underline;"> Uploaded File</a>` :
+      `<span style="color:#94A3B8; font-size:0.75rem;">Auto-Generated High-Res</span>`;
 
     return `
       <tr>
@@ -2699,8 +2699,8 @@ function renderAdminCertificates(db) {
         <td><span class="event-category-badge" style="font-size:0.7rem;">${c.award}</span></td>
         <td>${fileBadge}</td>
         <td>
-          <button type="button" class="btn btn-ghost" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="adminPreviewCert('${c.id}')">👁️ View</button>
-          <button type="button" class="btn btn-ghost" style="padding:0.25rem 0.6rem; font-size:0.75rem; color:#F87171; border-color:rgba(248, 113, 113, 0.4);" onclick="deleteAdminCertificate('${c.id}')">🗑️ Delete</button>
+          <button type="button" class="btn btn-ghost" style="padding:0.25rem 0.6rem; font-size:0.75rem;" onclick="adminPreviewCert('${c.id}')"> View</button>
+          <button type="button" class="btn btn-ghost" style="padding:0.25rem 0.6rem; font-size:0.75rem; color:#F87171; border-color:rgba(248, 113, 113, 0.4);" onclick="deleteAdminCertificate('${c.id}')"> Delete</button>
         </td>
       </tr>
     `;
@@ -2814,7 +2814,7 @@ window.handleAdminUploadCert = function(e) {
   if (form) form.reset();
   resetAdminCertUpload();
 
-  alert(`✅ Certificate (${certId}) for Team "${teamName}" successfully uploaded and published!
+  alert(`Certificate (${certId}) for Team "${teamName}" successfully uploaded and published!
 
 Participants can now visit certificate.html, enter "${teamName}", and download their official certificate.`);
 };
@@ -2895,8 +2895,8 @@ function renderAdminSponsors(db) {
           <span style="color:var(--neon-pink); font-size:0.78rem; margin-left:0.6rem;">${s.tier}</span>
         </div>
         <div>
-          <button class="btn btn-ghost" style="padding:0.2rem 0.6rem; font-size:0.75rem;" onclick="editAdminSponsor(${idx})">✏️ Edit</button>
-          <button class="btn btn-ghost" style="padding:0.2rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminSponsor(${idx})">🗑️</button>
+          <button class="btn btn-ghost" style="padding:0.2rem 0.6rem; font-size:0.75rem;" onclick="editAdminSponsor(${idx})"> Edit</button>
+          <button class="btn btn-ghost" style="padding:0.2rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminSponsor(${idx})"></button>
         </div>
       </div>
     `;
@@ -2975,7 +2975,7 @@ function renderAdminGallery(db) {
             <span style="color:var(--neon-cyan); font-size:0.75rem; margin-left:0.5rem;">#${g.tag}</span>
           </div>
         </div>
-        <button class="btn btn-ghost" style="padding:0.2rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminGalleryPhoto(${idx})">🗑️ Remove</button>
+        <button class="btn btn-ghost" style="padding:0.2rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminGalleryPhoto(${idx})"> Remove</button>
       </div>
     `;
     container.appendChild(div);
@@ -3129,12 +3129,12 @@ function renderAdminRegistrations(db) {
   function updateSheetBadge(val) {
     if (!sheetStatusBadge) return;
     if (val && val.trim()) {
-      sheetStatusBadge.textContent = "✓ CONNECTED & ACTIVE";
+      sheetStatusBadge.textContent = "CONNECTED & ACTIVE";
       sheetStatusBadge.style.background = "rgba(16, 185, 129, 0.2)";
       sheetStatusBadge.style.color = "#10B981";
       sheetStatusBadge.style.borderColor = "#10B981";
     } else {
-      sheetStatusBadge.textContent = "⚠ NO WEBHOOK (DISABLED)";
+      sheetStatusBadge.textContent = "NO WEBHOOK (DISABLED)";
       sheetStatusBadge.style.background = "rgba(239, 68, 68, 0.2)";
       sheetStatusBadge.style.color = "#EF4444";
       sheetStatusBadge.style.borderColor = "#EF4444";
@@ -3155,16 +3155,16 @@ function renderAdminRegistrations(db) {
         return;
       }
       testSheetBtn.disabled = true;
-      testSheetBtn.textContent = "⏳ Testing...";
+      testSheetBtn.textContent = "Testing...";
       try {
         const res = await fetch(url, { method: "GET" });
         const data = await res.json();
-        alert(`✓ Webhook Connection Successful! Google Sheet is reachable and returned ${Array.isArray(data) ? data.length : 0} rows.`);
+        alert(`Webhook Connection Successful! Google Sheet is reachable and returned ${Array.isArray(data) ? data.length : 0} rows.`);
       } catch (e) {
         alert("Test ping failed: " + e.message + "\nPlease verify the Apps Script deployment.");
       } finally {
         testSheetBtn.disabled = false;
-        testSheetBtn.textContent = "⚡ Test Ping Sync";
+        testSheetBtn.textContent = "Test Ping Sync";
       }
     };
   }
@@ -3327,13 +3327,13 @@ function renderAdminRegistrations(db) {
     list.forEach(r => {
       const tr = document.createElement("tr");
 
-      let statusBadge = `<span class="admin-badge-pending">⏳ PENDING</span>`;
+      let statusBadge = `<span class="admin-badge-pending">PENDING</span>`;
       if (r.status === "Checked In") {
-        statusBadge = `<span class="admin-badge-confirmed" style="background:rgba(16,185,129,0.2); color:#10B981; border:1px solid #10B981;">✅ CHECKED IN</span>`;
+        statusBadge = `<span class="admin-badge-confirmed" style="background:rgba(16,185,129,0.2); color:#10B981; border:1px solid #10B981;"> CHECKED IN</span>`;
       } else if (r.status === "Confirmed" || r.paymentVerified) {
-        statusBadge = `<span class="admin-badge-confirmed">✓ CONFIRMED</span>`;
+        statusBadge = `<span class="admin-badge-confirmed">CONFIRMED</span>`;
       } else if (r.status === "Rejected") {
-        statusBadge = `<span class="admin-badge-rejected">✕ REJECTED</span>`;
+        statusBadge = `<span class="admin-badge-rejected">REJECTED</span>`;
       }
 
       const isInt = (r.category === 'internal' || !r.category);
@@ -3347,21 +3347,21 @@ function renderAdminRegistrations(db) {
 
       tr.innerHTML = `
         <td><strong style="color:#60A5FA; font-family:var(--font-mono);">${r.id}</strong><br><span style="font-size:0.72rem; color:#94A3B8;">${r.timestamp ? new Date(r.timestamp).toLocaleDateString() : ''}</span></td>
-        <td><strong>${r.fullName}</strong><br><span style="color:#94A3B8; font-size:0.75rem;">${r.email}</span><br><span style="color:#CBD5E1; font-size:0.75rem;">📞 ${r.phone}</span></td>
+        <td><strong>${r.fullName}</strong><br><span style="color:#94A3B8; font-size:0.75rem;">${r.email}</span><br><span style="color:#CBD5E1; font-size:0.75rem;"> ${r.phone}</span></td>
         <td><strong>${r.college}</strong><br><span style="color:#93C5FD; font-size:0.75rem; font-family:var(--font-mono);">${r.usn}</span><br><span style="color:#94A3B8; font-size:0.72rem;">${r.department || ''}</span></td>
         <td>${catBadge}<br><strong style="color:#34D399; font-size:0.85rem;">${r.feePaid || '₹200'}</strong></td>
-        <td><div style="font-size:0.8rem; line-height:1.4;">${eventsDisplay}</div><span style="font-size:0.72rem; color:#94A3B8;">${r.regType === 'Team' ? '👥 ' + (r.teamName || 'Squad') : (r.teamName ? '👤 Solo (' + r.teamName + ')' : '👤 Solo')}</span></td>
+        <td><div style="font-size:0.8rem; line-height:1.4;">${eventsDisplay}</div><span style="font-size:0.72rem; color:#94A3B8;">${r.regType === 'Team' ? ' ' + (r.teamName || 'Squad') : (r.teamName ? 'Solo (' + r.teamName + ')' : 'Solo')}</span></td>
         <td>
           <code style="background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px; font-size:0.8rem; color:#FCD34D;">${r.utrId}</code>
           ${r.paymentScreenshot ? `
             <div style="margin-top: 4px;">
               ${r.paymentScreenshot.startsWith('http') ? `
                 <a href="${r.paymentScreenshot}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="padding: 2px 7px; font-size: 0.72rem; color: #38BDF8; border-color: #38BDF8; display: inline-flex; align-items: center; gap: 3px;">
-                  🔗 View Drive Proof
+                  View Drive Proof
                 </a>
               ` : `
                 <button type="button" class="btn btn-ghost" style="padding: 2px 7px; font-size: 0.72rem; color: #38BDF8; border-color: #38BDF8; display: inline-flex; align-items: center; gap: 3px;" onclick="viewAdminProof('${r.id}')">
-                  📷 View Proof
+                  View Proof
                 </button>
               `}
             </div>
@@ -3369,10 +3369,10 @@ function renderAdminRegistrations(db) {
         </td>
         <td>${statusBadge}</td>
         <td style="white-space: nowrap;">
-          <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#0284C7; border-color:#0284C7; margin-right:4px;" onclick="viewAdminPassModal('${r.id}')" title="View Pass & Terminal QR">🎫 Pass &amp; QR</button>
-          <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#34D399; border-color:#34D399;" onclick="setAdminRegStatus('${r.id}', 'Confirmed')">✓ Approve</button>
-          <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#F87171; border-color:#F87171;" onclick="setAdminRegStatus('${r.id}', 'Rejected')">✕ Reject</button>
-          <button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.72rem; color:#94A3B8;" onclick="deleteAdminRegistration('${r.id}')" title="Delete record">🗑️</button>
+          <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#0284C7; border-color:#0284C7; margin-right:4px;" onclick="viewAdminPassModal('${r.id}')" title="View Pass & Terminal QR">Pass &amp; QR</button>
+          <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#34D399; border-color:#34D399;" onclick="setAdminRegStatus('${r.id}', 'Confirmed')"> Approve</button>
+          <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#F87171; border-color:#F87171;" onclick="setAdminRegStatus('${r.id}', 'Rejected')">Reject</button>
+          <button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.72rem; color:#94A3B8;" onclick="deleteAdminRegistration('${r.id}')" title="Delete record"></button>
         </td>
       `;
       tableBody.appendChild(tr);
@@ -3480,7 +3480,7 @@ window.batchApproveAllPendingPayments = async function() {
     console.warn("Could not reach CORE backend for batch verification, updated local FestDB:", err);
   }
 
-  alert(`✓ Successfully approved payment for ${pending.length} delegate pass(es)!\nAll passes are now unlocked across both sites.`);
+  alert(`Successfully approved payment for ${pending.length} delegate pass(es)!\nAll passes are now unlocked across both sites.`);
 };
 
 window.importRegistrationsFromExcelFile = function(inputEl) {
@@ -3614,7 +3614,7 @@ window.importRegistrationsFromExcelFile = function(inputEl) {
         console.warn("Could not dispatch Excel to CORE server:", coreErr);
       }
 
-      alert(`✓ Excel Import Complete!\n\nImported ${importedCount} new registrations.\nUpdated ${updatedCount} existing records.\nTotal delegates in database: ${db.registrations.length}\n\nAll records synchronized live with ARENIUM 27 CORE!`);
+      alert(`Excel Import Complete!\n\nImported ${importedCount} new registrations.\nUpdated ${updatedCount} existing records.\nTotal delegates in database: ${db.registrations.length}\n\nAll records synchronized live with ARENIUM 27 CORE!`);
     } catch (err) {
       console.error("Excel import error:", err);
       alert("Failed to parse Excel file: " + err.message);
@@ -3720,7 +3720,7 @@ window.syncWithCoreBackend = async function() {
   if (syncBtn) {
     origHtml = syncBtn.innerHTML;
     syncBtn.disabled = true;
-    syncBtn.innerHTML = "⏳ Syncing with CORE...";
+    syncBtn.innerHTML = "Syncing with CORE...";
   }
 
   try {
@@ -3741,7 +3741,7 @@ window.syncWithCoreBackend = async function() {
         FestDB.saveData(db);
         renderAdminRegistrations(db);
         if (typeof renderAdminOverview === "function") renderAdminOverview(db);
-        alert(`✓ ARENIUM 27 CORE Sync Successful!\n\nSynchronized ${result.registrations.length} delegate passes.\nVerified: ${result.registrations.filter(r => r.paymentVerified).length} | Pending: ${result.registrations.filter(r => !r.paymentVerified).length}`);
+        alert(`ARENIUM 27 CORE Sync Successful!\n\nSynchronized ${result.registrations.length} delegate passes.\nVerified: ${result.registrations.filter(r => r.paymentVerified).length} | Pending: ${result.registrations.filter(r => !r.paymentVerified).length}`);
         return;
       }
     }
@@ -3762,7 +3762,7 @@ window.syncWithCoreBackend = async function() {
         FestDB.saveData(db);
         renderAdminRegistrations(db);
         if (typeof renderAdminOverview === "function") renderAdminOverview(db);
-        alert(`✓ ARENIUM 27 CORE Sync Successful!\n\nSynchronized ${db.registrations.length} delegate records with CORE backend.`);
+        alert(`ARENIUM 27 CORE Sync Successful!\n\nSynchronized ${db.registrations.length} delegate records with CORE backend.`);
         return;
       }
     }
@@ -3770,11 +3770,11 @@ window.syncWithCoreBackend = async function() {
     throw new Error("Unable to connect to ARENIUM 27 CORE server.");
   } catch (err) {
     console.error("CORE Sync failed:", err);
-    alert(`⚠️ Could not connect to ARENIUM 27 CORE backend (${window.CORE_BACKEND_URL}):\n${err.message}\n\nPlease ensure ARENIUM 27 CORE server is running on port 5000.`);
+    alert(`Could not connect to ARENIUM 27 CORE backend (${window.CORE_BACKEND_URL}):\n${err.message}\n\nPlease ensure ARENIUM 27 CORE server is running on port 5000.`);
   } finally {
     if (syncBtn) {
       syncBtn.disabled = false;
-      syncBtn.innerHTML = origHtml || "⚡ Sync with CORE Server";
+      syncBtn.innerHTML = origHtml || "Sync with CORE Server";
     }
   }
 };
@@ -3885,7 +3885,7 @@ window.syncRegistrationsFromGoogleSheet = async function() {
   const origText = syncBtn ? syncBtn.innerHTML : "";
   if (syncBtn) {
     syncBtn.disabled = true;
-    syncBtn.innerHTML = "⏳ Syncing from Google Sheet...";
+    syncBtn.innerHTML = "Syncing from Google Sheet...";
   }
 
   try {
@@ -3943,14 +3943,14 @@ window.syncRegistrationsFromGoogleSheet = async function() {
     renderAdminRegistrations(db);
     renderAdminOverview(db);
 
-    alert(`✓ Google Sheet Sync Successful!\n\nSynchronized ${sheetData.length} total delegate records (${newCount} new records pulled from live Excel).`);
+    alert(`Google Sheet Sync Successful!\n\nSynchronized ${sheetData.length} total delegate records (${newCount} new records pulled from live Excel).`);
   } catch (err) {
     console.error("Sheet sync failed:", err);
     alert("Google Sheet Sync error: " + err.message);
   } finally {
     if (syncBtn) {
       syncBtn.disabled = false;
-      syncBtn.innerHTML = origText || "🔄 Google Sheet";
+      syncBtn.innerHTML = origText || "Google Sheet";
     }
   }
 };
@@ -4012,10 +4012,10 @@ window.viewAdminPassModal = function(regId) {
       ${!isVerified ? `
         <div style="background:#FFFBEB; border:1.5px solid #FCD34D; border-radius:8px; padding:0.6rem 0.9rem; margin-bottom:0.9rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
           <span style="font-size:0.78rem; color:#B45309; font-weight:700;">
-            ⏳ Payment Pending Verification — This pass &amp; QR are LOCKED on the student portal until approved.
+            Payment Pending Verification — This pass &amp; QR are LOCKED on the student portal until approved.
           </span>
           <button type="button" class="btn btn-primary" onclick="setAdminRegStatus('${reg.id}', 'Confirmed'); viewAdminPassModal('${reg.id}');" style="padding:4px 10px; font-size:0.75rem; font-weight:700;">
-            ✓ Approve Payment &amp; Unlock Pass Now
+            Approve Payment &amp; Unlock Pass Now
           </button>
         </div>
       ` : ''}
@@ -4027,7 +4027,7 @@ window.viewAdminPassModal = function(regId) {
         </div>
         <div style="text-align: right;">
           <span style="background: ${isVerified ? '#ECFDF5' : '#FEF3C7'}; color: ${isVerified ? '#047857' : '#B45309'}; border: 1px solid ${isVerified ? '#A7F3D0' : '#FCD34D'}; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
-            ${isVerified ? '✓ ' + (reg.status || 'Confirmed') : '⏳ PENDING'}
+            ${isVerified ? (reg.status || 'Confirmed') : 'PENDING'}
           </span>
           <div style="font-family: var(--font-mono); font-size: 0.85rem; color: #0284C7; font-weight: 700; margin-top: 3px;">${reg.id}</div>
         </div>
@@ -4146,7 +4146,7 @@ window.startGateQrScanner = function() {
     (errorMessage) => {}
   ).catch(err => {
     console.error("Camera start error:", err);
-    alert("Camera access denied or device has no camera: " + err + "\n\nYou can still click '📷 Scan QR Image File' or use 'Manual Lookup'!");
+    alert("Camera access denied or device has no camera: " + err + "\n\nYou can still click 'Scan QR Image File' or use 'Manual Lookup'!");
     stopGateQrScanner();
   });
 };
@@ -4250,7 +4250,7 @@ window.handleGateQrScanned = async function(rawText) {
   if (!matchedReg) {
     playScanBeep(false);
     if (clearancePill) {
-      clearancePill.textContent = "⚠️ UNREGISTERED PASS";
+      clearancePill.textContent = "UNREGISTERED PASS";
       clearancePill.style.background = "#FEF2F2";
       clearancePill.style.color = "#DC2626";
       clearancePill.style.webkitTextFillColor = "#DC2626";
@@ -4260,7 +4260,7 @@ window.handleGateQrScanned = async function(rawText) {
     resultBody.innerHTML = `
       <div style="width: 100%; text-align: left;">
         <div style="background: #FEF2F2; border: 1.5px solid #FCA5A5; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
-          <div style="color: #DC2626; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem;">⚠️ Pass ID Not Found in Database</div>
+          <div style="color: #DC2626; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.3rem;">Pass ID Not Found in Database</div>
           <div style="font-size: 0.78rem; color: #7F1D1D; line-height: 1.45;">
             The scanned QR code was decoded, but no registration was found matching <code>${targetId}</code>. You can sync with CORE Server or Google Sheets, or perform an on-spot walk-in registration.
           </div>
@@ -4270,7 +4270,7 @@ window.handleGateQrScanned = async function(rawText) {
         </div>
         <div style="display:flex; gap:0.5rem; margin-top:1rem; flex-wrap:wrap;">
           <button type="button" class="btn btn-primary" onclick="syncWithCoreBackend()" style="padding: 0.5rem 1.2rem; font-size: 0.82rem;">
-            ⚡ Sync from CORE Server
+            Sync from CORE Server
           </button>
           <button type="button" class="btn btn-ghost" onclick="openManualRegModal()" style="padding: 0.5rem 1.2rem; font-size: 0.82rem;">
             + On-Spot Registration
@@ -4297,7 +4297,7 @@ window.handleGateQrScanned = async function(rawText) {
   if (!isPaymentVerified || isRejected) {
     playScanBeep(false);
     if (clearancePill) {
-      clearancePill.textContent = isRejected ? "🚫 REGISTRATION REJECTED" : "⛔ PAYMENT UNVERIFIED — ENTRY BLOCKED";
+      clearancePill.textContent = isRejected ? "REGISTRATION REJECTED" : "PAYMENT UNVERIFIED — ENTRY BLOCKED";
       clearancePill.style.background = "#FEF2F2";
       clearancePill.style.color = "#DC2626";
       clearancePill.style.webkitTextFillColor = "#DC2626";
@@ -4309,7 +4309,7 @@ window.handleGateQrScanned = async function(rawText) {
         <div style="background: #FFF1F2; border: 2px solid #F43F5E; border-radius: 12px; padding: 1.1rem; margin-bottom: 1.2rem;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
             <span style="font-size: 0.76rem; color: #BE123C; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
-              ${isRejected ? '🚫 REGISTRATION REJECTED BY ADMIN' : '⛔ PAYMENT NOT VERIFIED — GATE PASS LOCKED'}
+              ${isRejected ? 'REGISTRATION REJECTED BY ADMIN' : 'PAYMENT NOT VERIFIED — GATE PASS LOCKED'}
             </span>
             <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; color: #BE123C;">${matchedReg.id}</span>
           </div>
@@ -4333,15 +4333,15 @@ window.handleGateQrScanned = async function(rawText) {
 
         <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
           <button type="button" class="btn btn-primary" onclick="verifyAndCheckInFromGate('${matchedReg.id}')" style="background: #059669; border-color: #047857; padding: 0.6rem 1.4rem; font-size: 0.82rem; font-weight: 700;">
-            ✓ Verify Payment &amp; Clear Gate Entry Now
+            Verify Payment &amp; Clear Gate Entry Now
           </button>
           ${matchedReg.paymentScreenshot ? `
             <button type="button" class="btn btn-ghost" onclick="viewAdminProof('${matchedReg.id}')" style="padding: 0.6rem 1.1rem; font-size: 0.82rem; color: #0284C7; border-color: #0284C7;">
-              📷 View Payment Proof
+              View Payment Proof
             </button>
           ` : ''}
           <button type="button" class="btn btn-ghost" onclick="setAdminRegStatus('${matchedReg.id}', 'Rejected')" style="padding: 0.6rem 1.1rem; font-size: 0.82rem; color: #E11D48; border-color: #E11D48;">
-            ✕ Mark Rejected
+            Mark Rejected
           </button>
         </div>
       </div>
@@ -4352,7 +4352,7 @@ window.handleGateQrScanned = async function(rawText) {
   // CASE 3: PAYMENT IS VERIFIED (ENTRY CLEARED!)
   playScanBeep(true);
   if (clearancePill) {
-    clearancePill.textContent = "✅ ACCESS GRANTED — GATE CLEARED";
+    clearancePill.textContent = "ACCESS GRANTED — GATE CLEARED";
     clearancePill.style.background = "#ECFDF5";
     clearancePill.style.color = "#047857";
     clearancePill.style.webkitTextFillColor = "#047857";
@@ -4376,7 +4376,7 @@ window.handleGateQrScanned = async function(rawText) {
       <div style="background: ${isCheckedIn ? '#EFF6FF' : '#ECFDF5'}; border: 1.5px solid ${isCheckedIn ? '#93C5FD' : '#6EE7B7'}; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.2rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.4rem;">
           <span style="font-size: 0.72rem; color: ${isCheckedIn ? '#1D4ED8' : '#047857'}; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
-            ${isCheckedIn ? 'ℹ️ ALREADY CHECKED IN' : '✅ GATE ENTRY CLEARED • OFFICIAL PASS'}
+            ${isCheckedIn ? 'ALREADY CHECKED IN' : 'GATE ENTRY CLEARED • OFFICIAL PASS'}
           </span>
           <span style="font-family: var(--font-mono); font-size: 0.8rem; font-weight: 800; color: #0284C7;">${matchedReg.id}</span>
         </div>
@@ -4391,24 +4391,24 @@ window.handleGateQrScanned = async function(rawText) {
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.84rem; margin-bottom: 1.2rem;">
         <div><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">Category:</strong> <span style="color: #0369A1; font-weight: 700;">${catLabel}</span></div>
         <div><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">Participation:</strong> <strong>${isTeam ? 'Team Entry' : 'Solo Entry'}</strong></div>
-        <div><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">Fee Paid:</strong> <strong style="color: #047857;">${matchedReg.feePaid || '₹200'} (Verified ✓)</strong></div>
+        <div><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">Fee Paid:</strong> <strong style="color: #047857;">${matchedReg.feePaid || '₹200'} (Verified )</strong></div>
         <div><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">UTR ID:</strong> <code style="color: #475569;">${matchedReg.utrId || 'N/A'}</code></div>
         <div style="grid-column: 1 / -1;"><strong style="color: #64748B; font-size: 0.72rem; text-transform: uppercase; display: block;">Registered Arenas:</strong> <strong style="color: #0F172A;">${arenas || 'General Fest Entry'}</strong></div>
       </div>
 
       ${matchedReg.teamMembers ? `
         <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 1.2rem; font-size: 0.78rem; color: #334155;">
-          <strong style="color: #0369A1; display: block; margin-bottom: 0.2rem;">👥 Squad Roster:</strong>
+          <strong style="color: #0369A1; display: block; margin-bottom: 0.2rem;">Squad Roster:</strong>
           ${matchedReg.teamMembers}
         </div>
       ` : ''}
 
       <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
         <button type="button" class="btn btn-primary" onclick="markGatePassCheckedIn('${matchedReg.id}')" style="background: #059669; border-color: #047857; padding: 0.6rem 1.4rem; font-size: 0.82rem; font-weight: 700;">
-          ${isCheckedIn ? '✓ Refresh Check-In' : '✅ MARK AS CHECKED IN'}
+          ${isCheckedIn ? 'Refresh Check-In' : 'MARK AS CHECKED IN'}
         </button>
         <button type="button" class="btn btn-ghost" onclick="viewAdminPassModal('${matchedReg.id}')" style="padding: 0.6rem 1.1rem; font-size: 0.82rem; color: #0284C7; border-color: #0284C7;">
-          🎫 Full Pass Preview
+          Full Pass Preview
         </button>
       </div>
     </div>
@@ -4445,7 +4445,7 @@ window.verifyAndCheckInFromGate = async function(regId) {
   renderAdminRegistrations(db);
   if (typeof renderAdminOverview === "function") renderAdminOverview(db);
   handleGateQrScanned(regId);
-  alert(`✓ Payment Verified & Gate Cleared!\n\nPass for ${reg ? reg.fullName : regId} is now officially unlocked and checked in.`);
+  alert(`Payment Verified & Gate Cleared!\n\nPass for ${reg ? reg.fullName : regId} is now officially unlocked and checked in.`);
 };
 
 window.markGatePassCheckedIn = async function(regId) {
@@ -4472,5 +4472,5 @@ window.markGatePassCheckedIn = async function(regId) {
   renderAdminOverview(db);
   handleGateQrScanned(regId);
 
-  alert(`✓ DELEGATE CLEARED & CHECKED IN!\n\nPass ID: ${reg.id}\nDelegate: ${reg.fullName}\nTime: ${reg.checkInTime}`);
+  alert(`DELEGATE CLEARED & CHECKED IN!\n\nPass ID: ${reg.id}\nDelegate: ${reg.fullName}\nTime: ${reg.checkInTime}`);
 };

@@ -246,7 +246,7 @@
             <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
               <input type="text" id="lookup-reg-input" placeholder="Enter Registration ID (e.g. ARENIUM27-REG-1042) or College USN..." style="flex: 1; min-width: 240px; padding: 0.75rem 1rem; border: 1.5px solid #CBD5E1; border-radius: 10px; font-size: 0.88rem; color: #0F172A; background: #FFFFFF;">
               <button type="button" id="btn-lookup-pass" class="btn btn-primary" onclick="lookupStudentPass()" style="padding: 0.75rem 1.4rem; font-weight: 800; font-size: 0.85rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF; cursor: pointer;">
-                🔍 CHECK STATUS / UNLOCK PASS
+                CHECK STATUS / UNLOCK PASS
               </button>
             </div>
             <div id="lookup-result-msg" style="display: none; margin-top: 0.8rem; font-size: 0.85rem;"></div>
@@ -350,7 +350,7 @@
               <div class="form-field-group full-width">
                 <label class="form-label" for="reg-event-2">
                   EVENT 2: SECOND ARENA (OPTIONAL)
-                  <span style="font-size: 0.74rem; color: #10B981; font-weight: 700; margin-left: 0.5rem;">✓ FREE / NO ADDITIONAL PAYMENT</span>
+                  <span style="font-size: 0.74rem; color: #10B981; font-weight: 700; margin-left: 0.5rem;">FREE / NO ADDITIONAL PAYMENT</span>
                 </label>
                 <select id="reg-event-2" class="form-select">
                   <option value="">-- No Second Event (Participating in 1 Event Only) --</option>
@@ -378,7 +378,7 @@
               <div class="form-field-group full-width">
                 <div style="background: #F0F9FF; border: 1.5px solid #BAE6FD; border-radius: 10px; padding: 0.85rem 1.1rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;">
                   <div style="font-size: 0.84rem; color: #0369A1; line-height: 1.5;">
-                    ⚠️ <strong style="color: #0C4A6E;">Schedule Timing Check:</strong> Please ensure that your chosen events do not have overlapping timings!
+                    <strong style="color: #0C4A6E;">Schedule Timing Check:</strong> Please ensure that your chosen events do not have overlapping timings!
                   </div>
                   <a href="schedule.html" target="_blank" class="btn btn-ghost" style="padding: 0.4rem 0.9rem; font-size: 0.78rem; background: #FFFFFF; border: 1.5px solid #0284C7; color: #0284C7 !important;">
                     View Event Schedule
@@ -417,13 +417,13 @@
                       </span>
                     </div>
                     <span class="team-lead-badge" style="background: #DCFCE7 !important; border: 1px solid #86EFAC !important; color: #166534 !important; -webkit-text-fill-color: #166534 !important; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 20px;">
-                      👑 Member 1 = Team Leader (Auto-Assigned)
+                      Member 1 = Team Leader (Auto-Assigned)
                     </span>
                   </div>
 
                   <!-- Team Leader Notification -->
                   <div class="team-lead-notice" style="background: #E0F2FE !important; border-left: 3.5px solid #0284C7 !important; border-radius: 6px; padding: 0.75rem 0.95rem; margin-bottom: 1rem; font-size: 0.82rem; color: #0369A1 !important; -webkit-text-fill-color: #0369A1 !important; line-height: 1.5; font-weight: 600;">
-                    👑 <strong style="color: #0369A1 !important; -webkit-text-fill-color: #0369A1 !important; font-weight: 800;">Team Leader (Member 1):</strong> Primary registrant credentials above are automatically linked as the Team Leader (<span id="team-lead-name-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">Full Name</span> · <span id="team-lead-usn-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">USN</span>).
+                    <strong style="color: #0369A1 !important; -webkit-text-fill-color: #0369A1 !important; font-weight: 800;">Team Leader (Member 1):</strong> Primary registrant credentials above are automatically linked as the Team Leader (<span id="team-lead-name-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">Full Name</span> · <span id="team-lead-usn-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">USN</span>).
                   </div>
 
                   <!-- Dynamic Member Entry Cards -->
@@ -508,7 +508,7 @@
                   
                   <!-- Idle State UI -->
                   <div id="upload-idle-state" onclick="document.getElementById('reg-screenshot').click()" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.1rem 1rem; cursor: pointer; text-align: center; border: 2px dashed #CBD5E1; border-radius: 12px; background: #F8FAFC; transition: all 0.25s ease;">
-                    <span style="font-size: 1.8rem; margin-bottom: 0.2rem;" aria-hidden="true">📸</span>
+                    <span style="font-size: 0.85rem; font-weight: 700; color: #0284C7; display: block; margin-bottom: 0.2rem;">Upload Screenshot</span>
                     <strong style="font-size: 0.88rem; color: #0F172A;">Upload Payment Screenshot (Proof)</strong>
                     <span style="font-size: 0.75rem; color: #64748B; margin-top: 0.2rem;">
                       Click to choose image or drag &amp; drop (PNG, JPG, WEBP)
@@ -521,11 +521,11 @@
                       <img id="upload-img-preview" src="" alt="Payment Proof Preview" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; border: 1.5px solid #10B981; flex-shrink: 0; background: #fff;">
                       <div style="overflow: hidden; text-align: left;">
                         <div style="font-size: 0.82rem; font-weight: 700; color: #065F46; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="upload-file-name">screenshot.png</div>
-                        <div style="font-size: 0.72rem; color: #047857;" id="upload-file-status">✓ Screenshot attached &amp; compressed</div>
+                        <div style="font-size: 0.72rem; color: #047857;" id="upload-file-status">Screenshot attached &amp; compressed</div>
                       </div>
                     </div>
                     <button type="button" id="btn-remove-screenshot" class="btn btn-ghost" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; color: #DC2626; border-color: #F87171;" title="Remove / re-upload screenshot">
-                      ✕ Change
+                      Change
                     </button>
                   </div>
                 </div>
@@ -557,7 +557,7 @@
           <div id="registration-submitted-container" style="display: none; margin-top: 1rem;">
             <div style="background: #FFFFFF; border: 2px solid #F59E0B; border-radius: 24px; padding: clamp(1.5rem, 3vw, 2.5rem); box-shadow: 0 10px 40px rgba(245, 158, 11, 0.12); text-align: center; color: #0F172A;">
               <div style="display: inline-flex; align-items: center; justify-content: center; width: 68px; height: 68px; border-radius: 50%; background: #FEF3C7; border: 2.5px solid #F59E0B; font-size: 2.2rem; margin-bottom: 1.2rem;">
-                ⏳
+                
               </div>
               <div style="display: inline-block; background: #FEF3C7; color: #B45309; border: 1.5px solid #F59E0B; padding: 4px 16px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; font-family: var(--font-mono); letter-spacing: 1px; margin-bottom: 0.8rem;">
                 REGISTRATION SUBMITTED • PAYMENT VERIFICATION PENDING
@@ -615,10 +615,10 @@
                 </div>
                 <div style="text-align: right;">
                   <span class="admin-badge-confirmed" id="pass-status-badge">
-                    ✓ VERIFIED REGISTRATION
+                    VERIFIED REGISTRATION
                   </span>
                   <div style="font-size: 0.72rem; color: #10B981; font-weight: 700; margin-top: 3px;">
-                    ✓ Logged to Official Registry (Excel)
+                    Logged to Official Registry (Excel)
                   </div>
                   <div id="pass-id-display" style="font-family: var(--font-mono); font-size: 0.9rem; color: #93C5FD; margin-top: 0.4rem; font-weight: 700;">
                     ARENIUM27-REG-8472
@@ -666,7 +666,7 @@
                 <div class="delegate-pass-field">
                   <span class="delegate-pass-label">PAYMENT PROOF SS</span>
                   <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.2rem;">
-                    <span id="pass-proof-status" style="color: #10B981; font-weight: 700; font-size: 0.85rem;">✓ Verified</span>
+                    <span id="pass-proof-status" style="color: #10B981; font-weight: 700; font-size: 0.85rem;">Verified</span>
                     <button type="button" id="btn-view-pass-ss" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; color: #38BDF8; border-color: #38BDF8;" title="View uploaded screenshot">
                       View Screenshot
                     </button>
@@ -703,7 +703,7 @@
                     <div class="pass-qr-info-list">
                       <div><strong>Participants:</strong> <span id="pass-qr-participants-count" style="font-weight: 700; color: #047857;">3 Confirmed Members</span></div>
                       <div><strong>Category:</strong> <span id="pass-qr-category-val" style="font-weight: 700; color: #0369A1;">Internal (Presidency University)</span></div>
-                      <div>🆔 <strong>Pass ID:</strong> <code id="pass-qr-reg-id" style="font-family: var(--font-mono, monospace); font-weight: 700; color: #475569;">ARENIUM27-REG-7911</code></div>
+                      <div><strong>Pass ID:</strong> <code id="pass-qr-reg-id" style="font-family: var(--font-mono, monospace); font-weight: 700; color: #475569;">ARENIUM27-REG-7911</code></div>
                     </div>
                   </div>
                 </div>
@@ -718,7 +718,7 @@
                 </div>
                 <div class="pass-actions-group">
                   <button type="button" class="btn btn-primary btn-pass-action" onclick="window.print()">
-                    🖨️ PRINT / SAVE PASS
+                    PRINT / SAVE PASS
                   </button>
                   <button type="button" class="btn btn-ghost btn-pass-action" id="btn-register-another">
                     + REGISTER ANOTHER
@@ -738,9 +738,9 @@
         
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(56, 189, 248, 0.3); padding-bottom: 0.75rem; margin-bottom: 1rem;">
           <h3 style="margin: 0; font-family: var(--font-display); font-size: 1.15rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 800; letter-spacing: 0.04em;">
-            📸 ATTACHED PAYMENT SCREENSHOT
+            ATTACHED PAYMENT SCREENSHOT
           </h3>
-          <button type="button" id="btn-close-pass-modal" class="btn btn-ghost" style="padding: 0.25rem 0.6rem; font-size: 1.1rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: rgba(255, 255, 255, 0.08);" title="Close">✕</button>
+          <button type="button" id="btn-close-pass-modal" class="btn btn-ghost" style="padding: 0.25rem 0.6rem; font-size: 1.1rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: rgba(255, 255, 255, 0.08);" title="Close">&times;</button>
         </div>
 
         <div id="pass-proof-img-wrap" style="text-align: center; background: #07060F; border-radius: 10px; padding: 0.75rem; border: 1px solid rgba(56, 189, 248, 0.25); min-height: 180px; display: flex; align-items: center; justify-content: center;">
@@ -904,7 +904,7 @@
 
       if (regConfig.status === "closed") {
         if (statusPill) statusPill.className = "register-badge status-closed";
-        if (statusText) statusText.textContent = "✕ REGISTRATIONS ARE CURRENTLY CLOSED";
+        if (statusText) statusText.textContent = "REGISTRATIONS ARE CURRENTLY CLOSED";
         if (submitBtn) {
           submitBtn.disabled = true;
           submitBtn.textContent = "REGISTRATIONS CLOSED";
@@ -963,7 +963,7 @@
           payNowBtn.style.cursor = "not-allowed";
           if (payNowText) payNowText.textContent = `PAYMENT LINK NOT CONFIGURED`;
           if (payStatusHint) {
-            payStatusHint.innerHTML = `<span style="color:#F87171;">⚠️ Payment gateway link has been temporarily removed or not set by administrators. Please contact fest coordinators.</span>`;
+            payStatusHint.innerHTML = `<span style="color:#F87171;">Payment gateway link has been temporarily removed or not set by administrators. Please contact fest coordinators.</span>`;
           }
           payNowBtn.onclick = (e) => {
             e.preventDefault();
@@ -1184,9 +1184,9 @@
         div.innerHTML = `
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.55rem;">
             <div class="member-title" style="font-size: 0.84rem; font-weight: 700; color: #38BDF8 !important; font-family: var(--font-mono); display: flex; align-items: center; gap: 0.4rem;">
-              <span>👤</span> MEMBER ${memberIndex} ${memberIndex === 2 ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#CBD5E1 !important; font-size:0.75rem;">(Optional)</span>'}
+              MEMBER ${memberIndex} ${memberIndex === 2 ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#CBD5E1 !important; font-size:0.75rem;">(Optional)</span>'}
             </div>
-            ${canRemove ? `<button type="button" class="btn-remove-member" style="background: rgba(239, 68, 68, 0.25); border: 1px solid #EF4444; color: #FCA5A5 !important; font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;" title="Remove Member ${memberIndex}">✕ Remove</button>` : ''}
+            ${canRemove ? `<button type="button" class="btn-remove-member" style="background: rgba(239, 68, 68, 0.25); border: 1px solid #EF4444; color: #FCA5A5 !important; font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;" title="Remove Member ${memberIndex}">Remove</button>` : ''}
           </div>
           <div class="team-member-grid">
             <div>
@@ -1226,7 +1226,7 @@
           box.dataset.memberIndex = num;
           const headerEl = box.querySelector("div > .member-title") || box.querySelector("div > div");
           if (headerEl) {
-            headerEl.innerHTML = `<span>👤</span> MEMBER ${num} ${num === 2 ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#CBD5E1 !important; font-size:0.75rem;">(Optional)</span>'}`;
+            headerEl.innerHTML = `MEMBER ${num} ${num === 2 ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#CBD5E1 !important; font-size:0.75rem;">(Optional)</span>'}`;
           }
           const nameInput = box.querySelector(".member-field-name");
           if (nameInput) nameInput.placeholder = `Member ${num} Full Name`;
@@ -1532,10 +1532,10 @@
           }
 
           if (verifiedReg) {
-            alert("🎉 Payment Approved! Your Official ARENIUM 27 Delegate Pass & QR Code is now UNLOCKED.");
+            alert("Payment Approved! Your Official ARENIUM 27 Delegate Pass & QR Code is now UNLOCKED.");
             renderDelegatePass(verifiedReg);
           } else {
-            alert("⏳ Payment Verification In Progress:\n\nAdmin has not completed verifying transaction UTR: " + (reg.utrId || 'N/A') + " yet. Your pass will unlock immediately once approved by admin.");
+            alert("Payment Verification In Progress:\n\nAdmin has not completed verifying transaction UTR: " + (reg.utrId || 'N/A') + " yet. Your pass will unlock immediately once approved by admin.");
           }
         } finally {
           if (btn) { btn.disabled = false; btn.textContent = "Check Verification Status"; }
@@ -1609,7 +1609,7 @@
           if (msgEl) {
             msgEl.innerHTML = `
               <div style="background: #FEF2F2; border: 1.5px solid #FCA5A5; color: #DC2626; padding: 0.6rem 0.9rem; border-radius: 8px; font-weight: 700;">
-                ✕ No registration found matching "${query}". Please check spelling or register below.
+                No registration found matching "${query}". Please check spelling or register below.
               </div>
             `;
           }
@@ -1621,7 +1621,7 @@
             if (msgEl) {
               msgEl.innerHTML = `
                 <div style="background: #FEF2F2; border: 1.5px solid #FCA5A5; color: #DC2626; padding: 0.6rem 0.9rem; border-radius: 8px;">
-                  <strong>✕ Registration Rejected:</strong> The payment verification for registration ${foundReg.id} was rejected. Please contact event desk.
+                  <strong>Registration Rejected:</strong> The payment verification for registration ${foundReg.id} was rejected. Please contact event desk.
                 </div>
               `;
             }
@@ -1629,7 +1629,7 @@
             if (msgEl) {
               msgEl.innerHTML = `
                 <div style="background: #FFFBEB; border: 1.5px solid #FCD34D; color: #B45309; padding: 0.6rem 0.9rem; border-radius: 8px;">
-                  <strong>⏳ Payment Under Verification:</strong> Registration found for <strong>${foundReg.fullName}</strong> (${foundReg.id}). Payment transaction (UTR: ${foundReg.utrId || 'N/A'}) is awaiting admin verification. Pass &amp; QR code will unlock once approved.
+                  <strong>Payment Under Verification:</strong> Registration found for <strong>${foundReg.fullName}</strong> (${foundReg.id}). Payment transaction (UTR: ${foundReg.utrId || 'N/A'}) is awaiting admin verification. Pass &amp; QR code will unlock once approved.
                 </div>
               `;
             }
@@ -1642,7 +1642,7 @@
         if (msgEl) {
           msgEl.innerHTML = `
             <div style="background: #ECFDF5; border: 1.5px solid #A7F3D0; color: #047857; padding: 0.6rem 0.9rem; border-radius: 8px; font-weight: 700;">
-              ✓ Payment Verified! Official Delegate Pass unlocked for ${foundReg.fullName}.
+              Payment Verified! Official Delegate Pass unlocked for ${foundReg.fullName}.
             </div>
           `;
         }
@@ -1702,10 +1702,10 @@
             `<span style="font-size:0.75rem; color:#10B981; font-weight:700;">${teamMembersList.length ? (teamMembersList.length + 1) + ' Confirmed Members' : 'Confirmed Squad'}</span>` +
             `</div>`;
           squadHtml += `<div style="display:flex; flex-direction:column; gap:0.4rem; font-size:0.83rem; line-height:1.5;">`;
-          squadHtml += `<div style="background:rgba(0,0,0,0.04); padding:0.45rem 0.75rem; border-radius:6px;">👑 <strong>Lead (Member 1):</strong> ${reg.fullName} <span style="color:#64748B;">(${reg.usn} • ${reg.phone})</span></div>`;
+          squadHtml += `<div style="background:rgba(0,0,0,0.04); padding:0.45rem 0.75rem; border-radius:6px;"><strong>Lead (Member 1):</strong> ${reg.fullName} <span style="color:#64748B;">(${reg.usn} • ${reg.phone})</span></div>`;
           if (teamMembersList.length) {
             teamMembersList.forEach(m => {
-              squadHtml += `<div style="background:rgba(0,0,0,0.02); padding:0.45rem 0.75rem; border-radius:6px;">👤 <strong>Member ${m.memberIndex}:</strong> ${m.name} <span style="color:#64748B;">(${m.usn}${m.contact ? ' • ' + m.contact : ''})</span></div>`;
+              squadHtml += `<div style="background:rgba(0,0,0,0.02); padding:0.45rem 0.75rem; border-radius:6px;"><strong>Member ${m.memberIndex}:</strong> ${m.name} <span style="color:#64748B;">(${m.usn}${m.contact ? ' • ' + m.contact : ''})</span></div>`;
             });
           } else if (reg.teamMembers) {
             squadHtml += `<div style="background:rgba(0,0,0,0.02); padding:0.45rem 0.75rem; border-radius:6px;">${reg.teamMembers}</div>`;
@@ -1895,7 +1895,7 @@
                   contact: mContact
                 });
               } else if (i > 0) {
-                alert(`Please enter Full Name & USN for Member ${mNum}, or click "✕ Remove" to remove this member slot.`);
+                alert(`Please enter Full Name & USN for Member ${mNum}, or click "Remove" to remove this member slot.`);
                 if (nameInp) { nameInp.focus(); nameInp.scrollIntoView({ behavior: "smooth" }); }
                 return;
               }

@@ -856,7 +856,7 @@
       </div>
 
       <div class="admin-gateway-badge">
-        🔒 SECURITY CLEARANCE REQUIRED · LEVEL 5
+         SECURITY CLEARANCE REQUIRED · LEVEL 5
       </div>
 
       <h1 class="admin-gateway-title">SUPERADMIN GATEWAY</h1>
@@ -866,18 +866,18 @@
       </p>
 
       <div id="admin-auth-error" class="admin-auth-error" role="alert">
-        ⚠️ ACCESS DENIED: Invalid User ID or Password. Check your credentials.
+         ACCESS DENIED: Invalid User ID or Password. Check your credentials.
       </div>
 
       <div id="admin-auth-success" class="admin-auth-success" role="alert">
-        ⚡ ACCESS GRANTED · INITIALIZING TERMINAL...
+         ACCESS GRANTED · INITIALIZING TERMINAL...
       </div>
 
       <form id="admin-login-form" onsubmit="event.preventDefault(); submitAdminLogin();">
         <!-- Field 1: User ID (Email) -->
         <div style="margin-bottom: 1rem; text-align: left;">
           <label class="admin-label" for="admin-email-input" style="display: block; font-size: 0.8rem; letter-spacing: 0.12em; color: var(--theme-primary); margin-bottom: 0.45rem; font-weight: 700;">
-            ⚡ ADMIN USER ID (EMAIL) ⚡
+             ADMIN USER ID (EMAIL) 
           </label>
           <div class="admin-input-box">
             <input type="email" id="admin-email-input" class="admin-input-glow" placeholder="Enter authorized admin email" autocomplete="username" autofocus required>
@@ -887,18 +887,18 @@
         <!-- Field 2: Password with toggle button -->
         <div style="margin-bottom: 1.2rem; text-align: left;">
           <label class="admin-label" for="admin-passkey-input" style="display: block; font-size: 0.8rem; letter-spacing: 0.12em; color: var(--theme-primary); margin-bottom: 0.45rem; font-weight: 700;">
-            ⚡ PASSWORD ⚡
+             PASSWORD 
           </label>
           <div class="admin-input-box" style="position: relative;">
             <input type="password" id="admin-passkey-input" class="admin-input-glow" placeholder="Enter security password" autocomplete="current-password" required style="padding-right: 3.2rem !important;">
             <button type="button" id="admin-toggle-pass-visibility" class="admin-eye-btn" onclick="toggleAdminPasswordVisibility(event)" title="Show / Hide Password" aria-label="Toggle password visibility">
-              👁️
+              
             </button>
           </div>
         </div>
 
         <button type="submit" id="admin-login-btn" class="admin-unlock-btn" style="margin-top: 0.6rem;">
-          ⚡ AUTHENTICATE &amp; UNLOCK SYSTEM
+           AUTHENTICATE &amp; UNLOCK SYSTEM
         </button>
       </form>
 
@@ -1042,7 +1042,7 @@
         passInp.type = nextType;
         passInp.setAttribute("type", nextType);
         if (toggleBtn) {
-          toggleBtn.textContent = nextType === "text" ? "🙈" : "👁️";
+          toggleBtn.textContent = nextType === "text" ? "" : "";
           toggleBtn.setAttribute("title", nextType === "text" ? "Hide Password" : "Show Password");
         }
         return false;
@@ -1081,7 +1081,7 @@
           if (err) err.style.display = "none";
           if (succ) {
             succ.style.display = "block";
-            succ.textContent = `⚡ ACCESS GRANTED · WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
+            succ.textContent = ` ACCESS GRANTED · WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
           }
 
           setTimeout(function() {
@@ -1094,7 +1094,7 @@
         } else {
           if (err) {
             err.style.display = "block";
-            err.textContent = "⚠️ ACCESS DENIED: Invalid User ID or Password. Check your credentials.";
+            err.textContent = " ACCESS DENIED: Invalid User ID or Password. Check your credentials.";
           }
           if (succ) succ.style.display = "none";
           if (passInp) {
@@ -1164,16 +1164,16 @@
 
           
           <a href="index.html" target="_blank" class="btn btn-ghost" style="padding: 0.5rem 0.9rem; font-size: 0.75rem;">
-            🌐 VIEW LIVE WEBSITE &gt;
+             VIEW LIVE WEBSITE &gt;
           </a>
           <a href="http://localhost:5173" target="_blank" class="btn btn-secondary" style="padding: 0.5rem 0.9rem; font-size: 0.75rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF; font-weight: 800;" title="Open ARENIUM 27 CORE Operations Platform">
-            ⚡ ARENIUM CORE ↗
+             ARENIUM CORE ↗
           </a>
           <button id="admin-export-btn" class="btn btn-primary" style="padding: 0.5rem 0.9rem; font-size: 0.75rem;">
-            💾 EXPORT JSON
+             EXPORT JSON
           </button>
           <button id="admin-logout-btn" class="btn btn-ghost" style="padding: 0.5rem 0.9rem; font-size: 0.75rem; color: var(--theme-primary); border-color: var(--theme-primary);" onclick="adminLogout()">
-            🔒 LOGOUT
+             LOGOUT
           </button>
         </div>
       </div>
@@ -1191,46 +1191,46 @@
       </div>
 
       <button type="button" class="admin-nav-btn active" data-tab="tab-overview" onclick="switchAdminTab(\'tab-overview\')">
-        📊 Overview &amp; Stats
+         Overview &amp; Stats
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-events" onclick="switchAdminTab(\'tab-events\')">
-        🎮 Events &amp; Rulebooks
+         Events &amp; Rulebooks
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-registrations" onclick="switchAdminTab(\'tab-registrations\')">
-        📝 Registrations &amp; Portal
+         Registrations &amp; Portal
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-scanner" onclick="switchAdminTab('tab-scanner')" style="color: #0284C7; font-weight: 800;">
-        📷 Gate QR Scanner Terminal
+         Gate QR Scanner Terminal
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-schedule" onclick="switchAdminTab(\'tab-schedule\')">
-        📅 Event Schedules
+         Event Schedules
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-coords" onclick="switchAdminTab(\'tab-coords\')">
-        👥 4 Coordinators &amp; Photos
+         4 Coordinators &amp; Photos
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-leadership" onclick="switchAdminTab(\'tab-leadership\')">
-        🏛️ Dean, HOD &amp; SOIS Faculty
+         Dean, HOD &amp; SOIS Faculty
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-winners" onclick="switchAdminTab(\'tab-winners\')">
-        🏆 Winners &amp; Results
+         Winners &amp; Results
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-certificates" onclick="switchAdminTab(\'tab-certificates\')">
-        📜 Uploaded Certificates
+         Uploaded Certificates
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-announcements" onclick="switchAdminTab(\'tab-announcements\')">
-        📢 ₹1.5L Ticker &amp; Alerts
+         ₹1.5L Ticker &amp; Alerts
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-sponsors" onclick="switchAdminTab(\'tab-sponsors\')">
-        🤝 Sponsors &amp; Partners
+         Sponsors &amp; Partners
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-gallery" onclick="switchAdminTab(\'tab-gallery\')">
-        📸 Gallery Photos
+         Gallery Photos
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-settings" onclick="switchAdminTab(\'tab-settings\')">
-        ⚙️ Core &amp; Payment Gateway Config
+         Core &amp; Payment Gateway Config
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-backup" onclick="switchAdminTab(\'tab-backup\')">
-        💾 Backup, Import &amp; Reset
+         Backup, Import &amp; Reset
       </button>
 
       <div style="margin-top: auto; padding: 1rem 0.5rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;">
@@ -1250,7 +1250,7 @@
         <div class="cyber-card" style="padding: 1.2rem; margin-bottom: 1.5rem; background: rgba(var(--primary-rgb), 0.06); border: 1px solid var(--theme-primary); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
           <div style="display: flex; align-items: center; gap: 0.9rem;">
             <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(var(--primary-rgb), 0.2); border: 2px solid var(--theme-primary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
-              🛡️
+              
             </div>
             <div>
               <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">CURRENT ACTIVE ADMINISTRATOR</div>
@@ -1260,7 +1260,7 @@
           </div>
           <div style="display: flex; align-items: center; gap: 0.6rem;">
             <span class="admin-quick-pill-badge" style="background: rgba(0, 255, 170, 0.15); border-color: #00ffaa; color: #00ffaa;">● ACTIVE SESSION</span>
-            <button class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;" onclick="adminLogout()">🔒 SWITCH ADMIN</button>
+            <button class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;" onclick="adminLogout()"> SWITCH ADMIN</button>
           </div>
         </div>
 
@@ -1301,18 +1301,18 @@
 
         <div class="cyber-card" style="padding: 1.5rem; margin-top: 1.5rem;">
           <h3 style="font-family: var(--font-display); color: #A52A2A; margin-bottom: 0.8rem;">
-            ⚡ QUICK ADMIN SHORTCUTS
+             QUICK ADMIN SHORTCUTS
           </h3>
           <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
             <button class="btn btn-secondary" onclick="switchAdminTab('tab-scanner')" style="background: rgba(2, 132, 199, 0.15); border: 1.5px solid #0284C7; color: #0284C7; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem;">
-              📷 Launch Gate QR Scanner
+               Launch Gate QR Scanner
             </button>
-            <button class="btn btn-primary" onclick="addNewAdminEvent()">➕ Add New Event</button>
-            <button class="btn btn-ghost" onclick="addNewAdminScheduleItem()">📅 Add Schedule Milestone</button>
-            <button class="btn btn-ghost" onclick="addNewAdminSponsor()">➕ Add Sponsor</button>
-            <button class="btn btn-ghost" onclick="addNewAdminGalleryPhoto()">➕ Add Gallery Photo</button>
-            <a href="winners.html" target="_blank" class="btn btn-ghost">🏆 Preview Winners Page</a>
-            <a href="certificate.html" target="_blank" class="btn btn-ghost">📜 Open Certificate Portal</a>
+            <button class="btn btn-primary" onclick="addNewAdminEvent()"> Add New Event</button>
+            <button class="btn btn-ghost" onclick="addNewAdminScheduleItem()"> Add Schedule Milestone</button>
+            <button class="btn btn-ghost" onclick="addNewAdminSponsor()"> Add Sponsor</button>
+            <button class="btn btn-ghost" onclick="addNewAdminGalleryPhoto()"> Add Gallery Photo</button>
+            <a href="winners.html" target="_blank" class="btn btn-ghost"> Preview Winners Page</a>
+            <a href="certificate.html" target="_blank" class="btn btn-ghost"> Open Certificate Portal</a>
           </div>
         </div>
       </div>
@@ -1329,7 +1329,7 @@
               Edit event titles, categories, descriptions, cash prizes, assigned coordinator, and rulebooks.
             </p>
           </div>
-          <button class="btn btn-primary" onclick="addNewAdminEvent()">➕ ADD NEW EVENT</button>
+          <button class="btn btn-primary" onclick="addNewAdminEvent()"> ADD NEW EVENT</button>
         </div>
 
         <div style="overflow-x: auto;">
@@ -1364,21 +1364,21 @@
           </div>
           <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
             <input type="file" id="admin-excel-import-file" accept=".xlsx,.xls,.csv" style="display:none;" onchange="importRegistrationsFromExcelFile(this)">
-            <button class="btn btn-secondary" onclick="switchAdminTab('tab-scanner')" style="background: rgba(2, 132, 199, 0.15); border: 1.5px solid #0284C7; color: #0284C7; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; font-size: 0.82rem;">📷 Scan Pass QR</button>
+            <button class="btn btn-secondary" onclick="switchAdminTab('tab-scanner')" style="background: rgba(2, 132, 199, 0.15); border: 1.5px solid #0284C7; color: #0284C7; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; font-size: 0.82rem;"> Scan Pass QR</button>
             <button class="btn btn-secondary" onclick="document.getElementById('admin-excel-import-file').click()" style="background: rgba(14, 165, 233, 0.15); border: 1.5px solid #0284C7; color: #0284C7; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; font-size: 0.82rem;">
-              📥 Import Excel (.xlsx)
+               Import Excel (.xlsx)
             </button>
             <button class="btn btn-primary" onclick="exportRegistrationsExcel()" style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; font-size: 0.82rem; font-weight: 700;">
-              📤 Export to Excel (.xlsx)
+               Export to Excel (.xlsx)
             </button>
             <button class="btn btn-ghost" onclick="batchApproveAllPendingPayments()" style="color: #047857; border-color: #10B981; font-weight: 800; font-size: 0.82rem;">
-              ✓ Verify All Pending Payments
+               Verify All Pending Payments
             </button>
             <button class="btn btn-secondary" id="btn-sync-core" onclick="syncWithCoreBackend()" style="background: rgba(2, 132, 199, 0.12); border: 1.5px solid #0284C7; color: #0284C7; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; font-size: 0.82rem; font-weight: 700;">
-              ⚡ Sync with CORE Server
+               Sync with CORE Server
             </button>
             <button class="btn btn-secondary" id="btn-sync-sheet" onclick="syncRegistrationsFromGoogleSheet()" style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10B981; color: #6EE7B7; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; font-size: 0.82rem; font-weight: 700;">
-              🔄 Google Sheet
+               Google Sheet
             </button>
             <button class="btn btn-ghost" onclick="openManualRegModal()">
               + Add Walk-in
@@ -1392,16 +1392,16 @@
         <!-- Portal Customization Card -->
         <div class="cyber-card" style="padding: 1.5rem; margin-bottom: 2rem;">
           <h3 style="color: #000000 !important; font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 1rem; font-weight: 800; -webkit-text-fill-color: #000000 !important;">
-            ⚙️ REGISTRATION PORTAL CUSTOMIZATION SETTINGS
+             REGISTRATION PORTAL CUSTOMIZATION SETTINGS
           </h3>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom: 1.2rem;">
             <div class="admin-form-group">
               <label class="admin-label" for="reg-admin-status">REGISTRATION SYSTEM STATUS</label>
               <select id="reg-admin-status" class="admin-select">
-                <option value="open">🟢 LIVE &amp; OPEN (Accepting Online Registrations)</option>
-                <option value="spot_only">🟡 ON-SPOT ONLY (Desk Registration at Campus)</option>
-                <option value="closed">🔴 CLOSED (Registrations Halted)</option>
+                <option value="open"> LIVE &amp; OPEN (Accepting Online Registrations)</option>
+                <option value="spot_only"> ON-SPOT ONLY (Desk Registration at Campus)</option>
+                <option value="closed"> CLOSED (Registrations Halted)</option>
               </select>
             </div>
 
@@ -1417,10 +1417,10 @@
             <div class="admin-form-group" style="grid-column: 1 / -1; background: #F8FAFC; border: 2px solid #10B981; border-radius: 12px; padding: 1.2rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
                 <label class="admin-label" for="reg-admin-sheet-url" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
-                  📊 GOOGLE APPS SCRIPT WEBHOOK / LIVE EXCEL SYNC URL
+                   GOOGLE APPS SCRIPT WEBHOOK / LIVE EXCEL SYNC URL
                 </label>
                 <span id="sheet-status-badge" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
-                  ✓ CONNECTED &amp; ACTIVE
+                   CONNECTED &amp; ACTIVE
                 </span>
               </div>
 
@@ -1428,7 +1428,7 @@
                 <input type="url" id="reg-admin-sheet-url" class="admin-input" placeholder="https://script.google.com/macros/s/.../exec" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; font-weight: 600; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important;">
                 
                 <button type="button" id="admin-test-sheet-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; color: #000000 !important; background: #E2E8F0 !important; border: 1.5px solid #94A3B8 !important;">
-                  ⚡ Test Ping Sync
+                   Test Ping Sync
                 </button>
               </div>
 
@@ -1441,7 +1441,7 @@
             <div class="admin-form-group" style="grid-column: 1 / -1; background: #F8FAFC; border: 2px solid #0284C7; border-radius: 12px; padding: 1.2rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
                 <label class="admin-label" for="reg-admin-gateway-url" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
-                  💳 OFFICIAL PAYMENT GATEWAY URL / EMBEDDED LINK
+                   OFFICIAL PAYMENT GATEWAY URL / EMBEDDED LINK
                 </label>
                 <span id="gateway-status-badge" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
                   ● ACTIVE
@@ -1452,11 +1452,11 @@
                 <input type="url" id="reg-admin-gateway-url" class="admin-input" placeholder="https://pages.razorpay.com/... or https://rzp.io/l/..." style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; font-weight: 600; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important;">
                 
                 <button type="button" id="admin-test-gateway-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; color: #000000 !important; background: #E2E8F0 !important; border: 1.5px solid #94A3B8 !important;">
-                  🔗 Test Link
+                   Test Link
                 </button>
 
                 <button type="button" id="admin-remove-gateway-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.82rem; background: #FEE2E2 !important; border: 1.5px solid #EF4444 !important; color: #991B1B !important; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove payment gateway link">
-                  ✕ Remove Link
+                   Remove Link
                 </button>
               </div>
 
@@ -1499,7 +1499,7 @@
           <!-- Event Fees Editor Accordion / Grid -->
           <div style="margin-top: 1.2rem; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.2rem;">
             <div style="font-size: 0.95rem; font-weight: 800; color: #000000 !important; -webkit-text-fill-color: #000000 !important; margin-bottom: 0.8rem; letter-spacing: 0.05em;">
-              💳 CUSTOMIZE COMPETITION REGISTRATION FEES
+               CUSTOMIZE COMPETITION REGISTRATION FEES
             </div>
             <div id="reg-admin-fees-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.8rem;">
               <!-- Dynamically populated per event -->
@@ -1507,7 +1507,7 @@
           </div>
 
           <button id="admin-save-reg-config-btn" class="btn btn-primary" style="margin-top: 1.5rem;">
-            💾 SAVE PORTAL CONFIGURATION
+             SAVE PORTAL CONFIGURATION
           </button>
         </div>
 
@@ -1568,10 +1568,10 @@
           </div>
           <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
             <button class="btn btn-secondary" onclick="syncRegistrationsFromGoogleSheet()" style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10B981; color: #047857; font-weight: 700; padding: 0.5rem 1rem; font-size: 0.8rem;">
-              🔄 Sync / Refresh Database
+               Sync / Refresh Database
             </button>
             <button class="btn btn-ghost" onclick="switchAdminTab('tab-registrations')" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
-              👥 View All Registrations
+               View All Registrations
             </button>
           </div>
         </div>
@@ -1581,7 +1581,7 @@
           <div class="cyber-card" style="padding: 1.5rem; background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
               <h3 style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-family: var(--font-display); font-size: 1.15rem; margin: 0; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
-                📷 LIVE CAMERA SCANNER
+                 LIVE CAMERA SCANNER
               </h3>
               <span id="scanner-status-indicator" style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800; padding: 3px 10px; border-radius: 6px; background: #F1F5F9; border: 1.5px solid #94A3B8; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                 READY
@@ -1591,21 +1591,21 @@
             <!-- Video Camera Viewport -->
             <div id="gate-qr-reader" style="width: 100%; min-height: 280px; background: #0F172A; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; color: #94A3B8; text-align: center; border: 2px dashed #38BDF8;">
               <div id="gate-qr-reader-placeholder" style="padding: 2rem 1rem;">
-                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📷</div>
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;"></div>
                 <div style="color: #FFFFFF; font-weight: 700; margin-bottom: 0.3rem;">Camera Terminal Idle</div>
                 <div style="font-size: 0.78rem; color: #94A3B8; margin-bottom: 1rem;">Click the button below to start live scanning with your device camera.</div>
                 <button type="button" class="btn btn-primary" onclick="startGateQrScanner()" style="padding: 0.6rem 1.6rem; font-size: 0.85rem; border-radius: 50px;">
-                  ⚡ START CAMERA SCANNER
+                   START CAMERA SCANNER
                 </button>
               </div>
             </div>
 
             <div style="display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap;">
               <button type="button" id="btn-stop-scanner" class="btn btn-ghost" onclick="stopGateQrScanner()" style="display: none; padding: 0.4rem 1rem; font-size: 0.8rem; color: #EF4444; border-color: #EF4444;">
-                ⏹️ Stop Camera
+                 Stop Camera
               </button>
               <label class="btn btn-ghost" style="padding: 0.4rem 1rem; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; color: #0284C7; border-color: #0284C7; margin: 0;">
-                📁 Scan QR Image File
+                 Scan QR Image File
                 <input type="file" id="gate-qr-file-input" accept="image/*" style="display: none;" onchange="scanQrFromFile(this.files[0])">
               </label>
             </div>
@@ -1616,7 +1616,7 @@
               <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
                 <input type="text" id="manual-scan-input" class="admin-input" placeholder="e.g. ARENIUM27-REG-7911 or 20241BCI0063" style="font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important; font-weight: 700;" onkeydown="if(event.key==='Enter') lookupManualGatePass()">
                 <button type="button" class="btn btn-primary" onclick="lookupManualGatePass()" style="padding: 0.5rem 1.1rem; font-size: 0.82rem; white-space: nowrap; font-weight: 700;">
-                  🔍 Lookup
+                   Lookup
                 </button>
               </div>
             </div>
@@ -1626,7 +1626,7 @@
           <div class="cyber-card" style="padding: 1.5rem; background: #FFFFFF !important; border: 1.5px solid #CBD5E1 !important; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); display: flex; flex-direction: column;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
               <h3 style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-family: var(--font-display); font-size: 1.15rem; margin: 0; font-weight: 800;">
-                🛡️ VERIFICATION &amp; CLEARANCE
+                 VERIFICATION &amp; CLEARANCE
               </h3>
               <span id="gate-clearance-pill" style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; background: #F1F5F9; border: 1.5px solid #94A3B8; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                 AWAITING SCAN
@@ -1634,7 +1634,7 @@
             </div>
 
             <div id="gate-scan-result-body" style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #000000 !important; -webkit-text-fill-color: #000000 !important; padding: 2rem 1rem; border: 1.5px dashed #CBD5E1; border-radius: 12px; background: #F8FAFC;">
-              <div style="font-size: 2.8rem; margin-bottom: 0.5rem;">🎯</div>
+              <div style="font-size: 2.8rem; margin-bottom: 0.5rem;"></div>
               <div id="gate-scan-result-title" style="font-weight: 800; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 1.05rem; margin-bottom: 0.35rem;">
                 No Pass Scanned Yet
               </div>
@@ -1658,7 +1658,7 @@
               Update time slots, venues, categories, Day 1 / Day 2 assignments, and operational notes.
             </p>
           </div>
-          <button class="btn btn-primary" onclick="addNewAdminScheduleItem()">➕ ADD SCHEDULE ITEM</button>
+          <button class="btn btn-primary" onclick="addNewAdminScheduleItem()"> ADD SCHEDULE ITEM</button>
         </div>
 
         <div style="overflow-x: auto;">
@@ -1758,7 +1758,7 @@
           </div>
           <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
             <a href="certificate.html" target="_blank" class="btn btn-ghost" style="font-size: 0.82rem; padding: 0.5rem 1rem;">
-              🌐 Open Public Certificate Portal
+               Open Public Certificate Portal
             </a>
           </div>
         </div>
@@ -1821,11 +1821,11 @@
               <div class="admin-form-group" style="margin-bottom: 0;">
                 <label class="admin-label" for="admin-cert-award">CERTIFICATE TYPE / TIER <span style="color: var(--neon-pink);">*</span></label>
                 <select id="admin-cert-award" class="admin-select" required>
-                  <option value="CHAMPION · FIRST PLACE">🏆 CHAMPION · FIRST PLACE</option>
-                  <option value="RUNNER UP · SECOND PLACE">🥈 RUNNER UP · SECOND PLACE</option>
-                  <option value="2ND RUNNER UP · THIRD PLACE">🥉 2ND RUNNER UP · THIRD PLACE</option>
-                  <option value="SPECIAL MERIT & INNOVATION">⭐ SPECIAL MERIT & INNOVATION</option>
-                  <option value="CERTIFICATE OF MERIT & PARTICIPATION" selected>🎖️ CERTIFICATE OF MERIT & PARTICIPATION</option>
+                  <option value="CHAMPION · FIRST PLACE"> CHAMPION · FIRST PLACE</option>
+                  <option value="RUNNER UP · SECOND PLACE"> RUNNER UP · SECOND PLACE</option>
+                  <option value="2ND RUNNER UP · THIRD PLACE"> 2ND RUNNER UP · THIRD PLACE</option>
+                  <option value="SPECIAL MERIT & INNOVATION"> SPECIAL MERIT & INNOVATION</option>
+                  <option value="CERTIFICATE OF MERIT & PARTICIPATION" selected> CERTIFICATE OF MERIT & PARTICIPATION</option>
                 </select>
               </div>
 
@@ -1870,10 +1870,10 @@
 
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
               <button type="submit" class="btn btn-primary" style="padding: 0.8rem 1.6rem; font-weight: 700; font-size: 0.9rem;">
-                🚀 UPLOAD &amp; PUBLISH CERTIFICATE
+                 UPLOAD &amp; PUBLISH CERTIFICATE
               </button>
               <button type="reset" class="btn btn-ghost" style="padding: 0.8rem 1.2rem; font-size: 0.9rem;" onclick="resetAdminCertUpload()">
-                🔄 RESET FORM
+                 RESET FORM
               </button>
             </div>
           </form>
@@ -1933,7 +1933,7 @@
           </div>
 
           <button id="admin-save-announcements-btn" class="btn btn-primary" style="margin-top: 1rem;">
-            💾 SAVE ANNOUNCEMENTS LIVE
+             SAVE ANNOUNCEMENTS LIVE
           </button>
         </div>
       </div>
@@ -1950,7 +1950,7 @@
               Add, edit, or remove corporate partners, title sponsors, gaming brands, and logo URLs.
             </p>
           </div>
-          <button class="btn btn-primary" onclick="addNewAdminSponsor()">➕ ADD SPONSOR</button>
+          <button class="btn btn-primary" onclick="addNewAdminSponsor()"> ADD SPONSOR</button>
         </div>
 
         <div id="admin-sponsors-list">
@@ -1970,7 +1970,7 @@
               Add new stage photos, crowds, LAN gaming captures, and hashtag categories.
             </p>
           </div>
-          <button class="btn btn-primary" onclick="addNewAdminGalleryPhoto()">➕ ADD PHOTO</button>
+          <button class="btn btn-primary" onclick="addNewAdminGalleryPhoto()"> ADD PHOTO</button>
         </div>
 
         <div id="admin-gallery-list">
@@ -1995,7 +1995,7 @@
           <div class="admin-form-group" style="background: rgba(15, 23, 42, 0.65); border: 1.5px solid #38BDF8; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
               <label class="admin-label" for="admin-setting-gatewayurl" style="margin: 0; font-size: 0.88rem; color: #38BDF8; font-weight: 700;">
-                💳 OFFICIAL PAYMENT GATEWAY URL (PAY NOW BUTTON)
+                 OFFICIAL PAYMENT GATEWAY URL (PAY NOW BUTTON)
               </label>
               <span id="admin-setting-gateway-status" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
                 ● ACTIVE
@@ -2004,10 +2004,10 @@
             <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
               <input type="url" id="admin-setting-gatewayurl" class="admin-input" placeholder="https://pages.razorpay.com/... or https://rzp.io/l/..." style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
               <button type="button" id="admin-setting-test-gateway-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
-                🔗 Test Link
+                 Test Link
               </button>
               <button type="button" id="admin-setting-remove-gateway-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; color: #FCA5A5; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove payment gateway link">
-                ✕ Remove Link
+                 Remove Link
               </button>
             </div>
             <span style="font-size: 0.74rem; color: var(--text-muted); margin-top: 0.4rem; display: block; line-height: 1.4;">
@@ -2029,7 +2029,7 @@
           </div>
 
           <button id="admin-save-settings-btn" class="btn btn-primary" style="margin-top: 1rem;">
-            💾 SAVE CONFIGURATION
+             SAVE CONFIGURATION
           </button>
         </div>
 
@@ -2038,7 +2038,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
             <div>
               <h3 style="color: #A52A2A; font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 0.3rem;">
-                👥 PRE-CONFIGURED FEST ADMINISTRATORS
+                 PRE-CONFIGURED FEST ADMINISTRATORS
               </h3>
               <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600; font-size: 0.8rem; margin: 0;">
                 Authorized credentials provisioned for ARENIUM'27 organizing leadership.
@@ -2109,7 +2109,7 @@
         </div>
 
         <div class="cyber-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
-          <h3 style="color: #A52A2A; font-family: var(--font-display); margin-bottom: 0.6rem;">📥 RESTORE FROM JSON FILE</h3>
+          <h3 style="color: #A52A2A; font-family: var(--font-display); margin-bottom: 0.6rem;"> RESTORE FROM JSON FILE</h3>
           <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600; margin-bottom: 1rem;">
             Upload an exported <code>arenium27_data_backup.json</code> to instantly populate all events, winners, coordinators, and settings.
           </p>
@@ -2117,12 +2117,12 @@
         </div>
 
         <div class="cyber-card" style="padding: 1.5rem; border-color: #6C403E;">
-          <h3 style="color: #6C403E; font-family: var(--font-display); margin-bottom: 0.6rem;">⚠️ RESET TO DEFAULT FACTORY SEED</h3>
+          <h3 style="color: #6C403E; font-family: var(--font-display); margin-bottom: 0.6rem;"> RESET TO DEFAULT FACTORY SEED</h3>
           <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600; margin-bottom: 1rem;">
             This will purge custom edits from localStorage and restore the complete initial Arenium'27 dataset.
           </p>
           <button id="admin-reset-btn" class="btn btn-ghost" style="color: #6C403E; border-color: #6C403E;">
-            🔄 RESET ALL FEST DATA TO DEFAULTS
+             RESET ALL FEST DATA TO DEFAULTS
           </button>
         </div>
       </div>
@@ -2149,7 +2149,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminProofModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close preview">
-          ✕
+          
         </button>
       </div>
 
@@ -2185,7 +2185,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminPassModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close pass">
-          ✕
+          
         </button>
       </div>
 
@@ -2195,7 +2195,7 @@
 
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; flex-wrap: wrap; gap: 0.8rem; border-top: 1.5px solid #E2E8F0; padding-top: 1rem;">
         <button type="button" class="btn btn-primary" onclick="printAdminPassModal()" style="padding: 0.5rem 1.4rem; font-size: 0.82rem;">
-          🖨️ Print Pass
+           Print Pass
         </button>
         <button type="button" class="btn btn-ghost" onclick="closeAdminPassModal()" style="padding: 0.5rem 1.2rem; font-size: 0.82rem;">
           Close
