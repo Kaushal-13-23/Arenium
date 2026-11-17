@@ -9426,17 +9426,20 @@ button:active,
    Per user specification: "remove palla fade from here all"
    ======================================================================== */
 .title-sponsor-card {
-  max-width: 500px !important;
+  max-width: 720px !important;
   margin: 0 auto !important;
-  padding: 2.5rem !important;
+  padding: 2.8rem 2rem !important;
   background: #0A0F1D !important;
   background-color: #0A0F1D !important;
-  border: 1.5px solid rgba(255, 230, 0, 0.45) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 230, 0, 0.15) !important;
+  border: 1.5px solid #1E293B !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4) !important;
   display: flex !important;
+  flex-direction: column !important;
   justify-content: center !important;
   align-items: center !important;
+  text-align: center !important;
+  color: #FFFFFF !important;
 }
 
 .title-sponsor-card:hover,
@@ -9444,9 +9447,9 @@ button:active,
 .title-sponsor-card:active {
   background: #0A0F1D !important;
   background-color: #0A0F1D !important;
-  border-color: rgba(255, 230, 0, 0.45) !important;
+  border-color: #1E293B !important;
   transform: none !important;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 230, 0, 0.15) !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4) !important;
   filter: none !important;
 }
 
@@ -11932,5 +11935,56 @@ body:not(#admin-app) .cert-search-card span {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
 }
+
+/* ==========================================================================
+   HOST INSTITUTION CARD: PERMANENT DARK, ZERO HOVER, CRISP WHITE TEXT
+   ========================================================================== */
+body:not(#admin-app) .title-sponsor-card,
+body:not(#admin-app) .title-sponsor-card:hover,
+body:not(#admin-app) .title-sponsor-card:focus,
+body:not(#admin-app) .title-sponsor-card:active,
+.title-sponsor-card,
+.title-sponsor-card:hover {
+  max-width: 720px !important;
+  margin: 0 auto !important;
+  padding: 2.8rem 2rem !important;
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border: 1.5px solid #1E293B !important;
+  border-radius: 16px !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  transform: none !important;
+  transition: none !important;
+  filter: none !important;
+}
+
+body:not(#admin-app) .title-sponsor-card h3,
+body:not(#admin-app) .title-sponsor-card h2 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  margin: 0.4rem 0 0.5rem 0 !important;
+  text-shadow: none !important;
+}
+
+body:not(#admin-app) .title-sponsor-card p {
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+  font-size: 0.95rem !important;
+  margin: 0 !important;
+}
+
+body:not(#admin-app) .title-sponsor-card span {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
 
 
