@@ -8,7 +8,7 @@
   <!-- SEO Primary Meta Tags -->
   <title>OFFICIAL REGISTRATION | ARENIUM'27 | SOIS Presidency University, Bengaluru</title>
   <meta name="title" content="OFFICIAL REGISTRATION | ARENIUM'27 | SOIS Presidency University">
-  <meta name="description" content="Official delegate registration portal for ARENIUM'27 at Presidency University, Bengaluru. Register for 24-Hour Hackathon, Blind Coding, LAN Esports, Tech Quizzes, and more.">
+  <meta name="description" content="Official registration portal for ARENIUM'27 at Presidency University, Bengaluru. Register for Technova '27 (24H Hackathon), ShadowCode, Tech Odyssey, DesignNova, Quad Damage, and more.">
   <meta name="keywords" content="Arenium 27 Registration, Presidency University Tech Fest Register, Hackathon Registration, Bangalore College Fest, SOIS Arenium">
   <meta name="author" content="School of Information Science, Presidency University">
   <meta name="robots" content="index, follow">
@@ -22,7 +22,7 @@
     <!-- Google Fonts Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/style.css?v=2027_LEADERSHIP_PHOTOS_V42">
@@ -32,15 +32,17 @@
   <!-- ========================================================================
        GLOBAL HEADER / NAVBAR
        ======================================================================== -->
+    <!-- GLOBAL HEADER / NAVBAR -->
+    <!-- GLOBAL HEADER / NAVBAR -->
   <header class="site-header" role="banner">
     <div class="container header-container">
       
-      <!-- Brand Logo & Wordmark (Left side: Presidency University) -->
+      <!-- Brand Logo (Left side: Presidency University) -->
       <a href="index.html" class="brand-link" aria-label="Presidency University Home">
         <img src="images/presidency-university-logo-dark.png?v=2027" alt="Presidency University" class="header-pu-logo" width="145" height="29">
       </a>
 
-      <!-- Mobile Navigation & Theme Toggle -->
+      <!-- Mobile Navigation & Fest Brand -->
       <div class="header-mobile-group">
         <a href="index.html" class="header-fest-brand mobile-header-fest-logo" aria-label="ARENIUM'27 Home">
           <img src="images/logo_emblem.png?v=2027_LOGO_EMBLEM" alt="ARENIUM'27" class="header-fest-emblem" width="30" height="30">
@@ -65,10 +67,10 @@
           <a href="events.html" class="nav-link">EVENTS</a>
         </div>
         <div class="nav-item">
-          <a href="register.html" class="nav-link active" aria-current="page">REGISTER</a>
+          <a href="schedule.html" class="nav-link">SCHEDULE</a>
         </div>
         <div class="nav-item">
-          <a href="schedule.html" class="nav-link">SCHEDULE</a>
+          <a href="register.html" class="nav-link active" aria-current="page">REGISTER</a>
         </div>
         <div class="nav-item">
           <a href="winners.html" class="nav-link">WINNERS</a>
@@ -82,36 +84,15 @@
         <div class="nav-item">
           <a href="sponsors.html" class="nav-link">SPONSORS</a>
         </div>
-
-        <!-- Rules Dropdown Menu -->
-        <div class="nav-item nav-dropdown">
-          <button class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-            RULES <span class="dropdown-caret" aria-hidden="true"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li class="dropdown-item" role="none">
-              <a href="rulebook.pdf" target="_blank" rel="noopener noreferrer" role="menuitem">
-                &gt; RULEBOOK_PDF
-              </a>
-            </li>
-            <li class="dropdown-item" role="none">
-              <a href="events.html" role="menuitem">
-                &gt; EVENT_RULEBOOKS
-              </a>
-            </li>
-          </ul>
+        <div class="nav-item">
+          <a href="rulebook.pdf" target="_blank" rel="noopener noreferrer" class="nav-link">RULEBOOK</a>
         </div>
-
         <div class="nav-item">
           <a href="contact.html" class="nav-link">CONTACT</a>
         </div>
 
-        <!-- Mobile Actions in Drawer -->
         <div class="nav-item mobile-only mobile-action-group">
-          <a href="register.html" class="btn btn-register" style="width: 100%; text-align: center; padding: 0.8rem 1rem;">⚡ REGISTER NOW</a>
-          <a href="admin.html" class="btn btn-ghost" style="width: 100%; text-align: center; padding: 0.65rem 1rem; font-size: 0.8rem;" title="Fest Superadmin Dashboard">
-            🔒 ADMIN PORTAL
-          </a>
+          <a href="register.html" class="btn btn-register" style="width: 100%; text-align: center; padding: 0.8rem 1rem;" data-register-btn>REGISTER NOW</a>
         </div>
       </nav>
 
@@ -124,19 +105,7 @@
             <span class="fest-tagline">Arena of innovation</span>
           </div>
         </a>
-        <a id="nav-core-link" href="https://arenium-27-core.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="padding: 0.5rem 0.9rem; font-size: 0.75rem; color: #0284C7 !important; border-color: #38BDF8; font-weight: 800;" title="Open ARENIUM 27 CORE Operations Platform">
-          ⚡ CORE (OPS) ↗
-        </a>
-        <script>
-          if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            const lk = document.getElementById('nav-core-link');
-            if (lk) lk.href = 'http://localhost:5173';
-          }
-        </script>
-        <a href="admin.html" class="btn btn-ghost" style="padding: 0.5rem 0.9rem; font-size: 0.75rem;" title="Fest Superadmin Dashboard">
-          🔒 ADMIN
-        </a>
-        <a href="register.html" class="btn btn-register">REGISTER NOW</a>
+        <a href="register.html" class="btn btn-register" data-register-btn>REGISTER NOW</a>
       </div>
 
     </div>
@@ -145,11 +114,13 @@
   <!-- ========================================================================
        MOVING NEON TICKER (PRIZE POOL 1.5L)
        ======================================================================== -->
+    <!-- PRIZE POOL TICKER (UNDER NAVBAR) -->
+    <!-- PRIZE POOL TICKER (UNDER NAVBAR) -->
   <div class="cyber-ticker-wrap" role="complementary" aria-label="Prize Pool Announcement">
-    <div class="cyber-ticker-badge">⚡ PRIZE POOL</div>
+    <div class="cyber-ticker-badge">PRIZE POOL</div>
     <div class="cyber-ticker-track">
       <div class="cyber-ticker-content" id="prize-ticker-content">
-        ⚡ TOTAL PRIZE POOL: <span class="cyber-ticker-highlight">₹1,50,000 (1.5 LAKHS)</span> • CASH PRIZES &amp; ACCREDITED MERIT CERTIFICATES ACROSS ALL TRACKS • REGISTRATIONS LIVE ⚡
+        TOTAL PRIZE POOL: <span class="cyber-ticker-highlight">₹1,50,000 (1.5 LAKHS)</span> · CASH PRIZES &amp; MERIT CERTIFICATES ACROSS ALL 10 ARENAS · REGISTRATIONS OPEN
       </div>
     </div>
   </div>
@@ -177,43 +148,15 @@
             </p>
           </div>
 
-          <!-- Active Delegate Pass Quick-Access Alert Banner -->
-          <div id="recent-reg-banner" class="recent-reg-banner" style="display: none;">
-            <div class="recent-reg-banner-content">
-              <div class="recent-reg-banner-info">
-                <span class="recent-reg-banner-icon">🎫</span>
-                <div class="recent-reg-banner-text">
-                  <div class="recent-reg-banner-tag">ACTIVE REGISTRATION FOUND ON THIS BROWSER</div>
-                  <div class="recent-reg-banner-title">
-                    <span id="recent-reg-banner-name">Delegate Name</span> &bull; <code id="recent-reg-banner-id">ARENIUM27-REG-XXXX</code>
-                  </div>
-                </div>
-              </div>
-              <button type="button" id="btn-view-recent-pass" class="btn btn-view-recent-pass">
-                <span>🎫 VIEW YOUR DELEGATE PASS &amp; QR CODE &gt;</span>
-              </button>
-            </div>
-          </div>
-
-
-          <!-- Dynamic Guidelines / Admin Instructions Box -->
-                    <!-- Dynamic Guidelines / Admin Instructions Box -->
-          <div class="register-instructions-box" id="reg-instructions-box" style="background: #F0F9FF !important; border: 1.5px solid #BAE6FD !important; border-left: 4px solid #0284C7 !important; border-radius: 12px; padding: 1.1rem 1.4rem; margin-bottom: 2rem;">
-            <strong style="color: #0284C7 !important; display: block; margin-bottom: 0.3rem; font-weight: 800;">📋 Official Registration Notice:</strong>
-            <span id="reg-instructions-text" style="color: #334155 !important; line-height: 1.6;">
-              Welcome to the official registration portal for ARENIUM '27. Please review the updated fee structure below and select your delegate category before choosing your competitive arenas.
-            </span>
-          </div>
-
           <!-- ========================================================================
-               UPDATED REGISTRATION FEE STRUCTURE NOTICE
+               REGISTRATION FEE STRUCTURE NOTICE
                ======================================================================== -->
           <div class="fee-structure-announcement-card" style="background: #F8FAFC !important; border: 1.5px solid #E2E8F0 !important; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.2rem; border-bottom: 1px solid #E2E8F0; padding-bottom: 0.8rem;">
               <div>
-                <span class="section-tag" style="margin-bottom: 0.2rem; display: inline-block; background: #E0F2FE; color: #0369A1; border: 1px solid #BAE6FD; font-weight: 800;">OFFICIAL NOTICE · REVISED STRUCTURE</span>
+                <span class="section-tag" style="margin-bottom: 0.2rem; display: inline-block; background: #E0F2FE; color: #0369A1; border: 1px solid #BAE6FD; font-weight: 800;">OFFICIAL FEE STRUCTURE</span>
                 <h2 style="font-family: var(--font-display); font-size: 1.35rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 900; margin: 0; letter-spacing: 0.5px;">
-                  📢 ARENIUM ’27 – UPDATED REGISTRATION FEE STRUCTURE
+                  ARENIUM ’27 REGISTRATION FEES
                 </h2>
               </div>
               <span style="background: #E0F2FE; color: #0369A1; border: 1.5px solid #7DD3FC; font-size: 0.75rem; padding: 0.35rem 0.8rem; border-radius: 20px; font-weight: 800; letter-spacing: 0.5px;">
@@ -228,7 +171,7 @@
               <div class="fee-tier-card fee-tier-internal" style="background: #FFFFFF !important; border: 1.5px solid #BAE6FD !important; border-top: 4px solid #0284C7 !important; border-radius: 14px; padding: clamp(1.1rem, 2.5vw, 1.4rem); color: #0F172A !important; box-shadow: 0 4px 14px rgba(0,0,0,0.06);">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
                   <span style="font-size: 0.82rem; color: #0369A1 !important; -webkit-text-fill-color: #0369A1 !important; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">
-                    🔹 INTERNAL PARTICIPANTS
+                    INTERNAL PARTICIPANTS
                   </span>
                   <span style="font-size: 0.72rem; background: #E0F2FE !important; color: #0369A1 !important; -webkit-text-fill-color: #0369A1 !important; border: 1.5px solid #7DD3FC !important; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 800;">
                     Presidency University
@@ -248,7 +191,7 @@
               <div class="fee-tier-card fee-tier-external" style="background: #FFFFFF !important; border: 1.5px solid #FBCFE8 !important; border-top: 4px solid #DB2777 !important; border-radius: 14px; padding: clamp(1.1rem, 2.5vw, 1.4rem); color: #0F172A !important; box-shadow: 0 4px 14px rgba(0,0,0,0.06);">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
                   <span style="font-size: 0.82rem; color: #BE185D !important; -webkit-text-fill-color: #BE185D !important; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;">
-                    🔹 EXTERNAL PARTICIPANTS
+                    EXTERNAL PARTICIPANTS
                   </span>
                   <span style="font-size: 0.72rem; background: #FCE7F3 !important; color: #BE185D !important; -webkit-text-fill-color: #BE185D !important; border: 1.5px solid #F472B6 !important; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 800;">
                     Other Colleges &amp; Universities
@@ -268,7 +211,7 @@
 
             <!-- Important Instructions Card (Pure High-Contrast Amber Text on Yellow) -->
             <div class="register-instructions-yellow" style="background: #FEF9C3 !important; border: 1.5px solid #FDE047 !important; border-left: 5px solid #D97706 !important; border-radius: 12px; padding: 1.1rem 1.4rem; font-size: 0.88rem; color: #78350F !important; -webkit-text-fill-color: #78350F !important; line-height: 1.7; margin-top: 1.3rem;">
-              <strong style="color: #78350F !important; -webkit-text-fill-color: #78350F !important; font-weight: 900; font-size: 0.98rem; display: block; margin-bottom: 0.4rem;">📌 Important Participant Instructions:</strong>
+              <strong style="color: #78350F !important; -webkit-text-fill-color: #78350F !important; font-weight: 900; font-size: 0.98rem; display: block; margin-bottom: 0.4rem;"> Important Participant Instructions:</strong>
               <div style="color: #78350F !important; -webkit-text-fill-color: #78350F !important; font-weight: 600;">
                 • <strong style="color: #451A03 !important; -webkit-text-fill-color: #451A03 !important; font-weight: 800;">2nd Event Benefit:</strong> Participation in the 2nd event is optional and does <em style="color: #B45309 !important; -webkit-text-fill-color: #B45309 !important; font-style: italic; font-weight: 700;">not</em> require any additional payment.<br>
                 • <strong style="color: #451A03 !important; -webkit-text-fill-color: #451A03 !important; font-weight: 800;">3rd Event Registration:</strong> Participants wishing to register for a 3rd event must pay the applicable additional fee (₹200 Internal / ₹300 External).<br>
@@ -297,7 +240,7 @@
                 <h3 style="font-size: 1.12rem; font-weight: 800; color: #0F172A; margin: 0.1rem 0;">CHECK VERIFICATION STATUS &amp; RETRIEVE GATE PASS</h3>
               </div>
               <span style="font-size: 0.72rem; font-weight: 800; color: #047857; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 3px 10px; border-radius: 20px;">
-                🔒 ADMIN-VERIFIED PASS UNLOCK
+                PASS VERIFICATION & LOOKUP
               </span>
             </div>
             <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
@@ -321,8 +264,8 @@
                             <div class="form-field-group full-width">
                 <label class="form-label" for="reg-category">PARTICIPANT / DELEGATE CATEGORY <span class="req">*</span></label>
                 <select id="reg-category" class="form-select" required>
-                  <option value="internal" selected>🔹 Internal Participant — Presidency University (₹200 Base / Covers up to 2 Events)</option>
-                  <option value="external">🔹 External Participant — Other Colleges &amp; Universities (₹300 Base / Covers up to 2 Events)</option>
+                  <option value="internal" selected>Internal Participant — Presidency University (₹200 Base / Covers up to 2 Events)</option>
+                  <option value="external">External Participant — Other Colleges &amp; Universities (₹300 Base / Covers up to 2 Events)</option>
                 </select>
                 <span style="font-size: 0.74rem; color: #94A3B8; margin-top: 0.2rem;">
                   Select Internal if you are a student of Presidency University. Select External for any other institution.
@@ -331,7 +274,7 @@
 
               <div class="form-field-group">
                 <label class="form-label" for="reg-fullname">FULL NAME <span class="req">*</span></label>
-                <input type="text" id="reg-fullname" class="form-input" placeholder="e.g. Kaushal Kumar Singh" required>
+                <input type="text" id="reg-fullname" class="form-input" placeholder="Your full name" required>
               </div>
 
               <div class="form-field-group">
@@ -438,7 +381,7 @@
                     ⚠️ <strong style="color: #0C4A6E;">Schedule Timing Check:</strong> Please ensure that your chosen events do not have overlapping timings!
                   </div>
                   <a href="schedule.html" target="_blank" class="btn btn-ghost" style="padding: 0.4rem 0.9rem; font-size: 0.78rem; background: #FFFFFF; border: 1.5px solid #0284C7; color: #0284C7 !important;">
-                    📅 VIEW EVENT SCHEDULE ↗
+                    View Event Schedule
                   </a>
                 </div>
               </div>
@@ -467,7 +410,7 @@
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.9rem; flex-wrap: wrap; gap: 0.5rem; border-bottom: 1px solid #E2E8F0; padding-bottom: 0.65rem;">
                     <div>
                       <strong style="color: #0369A1 !important; -webkit-text-fill-color: #0369A1 !important; font-size: 0.95rem; letter-spacing: 0.5px; display: flex; align-items: center; gap: 0.4rem; font-weight: 800;">
-                        <span>👥</span> TEAM SQUAD MEMBERS (INDIVIDUAL REGISTRATION FIELDS)
+                        TEAM SQUAD MEMBERS (INDIVIDUAL REGISTRATION FIELDS)
                       </strong>
                       <span class="team-squad-subtitle" style="font-size: 0.76rem; color: #334155 !important; -webkit-text-fill-color: #334155 !important; display: block; margin-top: 0.2rem; font-weight: 600;">
                         Fill in distinct credentials for each participating team member.
@@ -491,10 +434,10 @@
                   <!-- Add Member Action -->
                   <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; flex-wrap: wrap; gap: 0.8rem; border-top: 1px solid #E2E8F0; padding-top: 0.85rem;">
                     <button type="button" id="btn-add-team-member" class="btn btn-secondary" style="padding: 0.6rem 1.2rem; font-size: 0.84rem; display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 8px; background: #F0F9FF !important; border: 1.5px solid #0284C7 !important; color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800; cursor: pointer;">
-                      <span style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important;">➕</span> Add Another Team Member
+                      <span style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important;">+</span> Add Another Team Member
                     </button>
                     <span class="team-pricing-tip" style="font-size: 0.76rem; color: #334155 !important; -webkit-text-fill-color: #334155 !important; font-weight: 600;">
-                      💡 Pricing: ₹200/member (Internal) · ₹300/member (External) · Up to 8 participants total
+                      Pricing: ₹200/member (Internal) · ₹300/member (External) · Up to 8 participants total
                     </span>
                   </div>
 
@@ -519,26 +462,26 @@
                   </div>
                   <div style="text-align: right;">
                     <span class="payment-badge" style="background: #E0F2FE !important; border: 1.5px solid #0284C7 !important; color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 800; padding: 0.3rem 0.65rem; border-radius: 20px; display: inline-block;">
-                      SECURE GATEWAY
+                      UPI PAYMENT &amp; UTR VERIFICATION
                     </span>
                   </div>
                 </div>
               </div>
 
-              <!-- Pay Now Action Button with Embedded Payment Gateway Link -->
+              <!-- Pay Action Button -->
               <div class="payment-gateway-action-box" style="width: 100%; box-sizing: border-box; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0.8rem 0;">
                 <a id="btn-pay-now" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-pay-now" style="width: 100%; max-width: 100%; box-sizing: border-box; white-space: normal; justify-content: center; text-align: center; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">
-                  <span style="font-size: 1.25rem; flex-shrink: 0;">💳</span>
-                  <span id="btn-pay-now-text" style="white-space: normal; text-align: center; word-break: normal; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">PAY NOW (₹200) VIA GATEWAY ↗</span>
+                  <span style="font-size: 1.25rem; flex-shrink: 0;"></span>
+                  <span id="btn-pay-now-text" style="white-space: normal; text-align: center; word-break: normal; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">PAY (₹200) VIA UPI / LINK ↗</span>
                 </a>
                 <div id="pay-now-status-hint" style="font-size: 0.78rem; color: #475569 !important; -webkit-text-fill-color: #475569 !important; margin-top: 0.5rem; line-height: 1.4; text-align: center; font-weight: 600;">
-                  ⚡ Official gateway active • Click to pay ₹200 on official portal ↗
+                  Scan the UPI QR code or click above to pay, then submit your transaction details below.
                 </div>
               </div>
 
               <div class="payment-instructions-box" style="background: #F8FAFC !important; border: 1px solid #CBD5E1 !important; border-left: 4px solid #0284C7 !important; padding: 0.95rem 1.2rem; border-radius: 8px; width: 100%; box-sizing: border-box; text-align: left; color: #1E293B !important; -webkit-text-fill-color: #1E293B !important;">
                 <p style="font-size: 0.84rem; color: #1E293B !important; -webkit-text-fill-color: #1E293B !important; margin: 0; line-height: 1.6; font-weight: 600;">
-                  <strong style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">After Payment:</strong> <span style="color: #1E293B !important; -webkit-text-fill-color: #1E293B !important; font-weight: 600;">Once your payment is successfully completed via the gateway, enter your 12-digit UTR / Transaction Reference Number below and attach the payment screenshot as proof.</span>
+                  <strong style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">After Payment:</strong> <span style="color: #1E293B !important; -webkit-text-fill-color: #1E293B !important; font-weight: 600;">Complete the payment in your UPI app, then enter the 12-digit UTR / Transaction Reference number and upload the payment receipt screenshot below.</span>
                 </p>
               </div>
             </div>
@@ -604,7 +547,7 @@
 
             <div style="margin-top: 2rem; text-align: center;">
               <button type="submit" id="btn-submit-registration" class="btn btn-primary" style="padding: 0.9rem 2.8rem; font-size: 1rem; border-radius: 50px;">
-                ⚡ CONFIRM REGISTRATION &amp; GET PASS
+                SUBMIT REGISTRATION
               </button>
             </div>
 
@@ -629,7 +572,7 @@
               <!-- Prominent Security & Verification Notice -->
               <div style="background: #FFFBEB; border: 1.5px solid #FCD34D; border-left: 5px solid #F59E0B; border-radius: 14px; padding: 1.2rem 1.4rem; text-align: left; max-width: 650px; margin: 0 auto 1.5rem auto;">
                 <div style="font-weight: 900; color: #92400E; font-size: 0.9rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.5rem;">
-                  <span>🔒</span> OFFICIAL GATE ENTRY PASS IS CURRENTLY LOCKED
+                  ENTRY PASS AWAITING VERIFICATION
                 </div>
                 <p style="color: #78350F; font-size: 0.86rem; line-height: 1.6; margin: 0;">
                   For festival security, your <strong>Official Delegate Entry Pass with Gate QR Code</strong> will unlock and become visible <strong>once the fest administration verifies your payment transaction (UTR: <span id="receipt-utr" style="font-family: var(--font-mono); font-weight: 800;">-</span>)</strong>. Once verified, you can look up and print your pass here anytime!
@@ -649,7 +592,7 @@
 
               <div style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
                 <button type="button" id="btn-receipt-refresh" class="btn btn-primary" onclick="checkLiveReceiptStatus()" style="padding: 0.75rem 1.6rem; font-weight: 800; font-size: 0.85rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF; cursor: pointer;">
-                  🔄 Check Verification Status Now
+                  Check Verification Status
                 </button>
                 <button type="button" id="btn-receipt-register-another" class="btn btn-ghost" onclick="resetRegisterForm()" style="padding: 0.75rem 1.6rem; font-size: 0.85rem; cursor: pointer;">
                   + Register Another Delegate
@@ -725,7 +668,7 @@
                   <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.2rem;">
                     <span id="pass-proof-status" style="color: #10B981; font-weight: 700; font-size: 0.85rem;">✓ Verified</span>
                     <button type="button" id="btn-view-pass-ss" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; color: #38BDF8; border-color: #38BDF8;" title="View uploaded screenshot">
-                      👁️ View SS
+                      View Screenshot
                     </button>
                   </div>
                 </div>
@@ -748,7 +691,7 @@
                   <div class="pass-qr-meta-wrap">
                     <div class="pass-qr-badge-row">
                       <span class="pass-qr-badge-label">
-                        🛡️ OFFICIAL GATE SCANNER QR
+                        OFFICIAL ENTRY SCANNER QR
                       </span>
                       <span id="pass-qr-tag" class="pass-qr-tag">
                         TEAM ENTRY
@@ -758,8 +701,8 @@
                       Squad: SAMPLE
                     </div>
                     <div class="pass-qr-info-list">
-                      <div>👥 <strong>Participants:</strong> <span id="pass-qr-participants-count" style="font-weight: 700; color: #047857;">3 Confirmed Members</span></div>
-                      <div>🏷️ <strong>Category:</strong> <span id="pass-qr-category-val" style="font-weight: 700; color: #0369A1;">Internal (Presidency University)</span></div>
+                      <div><strong>Participants:</strong> <span id="pass-qr-participants-count" style="font-weight: 700; color: #047857;">3 Confirmed Members</span></div>
+                      <div><strong>Category:</strong> <span id="pass-qr-category-val" style="font-weight: 700; color: #0369A1;">Internal (Presidency University)</span></div>
                       <div>🆔 <strong>Pass ID:</strong> <code id="pass-qr-reg-id" style="font-family: var(--font-mono, monospace); font-weight: 700; color: #475569;">ARENIUM27-REG-7911</code></div>
                     </div>
                   </div>
@@ -803,7 +746,7 @@
         <div id="pass-proof-img-wrap" style="text-align: center; background: #07060F; border-radius: 10px; padding: 0.75rem; border: 1px solid rgba(56, 189, 248, 0.25); min-height: 180px; display: flex; align-items: center; justify-content: center;">
           <img id="pass-proof-modal-img" src="" alt="Uploaded Payment Screenshot" style="max-width: 100%; max-height: 65vh; object-fit: contain; border-radius: 6px; display: none;" onload="this.style.display='block'; var h=document.getElementById('pass-proof-placeholder'); if(h) h.style.display='none';" onerror="this.style.display='none'; var h=document.getElementById('pass-proof-placeholder'); if(h) h.style.display='block';">
           <div id="pass-proof-placeholder" style="color: #94A3B8; font-size: 0.88rem; font-family: var(--font-mono); text-align: center; padding: 2rem 1rem;">
-            <div style="font-size: 1.6rem; margin-bottom: 0.5rem;">📄</div>
+            <div style="font-size: 1.6rem; margin-bottom: 0.5rem;"></div>
             <div style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 700; margin-bottom: 0.25rem;">Payment Screenshot Verified</div>
             <div style="font-size: 0.78rem; color: #64748B;">Stored securely with registration credentials</div>
           </div>
@@ -820,72 +763,107 @@
   <!-- ========================================================================
        GLOBAL FOOTER
        ======================================================================== -->
-  <footer class="site-footer" role="contentinfo" style="background: rgba(14, 20, 32, 0.98) !important; color: #FFFFFF !important;">
+    <!-- GLOBAL FOOTER -->
+    <!-- GLOBAL FOOTER -->
+  <footer class="site-footer" role="contentinfo">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand-col">
-          <div class="footer-brand-title" style="color: #FFFFFF !important; font-size: 1.45rem; font-weight: 900; letter-spacing: 0.08em;">ARENIUM'27</div>
-          <div class="footer-brand-subtitle" style="color: #38BDF8 !important; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.15em; margin-bottom: 0.6rem;">THE ARENA OF INNOVATION</div>
-          <p class="footer-desc" style="color: #CBD5E1 !important; font-size: 0.88rem; line-height: 1.65;">
-            Annual National Inter-College Tech Festival presented by the School of Information Science (SOIS), Presidency University, Bengaluru.
+        
+        <!-- Col 1: Brand & Institution -->
+        <div class="footer-col">
+          <div style="margin-bottom: 0.8rem;">
+            <a href="index.html" class="brand-link">
+              <span class="brand-name">ARENIUM<span class="accent-quote">'</span><span class="accent-num">27</span></span>
+            </a>
+          </div>
+          <p class="footer-desc">
+            The annual national technology festival presented by the School of Information Science at Presidency University, Bengaluru.
           </p>
+          <div class="footer-host-tag">
+            4–5 February 2027 · Presidency University, Bengaluru
+          </div>
+
+          <div class="footer-institution-badge">
+            <a href="https://presidencyuniversity.in" target="_blank" rel="noopener noreferrer" title="Presidency University, Bengaluru">
+              <img src="images/presidency-university-logo-dark.png?v=2027" alt="Presidency University Bengaluru" class="footer-pu-logo pu-logo-dark" width="220" height="40">
+              <img src="images/presidency-university-logo-light.png?v=2027" alt="Presidency University Bengaluru" class="footer-pu-logo pu-logo-light" width="220" height="40">
+            </a>
+          </div>
+          <div class="footer-social-row" aria-label="Social media links">
+            <a href="https://instagram.com/arenium27" target="_blank" rel="noopener noreferrer" class="social-pill" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-pill" aria-label="YouTube">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-pill" aria-label="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.761-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+          </div>
         </div>
 
-        <div class="footer-links-col">
-          <h4 class="footer-heading" style="color: #FFFFFF !important; font-weight: 900; letter-spacing: 0.12em; border-bottom: 2px solid #38BDF8; padding-bottom: 0.35rem; display: inline-block;">NAVIGATION</h4>
-          <ul class="footer-links" style="list-style: none; padding: 0; margin-top: 0.8rem;">
-            <li><a href="index.html" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Home</a></li>
-            <li><a href="events.html" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Events Matrix</a></li>
-            <li><a href="register.html" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Registration</a></li>
-            <li><a href="schedule.html" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Schedule</a></li>
-            <li><a href="winners.html" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Winners</a></li>
+        <!-- Col 2: Navigation Links -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">NAVIGATION</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="events.html">Events Lineup</a></li>
+            <li><a href="schedule.html">Schedule &amp; Timetable</a></li>
+            <li><a href="register.html">Registration</a></li>
+            <li><a href="winners.html">Results &amp; Winners</a></li>
+            <li><a href="certificate.html">Certificates</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="sponsors.html">Sponsors</a></li>
+            <li><a href="rulebook.pdf" target="_blank" rel="noopener noreferrer">Rulebook (PDF)</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
           </ul>
         </div>
 
-        <div class="footer-links-col">
-          <h4 class="footer-heading" style="color: #FFFFFF !important; font-weight: 900; letter-spacing: 0.12em; border-bottom: 2px solid #38BDF8; padding-bottom: 0.35rem; display: inline-block;">RESOURCES</h4>
-          <ul class="footer-links" style="list-style: none; padding: 0; margin-top: 0.8rem;">
-            <li><a href="rulebook.pdf" target="_blank" rel="noopener noreferrer" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Rulebook (PDF)</a></li>
-            <li><a href="certificate.html" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Certificates</a></li>
-            <li><a href="gallery.html" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Visual Gallery</a></li>
-            <li><a href="sponsors.html" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Sponsors</a></li>
-            <li><a href="admin.html" class="footer-link" style="color: #FFFFFF !important; font-weight: 600;">• Admin Portal</a></li>
+        <!-- Col 3: Festival Arenas -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">FESTIVAL ARENAS</h4>
+          <ul class="footer-links-list">
+            <li><a href="events.html#tech-odyssey">Tech Odyssey</a></li>
+            <li><a href="events.html#shadow-code">ShadowCode</a></li>
+            <li><a href="events.html#design-nova">DesignNova</a></li>
+            <li><a href="events.html#tech-talk">TechTalk</a></li>
+            <li><a href="events.html#data-chronicles">DataChronicles</a></li>
+            <li><a href="events.html#founders-arena">Founders' Arena</a></li>
+            <li><a href="events.html#technova-27">Technova '27 (24H Hackathon)</a></li>
+            <li><a href="events.html#quad-damage">Quad Damage (Esports)</a></li>
+            <li><a href="events.html#biochroma">Biochroma</a></li>
+            <li><a href="events.html#apl-auction">APL Auction</a></li>
           </ul>
         </div>
 
-        <div class="footer-links-col">
-          <h4 class="footer-heading" style="color: #FFFFFF !important; font-weight: 900; letter-spacing: 0.12em; border-bottom: 2px solid #38BDF8; padding-bottom: 0.35rem; display: inline-block;">VENUE &amp; HOST</h4>
-          <p style="color: #E2E8F0 !important; font-size: 0.85rem; line-height: 1.65; margin-top: 0.8rem;">
-            Presidency University Campus<br>
-            Itgalpur, Rajanakunte, Yelahanka<br>
-            Bengaluru, Karnataka 560064<br>
-            <strong style="color: #38BDF8 !important;">arenium.official@gmail.com</strong>
-          </p>
-          <!-- Contact Numbers with tel: links -->
-          <ul class="footer-contacts-list">
-            <li>
-              <span class="footer-contact-name">Kaushal Kumar Singh</span>
-              <a href="tel:+918797786686">📞 +91 87977 86686</a>
-            </li>
-            <li>
-              <span class="footer-contact-name">Vimal Raj</span>
-              <a href="tel:+919620192249">📞 +91 96201 92249</a>
-            </li>
-            <li>
-              <span class="footer-contact-name">Ashlin Siddharth</span>
-              <a href="tel:+919108740761">📞 +91 91087 40761</a>
-            </li>
-            <li>
-              <span class="footer-contact-name">Abhyas Kathuria</span>
-              <a href="tel:+918595848421">📞 +91 85958 48421</a>
-            </li>
-          </ul>
+        <!-- Col 4: Campus Venue & Official Contact -->
+        <div class="footer-col">
+          <h4 class="footer-col-title">CAMPUS VENUE</h4>
+          <address class="footer-address">
+            <strong>School of Information Science (SOIS)</strong><br>
+            Presidency University,<br>
+            Itgalpur, Rajanakunte,<br>
+            Bengaluru, Karnataka 560064
+          </address>
+          <div style="margin-top: 1rem;">
+            <div style="font-size: 0.8rem; color: #94A3B8; margin-bottom: 0.25rem;">Official Fest Email</div>
+            <a href="mailto:arenium@presidencyuniversity.in" style="color: #38BDF8; font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+              arenium@presidencyuniversity.in
+            </a>
+          </div>
+          <div style="margin-top: 0.75rem;">
+            <a href="contact.html" class="btn btn-ghost" style="font-size: 0.75rem; padding: 0.4rem 0.8rem; display: inline-block;">
+              View Contact Desk &amp; Map
+            </a>
+          </div>
         </div>
+
       </div>
 
-      <div class="footer-bottom-bar" style="border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 1rem; margin-top: 1.5rem; color: #94A3B8 !important; font-size: 0.84rem;">
-        <p style="color: #94A3B8 !important; margin-bottom: 0.25rem;">&copy; 2027 School of Information Science (SOIS), Presidency University, Bengaluru. All Rights Reserved.</p>
-        <p style="color: #94A3B8 !important;">Designed &amp; Developed by <a href="index.html#team" style="color: inherit; text-decoration: none;">Team Arenium'27</a></p>
+      <div class="footer-bottom-bar">
+        <div>School of Information Science · Presidency University, Bengaluru</div>
+        <div>&copy; 2027 ARENIUM. All rights reserved.</div>
+        <div>4–5 February 2027 · Bengaluru</div>
       </div>
     </div>
   </footer>
@@ -973,7 +951,7 @@
           payNowBtn.style.cursor = "pointer";
           if (payNowText) payNowText.textContent = `PAY NOW${amtText} VIA GATEWAY ↗`;
           if (payStatusHint) {
-            payStatusHint.innerHTML = `⚡ Official gateway active &bull; Click to pay <strong style="color:#38BDF8;">₹${totalAmount || 200}</strong> on official portal ↗`;
+            payStatusHint.innerHTML = `UPI payment mode &bull; Pay <strong style="color:#38BDF8;">₹${totalAmount || 200}</strong> on official portal ↗`;
           }
           payNowBtn.onclick = null;
         } else {
@@ -1560,7 +1538,7 @@
             alert("⏳ Payment Verification In Progress:\n\nAdmin has not completed verifying transaction UTR: " + (reg.utrId || 'N/A') + " yet. Your pass will unlock immediately once approved by admin.");
           }
         } finally {
-          if (btn) { btn.disabled = false; btn.textContent = "🔄 Check Verification Status Now"; }
+          if (btn) { btn.disabled = false; btn.textContent = "Check Verification Status"; }
         }
       };
 
@@ -1569,7 +1547,7 @@
           form.reset();
           if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = "⚡ CONFIRM REGISTRATION &amp; GET PASS";
+            submitBtn.innerHTML = "SUBMIT REGISTRATION";
           }
           initTeamMembers(3);
           populateEventSelects();
@@ -1594,7 +1572,7 @@
 
         if (msgEl) {
           msgEl.style.display = "block";
-          msgEl.innerHTML = `<span style="color:#0284C7; font-weight:700;">🔄 Searching ARENIUM 27 database...</span>`;
+          msgEl.innerHTML = `<span style="color:#0284C7; font-weight:700;"> Searching ARENIUM 27 database...</span>`;
         }
 
         let foundReg = null;
@@ -1720,7 +1698,7 @@
           teamSec.style.display = "block";
           const teamMembersList = reg.teamMembersList || [];
           let squadHtml = `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem; flex-wrap:wrap; gap:0.4rem; border-bottom:1px solid #E2E8F0; padding-bottom:0.4rem;">` +
-            `<strong style="color: #0369A1; font-size:0.92rem;">👥 Squad: <span style="color:#0284C7;">${reg.teamName || 'Squad'}</span></strong>` +
+            `<strong style="color: #0369A1; font-size:0.92rem;">Squad: <span style="color:#0284C7;">${reg.teamName || 'Squad'}</span></strong>` +
             `<span style="font-size:0.75rem; color:#10B981; font-weight:700;">${teamMembersList.length ? (teamMembersList.length + 1) + ' Confirmed Members' : 'Confirmed Squad'}</span>` +
             `</div>`;
           squadHtml += `<div style="display:flex; flex-direction:column; gap:0.4rem; font-size:0.83rem; line-height:1.5;">`;
@@ -2073,38 +2051,13 @@
         });
       }
 
-      // 6. Register Another Participant button
-      // Check for active registration on this browser to show quick-access banner
-      const existingDB = FestDB.getData();
-      if (existingDB.registrations && existingDB.registrations.length > 0) {
-        const latestReg = existingDB.registrations[0];
-        const recentBanner = document.getElementById("recent-reg-banner");
-        const bannerName = document.getElementById("recent-reg-banner-name");
-        const bannerId = document.getElementById("recent-reg-banner-id");
-        const bannerBtn = document.getElementById("btn-view-recent-pass");
-
-        if (recentBanner && bannerName && bannerId && bannerBtn) {
-          recentBanner.style.display = "block";
-          const isLatestVerified = (latestReg.status === "Confirmed" || latestReg.status === "Checked In" || latestReg.paymentVerified);
-          bannerName.textContent = latestReg.fullName + (latestReg.teamName ? ` (Squad: ${latestReg.teamName})` : "") + (isLatestVerified ? " [✓ VERIFIED PASS]" : " [⏳ PENDING VERIFICATION]");
-          bannerId.textContent = latestReg.id;
-          bannerBtn.onclick = () => {
-            if (isLatestVerified) {
-              renderDelegatePass(latestReg);
-            } else {
-              showRegistrationPendingReceipt(latestReg);
-            }
-          };
-        }
-      }
-
       const regAnotherBtn = document.getElementById("btn-register-another");
       if (regAnotherBtn) {
         regAnotherBtn.addEventListener("click", () => {
           form.reset();
           if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = "🚀 CONFIRM REGISTRATION &amp; GET PASS";
+            submitBtn.innerHTML = "SUBMIT REGISTRATION";
           }
           const qrTarget = document.getElementById("pass-qrcode-target");
           if (qrTarget) qrTarget.innerHTML = "";

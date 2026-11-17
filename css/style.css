@@ -90,10 +90,10 @@
   --bg-radial-2: rgba(96, 165, 250, 0.1);
   --bg-grid: rgba(255, 255, 255, 0.02);
 
-  --font-display: 'Roboto Slab', serif;
-  --font-heading: 'Roboto Slab', serif;
-  --font-mono: 'Roboto Slab', serif;
-  --font-body: 'Roboto Slab', serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Spacing Scale */
   --space-xs: 0.25rem;
@@ -147,7 +147,7 @@ html[data-theme="dark"] {
 }
 
 body {
-  font-family: 'Roboto Slab', serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   line-height: 1.6;
   background-color: #FFFFFF !important;
   color: #1E293B !important;
@@ -437,7 +437,7 @@ button {
 
 /* Terminal link style (with > prefix) */
 .terminal-link {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.85rem;
   letter-spacing: 0.05em;
   color: var(--neon-cyan);
@@ -478,7 +478,7 @@ button {
 }
 
 .section-tag {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.78rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.15em !important;
@@ -656,7 +656,7 @@ button {
 }
 
 .brand-sub {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.62rem;
   letter-spacing: 0.16em;
   color: var(--text-secondary);
@@ -838,7 +838,7 @@ button {
 .dropdown-item a {
   display: block;
   padding: 0.6rem 1.2rem;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.82rem;
   color: var(--text-secondary);
   transition: all var(--transition-fast);
@@ -966,7 +966,7 @@ button {
 }
 
 .hero-institution-tag {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.2em;
@@ -1105,7 +1105,7 @@ button {
   background: rgba(var(--primary-rgb), 0.08);
   border: 1px solid rgba(var(--primary-rgb), 0.4);
   padding: 0.35rem 1rem;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -1229,7 +1229,7 @@ button {
 }
 
 .countdown-box .count-label {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -1258,7 +1258,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.95rem;
   color: var(--neon-yellow);
   margin-bottom: var(--space-xl);
@@ -1306,7 +1306,7 @@ button {
   border: 1px solid rgba(var(--secondary-rgb), 0.4);
   color: #ffffff;
   padding: 0.75rem 1.6rem;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1344,7 +1344,7 @@ button {
 }
 
 .stat-label {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.75rem;
   color: var(--text-secondary);
   letter-spacing: 0.1em;
@@ -1402,7 +1402,7 @@ button {
 
 .quick-tag {
   font-size: 0.75rem;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   padding: 0.2rem 0.6rem;
   border: 1px solid rgba(255, 230, 0, 0.3);
   color: var(--neon-yellow);
@@ -1457,7 +1457,7 @@ button {
 }
 
 .poster-meta-list li {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.9rem;
   color: var(--text-secondary);
   margin-bottom: 0.5rem;
@@ -1511,7 +1511,7 @@ button {
 }
 
 .team-card-tag {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -1529,7 +1529,7 @@ button {
 }
 
 .team-role {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8rem;
   color: var(--text-secondary);
 }
@@ -1539,7 +1539,7 @@ button {
   align-items: center;
   gap: 0.4rem;
   margin-top: 0.8rem;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8rem;
   color: var(--neon-cyan);
 }
@@ -1632,7 +1632,7 @@ button {
 }
 
 .scanner-caption {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.95rem;
   letter-spacing: 0.15em;
   color: var(--neon-cyan);
@@ -1687,7 +1687,7 @@ button {
 }
 
 .footer-host-tag {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8rem;
   color: var(--neon-yellow);
   font-weight: 600;
@@ -1730,7 +1730,7 @@ button {
 }
 
 .footer-links-list a {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.85rem;
   color: var(--text-secondary);
   display: inline-flex;
@@ -1767,7 +1767,7 @@ button {
 }
 
 .footer-contacts-list a {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.82rem;
   color: var(--neon-cyan);
 }
@@ -1797,7 +1797,7 @@ button {
 }
 
 .map-pin-indicator {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.72rem;
   color: #ffffff;
   background: rgba(7, 6, 15, 0.85);
@@ -1815,7 +1815,7 @@ button {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.8rem;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.78rem;
   color: var(--text-muted);
 }
@@ -2272,7 +2272,7 @@ button {
   border: 1.5px solid var(--palette-mauve, #DDD3D3) !important;
   color: var(--palette-slate, #5D6B6B) !important;
   border-radius: 50px !important;
-  font-family: 'Roboto Slab', serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 0.8rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.08em !important;
@@ -2372,7 +2372,7 @@ button {
 }
 
 .event-category-badge {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -2428,7 +2428,7 @@ button {
   border: 1.5px solid var(--palette-mauve, #DDD3D3) !important;
   color: var(--palette-slate, #5D6B6B) !important;
   border-radius: 50px !important;
-  font-family: 'Roboto Slab', serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 0.8rem !important;
   font-weight: 700 !important;
   letter-spacing: 0.08em !important;
@@ -2516,7 +2516,7 @@ button {
 }
 
 .timeline-time-badge {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--neon-cyan);
@@ -2532,7 +2532,7 @@ button {
 }
 
 .timeline-venue {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8rem;
   color: var(--neon-yellow);
   margin-bottom: 0.4rem;
@@ -2616,7 +2616,7 @@ button {
 }
 
 .gallery-item-sub {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.75rem;
   color: var(--neon-cyan);
 }
@@ -2656,7 +2656,7 @@ button {
 
 .lightbox-caption {
   margin-top: 1rem;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.95rem;
   color: var(--text-primary);
   letter-spacing: 0.1em;
@@ -2721,7 +2721,7 @@ button {
 
 .sponsor-tier-badge {
   display: inline-block;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.2em;
@@ -2814,7 +2814,7 @@ button {
 }
 
 .contact-query-line {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.95rem;
   color: var(--neon-cyan);
   margin-bottom: var(--space-lg);
@@ -2926,7 +2926,7 @@ button {
   display: inline-block;
   padding-left: 100%;
   animation: cyberTickerLoop 30s linear infinite;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -3022,7 +3022,7 @@ button {
 }
 
 .event-coord-phone {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.75rem;
   color: var(--neon-cyan);
   text-decoration: none;
@@ -3089,7 +3089,7 @@ button {
   background: transparent;
   border: 1px solid rgba(var(--secondary-rgb), 0.5);
   color: var(--neon-pink);
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 1.1rem;
   padding: 0.3rem 0.7rem;
   cursor: pointer;
@@ -3279,13 +3279,13 @@ button {
 }
 
 .winner-college {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.78rem;
   color: var(--text-secondary);
 }
 
 .winner-cash-badge {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--neon-yellow);
@@ -3407,7 +3407,7 @@ button {
 }
 
 .cert-dept-name {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.75rem;
   color: var(--text-secondary);
   letter-spacing: 0.1em;
@@ -3438,7 +3438,7 @@ button {
 }
 
 .cert-body-text {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.82rem;
   color: var(--text-secondary);
   line-height: 1.7;
@@ -3465,14 +3465,14 @@ button {
 }
 
 .cert-sig-role {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.65rem;
   color: var(--text-muted);
   text-transform: uppercase;
 }
 
 .cert-id-tag {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.68rem;
   color: var(--neon-cyan);
   position: absolute;
@@ -3510,7 +3510,7 @@ button {
   align-items: center;
   gap: 0.8rem;
   padding: 0.8rem 1rem;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-secondary);
@@ -3563,7 +3563,7 @@ button {
 }
 
 .admin-stat-label {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.75rem;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -3575,7 +3575,7 @@ button {
 
 .admin-label {
   display: block;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8rem;
   font-weight: 800;
   color: #000000 !important;
@@ -3592,7 +3592,7 @@ button {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.9rem;
   padding: 0.7rem 0.9rem;
   border-radius: 4px;
@@ -3610,7 +3610,7 @@ button {
 .admin-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.85rem;
   background: var(--bg-surface);
   border-radius: 6px;
@@ -3692,7 +3692,7 @@ button {
 }
 
 .admin-lock-subtitle {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8rem;
   color: var(--text-secondary);
   line-height: 1.5;
@@ -3704,7 +3704,7 @@ button {
   background: rgba(var(--secondary-rgb), 0.12);
   border: 1px solid var(--neon-pink);
   color: #ff3377;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
   padding: 0.6rem 0.8rem;
@@ -4120,7 +4120,7 @@ input:-webkit-autofill:active {
 
 .team-tier-badge {
   display: inline-block;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.75rem;
   letter-spacing: 2px;
   color: var(--neon-cyan);
@@ -4138,7 +4138,7 @@ input:-webkit-autofill:active {
 }
 
 .team-tier-desc {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.85rem;
   color: var(--text-secondary);
   letter-spacing: 1px;
@@ -4192,7 +4192,7 @@ input:-webkit-autofill:active {
 
 .committee-label {
   display: block;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--neon-cyan);
@@ -4205,7 +4205,7 @@ input:-webkit-autofill:active {
 }
 
 .committee-members-box p {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.74rem;
   color: var(--text-secondary);
   line-height: 1.4;
@@ -4234,7 +4234,7 @@ input:-webkit-autofill:active {
 }
 
 .hero-subtagline {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--text-secondary);
   font-size: 0.88rem;
   letter-spacing: 3px;
@@ -4519,7 +4519,7 @@ input:-webkit-autofill:active {
 }
 
 .poster-meta-list li {
-  font-family: 'Roboto Slab', serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: clamp(0.88rem, 1.1vw, 0.96rem) !important;
   line-height: 1.6 !important;
   display: flex !important;
@@ -4899,7 +4899,7 @@ p,
 }
 
 .stat-label {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.75rem !important;
   font-weight: 700 !important;
   color: var(--palette-slate, #5D6B6B) !important;
@@ -5636,7 +5636,7 @@ p, span, strong, em, b, a, button,
 }
 
 .form-label {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.84rem;
   font-weight: 700;
   color: var(--palette-heading, #2C3E3E);
@@ -5660,7 +5660,7 @@ p, span, strong, em, b, a, button,
   border-radius: 12px;
   padding: 0.8rem 1rem;
   color: var(--palette-heading, #2C3E3E) !important;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.95rem;
   outline: none;
   transition: all 0.25s ease;
@@ -6613,7 +6613,7 @@ p, span, a, strong, b, em, i,
     color: #000000 !important;
     -webkit-text-fill-color: #000000 !important;
     font-weight: 800 !important;
-    font-family: 'Roboto Slab', serif !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     font-size: 1.05rem !important;
     letter-spacing: 0.05em !important;
     text-shadow: none !important;
@@ -6815,7 +6815,7 @@ h1, h2, h3, h4, h5, h6,
 
 /* 4. Leadership & Coordinator Badges */
 .team-card-tag {
-  font-family: 'Roboto Slab', serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 0.72rem !important;
   font-weight: 800 !important;
   letter-spacing: 0.12em !important;
@@ -6833,7 +6833,7 @@ h1, h2, h3, h4, h5, h6,
 
 .team-tier-badge {
   display: inline-block !important;
-  font-family: 'Roboto Slab', serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 0.78rem !important;
   font-weight: 800 !important;
   letter-spacing: 2px !important;
@@ -6871,7 +6871,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .contact-query-line {
-  font-family: 'Roboto Slab', serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 1rem !important;
   color: #000000 !important;
   -webkit-text-fill-color: #000000 !important;
@@ -8366,7 +8366,7 @@ body:not(#admin-app) .cyber-card strong {
 
 .cert-controls-panel label.admin-label {
   display: block;
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 0.8rem;
   font-weight: 800;
   color: #38BDF8 !important;
@@ -10910,4 +10910,407 @@ body.certificate-page .section-subtitle {
 #pass-proof-modal #pass-proof-placeholder div:first-child + div {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* ========================================================================
+   ARENIUM'27 CLEAN SCHEDULE TABLE SYSTEM (PHASE 4 SPECIFICATION)
+   Replaces zig-zag timeline with high-contrast, fully responsive table.
+   ======================================================================== */
+.schedule-table-wrap {
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  margin: 1.5rem 0 2.5rem 0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 14px !important;
+  background: #0F172A !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.schedule-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  text-align: left !important;
+  min-width: 680px !important;
+  color: #FFFFFF !important;
+}
+
+.schedule-table thead tr {
+  background: #1E293B !important;
+  border-bottom: 2px solid #38BDF8 !important;
+}
+
+.schedule-table th {
+  padding: 1.1rem 1.4rem !important;
+  color: #FFFFFF !important;
+  font-family: var(--font-heading) !important;
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+
+.schedule-table td {
+  padding: 1.15rem 1.4rem !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  vertical-align: top !important;
+  color: #E2E8F0 !important;
+  font-size: 0.92rem !important;
+  line-height: 1.5 !important;
+}
+
+.schedule-table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+.schedule-cell-time {
+  white-space: nowrap !important;
+}
+
+.schedule-time-badge {
+  display: block !important;
+  font-weight: 700 !important;
+  color: #38BDF8 !important;
+  font-size: 0.92rem !important;
+}
+
+.schedule-day-pill {
+  display: inline-block !important;
+  margin-top: 0.3rem !important;
+  padding: 0.15rem 0.5rem !important;
+  border-radius: 4px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #94A3B8 !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.schedule-event-title {
+  font-family: var(--font-heading) !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  margin-bottom: 0.3rem !important;
+}
+
+.schedule-event-desc {
+  color: #94A3B8 !important;
+  font-size: 0.85rem !important;
+  line-height: 1.4 !important;
+}
+
+.schedule-cat-badge {
+  display: inline-block !important;
+  padding: 0.25rem 0.65rem !important;
+  border-radius: 9999px !important;
+  background: rgba(56, 189, 248, 0.14) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  color: #38BDF8 !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+  white-space: nowrap !important;
+}
+
+.schedule-cell-venue {
+  color: #CBD5E1 !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+/* Day Tab Buttons */
+.schedule-tabs {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 0.8rem !important;
+  flex-wrap: wrap !important;
+  margin-top: 1.5rem !important;
+}
+
+.schedule-tab-btn {
+  padding: 0.7rem 1.4rem !important;
+  border-radius: 9999px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+  color: #CBD5E1 !important;
+  font-family: var(--font-heading) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.schedule-tab-btn:hover {
+  background: rgba(56, 189, 248, 0.15) !important;
+  border-color: #38BDF8 !important;
+  color: #FFFFFF !important;
+}
+
+.schedule-tab-btn.active {
+  background: #2563EB !important;
+  border-color: #3B82F6 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4) !important;
+}
+
+/* Event Card Name Wrapping & Alignment */
+.team-name, .event-title, .timeline-event-name {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: manual !important;
+  text-wrap: balance !important;
+}
+
+/* Clean up boxed title badges */
+.section-tag, .section-badge {
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* Unified footer styling */
+.site-footer {
+  background: #0B1120 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #94A3B8 !important;
+}
+.site-footer .footer-col-title {
+  color: #FFFFFF !important;
+  font-family: var(--font-heading) !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 1.1rem !important;
+}
+.site-footer .footer-links-list li a {
+  color: #94A3B8 !important;
+  text-decoration: none !important;
+  font-size: 0.88rem !important;
+  transition: color 0.2s ease !important;
+}
+.site-footer .footer-links-list li a:hover {
+  color: #38BDF8 !important;
+}
+
+/* ========================================================================
+   ARENIUM'27 EDITORIAL CARD DESIGN SYSTEM (ATTACHMENT 3 SPECIFICATION)
+   Off-white card surface | Crisp black border | High-contrast typography
+   ======================================================================== */
+.editorial-card,
+.team-card,
+.event-card,
+.cyber-card.team-card,
+.cyber-card.event-card {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+  box-sizing: border-box !important;
+}
+
+.editorial-card:hover,
+.team-card:hover,
+.event-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Image at top: bleed with crisp bottom border */
+.team-card .team-photo-wrap,
+.event-card .event-poster-wrapper {
+  width: 100% !important;
+  height: 240px !important;
+  min-height: 220px !important;
+  max-height: 260px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background: #F8FAFC !important;
+  border-bottom: 1.5px solid #000000 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.team-card .team-photo-wrap img,
+.team-card .team-avatar-img,
+.event-card .event-poster-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+  display: block !important;
+  border-radius: 0 !important;
+  transition: transform 0.35s ease !important;
+}
+
+.team-card:hover .team-photo-wrap img,
+.event-card:hover .event-poster-img {
+  transform: scale(1.03) !important;
+}
+
+/* Content Area inside card: Off-white background, high contrast */
+.team-card .team-card-content,
+.team-card-content,
+.event-card .event-card-content,
+.event-card .event-body {
+  padding: 1.5rem !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  box-sizing: border-box !important;
+}
+
+/* Category Pill Badge */
+.team-card-tag,
+.team-card .team-card-tag,
+.event-category-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  width: fit-content !important;
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 9999px !important;
+  border: 1px solid #000000 !important;
+  background: #F8FAFC !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Card Heading / Title: Editorial Serif, pure black, no awkward word breaks! */
+.team-name,
+.team-card .team-name,
+.event-title,
+.event-card .event-title {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-size: clamp(1.2rem, 1.4vw, 1.4rem) !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  line-height: 1.25 !important;
+  margin: 0.2rem 0 0.4rem 0 !important;
+  text-transform: none !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+  overflow-wrap: break-word !important;
+  hyphens: none !important;
+  text-shadow: none !important;
+}
+
+/* Subtitle / Role */
+.team-role,
+.team-card .team-role {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  line-height: 1.45 !important;
+  margin: 0 0 0.4rem 0 !important;
+}
+
+/* Description text */
+.team-card-desc,
+.team-card .team-card-desc,
+.event-desc,
+.event-card .event-desc {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.86rem !important;
+  font-weight: 400 !important;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  line-height: 1.55 !important;
+  margin: 0 0 1rem 0 !important;
+}
+
+/* Attachment 3 Pill Button: Outline Black */
+.btn-pill-outline {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.45rem 1.25rem !important;
+  border-radius: 9999px !important;
+  border: 1.5px solid #000000 !important;
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  width: fit-content !important;
+}
+
+.btn-pill-outline:hover {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Solid Black Pill Button */
+.btn-pill-solid {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.45rem 1.25rem !important;
+  border-radius: 9999px !important;
+  border: 1.5px solid #000000 !important;
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  width: fit-content !important;
+}
+
+.btn-pill-solid:hover {
+  background: #2563EB !important;
+  border-color: #2563EB !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
+}
+
+.team-action-footer {
+  margin-top: auto !important;
+  padding-top: 0.8rem !important;
+}
+
+/* Grid Layouts: Ensure cards have adequate width (min 250px) so long names never squish */
+.team-grid,
+.team-grid-leadership,
+.student-coords-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+  gap: 1.5rem !important;
+  align-items: stretch !important;
+}
+
+@media (max-width: 600px) {
+  .team-grid,
+  .team-grid-leadership,
+  .student-coords-grid {
+    grid-template-columns: 1fr !important;
+  }
 }

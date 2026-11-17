@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1120"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#818CF8" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#818CF8" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="480" fill="url(#bgGrad)"/>
+  <rect width="800" height="480" fill="url(#grid)"/>
+  <rect width="800" height="480" fill="url(#glow)"/>
+
+  <!-- Subtle border accent -->
+  <rect x="16" y="16" width="768" height="448" rx="16" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1.5"/>
+
+  <!-- Top Badges -->
+  <g transform="translate(48, 48)">
+    <rect width="180" height="28" rx="14" fill="rgba(56, 189, 248, 0.12)" stroke="#818CF8" stroke-width="1"/>
+    <text x="90" y="18" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="11" fill="#818CF8" letter-spacing="1.5">ESPORTS ARENA</text>
+  </g>
+
+  <g transform="translate(620, 48)">
+    <text x="132" y="19" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="13" fill="#64748B">ARENIUM'27</text>
+  </g>
+
+  <!-- Event Artwork -->
+  
+        <!-- Gamepad & Crosshair -->
+        <rect x="320" y="150" width="160" height="95" rx="35" fill="rgba(129, 140, 248, 0.12)" stroke="#818CF8" stroke-width="3"/>
+        <!-- D-Pad -->
+        <path d="M350,185 L350,210 M338,198 L362,198" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+        <!-- Action Buttons -->
+        <circle cx="440" cy="188" r="6" fill="#F472B6"/>
+        <circle cx="455" cy="200" r="6" fill="#34D399"/>
+        <circle cx="425" cy="200" r="6" fill="#38BDF8"/>
+        <circle cx="440" cy="212" r="6" fill="#FBBF24"/>
+        <!-- Grips & Crosshair -->
+        <path d="M335,245 L320,270" stroke="#818CF8" stroke-width="6" stroke-linecap="round"/>
+        <path d="M465,245 L480,270" stroke="#818CF8" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="400" cy="198" r="10" fill="none" stroke="#64748B" stroke-width="2"/>
+        
+
+  <!-- Typography Content -->
+  <text x="400" y="375" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="34" fill="#FFFFFF" letter-spacing="1">QUAD DAMAGE</text>
+  <text x="400" y="410" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="15" fill="#94A3B8">Collegiate LAN Esports Tournament</text>
+</svg>

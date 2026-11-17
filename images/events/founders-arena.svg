@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1120"/>
+      <stop offset="50%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#FBBF24" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#FBBF24" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="480" fill="url(#bgGrad)"/>
+  <rect width="800" height="480" fill="url(#grid)"/>
+  <rect width="800" height="480" fill="url(#glow)"/>
+
+  <!-- Subtle border accent -->
+  <rect x="16" y="16" width="768" height="448" rx="16" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="1.5"/>
+
+  <!-- Top Badges -->
+  <g transform="translate(48, 48)">
+    <rect width="180" height="28" rx="14" fill="rgba(56, 189, 248, 0.12)" stroke="#FBBF24" stroke-width="1"/>
+    <text x="90" y="18" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="11" fill="#FBBF24" letter-spacing="1.5">TECHNICAL EVENT</text>
+  </g>
+
+  <g transform="translate(620, 48)">
+    <text x="132" y="19" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="13" fill="#64748B">ARENIUM'27</text>
+  </g>
+
+  <!-- Event Artwork -->
+  
+        <!-- Rocket & Innovation Pitch -->
+        <path d="M400,120 C425,150 435,210 430,240 L370,240 C365,210 375,150 400,120 Z" fill="rgba(251, 191, 36, 0.15)" stroke="#FBBF24" stroke-width="3"/>
+        <circle cx="400" cy="175" r="14" fill="#0F172A" stroke="#FBBF24" stroke-width="3"/>
+        <!-- Wings & Exhaust Flames -->
+        <polygon points="370,210 340,240 370,240" fill="#FBBF24"/>
+        <polygon points="430,210 460,240 430,240" fill="#FBBF24"/>
+        <polygon points="385,245 400,275 415,245" fill="#EF4444"/>
+        <!-- Growth Arrow -->
+        <line x1="300" y1="260" x2="350" y2="210" stroke="#34D399" stroke-width="3" stroke-linecap="round"/>
+        <polyline points="335,210 350,210 350,225" fill="none" stroke="#34D399" stroke-width="3" stroke-linecap="round"/>
+        
+
+  <!-- Typography Content -->
+  <text x="400" y="375" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="34" fill="#FFFFFF" letter-spacing="1">FOUNDERS' ARENA</text>
+  <text x="400" y="410" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="500" font-size="15" fill="#94A3B8">Startup Pitch & Business Showcase</text>
+</svg>

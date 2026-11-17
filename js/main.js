@@ -8,7 +8,7 @@
 // 1. FESTDB (CENTRAL LOCALSTORAGE STATE ENGINE)
 // ==========================================================================
 const FestDB = {
-  STORAGE_KEY: "arenium_fest_db_v5",
+  STORAGE_KEY: "arenium_fest_db_v7",
 
   getDefaults() {
     return {
@@ -28,7 +28,7 @@ const FestDB = {
           internalAddFee: 200,
           externalFee: 300,
           externalAddFee: 300,
-          instructions: "UPDATED REGISTRATION FEE STRUCTURE: Internal Participants (Presidency University): ₹200 for up to 2 events (additional ₹200 for 3rd event). External Participants: ₹300 for up to 2 events (additional ₹300 for 3rd event). Participation in 2nd event is optional and free. Please cross-reference the official schedule to avoid timing conflicts.",
+          instructions: "REGISTRATION FEE STRUCTURE: Internal Participants (Presidency University): ₹200 for up to 2 events (additional ₹200 for 3rd event). External Participants: ₹300 for up to 2 events (additional ₹300 for 3rd event). Participation in 2nd event is optional and free. Please check the schedule to avoid timing conflicts.",
           fees: {
             "tech-odyssey": "₹300 / Team of 2-3",
             "shadow-code": "₹150 / Solo",
@@ -43,12 +43,12 @@ const FestDB = {
           }
         },
         tagline: "THE ARENA OF INNOVATION",
-        prizePoolText: "⚡ TOTAL CASH PRIZE POOL: ₹1,50,000 (1.5 LAKHS) • ARENIUM '27 • 4–5 FEBRUARY 2027 • SCHOOL OF INFORMATION SCIENCE, PRESIDENCY UNIVERSITY ⚡",
-        announcement: "⚡ ARENIUM ’27: THE ARENA OF INNOVATION • ₹1.5 LAKHS CASH PRIZE POOL • 24-HOUR HACKATHON, BLIND CODING, TREASURE HUNT, ESPORTS & FASHION SHOW • 4–5 FEB 2027 ⚡",
+        prizePoolText: "TOTAL CASH PRIZE POOL: ₹1,50,000 (1.5 LAKHS) • ARENIUM '27 • 4–5 FEBRUARY 2027 • SCHOOL OF INFORMATION SCIENCE, PRESIDENCY UNIVERSITY",
+        announcement: "ARENIUM ’27: THE ARENA OF INNOVATION • ₹1.5 LAKHS CASH PRIZE POOL • 4–5 FEB 2027",
         qrCodeImg: "images/qrcode.png",
         logoImg: "images/logo.jpg",
-        certificatesPublished: true,
-        resultsPublished: true,
+        certificatesPublished: false,
+        resultsPublished: false,
         adminUsers: [
           {
             id: "admin-1",
@@ -220,41 +220,41 @@ const FestDB = {
           photo: "images/leader-sois.svg"
         }
       ],
-            events: [
+                  events: [
         // 1. Tech Odyssey (Technical Event)
         {
           id: "tech-odyssey",
           name: "TECH ODYSSEY",
-          tagline: "Follow the Clues. Crack the Code. Claim the Victory",
+          tagline: "Technical Clue Hunt & Code Debugging Challenge",
           category: "Technical Event",
           group: "technical",
           prize: "₹15,000",
           venue: "SOIS Block & Central Campus",
           date: "Day 1 (4 February 2027)",
           time: "10:45 AM – 01:00 PM",
-          description: "Follow the Clues. Crack the Code. Claim the Victory. A 3-stage intellectual quest testing technical acumen, cryptic discovery, and algorithmic error detection across Presidency University campus.",
-          poster: "images/events-poster.svg",
+          description: "Teams solve campus-wide technical clues and debug syntax errors against the clock. Open to teams of 2 to 3 participants across a 2-hour multi-stage hunt.",
+          poster: "images/events/tech-odyssey.svg",
           coordinator: {
             name: "Kaushal Kumar Singh",
             phone: "+91 91087 40761",
             photo: "images/coord-kaushal.svg"
           },
           rulebook: {
-            overview: "Follow the Clues. Crack the Code. Claim the Victory. High-energy technical treasure hunt featuring Kahoot riddles, clue discovery within file properties, and rapid code error detection.",
-            eligibility: "Teams of 2 to 3 members. Participants must bring their own laptops. No AI tools permitted.",
+            overview: "A multi-stage technical treasure hunt featuring technical reasoning questions, hidden clues embedded across campus, and rapid syntax debugging.",
+            eligibility: "Teams of 2 to 3 members. Participants must bring their own charged laptops. No generative AI tools permitted.",
             teamSize: "2 - 3 Members per team",
             rounds: [
-              "Round 1: Kahoot Quiz (20 questions covering riddles, logical puzzles, and technical reasoning).",
-              "Round 2: Pickathon Clue Quest (Finding hidden clues embedded in file properties, metadata, and directory trees).",
-              "Round 3: Code Error Spotting (Inspecting code blocks and identifying syntax/logic errors without compiling)."
+              "Round 1: Technical Qualification Quiz (20 questions covering logic, puzzles, and computing concepts).",
+              "Round 2: Campus Clue Quest (Locating hidden technical clues and checkpoints across campus).",
+              "Round 3: Code Debugging Sprint (Identifying and correcting bugs in provided code snippets)."
             ],
             rules: [
-              "Participants must carry their own charged laptops; charging stations available at checkpoints.",
-              "Strict proctoring against AI tools (ChatGPT, Copilot, etc.). Tampering leads to disqualification.",
-              "Fastest accurate submission takes the podium."
+              "Participants must carry charged laptops; power stations are available at checkpoints.",
+              "Strict proctoring against unauthorized AI assistants. Violation leads to disqualification.",
+              "Fastest accurate submission wins."
             ],
-            judging: "Aggregate score from Kahoot accuracy (30%), clue resolution speed (40%), and syntax bug spotting (30%).",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Trophies & Merit Certificates"
+            judging: "Combined score from quiz accuracy (30%), clue discovery speed (40%), and syntax bug spotting (30%).",
+            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Merit Certificates"
           }
         },
 
@@ -262,36 +262,36 @@ const FestDB = {
         {
           id: "shadow-code",
           name: "SHADOWCODE",
-          tagline: "Think Fast. Code Smart. Debug in the Dark",
+          tagline: "Blindfold Competitive Programming Challenge",
           category: "Technical Event",
           group: "technical",
           prize: "₹15,000",
           venue: "SOIS Lab 01",
           date: "Day 1 (4 February 2027)",
           time: "11:00 AM – 01:00 PM",
-          description: "Think Fast. Code Smart. Debug in the Dark. The ultimate blind programming challenge where developers write code with their monitors turned OFF.",
-          poster: "images/events-poster.svg",
+          description: "Participants write and optimize algorithms with their display monitors turned completely off. Solo competition lasting 2 hours across C, C++, Java, and Python.",
+          poster: "images/events/shadow-code.svg",
           coordinator: {
             name: "Abhyas Kathuria",
             phone: "+91 85958 48421",
             photo: "images/coord-abhyas.svg"
           },
           rulebook: {
-            overview: "Intense competitive programming event where contestants demonstrate pure muscle memory, algorithmic syntax mastery, and rapid debugging.",
-            eligibility: "Solo participation. Open to all engineering and computer science undergraduates.",
+            overview: "A pure competitive programming sprint where contestants demonstrate syntax accuracy, algorithmic mastery, and muscle memory without visual feedback.",
+            eligibility: "Solo participation. Open to all undergraduate and postgraduate students.",
             teamSize: "1 Participant",
             rounds: [
               "Round 1: Code Debugging Sprint (Fix faulty algorithmic scripts against strict clock).",
-              "Round 2: Blind Coding (Screens turned OFF; write algorithms from memory).",
-              "Round 3: Optic Code Golf (Solve the master problem in the minimum possible lines of code)."
+              "Round 2: Blind Coding (Monitors turned OFF; write algorithms from memory).",
+              "Round 3: Code Optimization (Solve master problem with optimal time and space complexity)."
             ],
             rules: [
               "Supported languages: C, C++, Java, Python 3.",
               "Monitors must remain completely powered off during Round 2 until time is called.",
-              "Code that compiles and passes the maximum hidden test cases wins."
+              "Code that compiles and passes maximum hidden test cases takes the podium."
             ],
-            judging: "Compilation success, test case coverage, execution time, and line count efficiency.",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Accredited Certificates"
+            judging: "Compilation success, test case coverage, execution time, and clean algorithmic structure.",
+            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Merit Certificates"
           }
         },
 
@@ -299,35 +299,35 @@ const FestDB = {
         {
           id: "design-nova",
           name: "DESIGNNOVA",
-          tagline: "Imagine the Experience. Design the Future",
+          tagline: "UI/UX Design Sprint & Prototyping Arena",
           category: "Technical Event",
           group: "technical",
           prize: "₹15,000",
           venue: "Design Studio (Ground Floor)",
           date: "Day 1 (4 February 2027)",
           time: "02:00 PM – 04:30 PM",
-          description: "Imagine the Experience. Design the Future. Fast-paced UI/UX design sprint, user journey mapping, and interactive prototyping tackling modern digital product challenges.",
-          poster: "images/events-poster.svg",
+          description: "Designers receive a real-world product prompt to create wireframes, user journeys, and interactive prototypes. Open to solo participants or teams of 2 for a 2.5-hour design sprint.",
+          poster: "images/events/design-nova.svg",
           coordinator: {
             name: "Vimal Raj",
             phone: "+91 96201 92249",
             photo: "images/coord-vimal.svg"
           },
           rulebook: {
-            overview: "Participants receive an on-the-spot problem statement to craft an intuitive mobile/web product interface, user journey map, and clickable prototype.",
-            eligibility: "Solo or teams of 2 members. Bring laptops with Figma / Adobe XD installed.",
+            overview: "Participants receive an on-the-spot problem statement to craft an intuitive mobile or web interface, complete with user journey mapping and interactive prototyping.",
+            eligibility: "Solo or teams of 2 members. Bring laptops with Figma or Adobe XD installed.",
             teamSize: "1 - 2 Participants",
             rounds: [
-              "Phase 1: Briefing & UX Research (30 minutes user journey formulation).",
-              "Phase 2: High-Fidelity Wireframing & Prototyping (2 hours Figma design sprint).",
-              "Phase 3: Jury Presentation & Interactive Product Walkthrough."
+              "Phase 1: Problem Briefing & User Journey Mapping (30 minutes).",
+              "Phase 2: High-Fidelity Wireframing & Prototyping (2 hours Figma sprint).",
+              "Phase 3: Jury Presentation & Interactive Product Walkthrough (5 minutes)."
             ],
             rules: [
-              "All component libraries and design assets must be created or customized on-site.",
-              "Pre-built downloadable commercial UI kits will be penalized.",
-              "Design must be responsive and follow accessibility guidelines (WCAG)."
+              "All component libraries and UI assets must be created or customized on-site.",
+              "Pre-built commercial templates are strictly prohibited.",
+              "Designs must follow standard accessibility (WCAG) guidelines."
             ],
-            judging: "Usability (30%), Visual Aesthetics (30%), Innovation (25%), Pitch Presentation (15%).",
+            judging: "Usability (30%), Visual Aesthetics (30%), Innovation (25%), Presentation Poise (15%).",
             cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Trophies"
           }
         },
@@ -336,35 +336,35 @@ const FestDB = {
         {
           id: "tech-talk",
           name: "TECHTALK",
-          tagline: "Research Today. Transform Tomorrow",
+          tagline: "Technical Paper & Keynote Presentation Symposium",
           category: "Technical Event",
           group: "technical",
           prize: "₹10,000",
           venue: "Seminar Hall 1",
           date: "Day 1 (4 February 2027)",
           time: "04:30 PM – 06:00 PM",
-          description: "Research Today. Transform Tomorrow. Academic and industrial tech symposium where student researchers present breakthrough papers, emerging tech analyses, and architectural solutions.",
-          poster: "images/events-poster.svg",
+          description: "Present original research papers, architecture designs, or emerging technology analyses before an academic jury. Solo or 2-member teams deliver an 8-minute presentation followed by Q&A.",
+          poster: "images/events/tech-talk.svg",
           coordinator: {
             name: "Ashlin Siddharth",
             phone: "+91 87976 86786",
             photo: "images/coord-ashlin.svg"
           },
           rulebook: {
-            overview: "A prestigious keynote and research presentation arena celebrating innovative computing breakthroughs, artificial intelligence architectures, and cloud distributed paradigms.",
+            overview: "An academic and technical presentation symposium celebrating innovative computing research, system architectures, and emerging technologies.",
             eligibility: "Solo or teams of 2 members.",
             teamSize: "1 - 2 Participants",
             rounds: [
-              "Round 1: Research Paper Abstract & Slide Deck Review.",
-              "Round 2: Live 8-Minute Stage Presentation + 3-Minute Technical Jury Defence."
+              "Round 1: Abstract & Slide Deck Review.",
+              "Round 2: Live 8-Minute Stage Presentation + 3-Minute Technical Jury Q&A."
             ],
             rules: [
-              "Original research or novel synthesis required. Plagiarism > 15% leads to disqualification.",
+              "Original research or novel analysis required. Plagiarism > 15% leads to disqualification.",
               "Presentation slides must be submitted in PDF format prior to session start.",
-              "Jury decision on technical depth and clarity is conclusive."
+              "Jury decision on technical depth and delivery is final."
             ],
             judging: "Technical Rigour (35%), Innovation (30%), Presentation Delivery (20%), Q&A Defence (15%).",
-            cashPrize: "Winner: ₹5,500 | Runner-up: ₹3,000 | 2nd Runner-up: ₹1,500 + Certificates of Merit"
+            cashPrize: "Winner: ₹5,500 | Runner-up: ₹3,000 | 2nd Runner-up: ₹1,500 + Merit Certificates"
           }
         },
 
@@ -372,31 +372,31 @@ const FestDB = {
         {
           id: "data-chronicles",
           name: "DATACHRONICLES",
-          tagline: "Discover the Story. Decode the Data. Deliver the Insight.",
+          tagline: "Data Science, Machine Learning & Analytics Championship",
           category: "Technical Event",
           group: "technical",
           prize: "₹15,000",
           venue: "SOIS Lab 03",
           date: "Day 2 (5 February 2027)",
           time: "09:30 AM – 11:30 AM",
-          description: "Discover the Story. Decode the Data. Deliver the Insight. End-to-end data pipeline championship: ingest complex raw datasets, perform machine learning modeling, and deliver compelling visual narratives.",
-          poster: "images/events-poster.svg",
+          description: "Analyze complex raw datasets, train predictive models, and present interactive data dashboards. Open to teams of 2 participants for a 2-hour analytics challenge.",
+          poster: "images/events/data-chronicles.svg",
           coordinator: {
             name: "Kaushal Kumar Singh",
             phone: "+91 91087 40761",
             photo: "images/coord-kaushal.svg"
           },
           rulebook: {
-            overview: "End-to-end data intelligence challenge from exploratory data analysis (EDA) to predictive modeling and executive storytelling dashboards.",
-            eligibility: "Teams of 2 participants. Must bring laptops configured with Python/R, Jupyter, and visualization tools.",
+            overview: "End-to-end data analytics challenge from exploratory data analysis (EDA) to predictive modeling and executive storytelling dashboards.",
+            eligibility: "Teams of 2 participants. Must bring laptops configured with Python/R, Jupyter, and data visualization tools.",
             teamSize: "2 Participants",
             rounds: [
               "Stage 1: Raw Dataset Release & Cleaning / Feature Engineering.",
               "Stage 2: Model Training & Predictive Performance Benchmarking.",
-              "Stage 3: Interactive Dashboard Storytelling & Business Insight Pitch."
+              "Stage 3: Dashboard Storytelling & Business Insight Walkthrough."
             ],
             rules: [
-              "All code must be written during the competition window in a fresh repository.",
+              "All code must be written during the competition window in a fresh workspace.",
               "Pre-trained weights or external labels strictly forbidden.",
               "Submissions evaluated on hold-out validation dataset."
             ],
@@ -409,32 +409,32 @@ const FestDB = {
         {
           id: "founders-arena",
           name: "FOUNDERS' ARENA",
-          tagline: "Think Big. Pitch Bold. Build What's Next",
+          tagline: "Startup Pitch & Business Plan Competition",
           category: "Technical Event",
           group: "technical",
           prize: "₹18,000",
           venue: "Seminar Hall 1",
           date: "Day 1 (4 February 2027)",
           time: "04:30 PM – 06:30 PM",
-          description: "Think Big. Pitch Bold. Build What's Next. Shark Tank style startup pitching and tech venture showcase before venture evaluators, angel investors, and industry executives.",
-          poster: "images/events-poster.svg",
+          description: "Pitch your startup idea, business model, and prototype before a panel of industry evaluators. Open to teams of 2 to 4 members with a 7-minute pitch and investor Q&A.",
+          poster: "images/events/founders-arena.svg",
           coordinator: {
             name: "Vimal Raj",
             phone: "+91 96201 92249",
             photo: "images/coord-vimal.svg"
           },
           rulebook: {
-            overview: "A business-meets-technology pitching battle where student founders showcase disruptive software/hardware startups, market research, revenue models, and MVP prototypes.",
+            overview: "A business and technology pitching competition where student founders showcase scalable software or hardware solutions, market research, revenue models, and MVP prototypes.",
             eligibility: "Teams of 2 to 4 members. Cross-college teams permitted.",
             teamSize: "2 - 4 Participants",
             rounds: [
               "Round 1: Pitch Deck & Executive Summary Pre-Screening.",
-              "Round 2: Live 7-Minute Pitch + 5-Minute Investor Grilling on Dais."
+              "Round 2: Live 7-Minute Pitch + 5-Minute Investor Q&A on Stage."
             ],
             rules: [
-              "Pitch deck must cover: Problem, Solution, Tech Architecture, Market Size, Revenue Model, and Team.",
-              "Working software MVP or hardware demonstration carries significant bonus weightage.",
-              "Judges' investment allocation determines final podium standings."
+              "Pitch deck must cover Problem, Solution, Architecture, Market Size, Revenue Model, and Team.",
+              "Working prototype demonstration carries bonus evaluation weightage.",
+              "Jury evaluation determines final podium standings."
             ],
             judging: "Market Feasibility (30%), Technological Innovation (30%), Financial Viability (20%), Pitch Poise (20%).",
             cashPrize: "Winner: ₹10,000 | Runner-up: ₹5,000 | 2nd Runner-up: ₹3,000 + Incubation Fast-Track"
@@ -445,37 +445,37 @@ const FestDB = {
         {
           id: "technova-27",
           name: "TECHNOVA '27",
-          tagline: "24 Hours. One Mission. Limitless Innovation",
+          tagline: "24-Hour National Flagship Hackathon",
           category: "Technical Event",
           group: "technical",
           prize: "₹22,500",
           venue: "Central Computing Lab (24-Hour Facility)",
           date: "4–5 February 2027 (Overnight 24H)",
           time: "Day 1 10:30 AM Kickoff to Day 2 10:30 AM Submissions",
-          description: "24 Hours. One Mission. Limitless Innovation. Presidency University's flagship overnight national hackathon solving high-impact problem statements with food, stay, and mentors provided.",
-          poster: "images/events-poster.svg",
+          description: "Build and deploy innovative software or hardware solutions to address live industry problem statements. Open to teams of 4 members for a continuous 24-hour sprint with food and accommodation provided.",
+          poster: "images/events/technova-27.svg",
           coordinator: {
             name: "Abhyas Kathuria",
             phone: "+91 85958 48421",
             photo: "images/coord-abhyas.svg"
           },
           rulebook: {
-            overview: "A non-stop 24-hour innovation sprint bringing collegiate developers together to build production-grade web, mobile, blockchain, or AI solutions.",
-            eligibility: "Teams of strictly 4 members. ₹1,500 registration per team includes meals, stay, and energy supplies.",
+            overview: "A continuous 24-hour development sprint bringing student developers together to build production-grade web, mobile, AI, or hardware solutions.",
+            eligibility: "Teams of strictly 4 members. ₹1,500 registration per team includes meals, stay, and mentors.",
             teamSize: "Strictly 4 Members per team",
             rounds: [
-              "Kickoff: Problem statement reveal at 10:30 AM Day 1.",
+              "Kickoff: Problem statement release at 10:30 AM Day 1.",
               "Checkpoint 1: Mentorship review at 04:00 PM Day 1.",
               "Checkpoint 2: Midnight code architecture audit at 12:00 AM.",
-              "Final Demos: 10:30 AM – 01:00 PM Day 2 before industry jury panel."
+              "Final Demos: 10:30 AM – 01:00 PM Day 2 before industry judges."
             ],
             rules: [
-              "All code must be written during the 24-hour window; fresh Git commit history strictly enforced.",
-              "Open-source libraries permitted with proper attribution; no turnkey templates.",
-              "Teams must observe common break rules (13:00–14:00 lunch clock pause)."
+              "All code must be written during the 24-hour window; fresh Git commit history enforced.",
+              "Open-source libraries permitted with proper attribution; turnkey templates prohibited.",
+              "Teams must adhere to campus safety and hackathon lab guidelines."
             ],
-            judging: "Technical Innovation (35%), Product Completion (30%), UI/UX (20%), Pitch Demo (15%).",
-            cashPrize: "Winner: ₹12,000 | Runner-up: ₹7,000 | Best Tech Prototype: ₹3,500 + Trophies & Medals"
+            judging: "Technical Innovation (35%), Functional Completion (30%), UI/UX (20%), Presentation Demo (15%).",
+            cashPrize: "Winner: ₹12,000 | Runner-up: ₹7,000 | Best Tech Prototype: ₹3,500 + Trophies"
           }
         },
 
@@ -483,15 +483,15 @@ const FestDB = {
         {
           id: "quad-damage",
           name: "QUAD DAMAGE",
-          tagline: "Lock In. Level Up. Dominate",
+          tagline: "Collegiate LAN Esports Tournament",
           category: "Non-Technical Event",
           group: "non-technical",
           prize: "₹20,000",
           venue: "Classroom DJL01 & SH4 (SOIS Gaming Hub)",
           date: "Day 1 & Day 2 (4–5 February 2027)",
           time: "Day 1 02:00 PM Qualifiers | Day 2 01:00 PM Finals",
-          description: "Lock In. Level Up. Dominate. High-octane collegiate LAN esports championship featuring Valorant (PC 5v5), BGMI (Mobile Squads), and Call of Duty with live big-screen casting.",
-          poster: "images/events-poster.svg",
+          description: "Compete in structured custom-lobby tournaments featuring Valorant (PC) and BGMI (Mobile). Open to solo players and squads of up to 4 participants across knockout stages.",
+          poster: "images/events/quad-damage.svg",
           coordinator: {
             name: "Ashlin Siddharth",
             phone: "+91 87976 86786",
@@ -499,7 +499,7 @@ const FestDB = {
           },
           rulebook: {
             overview: "Collegiate esports championship played across dedicated low-latency tournament LAN networks with official tournament referees.",
-            eligibility: "Teams of 1 to 4 members. Must carry college IDs and personal mobile/peripherals.",
+            eligibility: "Teams of 1 to 4 members. Must carry college IDs and personal gaming devices/peripherals.",
             teamSize: "1 - 4 Players per squad",
             rounds: [
               "Stage 1: Custom Room Knockout Qualifiers (Single Elimination).",
@@ -508,9 +508,9 @@ const FestDB = {
             rules: [
               "Strict anti-cheat policy. Any emulation, macros, or mods cause instant team disqualification.",
               "Campus high-speed LAN provided; players may also utilize personal hotspots.",
-              "Unsportsmanlike conduct or toxicity leads to immediate forfeit."
+              "Unsportsmanlike conduct leads to immediate forfeit."
             ],
-            judging: "Official in-game tournament scoreboard verified by match referees.",
+            judging: "Official in-game tournament scoreboard verified by tournament referees.",
             cashPrize: "Valorant Champion: ₹8,000 | BGMI Champion: ₹7,000 | COD Champion: ₹5,000 + Trophies"
           }
         },
@@ -519,32 +519,32 @@ const FestDB = {
         {
           id: "biochroma",
           name: "BIOCHROMA",
-          tagline: "Where Nature Meets Innovation, Style Becomes the Future",
+          tagline: "Technology-Inspired Fashion Runway Competition",
           category: "Non-Technical Event",
           group: "non-technical",
           prize: "₹15,000",
           venue: "Main Open Stage",
           date: "Day 2 (5 February 2027)",
           time: "03:30 PM – 05:00 PM",
-          description: "Where Nature Meets Innovation, Style Becomes the Future. A flagship runway spectacle fusing avant-garde fashion, wearable electronics, smart LEDs, and organic sustainable materials.",
-          poster: "images/events-poster.svg",
+          description: "Teams present runway ensembles combining sustainable materials, wearable technology, and modern fashion design. Open to teams of 5 to 10 participants for an 8-minute stage showcase.",
+          poster: "images/events/biochroma.svg",
           coordinator: {
             name: "Vimal Raj",
             phone: "+91 96201 92249",
             photo: "images/coord-vimal.svg"
           },
           rulebook: {
-            overview: "A themed fashion runway experience where futuristic cyber aesthetics blend with nature-inspired elements, smart textiles, microcontrollers, and recyclable tech fabrics.",
+            overview: "A themed fashion runway experience where students showcase wearable electronics, sustainable materials, and smart textiles.",
             eligibility: "Teams of 5 to 10 members (models, designers, and audio-visual support).",
             teamSize: "5 - 10 Members per team",
             rounds: [
-              "Runway Round: 8-minute choreographed team walk with music and thematic narration.",
-              "Concept Defence: 2-minute Q&A with fashion and tech judges explaining material sustainability."
+              "Runway Round: 8-minute choreographed team walk with music and concept narration.",
+              "Concept Defence: 2-minute Q&A with fashion and tech judges explaining sustainability aspects."
             ],
             rules: [
-              "Outfits must reflect the 'Technology × Nature' theme (recyclable materials, microcontrollers, fibre optics).",
+              "Outfits must reflect the Technology & Nature theme.",
               "Soundtrack and visual backdrop must be submitted 2 hours before the event.",
-              "Costume changes must happen within assigned green rooms."
+              "Costume changes must take place in designated backstage rooms."
             ],
             judging: "Theme Interpretation (30%), Design Creativity (30%), Stage Walk & Poise (25%), Material Innovation (15%).",
             cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | Best Creative Ensemble: ₹2,500 + Trophies"
@@ -555,40 +555,40 @@ const FestDB = {
         {
           id: "apl-auction",
           name: "APL (ARENIUM PREMIER LEAGUE)",
-          tagline: "Bid Smart. Think Big. Build Your Business Empire",
+          tagline: "Strategic Mock Cricket & Brand Auction",
           category: "Non-Technical Event",
           group: "non-technical",
           prize: "₹15,000",
           venue: "Management Amphitheatre",
           date: "Day 2 (5 February 2027)",
           time: "02:00 PM – 03:30 PM",
-          description: "Bid Smart. Think Big. Build Your Business Empire. An IPL-style strategic corporate auction and business simulation where teams manage virtual capital, acquire brands, and deliver growth portfolios.",
-          poster: "images/events-poster.svg",
+          description: "Manage virtual budgets to bid on iconic brands and build high-value corporate portfolios. Open to teams of 2 to 3 members across auction and business strategy rounds.",
+          poster: "images/events/apl-auction.svg",
           coordinator: {
             name: "Kaushal Kumar Singh",
             phone: "+91 91087 40761",
             photo: "images/coord-kaushal.svg"
           },
           rulebook: {
-            overview: "Tailored for business, commerce, and tech-strategy minds. Teams navigate an auction bidding war for iconic conglomerates, analyze market dynamics, and pitch expansion strategies.",
+            overview: "A strategic business auction simulation where teams manage a virtual budget, acquire corporate assets, analyze market scenarios, and pitch their business portfolio.",
             eligibility: "Teams of 2 to 3 members.",
             teamSize: "2 - 3 Members per team",
             rounds: [
-              "Round 1: Virtual Budget Bidding Auction (Acquiring brands like Tata, Reliance, Apple, Google).",
-              "Round 2: Brand Strategy SWOT & Crisis Simulation (Overcoming competitive market disruption).",
-              "Round 3: Final Valuation & Executive Board Pitch."
+              "Round 1: Virtual Budget Bidding Auction (Acquiring business brands and sports franchises).",
+              "Round 2: Strategic Scenario Challenge (Solving market disruption prompts).",
+              "Round 3: Final Portfolio Valuation & Presentation."
             ],
             rules: [
-              "Each team starts with a fixed virtual purse of ₹100 Crores.",
-              "Auctioneer rulings on bids, penalties, and lot allocation are final.",
-              "Exceeding purse limits leads to immediate forfeiture of assets."
+              "Bidding increments must adhere to official auctioneer rules.",
+              "Exceeding assigned virtual budget causes instant disqualification.",
+              "Decisions of the auction master and jury are final."
             ],
-            judging: "Portfolio Market Valuation (40%), Strategic Synergy (30%), Crisis Handling (30%).",
-            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Corporate Citations"
+            judging: "Portfolio Valuation (40%), Financial Discipline (30%), Strategic Defense (30%).",
+            cashPrize: "Winner: ₹8,000 | Runner-up: ₹4,500 | 2nd Runner-up: ₹2,500 + Merit Certificates"
           }
         }
       ],
-      schedule: [
+            schedule: [
         // Day 1 (4 February 2027)
         {
           id: "sch-01",
@@ -597,16 +597,16 @@ const FestDB = {
           name: "Grand Inaugural Ceremony & Lamp Lighting",
           category: "Inaugural",
           venue: "Main University Auditorium",
-          note: "Patron welcome address by Dean SOIS Dr. R. Mahalakshmi, Registrar, and Chief Technology Guests."
+          note: "Patron welcome address by Dean SOIS Dr. R. Mahalakshmi, Registrar, University Leadership, and invited industry guests."
         },
         {
           id: "sch-02",
           day: "Day 1",
-          time: "10:30 AM (24 Hours Non-stop)",
-          name: "TECHNOVA '27 (24-Hour Flagship Hackathon Flagoff)",
+          time: "10:30 AM (24 Hours)",
+          name: "TECHNOVA '27 (24-Hour Hackathon Flagoff)",
           category: "Technical Flagship",
           venue: "Central Computing Lab (D-Block)",
-          note: "24 Hours. One Mission. Limitless Innovation. Problem statements released live on portal. Non-stop software & hardware sprint begins."
+          note: "Problem statements released on portal. Non-stop software and hardware build sprint begins."
         },
         {
           id: "sch-03",
@@ -614,8 +614,8 @@ const FestDB = {
           time: "10:45 AM – 01:00 PM",
           name: "TECH ODYSSEY (Clue Hunt & Bug Spotting)",
           category: "Technical Event",
-          venue: "SOIS Lab 02 & Campus Perimeter",
-          note: "Follow the Clues. Crack the Code. Claim the Victory. 3-stage challenge: Kahoot qualification, campus QR hunt, and code error debugging."
+          venue: "SOIS Lab 02 & Campus",
+          note: "Three-stage technical challenge: Kahoot qualification, campus clue hunt, and syntax debugging."
         },
         {
           id: "sch-04",
@@ -624,43 +624,43 @@ const FestDB = {
           name: "SHADOWCODE (Blindfold Code Sprint)",
           category: "Technical Event",
           venue: "SOIS Lab 01",
-          note: "Think Fast. Code Smart. Debug in the Dark. Screen-off blind programming in C/C++/Java/Python. Syntax perfection required."
+          note: "Screen-off blind programming in C, C++, Java, and Python. Syntax precision and algorithmic efficiency."
         },
         {
           id: "sch-05",
           day: "Day 1",
           time: "01:00 PM – 02:00 PM",
-          name: "Official Networking & Lunch Pause",
+          name: "Official Lunch Pause",
           category: "Break",
           venue: "University Food Court",
-          note: "Recharge session with complimentary buffet lunch coupons for all registered delegates and faculty."
+          note: "Lunch break for all registered delegates and faculty in the University Food Court."
         },
         {
           id: "sch-06",
           day: "Day 1",
           time: "02:00 PM – 04:30 PM",
-          name: "DESIGNNOVA (UI/UX Design Sprint & Prototype Arena)",
+          name: "DESIGNNOVA (UI/UX Design Sprint)",
           category: "Technical Event",
           venue: "Design Studio (Ground Floor)",
-          note: "Imagine the Experience. Design the Future. Live 2.5-hour Figma wireframing, component design systems, and prototype defence."
+          note: "Live 2.5-hour Figma interface design, wireframing, component design systems, and prototype presentation."
         },
         {
           id: "sch-07",
           day: "Day 1",
           time: "02:00 PM – 05:30 PM",
-          name: "QUAD DAMAGE (LAN Esports Prelims & Brackets)",
-          category: "Non-Technical / Esports",
+          name: "QUAD DAMAGE (Esports Knockouts)",
+          category: "Esports Arena",
           venue: "DJL01 & Seminar Hall 4",
-          note: "Lock In. Level Up. Dominate. High-octane LAN tournament preliminaries across Valorant (5v5) and BGMI squads."
+          note: "LAN tournament preliminary rounds across Valorant (PC 5v5) and BGMI squads."
         },
         {
           id: "sch-08",
           day: "Day 1",
           time: "04:30 PM – 06:00 PM",
-          name: "TECHTALK (Keynote & Research Symposium)",
+          name: "TECHTALK (Technical Paper Symposium)",
           category: "Technical Event",
           venue: "Seminar Hall 1",
-          note: "Research Today. Transform Tomorrow. Oral presentations and technical defense on cutting-edge architectures and ML research."
+          note: "Paper presentations and technical defence on computing architectures, AI/ML, and cloud systems."
         },
         {
           id: "sch-09",
@@ -668,8 +668,8 @@ const FestDB = {
           time: "04:30 PM – 06:30 PM",
           name: "FOUNDERS' ARENA (Startup Pitch Deck)",
           category: "Technical Event",
-          venue: "Amphitheatre & Seminar Hall 1",
-          note: "Think Big. Pitch Bold. Build What's Next. Shark Tank style startup pitching before angel investors and venture evaluators."
+          venue: "Seminar Hall 1",
+          note: "Startup business pitch and prototype demonstration before industry evaluators."
         },
 
         // Day 2 (5 February 2027)
@@ -677,37 +677,37 @@ const FestDB = {
           id: "sch-10",
           day: "Day 2",
           time: "09:30 AM – 11:30 AM",
-          name: "DATACHRONICLES (Data Modeling & Insights)",
+          name: "DATACHRONICLES (Data Science Challenge)",
           category: "Technical Event",
           venue: "SOIS Lab 03",
-          note: "Discover the Story. Decode the Data. Deliver the Insight. End-to-end data pipeline championship: EDA, predictive modeling, and dashboards."
+          note: "Exploratory data analysis, machine learning model evaluation, and visual dashboard presentation."
         },
         {
           id: "sch-11",
           day: "Day 2",
           time: "10:30 AM – 12:30 PM",
-          name: "TECHNOVA '27 (Hackathon Finale & Pitching)",
+          name: "TECHNOVA '27 (Hackathon Finale & Demos)",
           category: "Technical Flagship",
           venue: "Central Computing Lab & Aud 2",
-          note: "Sprint code freeze, live deployment test, and 5-minute technical demo before industry judges."
+          note: "Sprint code freeze, prototype testing, and 5-minute project presentations before judges."
         },
         {
           id: "sch-12",
           day: "Day 2",
           time: "11:30 AM – 02:30 PM",
-          name: "QUAD DAMAGE (LAN Esports Grand Finals)",
-          category: "Non-Technical / Esports",
-          venue: "Main University Auditorium E-Arena",
-          note: "Valorant & BGMI championship grand finals live-streamed on auditorium jumbo LED display walls."
+          name: "QUAD DAMAGE (Esports Grand Finals)",
+          category: "Esports Arena",
+          venue: "Main Auditorium Display Arena",
+          note: "Valorant and BGMI championship grand finals live-cast on auditorium display walls."
         },
         {
           id: "sch-13",
           day: "Day 2",
           time: "01:00 PM – 02:00 PM",
-          name: "Official Lunch & Delegate Pause",
+          name: "Official Lunch Pause",
           category: "Break",
           venue: "University Food Court",
-          note: "Buffet dining and final scores compilation by the adjudication committee."
+          note: "Lunch break and final score compilation by the adjudication committee."
         },
         {
           id: "sch-14",
@@ -716,318 +716,31 @@ const FestDB = {
           name: "APL (ARENIUM PREMIER LEAGUE)",
           category: "Non-Technical Event",
           venue: "Management Amphitheatre",
-          note: "Bid Smart. Think Big. Build Your Business Empire. Strategic corporate brand and player auction bidding war."
+          note: "Strategic brand and mock cricket player auction with virtual portfolio management."
         },
         {
           id: "sch-15",
           day: "Day 2",
           time: "03:30 PM – 05:00 PM",
-          name: "BIOCHROMA (Tech × Nature Fashion Runway)",
-          category: "Non-Technical Event",
+          name: "BIOCHROMA (Tech Fashion Runway)",
+          category: "Cultural & Design",
           venue: "Main Open Stage",
-          note: "Where Nature Meets Innovation, Style Becomes the Future. Runway spectacle fusing avant-garde couture, smart LEDs, and sustainable tech."
+          note: "Fashion showcase combining wearable technology, smart textiles, and sustainable design."
         },
         {
           id: "sch-16",
           day: "Day 2",
           time: "05:00 PM – 06:30 PM",
-          name: "Grand Valedictory Ceremony & ₹1.5L Prize Handover",
+          name: "Grand Valedictory Ceremony & Prize Distribution",
           category: "Valedictory",
           venue: "Main University Auditorium",
-          note: "Official trophy handovers, Dean's address, sponsor citations, certificate awards, and ARENIUM '27 closing anthem."
+          note: "Official trophy handovers, Dean's address, certificate distribution, and closing ceremony for ARENIUM'27."
         }
       ],
-      winners: [
-        {
-          id: "win-technova",
-          event: "TECHNOVA '27 (24H HACKATHON)",
-          category: "Technical Event",
-          date: "5 February 2027",
-          prizePool: "₹22,500",
-          tiers: [
-            { rank: 1, team: "Team NeuralForge", college: "Presidency University, Bengaluru", prize: "₹12,000", members: ["Aarav Sharma", "Neha Gupta", "Vikram Sen", "Pooja Hegde"] },
-            { rank: 2, team: "CyberSentinels", college: "BMS College of Engineering", prize: "₹7,000", members: ["Rohan K", "Aditi Rao", "Karthik N", "Deepak V"] },
-            { rank: 3, team: "ByteShift AI", college: "RV College of Engineering", prize: "₹3,500", members: ["Siddharth M", "Ananya P", "Varun T", "Meera S"] }
-          ]
-        },
-        {
-          id: "win-shadowcode",
-          event: "SHADOWCODE",
-          category: "Technical Event",
-          date: "4 February 2027",
-          prizePool: "₹15,000",
-          tiers: [
-            { rank: 1, team: "Kiran R (Solo)", college: "PES University, Bengaluru", prize: "₹8,000", members: ["Kiran R"] },
-            { rank: 2, team: "Tanvi Deshmukh", college: "Presidency University, Bengaluru", prize: "₹4,500", members: ["Tanvi Deshmukh"] },
-            { rank: 3, team: "Rahul Menon", college: "MSRIT Bengaluru", prize: "₹2,500", members: ["Rahul Menon"] }
-          ]
-        },
-        {
-          id: "win-techodyssey",
-          event: "TECH ODYSSEY",
-          category: "Technical Event",
-          date: "4 February 2027",
-          prizePool: "₹15,000",
-          tiers: [
-            { rank: 1, team: "CipherKnights", college: "Presidency University, Bengaluru", prize: "₹8,000", members: ["Gautam V", "Shreya Sen", "Akash Nair"] },
-            { rank: 2, team: "HexHunters", college: "Dayananda Sagar College", prize: "₹4,500", members: ["Manish B", "Kavya S"] },
-            { rank: 3, team: "RootAccess", college: "New Horizon College", prize: "₹2,500", members: ["Naveen K", "Priya D"] }
-          ]
-        },
-        {
-          id: "win-quaddamage",
-          event: "QUAD DAMAGE",
-          category: "Non-Technical Event",
-          date: "5 February 2027",
-          prizePool: "₹20,000",
-          tiers: [
-            { rank: 1, team: "Phantom Apex", college: "Presidency University, Bengaluru", prize: "₹8,000", members: ["Aditya Joshi", "Tarun G", "Sanjay R", "Sameer K"] },
-            { rank: 2, team: "Viper Squad", college: "Christ University, Bengaluru", prize: "₹7,000", members: ["Pranav M", "Aayush C", "Nikhil T", "Dev B"] },
-            { rank: 3, team: "RedLine Esports", college: "Jain University", prize: "₹5,000", members: ["Kunal S", "Rishi P"] }
-          ]
-        },
-        {
-          id: "win-designnova",
-          event: "DESIGNNOVA",
-          category: "Technical Event",
-          date: "4 February 2027",
-          prizePool: "₹15,000",
-          tiers: [
-            { rank: 1, team: "PixelCraft Duo", college: "National Institute of Design / PU", prize: "₹8,000", members: ["Diya Roy", "Abhinav C"] },
-            { rank: 2, team: "VectorPulse", college: "Presidency University, Bengaluru", prize: "₹4,500", members: ["Sneha M", "Karan J"] },
-            { rank: 3, team: "AuraStudio", college: "BMSCE Bengaluru", prize: "₹2,500", members: ["Harish V"] }
-          ]
-        },
-        {
-          id: "win-biochroma",
-          event: "BIOCHROMA",
-          category: "Non-Technical Event",
-          date: "5 February 2027",
-          prizePool: "₹15,000",
-          tiers: [
-            { rank: 1, team: "Atelier Synthesis", college: "Presidency University (SOIS & SOD)", prize: "₹8,000", members: ["Rhea Kapoor & Team"] },
-            { rank: 2, team: "NeonFlora Runway", college: "Mount Carmel College", prize: "₹4,500", members: ["Zoya Sheikh & Team"] },
-            { rank: 3, team: "EcoTech Collective", college: "Presidency University", prize: "₹2,500", members: ["Alok N & Team"] }
-          ]
-        },
-        {
-          id: "win-apl",
-          event: "APL (ARENIUM PREMIER LEAGUE)",
-          category: "Non-Technical Event",
-          date: "5 February 2027",
-          prizePool: "₹15,000",
-          tiers: [
-            { rank: 1, team: "Titan Conglomerate", college: "Presidency University, Bengaluru", prize: "₹8,000", members: ["Naman Singhal", "Ritika Jain"] },
-            { rank: 2, team: "Apex Ventures", college: "St. Joseph's College of Commerce", prize: "₹4,500", members: ["Aryan Khurana", "Devika S"] },
-            { rank: 3, team: "Monopoly Masters", college: "Christ University", prize: "₹2,500", members: ["Rajesh V", "Preeti K"] }
-          ]
-        }
-      ],      certificates: [
-        {
-          id: "AR27-HCK-001",
-          teamName: "Team NeuralForge",
-          recipient: "Team NeuralForge",
-          event: "TECHNOVA '27",
-          award: "CHAMPION · FIRST PLACE",
-          college: "Presidency University, Bengaluru",
-          fileUrl: "",
-          issueDate: "5 February 2027",
-          verified: true
-        },
-        {
-          id: "AR27-HCK-002",
-          teamName: "CyberSentinels",
-          recipient: "CyberSentinels",
-          event: "TECHNOVA '27",
-          award: "RUNNER UP · SECOND PLACE",
-          college: "BMS College of Engineering",
-          fileUrl: "",
-          issueDate: "5 February 2027",
-          verified: true
-        },
-        {
-          id: "AR27-COD-001",
-          teamName: "Shadow Devs",
-          recipient: "Kiran R",
-          event: "SHADOWCODE",
-          award: "CHAMPION · FIRST PLACE",
-          college: "PES University, Bengaluru",
-          fileUrl: "",
-          issueDate: "5 February 2027",
-          verified: true
-        },
-        {
-          id: "AR27-TRL-001",
-          teamName: "CipherKnights",
-          recipient: "CipherKnights",
-          event: "TECH ODYSSEY",
-          award: "CHAMPION · FIRST PLACE",
-          college: "Presidency University, Bengaluru",
-          fileUrl: "",
-          issueDate: "5 February 2027",
-          verified: true
-        },
-        {
-          id: "AR27-LAN-001",
-          teamName: "Phantom Apex",
-          recipient: "Phantom Apex",
-          event: "QUAD DAMAGE",
-          award: "CHAMPION · FIRST PLACE",
-          college: "Presidency University, Bengaluru",
-          fileUrl: "",
-          issueDate: "5 February 2027",
-          verified: true
-        },
-        {
-          id: "AR27-DSN-001",
-          teamName: "PixelCraft Duo",
-          recipient: "PixelCraft Duo",
-          event: "DESIGNNOVA",
-          award: "CHAMPION · FIRST PLACE",
-          college: "National Institute of Design / PU",
-          fileUrl: "",
-          issueDate: "5 February 2027",
-          verified: true
-        },
-        {
-          id: "AR27-PRT-042",
-          teamName: "NeuralSentinels",
-          recipient: "Kaushal Kumar Singh",
-          event: "TECHNOVA '27",
-          award: "CERTIFICATE OF MERIT & PARTICIPATION",
-          college: "Presidency University, Bengaluru",
-          fileUrl: "",
-          issueDate: "5 February 2027",
-          verified: true
-        }
-      ],
-      sponsors: [
-        {
-          id: "sp-title",
-          name: "PRESIDENCY UNIVERSITY",
-          tier: "Host Institution",
-          logo: "images/presidency-university-logo.png?v=2027",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-1",
-          name: "SMART INDIA HACKATHON PARTNER",
-          tier: "Innovation Partner",
-          logo: "images/sponsor-1.svg",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-2",
-          name: "CYBER MATRIX TECH",
-          tier: "Title Sponsor",
-          logo: "images/sponsor-title.svg",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-3",
-          name: "GLITCHWORKS GAMING",
-          tier: "Esports & Gaming Partner",
-          logo: "images/sponsor-2.svg",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-4",
-          name: "SYNTH CLOUD SOLUTIONS",
-          tier: "Cloud Infrastructure Partner",
-          logo: "images/sponsor-3.svg",
-          url: "https://presidencyuniversity.in"
-        },
-        {
-          id: "sp-5",
-          name: "CYBERPULSE ENERGY",
-          tier: "Official Beverage Partner",
-          logo: "images/sponsor-4.svg",
-          url: "https://presidencyuniversity.in"
-        }
-      ],
-      gallery: [
-        { id: "g-1", src: "images/gallery-1.svg", title: "Arena Ignition Inauguration", tag: "Main Stage" },
-        { id: "g-2", src: "images/gallery-2.svg", title: "ByteBlitz 24H Hackathon Sprint", tag: "Hackathon" },
-        { id: "g-3", src: "images/gallery-3.svg", title: "Tech Trail Cryptic Clue Solvers", tag: "Treasure Hunt" },
-        { id: "g-4", src: "images/gallery-4.svg", title: "Squad Damage Esports Battlegrounds", tag: "Gaming" },
-        { id: "g-5", src: "images/gallery-5.svg", title: "TECHNO Fashion Runway", tag: "Fashion Show" },
-        { id: "g-6", src: "images/gallery-6.svg", title: "Arena Crowning & ₹1.5L Prize Handover", tag: "Awards" }
-      ],
-      registrations: [
-        {
-          id: "ARENIUM27-REG-1042",
-          fullName: "Kaushal Kumar Singh",
-          email: "singhkaushal.2507@gmail.com",
-          phone: "+91 91087 40761",
-          college: "Presidency University, Bengaluru",
-          usn: "20231CSE0412",
-          department: "Computer Science & Engineering",
-          yearSem: "3rd Year (5th Sem)",
-          eventId: "technova-27",
-          eventName: "TECHNOVA '27 (24H Hackathon)",
-          regType: "Team",
-          teamName: "NeuralSentinels",
-          teamMembers: "Kaushal Kumar Singh (Lead), Abhyas Kathuria, Ashlin Siddharth, Vimal Raj",
-          utrId: "429184719204",
-          paymentScreenshot: "images/qrcode.png",
-          status: "Confirmed",
-          timestamp: "2026-10-28T14:32:00+05:30"
-        },
-        {
-          id: "ARENIUM27-REG-1043",
-          fullName: "Abhyas Kathuria",
-          email: "Kathuriaabhyas@gmail.com",
-          phone: "+91 98450 12345",
-          college: "Presidency University, Bengaluru",
-          usn: "20231ISE0105",
-          department: "Information Science & Engineering",
-          yearSem: "3rd Year (5th Sem)",
-          eventId: "shadow-code",
-          eventName: "SHADOWCODE (Blind Coding)",
-          regType: "Solo",
-          teamName: "",
-          teamMembers: "",
-          utrId: "429195820193",
-          status: "Confirmed",
-          timestamp: "2026-10-29T10:15:00+05:30"
-        },
-        {
-          id: "ARENIUM27-REG-1044",
-          fullName: "Rohan Verma",
-          email: "rohan.verma@rvce.edu.in",
-          phone: "+91 97412 88901",
-          college: "R.V. College of Engineering",
-          usn: "1RV23CS088",
-          department: "Computer Science & Engineering",
-          yearSem: "2nd Year (3rd Sem)",
-          eventId: "quad-damage",
-          eventName: "QUAD DAMAGE (LAN Esports)",
-          regType: "Team",
-          teamName: "PhantomSquad",
-          teamMembers: "Rohan Verma, Aditya Rao, Nikhil Gowda, Samarth Patil, Vivek Nair",
-          utrId: "430114829105",
-          status: "Confirmed",
-          timestamp: "2026-10-30T16:40:00+05:30"
-        },
-        {
-          id: "ARENIUM27-REG-1045",
-          fullName: "Sneha Nair",
-          email: "sneha.nair@bmsce.ac.in",
-          phone: "+91 99801 34567",
-          college: "BMS College of Engineering",
-          usn: "1BM24AI034",
-          department: "AI & Machine Learning (AIML)",
-          yearSem: "2nd Year (3rd Sem)",
-          eventId: "design-nova",
-          eventName: "DESIGNNOVA (UI/UX Design)",
-          regType: "Solo",
-          teamName: "",
-          teamMembers: "",
-          utrId: "431089201582",
-          status: "Pending",
-          timestamp: "2026-10-31T11:20:00+05:30"
-        }
-      ]
+      winners: [],
+      sponsors: [],
+      gallery: [],
+      registrations: []
     };
   },
 
@@ -1567,13 +1280,12 @@ function initEventsPage(db) {
     if (!mainContainer) return;
 
     mainContainer.innerHTML = "";
-    const regUrl = db.settings.registerUrl || "#";
+    const regUrl = db.settings.registerUrl || "register.html";
 
     db.events.forEach(ev => {
       const card = document.createElement("article");
-      card.className = "cyber-card event-card reveal-on-scroll is-visible";
+      card.className = "editorial-card event-card reveal-on-scroll is-visible";
       
-      // Determine day and category flags for accurate matrix filtering
       const isDay1 = !ev.date || ev.date.includes("Day 1") || ev.date.includes("4 Feb");
       const isDay2 = !ev.date || ev.date.includes("Day 2") || ev.date.includes("5 Feb");
       const isHack = ev.id.includes("hackathon") || ev.id.includes("technova") || (ev.category && ev.category.toLowerCase().includes("flagship"));
@@ -1590,40 +1302,39 @@ function initEventsPage(db) {
       const coord = ev.coordinator || { name: "Kaushal Kumar Singh", phone: "+91 91087 40761", photo: "images/coord-kaushal.svg" };
 
       card.innerHTML = `
-        <div class="event-poster-wrapper">
-          <img src="${ev.poster || 'images/events-poster.svg'}" alt="${ev.name} Poster" class="event-poster-img" loading="lazy">
-          <span style="position: absolute; top: 12px; right: 12px; background: rgba(7,6,15,0.9); border: 1px solid var(--neon-yellow); color: var(--neon-yellow); font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800; padding: 0.3rem 0.6rem; border-radius: 4px; box-shadow: 0 0 10px rgba(255,230,0,0.3);">
-            ${ev.prize ? 'PRIZE: ' + ev.prize : '₹15,000'}
+        <div class="event-poster-wrapper" style="height: 220px; position: relative; overflow: hidden; border-bottom: 1.5px solid #000000; background: #F8FAFC;">
+          <img src="${ev.poster || 'images/events/' + ev.id + '.svg'}" alt="${ev.name}" class="event-poster-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+          <span style="position: absolute; top: 12px; right: 12px; background: #000000; color: #FFFFFF; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 9999px;">
+            ${ev.prize ? 'Prize: ' + ev.prize : 'Prize: ₹15,000'}
           </span>
-          <span style="position: absolute; bottom: 10px; left: 10px; background: rgba(0, 0, 0, 0.75); color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.5rem; border-radius: 3px; border: 1px solid rgba(0,240,255,0.3);">
-            📍 ${ev.venue || 'SOIS Campus'}
+          <span style="position: absolute; bottom: 12px; left: 12px; background: rgba(255, 255, 255, 0.95); color: #0F172A; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 9999px; border: 1px solid #000000;">
+            ${ev.venue || 'SOIS Campus'}
           </span>
         </div>
-        <div class="event-body" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">
+        <div class="team-card-content" style="padding: 1.5rem; display: flex; flex-direction: column; flex: 1; background: #FFFFFF;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-            <span class="event-category-badge" style="color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; font-weight: 800;">${ev.category}</span>
-            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 700;">${ev.date || '4-5 Feb'}</span>
+            <span class="team-card-tag" style="margin-bottom: 0;">${ev.category}</span>
+            <span style="font-size: 0.78rem; color: #64748B; font-weight: 600;">${ev.date || '4–5 Feb'}</span>
           </div>
-          <h3 class="event-title" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">${ev.name}</h3>
-          <p class="event-desc" style="color: #E2E8F0 !important; -webkit-text-fill-color: #E2E8F0 !important;">${ev.description}</p>
+          <h3 class="event-title" style="margin: 0.4rem 0 0.5rem; font-family: 'Playfair Display', Georgia, serif; color: #000000; font-weight: 700; font-size: 1.35rem; word-break: keep-all; hyphens: none;">${ev.name}</h3>
+          <p class="event-desc" style="color: #475569; font-size: 0.88rem; line-height: 1.55; margin-bottom: 1rem; flex: 1;">${ev.description}</p>
           
-          <!-- Event Coordinator with Photo & Direct Phone Call -->
-          <div class="event-coord-mini" style="background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px;">
-            <img src="${coord.photo || 'images/coord-generic.svg'}" alt="${coord.name}" class="event-coord-thumb">
-            <div class="event-coord-details">
-              <div class="event-coord-name" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-weight: 700;">${coord.name}</div>
-              <a href="tel:${coord.phone.replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; font-weight: 700;">
-                📞 ${coord.phone}
+          <div class="event-coord-mini" style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 0.6rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.2rem;">
+            <img src="${coord.photo || 'images/coord-generic.svg'}" alt="${coord.name}" class="event-coord-thumb" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid #CBD5E1; object-fit: cover; flex-shrink: 0;">
+            <div class="event-coord-details" style="min-width: 0;">
+              <div class="event-coord-name" style="color: #0F172A; font-weight: 700; font-size: 0.84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${coord.name}</div>
+              <a href="tel:${coord.phone.replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #0284C7; font-size: 0.8rem; text-decoration: none; font-weight: 600; display: block;">
+                ${coord.phone}
               </a>
             </div>
           </div>
 
-          <div class="event-action-footer" style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
-            <button type="button" class="btn btn-ghost open-rulebook-btn" data-event-id="${ev.id}" style="flex: 1; padding: 0.7rem 0.8rem; font-size: 0.78rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">
-              📖 RULEBOOK
+          <div class="event-action-footer" style="display: flex; gap: 0.75rem; margin-top: auto;">
+            <button type="button" class="btn-pill-outline open-rulebook-btn" data-event-id="${ev.id}" style="flex: 1; text-align: center; justify-content: center;">
+              Rulebook
             </button>
-            <a href="${regUrl}" class="btn btn-register" style="flex: 1.2; padding: 0.7rem 0.8rem; font-size: 0.78rem; text-align: center;" data-register-btn>
-              REGISTER
+            <a href="${regUrl}" class="btn-pill-solid" style="flex: 1.2; text-align: center; justify-content: center;" data-register-btn>
+              Register
             </a>
           </div>
         </div>
@@ -1632,7 +1343,7 @@ function initEventsPage(db) {
       mainContainer.appendChild(card);
     });
 
-    // Attach click listeners to all Rulebook buttons
+    // Attach click listeners to Rulebook buttons
     document.querySelectorAll(".open-rulebook-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         const evId = btn.getAttribute("data-event-id");
@@ -1648,23 +1359,21 @@ function initEventsPage(db) {
       chip.addEventListener("click", () => {
         chips.forEach(c => c.classList.remove("active"));
         chip.classList.add("active");
-        const filter = chip.getAttribute("data-filter");
 
+        const filter = chip.getAttribute("data-filter");
         cards.forEach(card => {
           if (filter === "all") {
             card.style.display = "flex";
-          } else if (filter === "technical") {
-            card.style.display = card.getAttribute("data-tech") === "true" ? "flex" : "none";
-          } else if (filter === "non-technical") {
-            card.style.display = card.getAttribute("data-nontech") === "true" ? "flex" : "none";
           } else if (filter === "day1") {
             card.style.display = card.getAttribute("data-day1") === "true" ? "flex" : "none";
           } else if (filter === "day2") {
             card.style.display = card.getAttribute("data-day2") === "true" ? "flex" : "none";
           } else if (filter === "hackathon") {
             card.style.display = card.getAttribute("data-hackathon") === "true" ? "flex" : "none";
-          } else {
-            card.style.display = "flex";
+          } else if (filter === "tech") {
+            card.style.display = card.getAttribute("data-tech") === "true" ? "flex" : "none";
+          } else if (filter === "nontech") {
+            card.style.display = card.getAttribute("data-nontech") === "true" ? "flex" : "none";
           }
         });
       });
@@ -1675,219 +1384,75 @@ function initEventsPage(db) {
 }
 
 // ==========================================================================
-// 11. INTERACTIVE RULEBOOK MODAL (INSIDE EVENT)
-// ==========================================================================
-function initRulebookModal() {
-  if (document.getElementById("rulebook-modal")) return;
-
-  const modal = document.createElement("div");
-  modal.id = "rulebook-modal";
-  modal.className = "rulebook-modal";
-  modal.setAttribute("role", "dialog");
-  modal.setAttribute("aria-modal", "true");
-  modal.innerHTML = `
-    <div class="rulebook-modal-dialog">
-      <div class="rulebook-header">
-        <div>
-          <span id="modal-ev-cat" class="event-category-badge" style="margin-bottom: 0.3rem;">CATEGORY</span>
-          <h2 id="modal-ev-title" style="font-family: var(--font-display); font-size: 1.4rem; color: var(--text-primary); margin: 0;">EVENT RULEBOOK</h2>
-        </div>
-        <button id="modal-close-btn" class="rulebook-close-btn" aria-label="Close modal">✕ CLOSE</button>
-      </div>
-      <div class="rulebook-body" id="modal-ev-content">
-        <!-- Injected via openRulebookModal() -->
-      </div>
-      <div class="rulebook-footer">
-        <a href="rulebook.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="font-size: 0.8rem; padding: 0.6rem 1rem;">
-          📄 DOWNLOAD FEST RULEBOOK_PDF
-        </a>
-        <a href="#" class="btn btn-register" id="modal-register-btn" data-register-btn style="font-size: 0.8rem; padding: 0.6rem 1.4rem;">
-          REGISTER FOR THIS EVENT
-        </a>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  const closeBtn = document.getElementById("modal-close-btn");
-  if (closeBtn) closeBtn.addEventListener("click", closeRulebookModal);
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeRulebookModal();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("is-active")) {
-      closeRulebookModal();
-    }
-  });
-}
-
-function openRulebookModal(eventId) {
-  const db = FestDB.getData();
-  const ev = db.events.find(e => e.id === eventId);
-  if (!ev) return;
-
-  const modal = document.getElementById("rulebook-modal");
-  const titleEl = document.getElementById("modal-ev-title");
-  const catEl = document.getElementById("modal-ev-cat");
-  const contentEl = document.getElementById("modal-ev-content");
-  const regBtn = document.getElementById("modal-register-btn");
-
-  if (!modal || !contentEl) return;
-
-  titleEl.textContent = ev.name;
-  catEl.textContent = `${ev.category} · ${ev.group === 'pre' ? 'PRE-EVENT' : 'MAIN ARENA'}`;
-  if (regBtn) regBtn.href = db.settings.registerUrl || "#";
-
-  const rb = ev.rulebook || {};
-  const coord = ev.coordinator || { name: "Kaushal Kumar", phone: "+91 91087 40761", photo: "images/coord-kaushal.svg" };
-
-  contentEl.innerHTML = `
-    <!-- Top Meta Row -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin-bottom: 1.5rem; background: rgba(7,6,15,0.7); padding: 1rem; border: 1px solid rgba(0,240,255,0.2); border-radius: 4px;">
-      <div>
-        <span style="font-size: 0.72rem; color: var(--text-muted); display: block; font-family: var(--font-mono);">PRIZE POOL</span>
-        <strong style="color: var(--neon-yellow); font-family: var(--font-mono); font-size: 1.1rem;">${ev.prize || '₹10,000'}</strong>
-      </div>
-      <div>
-        <span style="font-size: 0.72rem; color: var(--text-muted); display: block; font-family: var(--font-mono);">VENUE</span>
-        <strong style="color: var(--text-primary); font-family: var(--font-mono); font-size: 0.9rem;">📍 ${ev.venue || 'SOIS Block'}</strong>
-      </div>
-      <div>
-        <span style="font-size: 0.72rem; color: var(--text-muted); display: block; font-family: var(--font-mono);">DATE & TIME</span>
-        <strong style="color: var(--neon-cyan); font-family: var(--font-mono); font-size: 0.85rem;">📅 ${ev.date || 'Day 1'} (${ev.time || 'TBD'})</strong>
-      </div>
-      <div>
-        <span style="font-size: 0.72rem; color: var(--text-muted); display: block; font-family: var(--font-mono);">TEAM SIZE</span>
-        <strong style="color: var(--text-primary); font-family: var(--font-mono); font-size: 0.85rem;">👥 ${rb.teamSize || 'Individual / Squad'}</strong>
-      </div>
-    </div>
-
-    <!-- Section 1: Overview & Eligibility -->
-    <div class="rulebook-section">
-      <h4 class="rulebook-section-title">⚡ OVERVIEW &amp; ELIGIBILITY</h4>
-      <p style="color: var(--text-secondary); margin-bottom: 0.8rem; font-size: 0.92rem; line-height: 1.6;">
-        ${rb.overview || ev.description}
-      </p>
-      <div style="background: rgba(0,240,255,0.05); border-left: 3px solid var(--neon-cyan); padding: 0.6rem 0.9rem; font-size: 0.85rem; color: var(--text-primary);">
-        <strong>Eligibility:</strong> ${rb.eligibility || 'Open to all registered undergraduate and postgraduate college students with valid institution ID cards.'}
-      </div>
-    </div>
-
-    <!-- Section 2: Competition Rounds -->
-    <div class="rulebook-section">
-      <h4 class="rulebook-section-title">🎯 COMPETITION ROUNDS</h4>
-      <ul class="rulebook-list">
-        ${(rb.rounds || ["Round 1: Preliminary qualifiers", "Round 2: Grand stage finale"]).map(r => `<li>${r}</li>`).join("")}
-      </ul>
-    </div>
-
-    <!-- Section 3: Official Rules & Guidelines -->
-    <div class="rulebook-section">
-      <h4 class="rulebook-section-title">📜 ARENA RULES &amp; GUIDELINES</h4>
-      <ul class="rulebook-list">
-        ${(rb.rules || [
-          "Reporting time is strictly 30 minutes prior to scheduled match time.",
-          "Any form of malpractices, unfair scripts, or harassment will lead to instant disqualification.",
-          "Jury and referee decisions are final and binding across all brackets."
-        ]).map(rule => `<li>${rule}</li>`).join("")}
-      </ul>
-    </div>
-
-    <!-- Section 4: Judging Criteria -->
-    <div class="rulebook-section">
-      <h4 class="rulebook-section-title">⚖️ JUDGING CRITERIA &amp; PRIZES</h4>
-      <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.6rem;">
-        <strong>Evaluation Matrix:</strong> ${rb.judging || 'Speed, Accuracy, Innovation, and adherence to arena guidelines.'}
-      </p>
-      <p style="color: var(--neon-yellow); font-family: var(--font-mono); font-size: 0.88rem;">
-        <strong>Prize Distribution:</strong> ${rb.cashPrize || 'Cash Prizes, Championship Trophies & Accredited Merit Certificates.'}
-      </p>
-    </div>
-
-    <!-- Section 5: Event Coordinator Contact with Photo -->
-    <div class="rulebook-section">
-      <h4 class="rulebook-section-title">👤 ARENA COORDINATOR CONTACT</h4>
-      <div class="rulebook-coord-card">
-        <img src="${coord.photo || 'images/coord-generic.svg'}" alt="${coord.name}" class="rulebook-coord-img">
-        <div>
-          <div style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 800; color: var(--text-primary);">
-            ${coord.name}
-          </div>
-          <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--neon-pink); margin-bottom: 0.4rem;">
-            Official Arena Lead · School of Information Science
-          </div>
-          <a href="tel:${coord.phone.replace(/[^0-9+]/g, '')}" class="team-phone-link" style="font-size: 0.9rem;">
-            <span>📞 Direct Line:</span> ${coord.phone}
-          </a>
-        </div>
-      </div>
-    </div>
-  `;
-
-  modal.classList.add("is-active");
-  document.body.style.overflow = "hidden";
-}
-
-function closeRulebookModal() {
-  const modal = document.getElementById("rulebook-modal");
-  if (modal) {
-    modal.classList.remove("is-active");
-    document.body.style.overflow = "";
-  }
-}
-
-// ==========================================================================
 // 12. SCHEDULE TIMELINE
 // ==========================================================================
 function initSchedulePage(db) {
   try {
-    const timeline = document.getElementById("timeline-container");
-    if (!timeline) return;
+    const container = document.getElementById("timeline-container");
+    if (!container) return;
 
-    timeline.innerHTML = "";
+    container.innerHTML = `
+      <div class="schedule-table-wrap">
+        <table class="schedule-table" role="table">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 22%;">Time</th>
+              <th scope="col" style="width: 32%;">Event Arena</th>
+              <th scope="col" style="width: 18%;">Category</th>
+              <th scope="col" style="width: 28%;">Venue</th>
+            </tr>
+          </thead>
+          <tbody id="schedule-table-body">
+          </tbody>
+        </table>
+      </div>
+    `;
 
-    db.schedule.forEach(item => {
-      const entry = document.createElement("div");
-      entry.className = "timeline-entry reveal-on-scroll is-visible";
-      entry.setAttribute("data-day", item.day);
-      entry.innerHTML = `
-        <div class="timeline-node" aria-hidden="true"></div>
-        <div class="timeline-card-wrapper">
-          <div class="cyber-card timeline-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-              <span class="timeline-time-badge">${item.time}</span>
-              <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--neon-pink); font-weight: 700;">${item.category || item.day}</span>
-            </div>
-            <h3 class="timeline-event-name">${item.name}</h3>
-            <div class="timeline-venue">📍 ${item.venue}</div>
-            <p class="timeline-note">${item.note}</p>
-          </div>
-        </div>
-      `;
-      timeline.appendChild(entry);
-    });
+    const tbody = document.getElementById("schedule-table-body");
 
+    function renderRows(selectedDay) {
+      tbody.innerHTML = "";
+      const filtered = db.schedule.filter(item => selectedDay === "all" || item.day === selectedDay);
+
+      filtered.forEach(item => {
+        const row = document.createElement("tr");
+        row.className = "schedule-table-row";
+        row.setAttribute("data-day", item.day);
+        row.innerHTML = `
+          <td class="schedule-cell-time">
+            <span class="schedule-time-badge">${item.time}</span>
+            <span class="schedule-day-pill">${item.day}</span>
+          </td>
+          <td class="schedule-cell-event">
+            <div class="schedule-event-title">${item.name}</div>
+            <div class="schedule-event-desc">${item.note}</div>
+          </td>
+          <td class="schedule-cell-category">
+            <span class="schedule-cat-badge">${item.category || item.day}</span>
+          </td>
+          <td class="schedule-cell-venue">
+            ${item.venue}
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Initial render
+    renderRows("all");
+
+    // Day tabs
     const tabs = document.querySelectorAll(".schedule-tab-btn");
     tabs.forEach(tab => {
       tab.addEventListener("click", () => {
         tabs.forEach(t => t.classList.remove("active"));
         tab.classList.add("active");
-        const selectedDay = tab.getAttribute("data-day");
-        const entries = document.querySelectorAll(".timeline-entry");
-
-        entries.forEach(entry => {
-          if (selectedDay === "all" || entry.getAttribute("data-day") === selectedDay) {
-            entry.style.display = "flex";
-          } else {
-            entry.style.display = "none";
-          }
-        });
+        const day = tab.getAttribute("data-day");
+        renderRows(day);
       });
     });
   } catch (err) {
-    console.error("Error initializing schedule page:", err);
+    console.error("Error initializing schedule table:", err);
   }
 }
 
@@ -1901,21 +1466,24 @@ function initWinnersPage(db) {
 
     container.innerHTML = "";
 
-    if (!db.settings.resultsPublished) {
+    if (!db.settings.resultsPublished || !db.winners || db.winners.length === 0) {
       container.innerHTML = `
-        <div class="cyber-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem; background: #0A0F1D !important; border: 1.5px solid rgba(56, 189, 248, 0.3) !important;">
-          <h3 style="font-family: var(--font-display); color: #FDE047 !important; -webkit-text-fill-color: #FDE047 !important; margin-bottom: 0.8rem; font-weight: 800;">
-            ⚡ OFFICIAL RESULTS LOCK ENGAGED ⚡
+        <div class="editorial-card" style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 2rem; background: #FFFFFF; border: 1.5px solid #000000; border-radius: 16px; max-width: 700px; margin: 0 auto; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+          <span class="team-card-tag" style="margin-bottom: 1rem;">SCHEDULE STATUS</span>
+          <h3 style="font-family: 'Playfair Display', Georgia, serif; color: #000000; font-size: 1.6rem; font-weight: 700; margin: 0.4rem 0 0.8rem;">
+            Results will be announced on 5 February 2027
           </h3>
-          <p style="color: #CBD5E1 !important; -webkit-text-fill-color: #CBD5E1 !important; max-width: 500px; margin: 0 auto; font-size: 0.95rem; line-height: 1.6;">
-            The festival competitions are currently underway. Verified podium positions will be unlocked here after the Grand Valedictory Ceremony!
+          <p style="color: #475569; max-width: 520px; margin: 0 auto 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+            Competition rounds take place on 4 and 5 February 2027. Official podium placements, prize allocations, and winner verification will be published following the valedictory ceremony.
           </p>
+          <a href="schedule.html" class="btn-pill-solid">View Schedule</a>
         </div>
       `;
       return;
     }
 
     db.winners.forEach(w => {
+      const eventTitle = w.eventName || w.event || "Event Arena";
       const card = document.createElement("div");
       card.className = "winner-card reveal-on-scroll is-visible";
       card.setAttribute("style", "background: #0A0F1D !important; border: 1.5px solid #1E293B !important; color: #FFFFFF !important;");
@@ -1941,9 +1509,9 @@ function initWinnersPage(db) {
             </div>
             <div style="text-align: right;">
               <div class="winner-cash-badge" style="color: #FDE047 !important; -webkit-text-fill-color: #FDE047 !important; background: rgba(253, 224, 71, 0.12) !important; border: 1px solid rgba(253, 224, 71, 0.4) !important; font-weight: 800;">${tier.prize}</div>
-              <a href="certificate.html?team=${encodeURIComponent(tier.team)}&event=${encodeURIComponent(w.eventName)}&rank=${tier.rank}&cert=${tier.certId || ''}" 
+              <a href="certificate.html?team=${encodeURIComponent(tier.team)}&event=${encodeURIComponent(eventTitle)}&rank=${tier.rank}&cert=${tier.certId || ''}" 
                  style="font-family: var(--font-mono); font-size: 0.72rem; color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; text-decoration: none; display: block; margin-top: 0.3rem; font-weight: 700;">
-                📜 Get Cert &gt;
+                Get Cert &gt;
               </a>
             </div>
           </div>
@@ -1953,8 +1521,8 @@ function initWinnersPage(db) {
       card.innerHTML = `
         <div class="winner-card-header" style="background: rgba(15, 23, 42, 0.95) !important; border-bottom: 1px solid rgba(56, 189, 248, 0.25) !important; padding: 1.2rem;">
           <div>
-            <span class="event-category-badge" style="font-size: 0.65rem; background: rgba(2, 132, 199, 0.2) !important; color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; border: 1px solid rgba(56, 189, 248, 0.4) !important; font-weight: 800;">${w.category}</span>
-            <div class="winner-event-title" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-size: 1.15rem; font-weight: 900; margin-top: 0.4rem;">${w.eventName}</div>
+            <span class="event-category-badge" style="font-size: 0.65rem; background: rgba(2, 132, 199, 0.2) !important; color: #38BDF8 !important; -webkit-text-fill-color: #38BDF8 !important; border: 1px solid rgba(56, 189, 248, 0.4) !important; font-weight: 800;">${w.category || 'Arena'}</span>
+            <div class="winner-event-title" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-size: 1.15rem; font-weight: 900; margin-top: 0.4rem;">${eventTitle}</div>
           </div>
           <span style="color: #FDE047; font-size: 1.4rem;">🏆</span>
         </div>
