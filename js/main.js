@@ -767,7 +767,14 @@ const FestDB = {
       ],
       winners: [],
       sponsors: [],
-      gallery: [],
+      gallery: [
+        {
+          id: "g-official-poster",
+          title: "ARENIUM'27 Official Fest Poster",
+          tag: "OFFICIAL FESTIVAL POSTER",
+          src: "images/arenium27-poster.jpg"
+        }
+      ],
       registrations: []
     };
   },
