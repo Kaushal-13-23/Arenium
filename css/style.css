@@ -4464,22 +4464,26 @@ input:-webkit-autofill:active {
 }
 
 .poster-info-glass-card .btn-ghost {
-  background: rgba(255, 255, 255, 0.82) !important;
-  border: 1.5px solid var(--palette-sage-mist, #D5E5E5) !important;
-  color: var(--palette-heading, #2C3E3E) !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  border: 1.5px solid #000000 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
   border-radius: 50px !important;
   padding: 0.75rem 1.6rem !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  box-shadow: 0 6px 18px rgba(93, 107, 107, 0.06), inset 0 1px 1px rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
   transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease !important;
 }
 
 .poster-info-glass-card .btn-ghost:hover {
-  background: var(--palette-sage-mist, #D5E5E5) !important;
-  border-color: var(--palette-aqua, #B0D7D8) !important;
-  color: #1F3333 !important;
+  background: #000000 !important;
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   transform: translateY(-2px) scale(1.02) !important;
 }
 
@@ -12052,6 +12056,35 @@ body:not(#admin-app) .event-card .event-coord-phone {
   font-weight: 700 !important;
   text-decoration: none !important;
 }
+
+/* ==========================================================================
+   OFFICIAL FESTIVAL POSTER CTA: CRISP BLACK "OUR SPONSORS" BUTTON
+   Enforce pure black typography and crisp border on the "Our Sponsors" button
+   ========================================================================== */
+body:not(#admin-app) .poster-info-glass-card .btn-ghost,
+body:not(#admin-app) .poster-cta-row .btn-ghost,
+.poster-info-glass-card .btn-ghost,
+.poster-cta-row .btn-ghost {
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border: 1.5px solid #000000 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
+}
+
+body:not(#admin-app) .poster-info-glass-card .btn-ghost:hover,
+body:not(#admin-app) .poster-cta-row .btn-ghost:hover,
+.poster-info-glass-card .btn-ghost:hover,
+.poster-cta-row .btn-ghost:hover {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border-color: #000000 !important;
+}
+
 
 
 
