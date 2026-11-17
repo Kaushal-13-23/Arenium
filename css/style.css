@@ -9450,8 +9450,8 @@ button:active,
    please remove hover from here"
    ======================================================================== */
 .fee-structure-announcement-card {
-  background: #000000 !important;
-  background-color: #000000 !important;
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
   border: 1.5px solid #1E293B !important;
   color: #FFFFFF !important;
   transition: none !important;
@@ -9462,8 +9462,8 @@ button:active,
 .fee-structure-announcement-card:hover,
 .fee-structure-announcement-card:focus,
 .fee-structure-announcement-card:active {
-  background: #000000 !important;
-  background-color: #000000 !important;
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
   border-color: #1E293B !important;
   color: #FFFFFF !important;
   transform: none !important;
@@ -9829,8 +9829,8 @@ section {
 }
 
 .fee-structure-announcement-card {
-  background: #000000 !important;
-  background-color: #000000 !important;
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
 }
 
 .events-preview-card {
@@ -9873,8 +9873,8 @@ section {
 }
 
 .fee-structure-announcement-card:hover {
-  background: #000000 !important;
-  background-color: #000000 !important;
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
 }
 
 
@@ -11738,3 +11738,62 @@ body:not(#admin-app) .editorial-card:hover img,
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
 }
+
+/* ==========================================================================
+   FEE STRUCTURE ANNOUNCEMENT CARD: PERMANENT DARK, ZERO HOVER, CRISP WHITE TEXT
+   ========================================================================== */
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card:hover,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card:focus,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card:active,
+.fee-structure-announcement-card,
+.fee-structure-announcement-card:hover {
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border: 1.5px solid #1E293B !important;
+  border-radius: 16px !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+  transform: none !important;
+  transition: none !important;
+  filter: none !important;
+}
+
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card h3,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card h2,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card h4 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card .fee-tier-card,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card .fee-tier-card:hover,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card .fee-tier-internal,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card .fee-tier-internal:hover,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card .fee-tier-external,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card .fee-tier-external:hover {
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  color: #FFFFFF !important;
+  transform: none !important;
+  transition: none !important;
+  filter: none !important;
+}
+
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card .fee-tier-card ul,
+body:not(#admin-app):not(.register-page) .fee-structure-announcement-card .fee-tier-card li {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Also ensure register.html card never shifts or changes on hover */
+.register-page .fee-structure-announcement-card:hover,
+.register-page .fee-tier-card:hover {
+  transform: none !important;
+  transition: none !important;
+  background: #F8FAFC !important;
+}
+
