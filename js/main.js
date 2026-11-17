@@ -5,10 +5,29 @@
  */
 
 // ==========================================================================
+// 0. ASSET PATH RESOLVER (NORMALIZES RELATIVE IMAGE PATHS & PREVENTS 404S)
+// ==========================================================================
+function resolveAssetPath(path, fallback = "images/coord-generic.svg") {
+  if (!path) return fallback;
+  path = String(path).trim();
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("data:") ||
+    path.startsWith("blob:") ||
+    path.startsWith("images/")
+  ) {
+    return path;
+  }
+  return "images/" + path;
+}
+window.resolveAssetPath = resolveAssetPath;
+
+// ==========================================================================
 // 1. FESTDB (CENTRAL LOCALSTORAGE STATE ENGINE)
 // ==========================================================================
 const FestDB = {
-  STORAGE_KEY: "arenium_fest_db_v7",
+  STORAGE_KEY: "arenium_fest_db_v8",
 
   getDefaults() {
     return {
@@ -99,7 +118,7 @@ const FestDB = {
           role: "Faculty Co-ordinator & Programme Lead",
           dept: "Assistant Professor & Programme Organiser · SOIS",
           phone: "SOIS Office",
-          photo: "images/leader-organiser.svg"
+          photo: "images/Ms. Keren Lois Daniel.jpg"
         },
         {
           id: "coord-1",
@@ -107,7 +126,7 @@ const FestDB = {
           role: "Finance & Registration Manager",
           dept: "",
           phone: "+91 87977 86686",
-          photo: "images/coord-kaushal.svg"
+          photo: "images/Kaushal.jpeg"
         },
         {
           id: "coord-2",
@@ -115,7 +134,7 @@ const FestDB = {
           role: "Event Manager",
           dept: "",
           phone: "+91 96201 92249",
-          photo: "images/coord-vimal.svg"
+          photo: "images/Vimal.png"
         },
         {
           id: "coord-3",
@@ -123,7 +142,7 @@ const FestDB = {
           role: "Marketing & Registration Manager",
           dept: "",
           phone: "+91 91087 40761",
-          photo: "images/coord-ashlin.svg"
+          photo: "images/Ashlin Siddharth.png"
         },
         {
           id: "coord-4",
@@ -141,7 +160,7 @@ const FestDB = {
           name: "Dr. Sivaperumal",
           role: "Pro Vice-Chancellor · Presidency University",
           bio: "Guiding institutional growth, research initiatives, and academic excellence across Presidency University.",
-          photo: "images/leader-provc.jpg"
+          photo: "images/PVC  Dr.Sivaperumal.jpeg"
         },
         {
           id: "lead-vc",
@@ -149,7 +168,7 @@ const FestDB = {
           name: "Dr. S. J. Thiruvengadam",
           role: "Vice-Chancellor · Presidency University",
           bio: "Leading Presidency University's strategic vision, global partnerships, and innovation ecosystem.",
-          photo: "images/leader-vc.jpg"
+          photo: "images/VC Dr.SJ Thriuvengadam.jpeg"
         },
         {
           id: "lead-dean",
@@ -157,7 +176,7 @@ const FestDB = {
           name: "Dr. R. Mahalakshmi",
           role: "Dean · School of Information Science",
           bio: "Guiding the academic vision, industry alliances, and innovation ecosystem of SOIS Presidency University.",
-          photo: "images/leader-dean.jpg"
+          photo: "images/Dean Dr.R Mahalakshmi.jpeg"
         },
         {
           id: "lead-hod",
@@ -165,7 +184,7 @@ const FestDB = {
           name: "Dr. Renukadevi",
           role: "HOD (PG) · School of Information Science",
           bio: "Fostering postgraduate research, competitive coding culture, and national collegiate hackathons across SOIS.",
-          photo: "images/leader-hod-pg.jpg"
+          photo: "images/HOD -  PG  Dr.Renukadevi.jpeg"
         },
         {
           id: "lead-ug",
@@ -173,7 +192,7 @@ const FestDB = {
           name: "Dr. Vetrimani Elangovan",
           role: "HOD (UG) · School of Information Science",
           bio: "Directing undergraduate computing specializations, student mentoring, and fest operations.",
-          photo: "images/leader-hod-ug.jpg"
+          photo: "images/HOD - UG Dr.Vetrimani Elangovan.jpeg"
         }
       ],
       soisFaculty: [
@@ -746,7 +765,10 @@ const FestDB = {
 
   getData() {
     try {
-      const raw = localStorage.getItem(this.STORAGE_KEY);
+      let raw = localStorage.getItem(this.STORAGE_KEY);
+      if (!raw && localStorage.getItem("arenium_fest_db_v7")) {
+        raw = localStorage.getItem("arenium_fest_db_v7");
+      }
       if (raw) {
         const parsed = JSON.parse(raw);
         const defaults = this.getDefaults();
@@ -761,19 +783,34 @@ const FestDB = {
           },
           coordinators: (() => {
             const list = (parsed.coordinators && parsed.coordinators.length) ? parsed.coordinators : defaults.coordinators;
-            return list.map(c => ({
-              ...c,
-              dept: "" // Class and roll number completely removed per user request
-            }));
+            return list.map(c => {
+              let photo = c.photo || "";
+              if (!photo || photo.includes("coord-kaushal.svg") || photo.endsWith("Kaushal.jpeg")) photo = "images/Kaushal.jpeg";
+              else if (photo.includes("coord-vimal.svg") || photo.endsWith("Vimal.png")) photo = "images/Vimal.png";
+              else if (photo.includes("coord-ashlin.svg") || photo.endsWith("Ashlin Siddharth.png")) photo = "images/Ashlin Siddharth.png";
+              else if (photo.includes("coord-abhyas.svg") || photo.endsWith("ABHYAS.png")) photo = "images/ABHYAS.png";
+              else if (photo.includes("leader-organiser.svg") || photo.endsWith("Ms. Keren Lois Daniel.jpg")) photo = "images/Ms. Keren Lois Daniel.jpg";
+              else photo = resolveAssetPath(photo, "images/coord-generic.svg");
+
+              return {
+                ...c,
+                photo,
+                dept: "" // Class and roll number completely removed per user request
+              };
+            });
           })(),
           leadership: (() => {
             const stored = parsed.leadership && parsed.leadership.length ? parsed.leadership : null;
             if (!stored) return defaults.leadership;
             const hasStalePlaceholders = stored.some(l =>
-              (l.photo && /leader-(provc|vc|dean|hod|ug)\.svg$/i.test(l.photo)) ||
+              (l.photo && /leader-(provc|vc|dean|hod|ug)\.(svg|jpg)$/i.test(l.photo)) ||
               /Dr\. Vidya Shetty|Dr\. C\. Kalaiarasan|Dr\. K\. G\. Mohan/i.test(l.name || "")
             );
-            return hasStalePlaceholders ? defaults.leadership : stored;
+            const list = hasStalePlaceholders ? defaults.leadership : stored;
+            return list.map(l => ({
+              ...l,
+              photo: resolveAssetPath(l.photo, "images/leader-dean.jpg")
+            }));
           })(),
           soisFaculty: parsed.soisFaculty && parsed.soisFaculty.length ? parsed.soisFaculty : defaults.soisFaculty,
           events: parsed.events && parsed.events.length ? parsed.events : defaults.events,
@@ -1238,7 +1275,7 @@ function initTeamSections(db) {
         card.className = "editorial-card team-card reveal-on-scroll is-visible";
         card.innerHTML = `
           <div class="team-photo-wrap">
-            <img src="${l.photo || 'images/leader-dean.jpg'}" alt="${l.name}" class="team-avatar-img" loading="lazy">
+            <img src="${resolveAssetPath(l.photo, 'images/leader-dean.jpg')}" alt="${l.name}" class="team-avatar-img" loading="lazy">
           </div>
           <div class="team-card-content">
             <span class="team-card-tag">${l.tag}</span>
@@ -1262,7 +1299,7 @@ function initTeamSections(db) {
         card.style.flexDirection = "column";
         card.innerHTML = `
           <div class="team-photo-wrap" style="height: 160px;">
-            <img src="${f.photo || 'images/leader-sois.svg'}" alt="${f.faculty || f.name}" class="team-avatar-img" loading="lazy">
+            <img src="${resolveAssetPath(f.photo, 'images/leader-sois.svg')}" alt="${f.faculty || f.name}" class="team-avatar-img" loading="lazy">
           </div>
           <div class="team-card-tag">${(f.team || 'SOIS COMMITTEE').toUpperCase()}</div>
           <h4 class="team-name" style="font-size: 1.05rem;">${f.faculty || f.name}</h4>
@@ -1308,7 +1345,7 @@ function initEventsPage(db) {
       card.setAttribute("data-tech", isTech ? "true" : "false");
       card.setAttribute("data-nontech", isNonTech ? "true" : "false");
 
-      const coord = ev.coordinator || { name: "Kaushal Kumar Singh", phone: "+91 91087 40761", photo: "images/coord-kaushal.svg" };
+      const coord = ev.coordinator || { name: "Kaushal Kumar Singh", phone: "+91 87977 86686", photo: "images/Kaushal.jpeg" };
 
       card.innerHTML = `
         <div class="event-poster-wrapper" style="height: 220px; position: relative; overflow: hidden; border-bottom: 1.5px solid #000000; background: #F8FAFC;">
@@ -1329,7 +1366,7 @@ function initEventsPage(db) {
           <p class="event-desc" style="color: #475569 !important; -webkit-text-fill-color: #475569 !important; font-size: 0.88rem; line-height: 1.55; margin-bottom: 1rem; flex: 1;">${ev.description}</p>
           
           <div class="event-coord-mini" style="background: #F8FAFC !important; border: 1.5px solid #E2E8F0 !important; border-radius: 10px; padding: 0.6rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.2rem;">
-            <img src="${coord.photo || 'images/coord-generic.svg'}" alt="${coord.name}" class="event-coord-thumb" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid #CBD5E1; object-fit: cover; flex-shrink: 0;">
+            <img src="${resolveAssetPath(coord.photo, 'images/coord-generic.svg')}" alt="${coord.name}" class="event-coord-thumb" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid #CBD5E1; object-fit: cover; flex-shrink: 0;">
             <div class="event-coord-details" style="min-width: 0;">
               <div class="event-coord-name" style="color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700; font-size: 0.84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${coord.name}</div>
               <a href="tel:${coord.phone.replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-size: 0.8rem; text-decoration: none; font-weight: 700; display: block;">
@@ -2085,6 +2122,31 @@ function initSponsorsPage(db) {
 }
 
 // ==========================================================================
+// 16.5. RULEBOOK MODAL & HANDLERS
+// ==========================================================================
+function initRulebookModal() {
+  if (typeof window.openRulebookModal !== "function") {
+    window.openRulebookModal = function(evId) {
+      window.open("rulebook.pdf", "_blank");
+    };
+  }
+
+  try {
+    document.querySelectorAll(".open-rulebook-btn").forEach(btn => {
+      btn.addEventListener("click", function(e) {
+        const evId = this.getAttribute("data-event-id");
+        if (typeof window.openRulebookModal === "function") {
+          e.preventDefault();
+          window.openRulebookModal(evId);
+        }
+      });
+    });
+  } catch (e) {
+    console.error("Rulebook modal init error:", e);
+  }
+}
+
+// ==========================================================================
 // 17. SUPERADMIN CONTROL PANEL LOGIC (FOR ADMIN.HTML)
 // ==========================================================================
 function initAdminPanel() {
@@ -2519,7 +2581,7 @@ function renderAdminCoordinators(db) {
     div.style.marginBottom = "1rem";
     div.innerHTML = `
       <div style="display:flex; gap:1rem; align-items:center;">
-        <img src="${c.photo}" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--neon-cyan); object-fit:cover;">
+        <img src="${resolveAssetPath(c.photo, 'images/coord-generic.svg')}" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--neon-cyan); object-fit:cover;">
         <div style="flex:1;">
           <h4 style="color: var(--text-primary); font-family:var(--font-display);">${c.name}</h4>
           <div style="color:var(--neon-pink); font-size:0.8rem;">${c.role}</div>
@@ -2548,8 +2610,8 @@ window.editAdminCoordinator = function(id) {
   const newRole = prompt("Role / Title:", c.role);
   if (newRole) c.role = newRole;
 
-  const newPhoto = prompt("Photo Image URL / Path:", c.photo);
-  if (newPhoto) c.photo = newPhoto;
+  const newPhoto = prompt("Photo Image URL / Path (e.g. images/Kaushal.jpeg):", c.photo);
+  if (newPhoto) c.photo = resolveAssetPath(newPhoto.trim(), "images/coord-generic.svg");
 
   FestDB.saveData(db);
   alert("Coordinator updated!");
@@ -2568,7 +2630,7 @@ function renderAdminLeadership(db) {
     div.style.marginBottom = "1rem";
     div.innerHTML = `
       <div style="display:flex; gap:1rem; align-items:center;">
-        <img src="${l.photo}" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--neon-yellow); object-fit:cover;">
+        <img src="${resolveAssetPath(l.photo, 'images/leader-dean.jpg')}" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--neon-yellow); object-fit:cover;">
         <div style="flex:1;">
           <span style="font-size:0.7rem; color:var(--neon-yellow); font-family:var(--font-mono);">${l.tag}</span>
           <h4 style="color: var(--text-primary); font-family:var(--font-display);">${l.name}</h4>
@@ -2595,8 +2657,8 @@ window.editAdminLeader = function(id) {
   const newBio = prompt("Short Bio / Message:", l.bio || "");
   if (newBio) l.bio = newBio;
 
-  const newPhoto = prompt("Photo Image URL / Path:", l.photo);
-  if (newPhoto) l.photo = newPhoto;
+  const newPhoto = prompt("Photo Image URL / Path (e.g. images/Dean Dr.R Mahalakshmi.jpeg):", l.photo);
+  if (newPhoto) l.photo = resolveAssetPath(newPhoto.trim(), "images/leader-dean.jpg");
 
   FestDB.saveData(db);
   alert("Leadership details updated!");
