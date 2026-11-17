@@ -11894,3 +11894,43 @@ body:not(#admin-app):not(.register-page) .fee-structure-announcement-card .fee-t
   background: #F8FAFC !important;
 }
 
+/* ==========================================================================
+   CERTIFICATE ANNOUNCEMENT CARD: PERMANENT DARK, ZERO HOVER, CRISP WHITE TEXT
+   ========================================================================== */
+body:not(#admin-app) .cert-search-card,
+body:not(#admin-app) .cert-search-card:hover,
+body:not(#admin-app) .cert-search-card:focus,
+body:not(#admin-app) .cert-search-card:active,
+.cert-search-card,
+.cert-search-card:hover {
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border: 1.5px solid #1E293B !important;
+  border-radius: 16px !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+  transform: none !important;
+  transition: none !important;
+  filter: none !important;
+}
+
+body:not(#admin-app) .cert-search-card h2,
+body:not(#admin-app) .cert-search-card h3 {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  text-shadow: none !important;
+}
+
+body:not(#admin-app) .cert-search-card p {
+  color: #E2E8F0 !important;
+  -webkit-text-fill-color: #E2E8F0 !important;
+}
+
+body:not(#admin-app) .cert-search-card span {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+
