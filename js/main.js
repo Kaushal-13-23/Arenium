@@ -1204,17 +1204,19 @@ function initTeamSections(db) {
       grid.innerHTML = "";
       (db.coordinators || []).filter(c => c.id !== "coord-lead").forEach(c => {
         const card = document.createElement("div");
-        card.className = "cyber-card team-card reveal-on-scroll is-visible";
+        card.className = "editorial-card team-card reveal-on-scroll is-visible";
         card.innerHTML = `
           <div class="team-photo-wrap">
             <img src="${c.photo || 'images/coord-generic.svg'}" alt="${c.name}" class="team-avatar-img" loading="lazy">
           </div>
-          <div class="team-card-tag">${c.role.toUpperCase()}</div>
-          <h4 class="team-name">${c.name}</h4>
-          <div class="team-role">${c.dept}</div>
-          <a href="tel:${c.phone.replace(/[^0-9+]/g, '')}" class="team-phone-link" aria-label="Call ${c.name}">
-            ${c.phone}
-          </a>
+          <div class="team-card-content">
+            <span class="team-card-tag">${c.role.toUpperCase()}</span>
+            <h3 class="team-name">${c.name}</h3>
+            <div class="team-role">${c.dept}</div>
+            <a href="tel:${c.phone.replace(/[^0-9+]/g, '')}" class="team-phone-link" aria-label="Call ${c.name}">
+              ${c.phone}
+            </a>
+          </div>
         `;
         grid.appendChild(card);
       });
@@ -1226,17 +1228,17 @@ function initTeamSections(db) {
       grid.innerHTML = "";
       db.leadership.forEach(l => {
         const card = document.createElement("div");
-        card.className = "cyber-card team-card reveal-on-scroll is-visible";
+        card.className = "editorial-card team-card reveal-on-scroll is-visible";
         card.innerHTML = `
           <div class="team-photo-wrap">
             <img src="${l.photo || 'images/leader-dean.jpg'}" alt="${l.name}" class="team-avatar-img" loading="lazy">
           </div>
-          <div class="team-card-tag">${l.tag}</div>
-          <h4 class="team-name">${l.name}</h4>
-          <div class="team-role">${l.role}</div>
-          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.4;">
-            ${l.bio || ''}
-          </p>
+          <div class="team-card-content">
+            <span class="team-card-tag">${l.tag}</span>
+            <h3 class="team-name">${l.name}</h3>
+            <div class="team-role">${l.role}</div>
+            <p class="team-card-desc">${l.bio || ''}</p>
+          </div>
         `;
         grid.appendChild(card);
       });

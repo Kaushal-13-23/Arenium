@@ -11209,25 +11209,26 @@ body.certificate-page .section-subtitle {
   text-shadow: none !important;
 }
 
-/* Subtitle / Role: Highlighted portion with pure white text (Attachment 1 Specification) */
+/* Subtitle / Role: Clean, unhighlighted dark typography on warm white glass (No blue badge) */
 .team-role,
 .team-card .team-role,
 .editorial-card .team-role {
   font-family: 'Inter', -apple-system, sans-serif !important;
-  font-size: 0.82rem !important;
-  font-weight: 700 !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
   line-height: 1.4 !important;
-  color: #FFFFFF !important;
-  -webkit-text-fill-color: #FFFFFF !important;
-  background: #2563EB !important;
-  background-color: #2563EB !important;
-  padding: 0.25rem 0.65rem !important;
-  border-radius: 6px !important;
-  display: inline-block !important;
-  width: fit-content !important;
-  margin: 0.25rem 0 0.65rem 0 !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: block !important;
+  width: auto !important;
+  margin: 0.15rem 0 0.55rem 0 !important;
   text-shadow: none !important;
-  letter-spacing: 0.01em !important;
+  letter-spacing: normal !important;
 }
 
 /* Description text */
@@ -11529,67 +11530,188 @@ body .moving-card-item:hover .btn-pill-outline {
 }
 
 /* ========================================================================
-   USER SPECIFICATION OVERRIDES:
-   1. Highlighted role portion in white (#FFFFFF) with highlight background
-   2. Completely disable hover effects on cards (Attachment 2 Specification)
-   3. Ensure browser text selection is crisp white on blue
+   USER SPECIFICATION OVERRIDES (LATEST REVISION):
+   1. Warm White Frosted Glass Cards (rgba(255, 253, 248, 0.95), backdrop blur, crisp black border)
+   2. Remove all role highlights / blue background badges (clean, natural typography)
+   3. Zero hover motion / scale / jumping on cards and avatars
+   4. High-contrast typography on warm white surfaces
    ======================================================================== */
 
-/* 1. Highlighted role portion in all cards: pure white text */
+/* 1. Warm White Frosted Glass Cards across All Editorial, Team, Leadership, and Coordinator Cards */
+body:not(#admin-app) .editorial-card,
+body:not(#admin-app) .team-card,
+body:not(#admin-app) .event-card,
+body:not(#admin-app) .cyber-card.team-card,
+body:not(#admin-app) [data-leadership-grid] .team-card,
+body:not(#admin-app) [data-student-coords-grid] .team-card,
+.editorial-card,
+.team-card,
+.event-card,
+.cyber-card.team-card {
+  background: rgba(255, 253, 248, 0.95) !important;
+  background-color: rgba(255, 253, 248, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Card Content Area inside Warm White Glass Cards */
+body:not(#admin-app) .team-card .team-card-content,
+body:not(#admin-app) .editorial-card .team-card-content,
+.team-card .team-card-content,
+.team-card-content {
+  padding: 1.4rem 1.4rem !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #0F172A !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  box-sizing: border-box !important;
+}
+
+/* 2. Remove all highlights from role portion: Clean, high-contrast dark typography */
+body:not(#admin-app) .team-role,
+body:not(#admin-app) .team-card .team-role,
+body:not(#admin-app) .editorial-card .team-role,
+body:not(#admin-app) .cyber-card .team-role,
+body:not(#admin-app) [data-leadership-grid] .team-role,
+body:not(#admin-app) [data-student-coords-grid] .team-role,
 .team-role,
 .team-card .team-role,
 .editorial-card .team-role,
-.cyber-card .team-role,
-[data-leadership-grid] .team-role,
-[data-student-coords-grid] .team-role {
-  color: #FFFFFF !important;
-  -webkit-text-fill-color: #FFFFFF !important;
-  background: #2563EB !important;
-  background-color: #2563EB !important;
-  padding: 0.25rem 0.65rem !important;
-  border-radius: 6px !important;
-  display: inline-block !important;
-  width: fit-content !important;
+.cyber-card .team-role {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: block !important;
+  width: auto !important;
   font-family: 'Inter', -apple-system, sans-serif !important;
-  font-size: 0.82rem !important;
-  font-weight: 700 !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
   line-height: 1.4 !important;
-  margin: 0.25rem 0 0.65rem 0 !important;
+  margin: 0.15rem 0 0.55rem 0 !important;
   text-shadow: none !important;
-  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
 }
 
-/* 2. Text Selection in cards: always pure white text on blue highlight */
-::selection,
-::-moz-selection,
-.editorial-card *::selection,
-.team-card *::selection,
-.event-card *::selection,
-.moving-card-item *::selection,
-.cyber-card *::selection {
-  background: #2563EB !important;
-  color: #FFFFFF !important;
-  -webkit-text-fill-color: #FFFFFF !important;
+/* 3. Card Heading: Pure Black Editorial Playfair Serif */
+body:not(#admin-app) .team-card .team-name,
+body:not(#admin-app) .editorial-card .team-name,
+body:not(#admin-app) .team-card h3,
+body:not(#admin-app) .team-card h4,
+body:not(#admin-app) .editorial-card h3,
+body:not(#admin-app) .editorial-card h4,
+.team-name {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-size: clamp(1.2rem, 1.4vw, 1.4rem) !important;
+  font-weight: 700 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  line-height: 1.25 !important;
+  margin: 0.2rem 0 0.35rem 0 !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+  text-transform: none !important;
+  text-shadow: none !important;
 }
 
-/* 3. Disable all hover effects on cards (Attachment 2 Specification: completely stable & motionless) */
-.editorial-card,
+/* 4. Description on Warm White Glass: High Contrast Dark Slate */
+body:not(#admin-app) .team-card .team-card-desc,
+body:not(#admin-app) .editorial-card .team-card-desc,
+body:not(#admin-app) .team-card p,
+body:not(#admin-app) .editorial-card p,
+.team-card-desc {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.86rem !important;
+  font-weight: 400 !important;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  line-height: 1.55 !important;
+  margin: 0 0 1rem 0 !important;
+  text-shadow: none !important;
+}
+
+/* 5. Pill Tag on Warm White Glass */
+body:not(#admin-app) .team-card .team-card-tag,
+body:not(#admin-app) .editorial-card .team-card-tag,
+.team-card-tag {
+  display: inline-flex !important;
+  align-items: center !important;
+  width: fit-content !important;
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 9999px !important;
+  border: 1px solid #000000 !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 0.5rem !important;
+  text-shadow: none !important;
+}
+
+/* 6. Outline Pill Action Button (Attachment 3 design) */
+body:not(#admin-app) .team-card .btn-pill-outline,
+body:not(#admin-app) .editorial-card .btn-pill-outline,
+.btn-pill-outline {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1.5px solid #000000 !important;
+  border-radius: 9999px !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  padding: 0.35rem 0.9rem !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* 7. Disable ALL Hover Effects on Cards & Images (Attachment 2: 100% stable & motionless) */
+body:not(#admin-app) .editorial-card:hover,
+body:not(#admin-app) .team-card:hover,
+body:not(#admin-app) .event-card:hover,
+body:not(#admin-app) .moving-card-item:hover,
+body:not(#admin-app) .team-card-lead:hover,
+body:not(#admin-app) .cyber-card.team-card:hover,
 .editorial-card:hover,
-.team-card,
 .team-card:hover,
-.event-card,
 .event-card:hover,
-.moving-card-item,
 .moving-card-item:hover,
-.team-card-lead,
 .team-card-lead:hover,
-.cyber-card.team-card,
 .cyber-card.team-card:hover {
   transform: none !important;
   transition: none !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06) !important;
 }
 
+body:not(#admin-app) .team-card:hover .team-photo-wrap img,
+body:not(#admin-app) .team-card:hover .team-avatar-img,
+body:not(#admin-app) .event-card:hover .event-poster-img,
+body:not(#admin-app) .team-card-lead:hover .team-avatar-img,
+body:not(#admin-app) .editorial-card:hover img,
 .team-card .team-photo-wrap img,
 .team-card:hover .team-photo-wrap img,
 .team-avatar-img,
@@ -11603,4 +11725,16 @@ body .moving-card-item:hover .btn-pill-outline {
   transform: none !important;
   transition: none !important;
   filter: none !important;
+}
+
+/* Text Selection inside cards */
+::selection,
+::-moz-selection,
+.editorial-card *::selection,
+.team-card *::selection,
+.event-card *::selection,
+.moving-card-item *::selection {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
 }
