@@ -11116,8 +11116,8 @@ body.certificate-page .section-subtitle {
 .editorial-card:hover,
 .team-card:hover,
 .event-card:hover {
-  transform: translateY(-4px) !important;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12) !important;
+  transform: none !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
 }
 
 /* Image at top: bleed with crisp bottom border */
@@ -11150,7 +11150,7 @@ body.certificate-page .section-subtitle {
 
 .team-card:hover .team-photo-wrap img,
 .event-card:hover .event-poster-img {
-  transform: scale(1.03) !important;
+  transform: none !important;
 }
 
 /* Content Area inside card: Off-white background, high contrast */
@@ -11209,16 +11209,25 @@ body.certificate-page .section-subtitle {
   text-shadow: none !important;
 }
 
-/* Subtitle / Role */
+/* Subtitle / Role: Highlighted portion with pure white text (Attachment 1 Specification) */
 .team-role,
-.team-card .team-role {
+.team-card .team-role,
+.editorial-card .team-role {
   font-family: 'Inter', -apple-system, sans-serif !important;
-  font-size: 0.88rem !important;
-  font-weight: 600 !important;
-  color: #334155 !important;
-  -webkit-text-fill-color: #334155 !important;
-  line-height: 1.45 !important;
-  margin: 0 0 0.4rem 0 !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background: #2563EB !important;
+  background-color: #2563EB !important;
+  padding: 0.25rem 0.65rem !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+  width: fit-content !important;
+  margin: 0.25rem 0 0.65rem 0 !important;
+  text-shadow: none !important;
+  letter-spacing: 0.01em !important;
 }
 
 /* Description text */
@@ -11449,4 +11458,82 @@ body.certificate-page .section-subtitle {
     animation: none !important;
     overflow-x: auto !important;
   }
+}
+
+
+/* ========================================================================
+   USER SPECIFICATION OVERRIDES:
+   1. Highlighted role portion in white (#FFFFFF) with highlight background
+   2. Completely disable hover effects on cards (Attachment 2 Specification)
+   3. Ensure browser text selection is crisp white on blue
+   ======================================================================== */
+
+/* 1. Highlighted role portion in all cards: pure white text */
+.team-role,
+.team-card .team-role,
+.editorial-card .team-role,
+.cyber-card .team-role,
+[data-leadership-grid] .team-role,
+[data-student-coords-grid] .team-role {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background: #2563EB !important;
+  background-color: #2563EB !important;
+  padding: 0.25rem 0.65rem !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+  width: fit-content !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  margin: 0.25rem 0 0.65rem 0 !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25) !important;
+}
+
+/* 2. Text Selection in cards: always pure white text on blue highlight */
+::selection,
+::-moz-selection,
+.editorial-card *::selection,
+.team-card *::selection,
+.event-card *::selection,
+.moving-card-item *::selection,
+.cyber-card *::selection {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* 3. Disable all hover effects on cards (Attachment 2 Specification: completely stable & motionless) */
+.editorial-card,
+.editorial-card:hover,
+.team-card,
+.team-card:hover,
+.event-card,
+.event-card:hover,
+.moving-card-item,
+.moving-card-item:hover,
+.team-card-lead,
+.team-card-lead:hover,
+.cyber-card.team-card,
+.cyber-card.team-card:hover {
+  transform: none !important;
+  transition: none !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+}
+
+.team-card .team-photo-wrap img,
+.team-card:hover .team-photo-wrap img,
+.team-avatar-img,
+.team-card:hover .team-avatar-img,
+.event-poster-img,
+.event-card:hover .event-poster-img,
+.team-card-lead .team-avatar-img,
+.team-card-lead:hover .team-avatar-img,
+.editorial-card img,
+.editorial-card:hover img {
+  transform: none !important;
+  transition: none !important;
+  filter: none !important;
 }
