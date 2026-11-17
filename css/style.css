@@ -2453,113 +2453,9 @@ button {
   box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35) !important;
 }
 
-.timeline-container {
-  position: relative;
-  max-width: 900px;
-  margin: var(--space-xl) auto var(--space-3xl);
-  padding: var(--space-md) 0;
-}
-
-/* Vertical Neon Line */
-.timeline-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  background: linear-gradient(180deg, var(--neon-cyan), var(--neon-pink), var(--neon-cyan));
-  box-shadow: 0 0 10px var(--neon-cyan);
-  transform: translateX(-50%);
-}
-
-.timeline-entry {
-  position: relative;
-  display: flex;
-  width: 100%;
-  margin-bottom: var(--space-2xl);
-}
-
-.timeline-entry:nth-child(odd) {
-  justify-content: flex-start;
-}
-
-.timeline-entry:nth-child(even) {
-  justify-content: flex-end;
-}
-
-.timeline-node {
-  position: absolute;
-  top: 24px;
-  left: 50%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--bg-core);
-  border: 3px solid var(--neon-yellow);
-  box-shadow: 0 0 12px var(--neon-yellow);
-  transform: translateX(-50%);
-  z-index: 2;
-}
-
-.timeline-entry:nth-child(even) .timeline-node {
-  border-color: var(--neon-pink);
-  box-shadow: 0 0 12px var(--neon-pink);
-}
-
-.timeline-card-wrapper {
-  width: 44%;
-}
-
-.timeline-card {
-  padding: 1.4rem;
-}
-
-.timeline-time-badge {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--neon-cyan);
-  letter-spacing: 0.12em;
-  margin-bottom: 0.4rem;
-  display: inline-block;
-}
-
-.timeline-event-name {
-  font-size: 1.25rem;
-  color: #ffffff;
-  margin-bottom: 0.4rem;
-}
-
-.timeline-venue {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.8rem;
-  color: var(--neon-yellow);
-  margin-bottom: 0.4rem;
-}
-
-.timeline-note {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-}
-
-/* Timeline Mobile Stacking */
-@media (max-width: 768px) {
-  .timeline-container::before {
-    left: 20px;
-  }
-  .timeline-node {
-    left: 20px;
-  }
-  .timeline-entry:nth-child(odd),
-  .timeline-entry:nth-child(even) {
-    justify-content: flex-start;
-  }
-  .timeline-card-wrapper {
-    width: calc(100% - 50px);
-    margin-left: 50px;
-  }
-}
+/* --------------------------------------------------------------------------
+   17. Schedule Page Timeline (Consolidated & Enhanced at Section 10915)
+   -------------------------------------------------------------------------- */
 
 /* --------------------------------------------------------------------------
    18. Gallery Page & Lightbox
@@ -10913,110 +10809,311 @@ body.certificate-page .section-subtitle {
 }
 
 /* ========================================================================
-   ARENIUM'27 CLEAN SCHEDULE TABLE SYSTEM (PHASE 4 SPECIFICATION)
-   Replaces zig-zag timeline with high-contrast, fully responsive table.
+   ARENIUM'27 PREMIUM MOVING LADDER TIMELINE SYSTEM
+   Features an animated central flowing spine, pulsing nodes, horizontal
+   ladder rungs, and dark editorial cards with zero layout jumping.
    ======================================================================== */
-.schedule-table-wrap {
-  width: 100% !important;
-  overflow-x: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  margin: 1.5rem 0 2.5rem 0 !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  border-radius: 14px !important;
-  background: #0F172A !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+@keyframes ladderSpineFlow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 200%;
+  }
 }
 
-.schedule-table {
-  width: 100% !important;
-  border-collapse: collapse !important;
-  text-align: left !important;
-  min-width: 680px !important;
-  color: #FFFFFF !important;
+@keyframes nodePulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25), 0 0 16px rgba(56, 189, 248, 0.85);
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(56, 189, 248, 0.12), 0 0 22px rgba(56, 189, 248, 1);
+    transform: translateX(-50%) scale(1.05);
+  }
 }
 
-.schedule-table thead tr {
-  background: #1E293B !important;
-  border-bottom: 2px solid #38BDF8 !important;
+.timeline-container {
+  position: relative !important;
+  max-width: 1040px !important;
+  margin: 2.5rem auto 4.5rem !important;
+  padding: 1.5rem 0 !important;
+  box-sizing: border-box !important;
 }
 
-.schedule-table th {
-  padding: 1.1rem 1.4rem !important;
-  color: #FFFFFF !important;
-  font-family: var(--font-heading) !important;
-  font-size: 0.88rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.05em !important;
-  text-transform: uppercase !important;
-}
-
-.schedule-table td {
-  padding: 1.15rem 1.4rem !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  vertical-align: top !important;
-  color: #E2E8F0 !important;
-  font-size: 0.92rem !important;
-  line-height: 1.5 !important;
-}
-
-.schedule-table tbody tr:hover td {
-  background: rgba(255, 255, 255, 0.04) !important;
-}
-
-.schedule-cell-time {
-  white-space: nowrap !important;
-}
-
-.schedule-time-badge {
-  display: block !important;
-  font-weight: 700 !important;
-  color: #38BDF8 !important;
-  font-size: 0.92rem !important;
-}
-
-.schedule-day-pill {
-  display: inline-block !important;
-  margin-top: 0.3rem !important;
-  padding: 0.15rem 0.5rem !important;
-  border-radius: 4px !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #94A3B8 !important;
-  font-size: 0.75rem !important;
-  font-weight: 600 !important;
-}
-
-.schedule-event-title {
-  font-family: var(--font-heading) !important;
-  font-size: 1.05rem !important;
-  font-weight: 700 !important;
-  color: #FFFFFF !important;
-  margin-bottom: 0.3rem !important;
-}
-
-.schedule-event-desc {
-  color: #94A3B8 !important;
-  font-size: 0.85rem !important;
-  line-height: 1.4 !important;
-}
-
-.schedule-cat-badge {
-  display: inline-block !important;
-  padding: 0.25rem 0.65rem !important;
+/* Central Flowing Ladder Spine */
+.timeline-container::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  width: 3.5px !important;
+  background: linear-gradient(180deg, 
+    #0284C7 0%, 
+    #38BDF8 20%, 
+    #818CF8 40%, 
+    #EC4899 60%, 
+    #38BDF8 80%, 
+    #0284C7 100%
+  ) !important;
+  background-size: 100% 200% !important;
+  animation: ladderSpineFlow 5s linear infinite !important;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.7), 0 0 35px rgba(56, 189, 248, 0.35) !important;
+  transform: translateX(-50%) !important;
   border-radius: 9999px !important;
-  background: rgba(56, 189, 248, 0.14) !important;
-  border: 1px solid rgba(56, 189, 248, 0.3) !important;
-  color: #38BDF8 !important;
-  font-size: 0.75rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em !important;
-  white-space: nowrap !important;
+  z-index: 2 !important;
 }
 
-.schedule-cell-venue {
-  color: #CBD5E1 !important;
-  font-size: 0.9rem !important;
-  font-weight: 500 !important;
+/* Timeline Entries */
+.timeline-entry {
+  position: relative !important;
+  display: flex !important;
+  width: 100% !important;
+  margin-bottom: 2.2rem !important;
+  box-sizing: border-box !important;
 }
+
+.timeline-entry:nth-child(odd) {
+  justify-content: flex-start !important;
+}
+
+.timeline-entry:nth-child(even) {
+  justify-content: flex-end !important;
+}
+
+/* Central Glowing Ladder Nodes */
+.timeline-node {
+  position: absolute !important;
+  top: 26px !important;
+  left: 50% !important;
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 50% !important;
+  background: #0A0F1D !important;
+  border: 3.5px solid #38BDF8 !important;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25), 0 0 18px rgba(56, 189, 248, 0.85) !important;
+  transform: translateX(-50%) !important;
+  z-index: 4 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  animation: nodePulseGlow 3s ease-in-out infinite !important;
+}
+
+.timeline-node-core {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 0 6px #FFFFFF !important;
+  display: block !important;
+}
+
+/* Day 2 Node & Rung Palette Accents */
+.timeline-entry[data-day="Day 2"] .timeline-node {
+  border-color: #EC4899 !important;
+  box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.25), 0 0 18px rgba(236, 72, 153, 0.85) !important;
+}
+
+/* Horizontal Ladder Rungs */
+.timeline-rung {
+  position: absolute !important;
+  top: 36px !important;
+  height: 2.5px !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+}
+
+/* Left card (odd) -> Rung from card's right boundary (at 44% width = 6% to center) to spine */
+.timeline-entry:nth-child(odd) .timeline-rung {
+  right: 50% !important;
+  left: auto !important;
+  width: 6% !important;
+  background: linear-gradient(270deg, #38BDF8 0%, rgba(56, 189, 248, 0.25) 100%) !important;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.5) !important;
+}
+
+/* Right card (even) -> Rung from spine to card's left boundary */
+.timeline-entry:nth-child(even) .timeline-rung {
+  left: 50% !important;
+  right: auto !important;
+  width: 6% !important;
+  background: linear-gradient(90deg, #38BDF8 0%, rgba(56, 189, 248, 0.25) 100%) !important;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.5) !important;
+}
+
+.timeline-entry[data-day="Day 2"]:nth-child(odd) .timeline-rung {
+  background: linear-gradient(270deg, #EC4899 0%, rgba(236, 72, 153, 0.25) 100%) !important;
+  box-shadow: 0 0 8px rgba(236, 72, 153, 0.5) !important;
+}
+
+.timeline-entry[data-day="Day 2"]:nth-child(even) .timeline-rung {
+  background: linear-gradient(90deg, #EC4899 0%, rgba(236, 72, 153, 0.25) 100%) !important;
+  box-shadow: 0 0 8px rgba(236, 72, 153, 0.5) !important;
+}
+
+/* Timeline Card Wrapper */
+.timeline-card-wrapper {
+  width: 44% !important;
+  max-width: 44% !important;
+  box-sizing: border-box !important;
+  z-index: 3 !important;
+}
+
+/* Premium Dark Frosted Glass Timeline Card */
+.timeline-card {
+  background: #0A0F1D !important;
+  background-color: #0A0F1D !important;
+  border: 1.5px solid #1E293B !important;
+  border-radius: 16px !important;
+  padding: 1.5rem 1.7rem !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+  color: #FFFFFF !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+/* Classy subtle glow on hover without ANY motion or layout shift */
+.timeline-card:hover {
+  border-color: rgba(56, 189, 248, 0.5) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 22px rgba(56, 189, 248, 0.18) !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Card Header Section */
+.timeline-card-header {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.timeline-time-badge {
+  font-family: var(--font-mono, monospace) !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  color: #38BDF8 !important;
+  -webkit-text-fill-color: #38BDF8 !important;
+  background: rgba(56, 189, 248, 0.12) !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  border-radius: 9999px !important;
+  padding: 0.25rem 0.7rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  line-height: 1 !important;
+  letter-spacing: 0.3px !important;
+}
+
+.timeline-cat-badge {
+  font-family: var(--font-mono, monospace) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  color: #E2E8F0 !important;
+  -webkit-text-fill-color: #E2E8F0 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 9999px !important;
+  padding: 0.22rem 0.6rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1 !important;
+}
+
+.timeline-day-pill {
+  font-family: var(--font-mono, monospace) !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  color: #FB7185 !important;
+  -webkit-text-fill-color: #FB7185 !important;
+  background: rgba(244, 63, 94, 0.12) !important;
+  border: 1px solid rgba(244, 63, 94, 0.3) !important;
+  border-radius: 9999px !important;
+  padding: 0.22rem 0.55rem !important;
+  line-height: 1 !important;
+}
+
+.timeline-event-name {
+  font-family: 'Playfair Display', Georgia, serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  margin: 0.4rem 0 0.45rem 0 !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.2px !important;
+}
+
+.timeline-venue {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.85rem !important;
+  color: #94A3B8 !important;
+  -webkit-text-fill-color: #94A3B8 !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.45rem !important;
+  margin-bottom: 0.6rem !important;
+}
+
+.timeline-note {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.88rem !important;
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+
+/* Timeline Mobile Stacking */
+@media (max-width: 768px) {
+  .timeline-container {
+    padding: 1rem 0 !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .timeline-container::before {
+    left: 20px !important;
+    transform: none !important;
+  }
+
+  .timeline-entry {
+    justify-content: flex-start !important;
+    margin-bottom: 1.8rem !important;
+  }
+
+  .timeline-node {
+    left: 20px !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .timeline-rung,
+  .timeline-entry:nth-child(odd) .timeline-rung,
+  .timeline-entry:nth-child(even) .timeline-rung {
+    left: 20px !important;
+    right: auto !important;
+    width: 28px !important;
+    background: linear-gradient(90deg, #38BDF8 0%, rgba(56, 189, 248, 0.25) 100%) !important;
+  }
+
+  .timeline-card-wrapper {
+    width: calc(100% - 48px) !important;
+    max-width: none !important;
+    margin-left: 48px !important;
+  }
+
+  .timeline-card {
+    padding: 1.25rem 1.35rem !important;
+  }
+
+  .timeline-event-name {
+    font-size: 1.15rem !important;
+  }
+}
+
 
 /* Day Tab Buttons */
 .schedule-tabs {

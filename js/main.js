@@ -1400,68 +1400,62 @@ function initSchedulePage(db) {
     const container = document.getElementById("timeline-container");
     if (!container) return;
 
-    container.innerHTML = `
-      <div class="schedule-table-wrap">
-        <table class="schedule-table" role="table">
-          <thead>
-            <tr>
-              <th scope="col" style="width: 22%;">Time</th>
-              <th scope="col" style="width: 32%;">Event Arena</th>
-              <th scope="col" style="width: 18%;">Category</th>
-              <th scope="col" style="width: 28%;">Venue</th>
-            </tr>
-          </thead>
-          <tbody id="schedule-table-body">
-          </tbody>
-        </table>
-      </div>
-    `;
-
-    const tbody = document.getElementById("schedule-table-body");
-
-    function renderRows(selectedDay) {
-      tbody.innerHTML = "";
-      const filtered = db.schedule.filter(item => selectedDay === "all" || item.day === selectedDay);
+    function renderTimeline(selectedDay) {
+      container.innerHTML = "";
+      const filtered = (db.schedule || []).filter(item => selectedDay === "all" || item.day === selectedDay);
 
       filtered.forEach(item => {
-        const row = document.createElement("tr");
-        row.className = "schedule-table-row";
-        row.setAttribute("data-day", item.day);
-        row.innerHTML = `
-          <td class="schedule-cell-time">
-            <span class="schedule-time-badge">${item.time}</span>
-            <span class="schedule-day-pill">${item.day}</span>
-          </td>
-          <td class="schedule-cell-event">
-            <div class="schedule-event-title">${item.name}</div>
-            <div class="schedule-event-desc">${item.note}</div>
-          </td>
-          <td class="schedule-cell-category">
-            <span class="schedule-cat-badge">${item.category || item.day}</span>
-          </td>
-          <td class="schedule-cell-venue">
-            ${item.venue}
-          </td>
+        const entry = document.createElement("div");
+        entry.className = "timeline-entry reveal-on-scroll is-visible";
+        entry.setAttribute("data-day", item.day);
+
+        // Clock SVG Icon
+        const clockSvg = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline-block; vertical-align:-1px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+        
+        // Location Pin SVG Icon (clean, no emojis)
+        const locSvg = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.2" style="display:inline-block; vertical-align:-2px; margin-right:5px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+
+        entry.innerHTML = `
+          <div class="timeline-node" aria-hidden="true">
+            <span class="timeline-node-core"></span>
+          </div>
+          <div class="timeline-rung" aria-hidden="true"></div>
+          <div class="timeline-card-wrapper">
+            <div class="timeline-card">
+              <div class="timeline-card-header">
+                <span class="timeline-time-badge">${clockSvg}${item.time}</span>
+                <span class="timeline-cat-badge">${item.category || item.day}</span>
+                <span class="timeline-day-pill">${item.day}</span>
+              </div>
+              <h3 class="timeline-event-name">${item.name}</h3>
+              <div class="timeline-venue">${locSvg}${item.venue}</div>
+              <p class="timeline-note">${item.note}</p>
+            </div>
+          </div>
         `;
-        tbody.appendChild(row);
+        container.appendChild(entry);
       });
     }
 
     // Initial render
-    renderRows("all");
+    renderTimeline("all");
 
     // Day tabs
     const tabs = document.querySelectorAll(".schedule-tab-btn");
     tabs.forEach(tab => {
       tab.addEventListener("click", () => {
-        tabs.forEach(t => t.classList.remove("active"));
+        tabs.forEach(t => {
+          t.classList.remove("active");
+          t.setAttribute("aria-selected", "false");
+        });
         tab.classList.add("active");
+        tab.setAttribute("aria-selected", "true");
         const day = tab.getAttribute("data-day");
-        renderRows(day);
+        renderTimeline(day);
       });
     });
   } catch (err) {
-    console.error("Error initializing schedule table:", err);
+    console.error("Error initializing schedule ladder timeline:", err);
   }
 }
 
