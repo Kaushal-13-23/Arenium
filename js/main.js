@@ -34,12 +34,16 @@ const FestDB = {
       settings: {
         eventDate: "2027-02-04T08:30:00+05:30",
         registerUrl: "register.html",
+        paymentGatewayUrlInternal: "https://pages.razorpay.com/arenium27-pay",
+        paymentGatewayUrlExternal: "https://presidencyuniversity.in/arenium27-register",
         paymentGatewayUrl: "https://pages.razorpay.com/arenium27-pay",
         registrationConfig: {
           googleSheetUrl: "https://script.google.com/macros/s/AKfycbyQf200fHwcydhLqNW2YXVaADme2a4p0RXyc0at1YspDawEJ9oBIQw75tKY97LN35QH/exec",
           status: "open",
           portalMode: "internal",
           externalUrl: "https://presidencyuniversity.in/arenium27-register",
+          paymentGatewayUrlInternal: "https://pages.razorpay.com/arenium27-pay",
+          paymentGatewayUrlExternal: "https://presidencyuniversity.in/arenium27-register",
           paymentGatewayUrl: "https://pages.razorpay.com/arenium27-pay",
           upiId: "arenium27@icici",
           qrCodeImg: "images/qrcode.png",
@@ -118,6 +122,7 @@ const FestDB = {
           role: "Faculty Co-ordinator & Programme Lead",
           dept: "Assistant Professor & Programme Organiser · SOIS",
           phone: "SOIS Office",
+          email: "Arenium.official@gmail.com",
           photo: "images/Ms. Keren Lois Daniel.jpg"
         },
         {
@@ -126,6 +131,7 @@ const FestDB = {
           role: "Finance & Registration Manager",
           dept: "",
           phone: "+91 87977 86686",
+          email: "Arenium.official@gmail.com",
           photo: "images/Kaushal.jpeg"
         },
         {
@@ -134,6 +140,7 @@ const FestDB = {
           role: "Event Manager",
           dept: "",
           phone: "+91 96201 92249",
+          email: "Arenium.official@gmail.com",
           photo: "images/Vimal.png"
         },
         {
@@ -142,6 +149,7 @@ const FestDB = {
           role: "Marketing & Registration Manager",
           dept: "",
           phone: "+91 91087 40761",
+          email: "Arenium.official@gmail.com",
           photo: "images/Ashlin Siddharth.png"
         },
         {
@@ -150,6 +158,7 @@ const FestDB = {
           role: "Technical Manager",
           dept: "",
           phone: "+91 85958 48421",
+          email: "Arenium.official@gmail.com",
           photo: "images/ABHYAS.png"
         }
       ],
@@ -772,14 +781,24 @@ const FestDB = {
       if (raw) {
         const parsed = JSON.parse(raw);
         const defaults = this.getDefaults();
+        const regConfig = {
+          ...defaults.settings.registrationConfig,
+          ...((parsed.settings && parsed.settings.registrationConfig) || {})
+        };
+        if (!regConfig.paymentGatewayUrlInternal) {
+          regConfig.paymentGatewayUrlInternal = regConfig.paymentGatewayUrl || "https://pages.razorpay.com/arenium27-pay";
+        }
+        if (!regConfig.paymentGatewayUrlExternal) {
+          regConfig.paymentGatewayUrlExternal = regConfig.externalUrl || regConfig.paymentGatewayUrl || "https://presidencyuniversity.in/arenium27-register";
+        }
+
         return {
           settings: {
             ...defaults.settings,
             ...(parsed.settings || {}),
-            registrationConfig: {
-              ...defaults.settings.registrationConfig,
-              ...((parsed.settings && parsed.settings.registrationConfig) || {})
-            }
+            paymentGatewayUrlInternal: regConfig.paymentGatewayUrlInternal,
+            paymentGatewayUrlExternal: regConfig.paymentGatewayUrlExternal,
+            registrationConfig: regConfig
           },
           coordinators: (() => {
             const list = (parsed.coordinators && parsed.coordinators.length) ? parsed.coordinators : defaults.coordinators;
@@ -792,9 +811,12 @@ const FestDB = {
               else if (photo.includes("leader-organiser.svg") || photo.endsWith("Ms. Keren Lois Daniel.jpg")) photo = "images/Ms. Keren Lois Daniel.jpg";
               else photo = resolveAssetPath(photo, "images/coord-generic.svg");
 
+              const email = c.email || "Arenium.official@gmail.com";
+
               return {
                 ...c,
                 photo,
+                email,
                 dept: "" // Class and roll number completely removed per user request
               };
             });
@@ -1255,10 +1277,14 @@ function initTeamSections(db) {
           <div class="team-card-content">
             <span class="team-card-tag">${c.role.toUpperCase()}</span>
             <h3 class="team-name" style="margin: 0.3rem 0 1rem;">${c.name}</h3>
-            <div class="team-action-footer" style="margin-top: auto; padding-top: 0.5rem;">
-              <a href="tel:${c.phone.replace(/[^0-9+]/g, '')}" class="btn-pill-outline" aria-label="Call ${c.name}" style="width: 100%; text-align: center; justify-content: center;">
+            <div class="team-action-footer" style="margin-top: auto; padding-top: 0.5rem; display: flex; flex-direction: column; gap: 0.45rem;">
+              <a href="tel:${c.phone.replace(/[^0-9+]/g, '')}" class="btn-pill-outline" aria-label="Call ${c.name}" style="width: 100%; text-align: center; justify-content: center; font-size: 0.82rem; font-weight: 700;">
                 ${c.phone}
               </a>
+              ${c.email ? `
+              <a href="mailto:${c.email}" class="btn-pill-outline" aria-label="Email ${c.name}" style="width: 100%; text-align: center; justify-content: center; font-size: 0.76rem; font-weight: 700; text-transform: none; word-break: break-all; padding: 0.38rem 0.5rem;">
+                ${c.email}
+              </a>` : ''}
             </div>
           </div>
         `;
@@ -1369,9 +1395,10 @@ function initEventsPage(db) {
             <img src="${resolveAssetPath(coord.photo, 'images/coord-generic.svg')}" alt="${coord.name}" class="event-coord-thumb" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid #CBD5E1; object-fit: cover; flex-shrink: 0;">
             <div class="event-coord-details" style="min-width: 0;">
               <div class="event-coord-name" style="color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700; font-size: 0.84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${coord.name}</div>
-              <a href="tel:${coord.phone.replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-size: 0.8rem; text-decoration: none; font-weight: 700; display: block;">
-                ${coord.phone}
+              <a href="tel:${(coord.phone || '').replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-size: 0.8rem; text-decoration: none; font-weight: 700; display: block;">
+                ${coord.phone || '+91 87977 86686'}
               </a>
+              ${coord.email ? `<a href="mailto:${coord.email}" class="event-coord-email" style="color: #64748B !important; -webkit-text-fill-color: #64748B !important; font-size: 0.72rem; text-decoration: none; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${coord.email}</a>` : ''}
             </div>
           </div>
 
@@ -2387,19 +2414,161 @@ function renderAdminEvents(db) {
 
   db.events.forEach((ev, idx) => {
     const tr = document.createElement("tr");
+    const coord = ev.coordinator || {};
+    const coordName = coord.name || '—';
+    const coordPhone = coord.phone || '';
+    const coordEmail = coord.email || '';
+
     tr.innerHTML = `
       <td><strong>${ev.name}</strong><br><span style="color:var(--text-muted); font-size:0.75rem;">${ev.id}</span></td>
       <td><span class="event-category-badge">${ev.category}</span></td>
       <td><span style="color:var(--neon-yellow);">${ev.prize || '—'}</span></td>
-      <td>${ev.coordinator ? ev.coordinator.name : '—'}</td>
       <td>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminEvent('${ev.id}')"> Edit</button>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminEvent('${ev.id}')"> Delete</button>
+        <div style="font-size:0.85rem; font-weight:700; color:#0F172A;">${coordName}</div>
+        ${coordPhone ? `<div style="font-size:0.75rem; color:#0284C7; font-weight:600;">${coordPhone}</div>` : ''}
+        ${coordEmail ? `<div style="font-size:0.72rem; color:#64748B;">${coordEmail}</div>` : ''}
+        <button type="button" class="btn btn-ghost" style="padding:0.22rem 0.55rem; font-size:0.72rem; margin-top:0.35rem; color:#0284C7; border:1px solid #CBD5E1; font-weight:700; background:#F8FAFC;" onclick="openAdminEventCoordinatorModal('${ev.id}')">
+          ${coord.name ? 'Change Coordinator' : '+ Add Coordinator'}
+        </button>
+      </td>
+      <td>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminEvent('${ev.id}')">Edit</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:#0284C7; border-color:#0284C7;" onclick="openAdminEventCoordinatorModal('${ev.id}')">Coordinator</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminEvent('${ev.id}')">Delete</button>
       </td>
     `;
     container.appendChild(tr);
   });
 }
+
+window.openAdminEventCoordinatorModal = function(eventId) {
+  const modal = document.getElementById("admin-coord-modal");
+  const eventSelect = document.getElementById("coord-modal-event-select");
+  const quickSelect = document.getElementById("coord-modal-quick-select");
+  const nameInp = document.getElementById("coord-modal-name");
+  const phoneInp = document.getElementById("coord-modal-phone");
+  const emailInp = document.getElementById("coord-modal-email");
+  const photoInp = document.getElementById("coord-modal-photo");
+
+  const db = FestDB.getData();
+  const events = db.events || [];
+
+  if (eventSelect) {
+    eventSelect.innerHTML = "";
+    events.forEach(ev => {
+      const opt = document.createElement("option");
+      opt.value = ev.id;
+      opt.textContent = `${ev.name} (${ev.category})`;
+      if (eventId && ev.id === eventId) opt.selected = true;
+      eventSelect.appendChild(opt);
+    });
+
+    const populateForEvent = (selectedId) => {
+      const ev = events.find(e => e.id === selectedId);
+      if (ev && ev.coordinator) {
+        if (nameInp) nameInp.value = ev.coordinator.name || "";
+        if (phoneInp) phoneInp.value = ev.coordinator.phone || "";
+        if (emailInp) emailInp.value = ev.coordinator.email || "Arenium.official@gmail.com";
+        if (photoInp) photoInp.value = ev.coordinator.photo || "";
+      } else {
+        if (nameInp) nameInp.value = "Kaushal Kumar Singh";
+        if (phoneInp) phoneInp.value = "+91 87977 86686";
+        if (emailInp) emailInp.value = "Arenium.official@gmail.com";
+        if (photoInp) photoInp.value = "images/Kaushal.jpeg";
+      }
+      if (quickSelect) quickSelect.value = "";
+    };
+
+    eventSelect.onchange = () => populateForEvent(eventSelect.value);
+    populateForEvent(eventSelect.value);
+  }
+
+  if (modal) {
+    modal.style.display = "flex";
+  } else {
+    const targetId = eventId || (events[0] ? events[0].id : null);
+    if (!targetId) return;
+    const ev = events.find(e => e.id === targetId);
+    const cName = prompt(`Coordinator Name for "${ev.name}":`, ev.coordinator ? ev.coordinator.name : "Kaushal Kumar Singh");
+    if (!cName) return;
+    const cPhone = prompt("Coordinator Phone Number:", ev.coordinator ? ev.coordinator.phone : "+91 87977 86686") || "+91 87977 86686";
+    const cEmail = prompt("Coordinator Email:", ev.coordinator ? (ev.coordinator.email || "Arenium.official@gmail.com") : "Arenium.official@gmail.com") || "Arenium.official@gmail.com";
+    ev.coordinator = { name: cName, phone: cPhone, email: cEmail, photo: (ev.coordinator && ev.coordinator.photo) || "images/Kaushal.jpeg" };
+    FestDB.saveData(db);
+    alert(`Coordinator assigned for "${ev.name}"!`);
+    location.reload();
+  }
+};
+
+window.closeAdminCoordModal = function() {
+  const modal = document.getElementById("admin-coord-modal");
+  if (modal) modal.style.display = "none";
+};
+
+window.onCoordModalQuickSelect = function(val) {
+  const nameInp = document.getElementById("coord-modal-name");
+  const phoneInp = document.getElementById("coord-modal-phone");
+  const emailInp = document.getElementById("coord-modal-email");
+  const photoInp = document.getElementById("coord-modal-photo");
+
+  const presets = {
+    kaushal: { name: "Kaushal Kumar Singh", phone: "+91 87977 86686", email: "Arenium.official@gmail.com", photo: "images/Kaushal.jpeg" },
+    vimal: { name: "Vimal Raj", phone: "+91 96201 92249", email: "Arenium.official@gmail.com", photo: "images/Vimal.png" },
+    ashlin: { name: "Ashlin Siddharth", phone: "+91 91087 40761", email: "Arenium.official@gmail.com", photo: "images/Ashlin Siddharth.png" },
+    abhyas: { name: "Abhyas Kathuria", phone: "+91 85958 48421", email: "Arenium.official@gmail.com", photo: "images/ABHYAS.png" },
+    keren: { name: "Ms. Keren Lois Daniel", phone: "SOIS Office", email: "Arenium.official@gmail.com", photo: "images/Ms. Keren Lois Daniel.jpg" }
+  };
+
+  if (presets[val]) {
+    if (nameInp) nameInp.value = presets[val].name;
+    if (phoneInp) phoneInp.value = presets[val].phone;
+    if (emailInp) emailInp.value = presets[val].email;
+    if (photoInp) photoInp.value = presets[val].photo;
+  }
+};
+
+window.saveAdminEventCoordinator = function() {
+  const eventSelect = document.getElementById("coord-modal-event-select");
+  const nameInp = document.getElementById("coord-modal-name");
+  const phoneInp = document.getElementById("coord-modal-phone");
+  const emailInp = document.getElementById("coord-modal-email");
+  const photoInp = document.getElementById("coord-modal-photo");
+
+  const eventId = eventSelect ? eventSelect.value : "";
+  if (!eventId) {
+    alert("Please select an event.");
+    return;
+  }
+
+  const name = nameInp ? nameInp.value.trim() : "";
+  const phone = phoneInp ? phoneInp.value.trim() : "";
+  const email = emailInp ? emailInp.value.trim() : "Arenium.official@gmail.com";
+  const photo = photoInp ? photoInp.value.trim() : "images/Kaushal.jpeg";
+
+  if (!name || !phone) {
+    alert("Please provide coordinator name and phone number.");
+    return;
+  }
+
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === eventId);
+  if (!ev) {
+    alert("Selected event not found in database.");
+    return;
+  }
+
+  ev.coordinator = {
+    name,
+    phone,
+    email,
+    photo: photo || "images/coord-generic.svg"
+  };
+
+  FestDB.saveData(db);
+  closeAdminCoordModal();
+  renderAdminEvents(db);
+  alert(`Coordinator "${name}" assigned successfully to "${ev.name}"!`);
+};
 
 window.editAdminEvent = function(id) {
   const db = FestDB.getData();
@@ -3087,55 +3256,90 @@ function renderAdminSettings(db) {
   const regUrlInput = document.getElementById("admin-setting-regurl");
   const eventDateInput = document.getElementById("admin-setting-eventdate");
   const qrImgInput = document.getElementById("admin-setting-qrimg");
+  
   const gatewayUrlInput = document.getElementById("admin-setting-gatewayurl");
-  const testGatewayBtn = document.getElementById("admin-setting-test-gateway-btn");
-  const removeGatewayBtn = document.getElementById("admin-setting-remove-gateway-btn");
-  const gatewayBadge = document.getElementById("admin-setting-gateway-status");
+  const gatewayUrlInternalInp = document.getElementById("admin-setting-gatewayurl-internal") || gatewayUrlInput;
+  const gatewayUrlExternalInp = document.getElementById("admin-setting-gatewayurl-external");
+  
+  const testGatewayInternalBtn = document.getElementById("admin-setting-test-gateway-internal-btn") || document.getElementById("admin-setting-test-gateway-btn");
+  const removeGatewayInternalBtn = document.getElementById("admin-setting-remove-gateway-internal-btn") || document.getElementById("admin-setting-remove-gateway-btn");
+  const gatewayBadgeInternal = document.getElementById("admin-setting-gateway-status-internal") || document.getElementById("admin-setting-gateway-status");
+
+  const testGatewayExternalBtn = document.getElementById("admin-setting-test-gateway-external-btn");
+  const removeGatewayExternalBtn = document.getElementById("admin-setting-remove-gateway-external-btn");
+  const gatewayBadgeExternal = document.getElementById("admin-setting-gateway-status-external");
+
   const saveBtn = document.getElementById("admin-save-settings-btn");
 
   const regConfig = (db.settings && db.settings.registrationConfig) || {};
-  const currentGateway = (regConfig.paymentGatewayUrl !== undefined)
-    ? regConfig.paymentGatewayUrl
-    : (db.settings.paymentGatewayUrl || "https://pages.razorpay.com/arenium27-pay");
+  const currentGatewayInternal = (regConfig.paymentGatewayUrlInternal !== undefined)
+    ? regConfig.paymentGatewayUrlInternal
+    : (regConfig.paymentGatewayUrl || db.settings.paymentGatewayUrl || "https://pages.razorpay.com/arenium27-pay");
+    
+  const currentGatewayExternal = (regConfig.paymentGatewayUrlExternal !== undefined)
+    ? regConfig.paymentGatewayUrlExternal
+    : (regConfig.externalUrl || "https://presidencyuniversity.in/arenium27-register");
 
-  function updateStatus(val) {
-    if (!gatewayBadge) return;
+  function updateStatus(badgeEl, val) {
+    if (!badgeEl) return;
     if (val && val.trim()) {
-      gatewayBadge.textContent = "● ACTIVE";
-      gatewayBadge.style.background = "rgba(16, 185, 129, 0.2)";
-      gatewayBadge.style.color = "#10B981";
-      gatewayBadge.style.borderColor = "#10B981";
+      badgeEl.textContent = "● ACTIVE";
+      badgeEl.style.background = "rgba(16, 185, 129, 0.2)";
+      badgeEl.style.color = "#10B981";
+      badgeEl.style.borderColor = "#10B981";
     } else {
-      gatewayBadge.textContent = "○ NO LINK (DISABLED)";
-      gatewayBadge.style.background = "rgba(239, 68, 68, 0.2)";
-      gatewayBadge.style.color = "#EF4444";
-      gatewayBadge.style.borderColor = "#EF4444";
+      badgeEl.textContent = "○ NO LINK (DISABLED)";
+      badgeEl.style.background = "rgba(239, 68, 68, 0.2)";
+      badgeEl.style.color = "#EF4444";
+      badgeEl.style.borderColor = "#EF4444";
     }
   }
 
-  if (gatewayUrlInput) {
-    gatewayUrlInput.value = currentGateway || "";
-    updateStatus(gatewayUrlInput.value);
-    gatewayUrlInput.oninput = () => updateStatus(gatewayUrlInput.value);
+  if (gatewayUrlInternalInp) {
+    gatewayUrlInternalInp.value = currentGatewayInternal || "";
+    updateStatus(gatewayBadgeInternal, gatewayUrlInternalInp.value);
+    gatewayUrlInternalInp.oninput = () => updateStatus(gatewayBadgeInternal, gatewayUrlInternalInp.value);
   }
 
-  if (testGatewayBtn) {
-    testGatewayBtn.onclick = () => {
-      const url = gatewayUrlInput ? gatewayUrlInput.value.trim() : "";
-      if (!url) {
-        alert("Please enter a payment gateway URL first before testing.");
-        return;
-      }
+  if (gatewayUrlExternalInp) {
+    gatewayUrlExternalInp.value = currentGatewayExternal || "";
+    updateStatus(gatewayBadgeExternal, gatewayUrlExternalInp.value);
+    gatewayUrlExternalInp.oninput = () => updateStatus(gatewayBadgeExternal, gatewayUrlExternalInp.value);
+  }
+
+  if (testGatewayInternalBtn) {
+    testGatewayInternalBtn.onclick = () => {
+      const url = gatewayUrlInternalInp ? gatewayUrlInternalInp.value.trim() : "";
+      if (!url) { alert("Please enter an internal payment gateway URL first before testing."); return; }
       window.open(url, "_blank", "noopener,noreferrer");
     };
   }
 
-  if (removeGatewayBtn) {
-    removeGatewayBtn.onclick = () => {
-      if (confirm("Are you sure you want to remove the payment gateway link? The 'PAY NOW' button on the registration page will be marked as not configured until a new URL is provided.")) {
-        if (gatewayUrlInput) {
-          gatewayUrlInput.value = "";
-          updateStatus("");
+  if (testGatewayExternalBtn) {
+    testGatewayExternalBtn.onclick = () => {
+      const url = gatewayUrlExternalInp ? gatewayUrlExternalInp.value.trim() : "";
+      if (!url) { alert("Please enter an external registration URL first before testing."); return; }
+      window.open(url, "_blank", "noopener,noreferrer");
+    };
+  }
+
+  if (removeGatewayInternalBtn) {
+    removeGatewayInternalBtn.onclick = () => {
+      if (confirm("Remove internal payment gateway link?")) {
+        if (gatewayUrlInternalInp) {
+          gatewayUrlInternalInp.value = "";
+          updateStatus(gatewayBadgeInternal, "");
+        }
+      }
+    };
+  }
+
+  if (removeGatewayExternalBtn) {
+    removeGatewayExternalBtn.onclick = () => {
+      if (confirm("Remove external registration link?")) {
+        if (gatewayUrlExternalInp) {
+          gatewayUrlExternalInp.value = "";
+          updateStatus(gatewayBadgeExternal, "");
         }
       }
     };
@@ -3147,15 +3351,21 @@ function renderAdminSettings(db) {
 
   if (saveBtn) {
     saveBtn.onclick = () => {
-      const gVal = gatewayUrlInput ? gatewayUrlInput.value.trim() : "";
+      const gInternal = gatewayUrlInternalInp ? gatewayUrlInternalInp.value.trim() : "";
+      const gExternal = gatewayUrlExternalInp ? gatewayUrlExternalInp.value.trim() : "";
       if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
-      db.settings.registrationConfig.paymentGatewayUrl = gVal;
-      db.settings.paymentGatewayUrl = gVal;
+      db.settings.registrationConfig.paymentGatewayUrlInternal = gInternal;
+      db.settings.registrationConfig.paymentGatewayUrlExternal = gExternal;
+      db.settings.registrationConfig.paymentGatewayUrl = gInternal;
+      db.settings.registrationConfig.externalUrl = gExternal;
+      db.settings.paymentGatewayUrl = gInternal;
+      db.settings.paymentGatewayUrlInternal = gInternal;
+      db.settings.paymentGatewayUrlExternal = gExternal;
       db.settings.registerUrl = regUrlInput ? regUrlInput.value.trim() : "";
       db.settings.eventDate = eventDateInput ? eventDateInput.value.trim() : "";
       if (qrImgInput) db.settings.qrCodeImg = qrImgInput.value.trim();
       FestDB.saveData(db);
-      alert("Festival Core Settings & Payment Gateway Link updated live!");
+      alert("Festival Core Settings & Dual Gateway Links updated live!");
     };
   }
 }
@@ -3183,9 +3393,16 @@ function renderAdminRegistrations(db) {
   const modeSelect = document.getElementById("reg-admin-mode");
   const extUrlInput = document.getElementById("reg-admin-external-url");
   const gatewayUrlInp = document.getElementById("reg-admin-gateway-url");
-  const testGatewayBtn = document.getElementById("admin-test-gateway-btn");
-  const removeGatewayBtn = document.getElementById("admin-remove-gateway-btn");
-  const gatewayStatusBadge = document.getElementById("gateway-status-badge");
+  const gatewayUrlInternalInp = document.getElementById("reg-admin-gateway-url-internal") || gatewayUrlInp;
+  const gatewayUrlExternalInp = document.getElementById("reg-admin-gateway-url-external") || extUrlInput;
+
+  const testGatewayInternalBtn = document.getElementById("admin-test-gateway-internal-btn") || document.getElementById("admin-test-gateway-btn");
+  const removeGatewayInternalBtn = document.getElementById("admin-remove-gateway-internal-btn") || document.getElementById("admin-remove-gateway-btn");
+  const gatewayStatusBadgeInternal = document.getElementById("gateway-status-badge-internal") || document.getElementById("gateway-status-badge");
+
+  const testGatewayExternalBtn = document.getElementById("admin-test-gateway-external-btn");
+  const removeGatewayExternalBtn = document.getElementById("admin-remove-gateway-external-btn");
+  const gatewayStatusBadgeExternal = document.getElementById("gateway-status-badge-external");
   const upiInput = document.getElementById("reg-admin-upi");
   const qrInput = document.getElementById("reg-admin-qr");
   const internalFeeInp = document.getElementById("reg-admin-internal-fee");
@@ -3244,50 +3461,74 @@ function renderAdminRegistrations(db) {
   const feesGrid = document.getElementById("reg-admin-fees-grid");
   const saveBtn = document.getElementById("admin-save-reg-config-btn");
 
-  const currentGatewayUrl = (regConfig.paymentGatewayUrl !== undefined) 
-    ? regConfig.paymentGatewayUrl 
-    : ((db.settings && db.settings.paymentGatewayUrl) ? db.settings.paymentGatewayUrl : "https://pages.razorpay.com/arenium27-pay");
+  const currentGatewayInternal = (regConfig.paymentGatewayUrlInternal !== undefined)
+    ? regConfig.paymentGatewayUrlInternal
+    : (regConfig.paymentGatewayUrl || "https://pages.razorpay.com/arenium27-pay");
 
-  function updateGatewayBadge(val) {
-    if (!gatewayStatusBadge) return;
+  const currentGatewayExternal = (regConfig.paymentGatewayUrlExternal !== undefined)
+    ? regConfig.paymentGatewayUrlExternal
+    : (regConfig.externalUrl || "https://presidencyuniversity.in/arenium27-register");
+
+  function updateBadgeHelper(badgeEl, val) {
+    if (!badgeEl) return;
     if (val && val.trim()) {
-      gatewayStatusBadge.textContent = "● ACTIVE";
-      gatewayStatusBadge.style.background = "rgba(16, 185, 129, 0.2)";
-      gatewayStatusBadge.style.color = "#10B981";
-      gatewayStatusBadge.style.borderColor = "#10B981";
+      badgeEl.textContent = "● ACTIVE";
+      badgeEl.style.background = "#DCFCE7";
+      badgeEl.style.color = "#166534";
+      badgeEl.style.borderColor = "#10B981";
     } else {
-      gatewayStatusBadge.textContent = "○ NO LINK (DISABLED)";
-      gatewayStatusBadge.style.background = "rgba(239, 68, 68, 0.2)";
-      gatewayStatusBadge.style.color = "#EF4444";
-      gatewayStatusBadge.style.borderColor = "#EF4444";
+      badgeEl.textContent = "○ NO LINK (DISABLED)";
+      badgeEl.style.background = "#FEE2E2";
+      badgeEl.style.color = "#991B1B";
+      badgeEl.style.borderColor = "#EF4444";
     }
   }
 
-  if (gatewayUrlInp) {
-    gatewayUrlInp.value = currentGatewayUrl || "";
-    updateGatewayBadge(gatewayUrlInp.value);
-    gatewayUrlInp.oninput = () => {
-      updateGatewayBadge(gatewayUrlInp.value);
-    };
+  if (gatewayUrlInternalInp) {
+    gatewayUrlInternalInp.value = currentGatewayInternal || "";
+    updateBadgeHelper(gatewayStatusBadgeInternal, gatewayUrlInternalInp.value);
+    gatewayUrlInternalInp.oninput = () => updateBadgeHelper(gatewayStatusBadgeInternal, gatewayUrlInternalInp.value);
   }
 
-  if (testGatewayBtn) {
-    testGatewayBtn.onclick = () => {
-      const url = gatewayUrlInp ? gatewayUrlInp.value.trim() : "";
-      if (!url) {
-        alert("Please enter a payment gateway URL first before testing.");
-        return;
-      }
+  if (gatewayUrlExternalInp) {
+    gatewayUrlExternalInp.value = currentGatewayExternal || "";
+    updateBadgeHelper(gatewayStatusBadgeExternal, gatewayUrlExternalInp.value);
+    gatewayUrlExternalInp.oninput = () => updateBadgeHelper(gatewayStatusBadgeExternal, gatewayUrlExternalInp.value);
+  }
+
+  if (testGatewayInternalBtn) {
+    testGatewayInternalBtn.onclick = () => {
+      const url = gatewayUrlInternalInp ? gatewayUrlInternalInp.value.trim() : "";
+      if (!url) { alert("Please enter an internal payment gateway URL first."); return; }
       window.open(url, "_blank", "noopener,noreferrer");
     };
   }
 
-  if (removeGatewayBtn) {
-    removeGatewayBtn.onclick = () => {
-      if (confirm("Are you sure you want to remove the payment gateway link? The 'PAY NOW' button on the registration page will be disabled until a link is added.")) {
-        if (gatewayUrlInp) {
-          gatewayUrlInp.value = "";
-          updateGatewayBadge("");
+  if (testGatewayExternalBtn) {
+    testGatewayExternalBtn.onclick = () => {
+      const url = gatewayUrlExternalInp ? gatewayUrlExternalInp.value.trim() : "";
+      if (!url) { alert("Please enter an external registration URL first."); return; }
+      window.open(url, "_blank", "noopener,noreferrer");
+    };
+  }
+
+  if (removeGatewayInternalBtn) {
+    removeGatewayInternalBtn.onclick = () => {
+      if (confirm("Are you sure you want to remove the internal payment gateway link?")) {
+        if (gatewayUrlInternalInp) {
+          gatewayUrlInternalInp.value = "";
+          updateBadgeHelper(gatewayStatusBadgeInternal, "");
+        }
+      }
+    };
+  }
+
+  if (removeGatewayExternalBtn) {
+    removeGatewayExternalBtn.onclick = () => {
+      if (confirm("Are you sure you want to remove the external event registration link?")) {
+        if (gatewayUrlExternalInp) {
+          gatewayUrlExternalInp.value = "";
+          updateBadgeHelper(gatewayStatusBadgeExternal, "");
         }
       }
     };
@@ -3330,10 +3571,17 @@ function renderAdminRegistrations(db) {
       });
 
       if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
-      const gatewayVal = gatewayUrlInp ? gatewayUrlInp.value.trim() : "";
-      db.settings.registrationConfig.paymentGatewayUrl = gatewayVal;
+      const gatewayInternalVal = gatewayUrlInternalInp ? gatewayUrlInternalInp.value.trim() : "";
+      const gatewayExternalVal = gatewayUrlExternalInp ? gatewayUrlExternalInp.value.trim() : "";
+      
+      db.settings.registrationConfig.paymentGatewayUrlInternal = gatewayInternalVal;
+      db.settings.registrationConfig.paymentGatewayUrlExternal = gatewayExternalVal;
+      db.settings.registrationConfig.paymentGatewayUrl = gatewayInternalVal;
+      db.settings.registrationConfig.externalUrl = gatewayExternalVal;
+      db.settings.paymentGatewayUrl = gatewayInternalVal;
+      db.settings.paymentGatewayUrlInternal = gatewayInternalVal;
+      db.settings.paymentGatewayUrlExternal = gatewayExternalVal;
       db.settings.registrationConfig.googleSheetUrl = sheetUrlInp ? sheetUrlInp.value.trim() : "https://script.google.com/macros/s/AKfycbyQf200fHwcydhLqNW2YXVaADme2a4p0RXyc0at1YspDawEJ9oBIQw75tKY97LN35QH/exec";
-      db.settings.paymentGatewayUrl = gatewayVal;
       db.settings.registrationConfig.status = statusSelect ? statusSelect.value : "open";
       db.settings.registrationConfig.portalMode = modeSelect ? modeSelect.value : "internal";
       db.settings.registrationConfig.externalUrl = extUrlInput ? extUrlInput.value.trim() : "";

@@ -1329,7 +1329,14 @@
               Edit event titles, categories, descriptions, cash prizes, assigned coordinator, and rulebooks.
             </p>
           </div>
-          <button class="btn btn-primary" onclick="addNewAdminEvent()"> ADD NEW EVENT</button>
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+            <button class="btn btn-secondary" onclick="openAdminEventCoordinatorModal()" style="font-size: 0.82rem; font-weight: 700; background: rgba(2, 132, 199, 0.12); border: 1.5px solid #0284C7; color: #0284C7;">
+              ASSIGN / ADD COORDINATOR
+            </button>
+            <button class="btn btn-primary" onclick="addNewAdminEvent()" style="font-size: 0.82rem; font-weight: 700;">
+              ADD NEW EVENT
+            </button>
+          </div>
         </div>
 
         <div style="overflow-x: auto;">
@@ -1437,38 +1444,67 @@
               </span>
             </div>
 
-            <!-- Official Payment Gateway Configuration for Pay Now Button -->
+            <!-- 1. Internal Participants Payment Link (Presidency University) -->
             <div class="admin-form-group" style="grid-column: 1 / -1; background: #F8FAFC; border: 2px solid #0284C7; border-radius: 12px; padding: 1.2rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
-                <label class="admin-label" for="reg-admin-gateway-url" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
-                   OFFICIAL PAYMENT GATEWAY URL / EMBEDDED LINK
+                <label class="admin-label" for="reg-admin-gateway-url-internal" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
+                  INTERNAL PARTICIPANTS PAYMENT LINK (PRESIDENCY UNIVERSITY)
                 </label>
-                <span id="gateway-status-badge" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
+                <span id="gateway-status-badge-internal" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
                   ● ACTIVE
                 </span>
               </div>
 
               <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
-                <input type="url" id="reg-admin-gateway-url" class="admin-input" placeholder="https://pages.razorpay.com/... or https://rzp.io/l/..." style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; font-weight: 600; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important;">
+                <input type="url" id="reg-admin-gateway-url-internal" class="admin-input" placeholder="https://pages.razorpay.com/... or internal UPI link" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; font-weight: 600; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important;">
                 
-                <button type="button" id="admin-test-gateway-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; color: #000000 !important; background: #E2E8F0 !important; border: 1.5px solid #94A3B8 !important;">
-                   Test Link
+                <button type="button" id="admin-test-gateway-internal-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; color: #000000 !important; background: #E2E8F0 !important; border: 1.5px solid #94A3B8 !important;">
+                  Test Link
                 </button>
 
-                <button type="button" id="admin-remove-gateway-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.82rem; background: #FEE2E2 !important; border: 1.5px solid #EF4444 !important; color: #991B1B !important; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove payment gateway link">
-                   Remove Link
+                <button type="button" id="admin-remove-gateway-internal-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.82rem; background: #FEE2E2 !important; border: 1.5px solid #EF4444 !important; color: #991B1B !important; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove internal payment gateway link">
+                  Remove Link
                 </button>
               </div>
 
               <span style="font-size: 0.82rem; color: #000000 !important; margin-top: 0.5rem; display: block; line-height: 1.5; font-weight: 600; -webkit-text-fill-color: #000000 !important;">
-                This link is embedded into the <strong style="color: #000000 !important;">"PAY NOW"</strong> button on <strong style="color: #000000 !important;">register.html</strong>. When students click Pay Now, they are redirected to this payment gateway to complete their fee transaction. Admins can <strong style="color: #000000 !important;">add</strong>, <strong style="color: #000000 !important;">edit</strong>, or <strong style="color: #000000 !important;">remove</strong> this URL at any time.
+                Embedded into the <strong style="color: #000000 !important;">"PAY NOW (INTERNAL)"</strong> button on <strong style="color: #000000 !important;">register.html</strong> when Presidency University students register.
               </span>
             </div>
 
-            <div class="admin-form-group">
-              <label class="admin-label" for="reg-admin-external-url">EXTERNAL REGISTRATION URL</label>
-              <input type="url" id="reg-admin-external-url" class="admin-input" placeholder="https://forms.google.com/...">
+            <!-- 2. External Participants Event / Payment Link (Other Colleges & Universities) -->
+            <div class="admin-form-group" style="grid-column: 1 / -1; background: #F8FAFC; border: 2px solid #10B981; border-radius: 12px; padding: 1.2rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+                <label class="admin-label" for="reg-admin-gateway-url-external" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
+                  EXTERNAL PARTICIPANTS EVENT / REGISTRATION LINK (OTHER COLLEGES)
+                </label>
+                <span id="gateway-status-badge-external" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
+                  ● ACTIVE
+                </span>
+              </div>
+
+              <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                <input type="url" id="reg-admin-gateway-url-external" class="admin-input" placeholder="https://presidencyuniversity.in/arenium27-register or external event portal" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; font-weight: 600; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important;">
+                
+                <button type="button" id="admin-test-gateway-external-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; color: #000000 !important; background: #E2E8F0 !important; border: 1.5px solid #94A3B8 !important;">
+                  Test Link
+                </button>
+
+                <button type="button" id="admin-remove-gateway-external-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.82rem; background: #FEE2E2 !important; border: 1.5px solid #EF4444 !important; color: #991B1B !important; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove external event link">
+                  Remove Link
+                </button>
+              </div>
+
+              <span style="font-size: 0.82rem; color: #000000 !important; margin-top: 0.5rem; display: block; line-height: 1.5; font-weight: 600; -webkit-text-fill-color: #000000 !important;">
+                Embedded into the <strong style="color: #000000 !important;">"PAY / REGISTER (EXTERNAL)"</strong> button on <strong style="color: #000000 !important;">register.html</strong> when delegates from other institutions register.
+              </span>
             </div>
+            <!-- Hidden inputs for backward compatibility -->
+            <input type="hidden" id="reg-admin-gateway-url">
+            <input type="hidden" id="reg-admin-external-url">
+            <span id="gateway-status-badge" style="display:none;"></span>
+            <button type="button" id="admin-test-gateway-btn" style="display:none;"></button>
+            <button type="button" id="admin-remove-gateway-btn" style="display:none;"></button>
 
             <div class="admin-form-group">
               <label class="admin-label" for="reg-admin-internal-fee">INTERNAL BASE FEE (UP TO 2 EVENTS)</label>
@@ -1991,29 +2027,57 @@
         </div>
 
         <div class="cyber-card" style="padding: 1.5rem;">
-          <!-- Payment Gateway Config Block in Tab 9 -->
+          <!-- Dual Payment Gateway Config Block in Tab 9 -->
           <div class="admin-form-group" style="background: rgba(15, 23, 42, 0.65); border: 1.5px solid #38BDF8; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
-              <label class="admin-label" for="admin-setting-gatewayurl" style="margin: 0; font-size: 0.88rem; color: #38BDF8; font-weight: 700;">
-                 OFFICIAL PAYMENT GATEWAY URL (PAY NOW BUTTON)
+              <label class="admin-label" for="admin-setting-gatewayurl-internal" style="margin: 0; font-size: 0.88rem; color: #38BDF8; font-weight: 700;">
+                INTERNAL PARTICIPANTS PAYMENT GATEWAY LINK (PRESIDENCY UNIVERSITY)
               </label>
-              <span id="admin-setting-gateway-status" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
+              <span id="admin-setting-gateway-status-internal" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
                 ● ACTIVE
               </span>
             </div>
             <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
-              <input type="url" id="admin-setting-gatewayurl" class="admin-input" placeholder="https://pages.razorpay.com/... or https://rzp.io/l/..." style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
-              <button type="button" id="admin-setting-test-gateway-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
-                 Test Link
+              <input type="url" id="admin-setting-gatewayurl-internal" class="admin-input" placeholder="https://pages.razorpay.com/... or UPI pay link" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
+              <button type="button" id="admin-setting-test-gateway-internal-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                Test Link
               </button>
-              <button type="button" id="admin-setting-remove-gateway-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; color: #FCA5A5; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove payment gateway link">
-                 Remove Link
+              <button type="button" id="admin-setting-remove-gateway-internal-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; color: #FCA5A5; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove internal payment gateway link">
+                Remove Link
               </button>
             </div>
             <span style="font-size: 0.74rem; color: var(--text-muted); margin-top: 0.4rem; display: block; line-height: 1.4;">
-              Embedded into the <strong>"PAY NOW"</strong> button on <code>register.html</code>. Admins can add, edit, or remove this URL.
+              Embedded into the <strong>"PAY NOW"</strong> button on <code>register.html</code> when internal students register.
             </span>
           </div>
+
+          <div class="admin-form-group" style="background: rgba(15, 23, 42, 0.65); border: 1.5px solid #10B981; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+              <label class="admin-label" for="admin-setting-gatewayurl-external" style="margin: 0; font-size: 0.88rem; color: #10B981; font-weight: 700;">
+                EXTERNAL PARTICIPANTS EVENT / REGISTRATION LINK (OTHER COLLEGES)
+              </label>
+              <span id="admin-setting-gateway-status-external" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
+                ● ACTIVE
+              </span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+              <input type="url" id="admin-setting-gatewayurl-external" class="admin-input" placeholder="https://presidencyuniversity.in/arenium27-register" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
+              <button type="button" id="admin-setting-test-gateway-external-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                Test Link
+              </button>
+              <button type="button" id="admin-setting-remove-gateway-external-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; color: #FCA5A5; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove external link">
+                Remove Link
+              </button>
+            </div>
+            <span style="font-size: 0.74rem; color: var(--text-muted); margin-top: 0.4rem; display: block; line-height: 1.4;">
+              Embedded into the <strong>"PAY / REGISTER"</strong> button on <code>register.html</code> when external delegates register.
+            </span>
+          </div>
+          <!-- Hidden fallback elements -->
+          <input type="hidden" id="admin-setting-gatewayurl">
+          <span id="admin-setting-gateway-status" style="display:none;"></span>
+          <button type="button" id="admin-setting-test-gateway-btn" style="display:none;"></button>
+          <button type="button" id="admin-setting-remove-gateway-btn" style="display:none;"></button>
 
           <div class="admin-form-group">
             <label class="admin-label" for="admin-setting-regurl">MASTER REGISTRATION PORTAL URL</label>
@@ -2201,6 +2265,76 @@
           Close
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       ADMIN ASSIGN / ADD EVENT COORDINATOR MODAL
+       ======================================================================== -->
+  <div id="admin-coord-modal" class="admin-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; width: 100%; max-width: 580px; max-height: 92vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.22); position: relative; color: #0F172A;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
+        <div>
+          <span class="section-tag" style="margin: 0; color: #0369A1; background: #E0F2FE; border-color: #BAE6FD;">EVENT &amp; RULEBOOK MANAGEMENT</span>
+          <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.25rem; margin: 0.2rem 0 0;" id="coord-modal-heading">
+            Assign / Add Event Coordinator
+          </h3>
+        </div>
+        <button type="button" class="btn btn-ghost" onclick="closeAdminCoordModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
+          ✕
+        </button>
+      </div>
+
+      <form id="admin-coord-form" onsubmit="event.preventDefault(); saveAdminEventCoordinator();">
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label" for="coord-modal-event-select" style="font-weight: 800; color: #0F172A;">TARGET EVENT / ARENA *</label>
+          <select id="coord-modal-event-select" class="admin-input" style="font-weight: 700; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;" required>
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1rem; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.85rem;">
+          <label class="admin-label" for="coord-modal-quick-select" style="font-weight: 800; color: #0369A1; margin-bottom: 0.3rem;">
+            QUICK ASSIGN FROM COMMITTEE LEADERSHIP
+          </label>
+          <select id="coord-modal-quick-select" class="admin-input" style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;" onchange="onCoordModalQuickSelect(this.value)">
+            <option value="">-- Select from Committee or Enter Custom Details Below --</option>
+            <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 · Arenium.official@gmail.com)</option>
+            <option value="vimal">Vimal Raj (+91 96201 92249 · Arenium.official@gmail.com)</option>
+            <option value="ashlin">Ashlin Siddharth (+91 91087 40761 · Arenium.official@gmail.com)</option>
+            <option value="abhyas">Abhyas Kathuria (+91 85958 48421 · Arenium.official@gmail.com)</option>
+            <option value="keren">Ms. Keren Lois Daniel (SOIS Office · Arenium.official@gmail.com)</option>
+          </select>
+          <span style="font-size: 0.73rem; color: #64748B; margin-top: 0.3rem; display: block;">
+            Picking a committee member auto-populates their credentials below. You can also customize them freely.
+          </span>
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label" for="coord-modal-name" style="font-weight: 800; color: #0F172A;">COORDINATOR FULL NAME *</label>
+          <input type="text" id="coord-modal-name" class="admin-input" placeholder="e.g. Kaushal Kumar Singh" required style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;">
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label" for="coord-modal-phone" style="font-weight: 800; color: #0F172A;">PHONE / WHATSAPP NUMBER *</label>
+          <input type="text" id="coord-modal-phone" class="admin-input" placeholder="e.g. +91 87977 86686" required style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;">
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label" for="coord-modal-email" style="font-weight: 800; color: #0F172A;">EMAIL ID</label>
+          <input type="email" id="coord-modal-email" class="admin-input" placeholder="Arenium.official@gmail.com" value="Arenium.official@gmail.com" style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;">
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1.5rem;">
+          <label class="admin-label" for="coord-modal-photo" style="font-weight: 800; color: #0F172A;">PHOTO IMAGE URL / PATH</label>
+          <input type="text" id="coord-modal-photo" class="admin-input" placeholder="e.g. images/Kaushal.jpeg" style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.8rem; border-top: 1.5px solid #E2E8F0; padding-top: 1rem;">
+          <button type="button" class="btn btn-ghost" onclick="closeAdminCoordModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800;">SAVE COORDINATOR</button>
+        </div>
+      </form>
     </div>
   </div>
 

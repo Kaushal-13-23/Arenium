@@ -11373,19 +11373,61 @@ body.certificate-page .section-subtitle {
 
 /* Grid Layouts: Ensure cards have adequate width (min 250px) so long names never squish */
 .team-grid,
-.team-grid-leadership,
-.student-coords-grid {
+.student-coords-grid,
+[data-student-coords-grid] {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
   gap: 1.5rem !important;
   align-items: stretch !important;
 }
 
+/* Patrons & Institutional Leadership Layout (Row 1: 3 cards, Row 2: 2 cards centered) */
+.team-grid-leadership,
+[data-leadership-grid],
+.leadership-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 1.5rem !important;
+  max-width: 1140px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  align-items: stretch !important;
+}
+
+@media (min-width: 851px) {
+  .team-grid-leadership > .team-card,
+  [data-leadership-grid] > .team-card,
+  .leadership-grid > .team-card {
+    flex: 0 0 calc((100% - 3rem) / 3) !important;
+    max-width: calc((100% - 3rem) / 3) !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 850px) and (min-width: 601px) {
+  .team-grid-leadership > .team-card,
+  [data-leadership-grid] > .team-card,
+  .leadership-grid > .team-card {
+    flex: 0 0 calc((100% - 1.5rem) / 2) !important;
+    max-width: calc((100% - 1.5rem) / 2) !important;
+  }
+}
+
 @media (max-width: 600px) {
   .team-grid,
+  .student-coords-grid,
+  [data-student-coords-grid],
   .team-grid-leadership,
-  .student-coords-grid {
+  [data-leadership-grid],
+  .leadership-grid {
     grid-template-columns: 1fr !important;
+  }
+  .team-grid-leadership > .team-card,
+  [data-leadership-grid] > .team-card,
+  .leadership-grid > .team-card {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
   }
 }
 
