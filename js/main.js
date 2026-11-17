@@ -1313,35 +1313,35 @@ function initEventsPage(db) {
       card.innerHTML = `
         <div class="event-poster-wrapper" style="height: 220px; position: relative; overflow: hidden; border-bottom: 1.5px solid #000000; background: #F8FAFC;">
           <img src="${ev.poster || 'images/events/' + ev.id + '.svg'}" alt="${ev.name}" class="event-poster-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
-          <span style="position: absolute; top: 12px; right: 12px; background: #000000; color: #FFFFFF; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 9999px;">
+          <span class="event-prize-badge" style="position: absolute; top: 12px; right: 12px; background: #000000; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 9999px; z-index: 5;">
             ${ev.prize ? 'Prize: ' + ev.prize : 'Prize: ₹15,000'}
           </span>
-          <span style="position: absolute; bottom: 12px; left: 12px; background: rgba(255, 255, 255, 0.95); color: #0F172A; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 9999px; border: 1px solid #000000;">
+          <span class="event-venue-pill" style="position: absolute; bottom: 12px; left: 12px; background: #FFFFFF; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 800; padding: 0.28rem 0.75rem; border-radius: 9999px; border: 1.5px solid #000000; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); z-index: 5;">
             ${ev.venue || 'SOIS Campus'}
           </span>
         </div>
         <div class="team-card-content" style="padding: 1.5rem; display: flex; flex-direction: column; flex: 1; background: #FFFFFF;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
             <span class="team-card-tag" style="margin-bottom: 0;">${ev.category}</span>
-            <span style="font-size: 0.78rem; color: #64748B; font-weight: 600;">${ev.date || '4–5 Feb'}</span>
+            <span class="event-date-text" style="font-size: 0.78rem; color: #475569 !important; -webkit-text-fill-color: #475569 !important; font-weight: 600;">${ev.date || '4–5 Feb'}</span>
           </div>
-          <h3 class="event-title" style="margin: 0.4rem 0 0.5rem; font-family: 'Playfair Display', Georgia, serif; color: #000000; font-weight: 700; font-size: 1.35rem; word-break: keep-all; hyphens: none;">${ev.name}</h3>
-          <p class="event-desc" style="color: #475569; font-size: 0.88rem; line-height: 1.55; margin-bottom: 1rem; flex: 1;">${ev.description}</p>
+          <h3 class="event-title" style="margin: 0.4rem 0 0.5rem; font-family: 'Playfair Display', Georgia, serif; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; font-size: 1.35rem; word-break: keep-all; hyphens: none;">${ev.name}</h3>
+          <p class="event-desc" style="color: #475569 !important; -webkit-text-fill-color: #475569 !important; font-size: 0.88rem; line-height: 1.55; margin-bottom: 1rem; flex: 1;">${ev.description}</p>
           
-          <div class="event-coord-mini" style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 0.6rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.2rem;">
+          <div class="event-coord-mini" style="background: #F8FAFC !important; border: 1.5px solid #E2E8F0 !important; border-radius: 10px; padding: 0.6rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.2rem;">
             <img src="${coord.photo || 'images/coord-generic.svg'}" alt="${coord.name}" class="event-coord-thumb" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid #CBD5E1; object-fit: cover; flex-shrink: 0;">
             <div class="event-coord-details" style="min-width: 0;">
-              <div class="event-coord-name" style="color: #0F172A; font-weight: 700; font-size: 0.84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${coord.name}</div>
-              <a href="tel:${coord.phone.replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #0284C7; font-size: 0.8rem; text-decoration: none; font-weight: 600; display: block;">
+              <div class="event-coord-name" style="color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700; font-size: 0.84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${coord.name}</div>
+              <a href="tel:${coord.phone.replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-size: 0.8rem; text-decoration: none; font-weight: 700; display: block;">
                 ${coord.phone}
               </a>
             </div>
           </div>
 
           <div class="event-action-footer" style="display: flex; gap: 0.75rem; margin-top: auto;">
-            <button type="button" class="btn-pill-outline open-rulebook-btn" data-event-id="${ev.id}" style="flex: 1; text-align: center; justify-content: center;">
+            <a href="rulebook.pdf" target="_blank" rel="noopener noreferrer" class="btn-pill-outline open-rulebook-btn" data-event-id="${ev.id}" style="flex: 1; text-align: center; justify-content: center; text-decoration: none;">
               Rulebook
-            </button>
+            </a>
             <a href="${regUrl}" class="btn-pill-solid" style="flex: 1.2; text-align: center; justify-content: center;" data-register-btn>
               Register
             </a>
@@ -1353,10 +1353,18 @@ function initEventsPage(db) {
     });
 
     // Attach click listeners to Rulebook buttons
+    window.openRulebookModal = window.openRulebookModal || function(evId) {
+      window.open("rulebook.pdf", "_blank");
+    };
+
     document.querySelectorAll(".open-rulebook-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
         const evId = btn.getAttribute("data-event-id");
-        openRulebookModal(evId);
+        if (typeof openRulebookModal === "function") {
+          openRulebookModal(evId);
+        } else {
+          window.open("rulebook.pdf", "_blank");
+        }
       });
     });
 

@@ -10116,23 +10116,7 @@ body:not(.register-page) .fee-tier-external * {
   -webkit-text-fill-color: #38BDF8 !important;
 }
 
-/* Guarantee Crisp Pure White Text on All Event Cards, Meta & Coordinators */
-.event-card,
-.event-card *,
-.event-card div,
-.event-card span,
-.event-card p,
-.event-card h3,
-.event-body,
-.event-body *,
-.event-category-badge,
-.event-coord-mini,
-.event-coord-mini *,
-.event-coord-details,
-.event-coord-name,
-.event-coord-phone,
-.event-desc,
-.event-title,
+/* Guarantee Crisp Pure White Text on Rulebook Modal Content */
 .event-meta,
 .event-rule,
 .meta-label,
@@ -10141,30 +10125,6 @@ body:not(.register-page) .fee-tier-external * {
 .rulebook-modal-content * {
   color: #FFFFFF !important;
   -webkit-text-fill-color: #FFFFFF !important;
-}
-
-.event-category-badge {
-  color: #38BDF8 !important;
-  -webkit-text-fill-color: #38BDF8 !important;
-  font-weight: 800 !important;
-}
-
-.event-coord-phone {
-  color: #38BDF8 !important;
-  -webkit-text-fill-color: #38BDF8 !important;
-  font-weight: 700 !important;
-}
-
-.event-coord-name {
-  color: #FFFFFF !important;
-  -webkit-text-fill-color: #FFFFFF !important;
-  font-weight: 700 !important;
-}
-
-.event-coord-mini {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(56, 189, 248, 0.25) !important;
-  border-radius: 8px !important;
 }
 
 
@@ -11999,6 +11959,100 @@ body:not(#admin-app) .title-sponsor-card span {
   opacity: 1;
   color: #38BDF8 !important;
 }
+
+/* ==========================================================================
+   EDITORIAL EVENT CARD HIGH-CONTRAST VENUE PILL & DETAILS ENFORCEMENT
+   Ensure venue badges ("SOIS Lab 01", etc.) are crisp black on white pill,
+   and date, coordinator name & phone have high contrast and zero hover effects.
+   ========================================================================== */
+body:not(#admin-app) .editorial-card.event-card .event-venue-pill,
+body:not(#admin-app) .event-card .event-venue-pill,
+.event-venue-pill {
+  position: absolute !important;
+  bottom: 12px !important;
+  left: 12px !important;
+  background: #FFFFFF !important;
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  padding: 0.28rem 0.75rem !important;
+  border-radius: 9999px !important;
+  border: 1.5px solid #000000 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+  letter-spacing: 0.02em !important;
+  z-index: 5 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+body:not(#admin-app) .editorial-card.event-card .event-prize-badge,
+body:not(#admin-app) .event-card .event-prize-badge,
+.event-prize-badge {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  background: #000000 !important;
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  padding: 0.3rem 0.75rem !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  z-index: 5 !important;
+}
+
+body:not(#admin-app) .editorial-card.event-card .event-date-text,
+body:not(#admin-app) .event-card .event-date-text,
+.event-date-text {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.78rem !important;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+body:not(#admin-app) .editorial-card.event-card .event-coord-mini,
+body:not(#admin-app) .event-card .event-coord-mini {
+  background: #F8FAFC !important;
+  background-color: #F8FAFC !important;
+  border: 1.5px solid #E2E8F0 !important;
+  border-radius: 10px !important;
+  padding: 0.6rem 0.8rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  margin-bottom: 1.2rem !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+body:not(#admin-app) .editorial-card.event-card .event-coord-name,
+body:not(#admin-app) .event-card .event-coord-name {
+  color: #0F172A !important;
+  -webkit-text-fill-color: #0F172A !important;
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.84rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+}
+
+body:not(#admin-app) .editorial-card.event-card .event-coord-phone,
+body:not(#admin-app) .event-card .event-coord-phone {
+  color: #0284C7 !important;
+  -webkit-text-fill-color: #0284C7 !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+}
+
 
 
 
