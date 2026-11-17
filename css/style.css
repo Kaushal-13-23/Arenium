@@ -11986,5 +11986,20 @@ body:not(#admin-app) .title-sponsor-card span {
   -webkit-text-fill-color: #FFFFFF !important;
 }
 
+/* ==========================================================================
+   DISCREET FOOTER ADMIN LINK (UNDER RULEBOOK)
+   ========================================================================== */
+.footer-admin-link {
+  opacity: 0.65;
+  font-size: 0.82rem;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.footer-admin-link:hover {
+  opacity: 1;
+  color: #38BDF8 !important;
+}
+
+
 
 
