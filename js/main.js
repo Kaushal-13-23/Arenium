@@ -1044,6 +1044,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof renderAdminEvents === "function") renderAdminEvents(cloudDb);
       if (typeof renderAdminOverview === "function") renderAdminOverview(cloudDb);
       if (typeof initRegistrationButtons === "function") initRegistrationButtons(cloudDb);
+      if (typeof initTeamSections === "function") initTeamSections(cloudDb);
+      if (typeof renderAdminCoordinators === "function") renderAdminCoordinators(cloudDb);
+      if (typeof renderAdminLeadership === "function") renderAdminLeadership(cloudDb);
     }
   });
 });
@@ -1369,6 +1372,21 @@ function initScrollAnimations() {
 // ==========================================================================
 function initTeamSections(db) {
   try {
+    // 0. Lead Faculty Coordinator (Homepage & Contact page)
+    const lead = (db.coordinators || []).find(c => c.id === "coord-lead");
+    if (lead) {
+      document.querySelectorAll(".team-card-lead").forEach(card => {
+        const img = card.querySelector(".team-avatar-img");
+        if (img && lead.photo) img.src = resolveAssetPath(lead.photo, 'images/keren-lois-daniel.jpg');
+        const nameEl = card.querySelector(".team-name");
+        if (nameEl) nameEl.textContent = lead.name;
+        const roleEl = card.querySelector(".team-role");
+        if (roleEl) roleEl.textContent = lead.role + (lead.dept ? ` · ${lead.dept}` : '');
+        const emailLink = card.querySelector("a[href^='mailto:']");
+        if (emailLink) emailLink.href = `mailto:${lead.email || 'Arenium.official@gmail.com'}`;
+      });
+    }
+
     // 1. Student Coordinators Grid (Homepage & Contact page) - Refined: Role bold & in middle; contact & mail on the side; mail opens in Gmail
     const studentGrids = document.querySelectorAll("[data-student-coords-grid]");
     studentGrids.forEach(grid => {
@@ -1380,7 +1398,7 @@ function initTeamSections(db) {
         const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`;
         card.innerHTML = `
           <div class="team-photo-wrap">
-            <img src="${c.photo || 'images/coord-generic.svg'}" alt="${c.name}" class="team-avatar-img" loading="lazy"${c.name === 'Abhyas Kathuria' ? ' style="object-position: center top;"' : ''}>
+            <img src="${resolveAssetPath(c.photo, 'images/coord-generic.svg')}" alt="${c.name}" class="team-avatar-img" loading="lazy"${c.name === 'Abhyas Kathuria' ? ' style="object-position: center top;"' : ''}>
           </div>
           <div class="team-card-content">
             <div class="coord-card-role">${c.role.toUpperCase()}</div>
@@ -3274,21 +3292,37 @@ function renderAdminCoordinators(db) {
   if (!container) return;
   container.innerHTML = "";
 
-  db.coordinators.forEach(c => {
+  (db.coordinators || []).forEach(c => {
     const div = document.createElement("div");
     div.className = "cyber-card";
-    div.style.padding = "1rem";
+    div.style.padding = "1.2rem";
     div.style.marginBottom = "1rem";
+    div.style.background = "#FFFFFF";
+    div.style.border = "1.5px solid #E2E8F0";
+    div.style.borderRadius = "14px";
     div.innerHTML = `
-      <div style="display:flex; gap:1rem; align-items:center;">
-        <img src="${resolveAssetPath(c.photo, 'images/coord-generic.svg')}" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--neon-cyan); object-fit:cover;">
-        <div style="flex:1;">
-          <h4 style="color: var(--text-primary); font-family:var(--font-display);">${c.name}</h4>
-          <div style="color:var(--neon-pink); font-size:0.8rem;">${c.role}</div>
-          <div style="color:var(--text-secondary); font-size:0.8rem;">${c.dept} | ${c.phone}</div>
+      <div style="display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap;">
+        <img src="${resolveAssetPath(c.photo, 'images/coord-generic.svg')}" style="width:64px; height:64px; border-radius:50%; border:2px solid #0284C7; object-fit:cover; flex-shrink:0;">
+        <div style="flex:1; min-width:240px;">
+          <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+            <h4 style="color:#0F172A; font-family:var(--font-display); font-size:1.15rem; margin:0; font-weight:800;">${c.name}</h4>
+            <span style="background:#E0F2FE; color:#0369A1; font-size:0.72rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:6px; border:1px solid #BAE6FD;">${c.role}</span>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.8rem; align-items:center; margin-top:0.4rem; font-size:0.82rem; color:#475569;">
+            <span style="display:inline-flex; align-items:center; gap:0.35rem;">📞 <strong>${c.phone}</strong></span>
+            <span style="display:inline-flex; align-items:center; gap:0.35rem; color:#0284C7; font-weight:700; background:#F0F9FF; padding:0.1rem 0.45rem; border-radius:4px; border:1px solid #BAE6FD;">✉️ <span>${c.email || 'Arenium.official@gmail.com'}</span></span>
+            ${c.dept ? `<span style="display:inline-flex; align-items:center; gap:0.35rem; color:#64748B;">🏢 ${c.dept}</span>` : ''}
+          </div>
         </div>
-        <div>
-          <button class="btn btn-ghost" style="padding:0.4rem 0.8rem; font-size:0.75rem;" onclick="editAdminCoordinator('${c.id}')"> Edit Details / Photo</button>
+        <div style="display:flex; gap:0.6rem; align-items:center;">
+          <button type="button" class="btn btn-secondary" style="padding:0.45rem 1rem; font-size:0.8rem; font-weight:700; background:rgba(2,132,199,0.1); border:1.5px solid #0284C7; color:#0284C7;" onclick="openAdminCoordinatorEditModal('${c.id}')">
+            ✏️ Edit Details / Photo
+          </button>
+          ${c.id !== "coord-lead" && c.id !== "coord-1" ? `
+            <button type="button" class="btn btn-ghost" style="padding:0.45rem 0.8rem; font-size:0.8rem; color:#EF4444; border:1px solid #FECACA; background:#FEF2F2;" onclick="deleteAdminCoordinator('${c.id}')" title="Delete Coordinator">
+              🗑️
+            </button>
+          ` : ''}
         </div>
       </div>
     `;
@@ -3296,19 +3330,138 @@ function renderAdminCoordinators(db) {
   });
 }
 
-window.editAdminCoordinator = function(id) {
+window.openAdminCoordinatorEditModal = function(id) {
+  const modal = document.getElementById("admin-coord-profile-modal");
+  if (!modal) {
+    if (typeof editAdminCoordinator === "function") editAdminCoordinator(id);
+    return;
+  }
   const db = FestDB.getData();
-  const c = db.coordinators.find(x => x.id === id);
+  const c = (db.coordinators || []).find(x => x.id === id);
+
+  document.getElementById("coord-profile-id").value = id || "";
+  document.getElementById("coord-profile-name").value = c ? c.name : "";
+  document.getElementById("coord-profile-role").value = c ? c.role : "Student Coordinator";
+  document.getElementById("coord-profile-phone").value = c ? c.phone : "";
+  document.getElementById("coord-profile-email").value = c ? (c.email || "Arenium.official@gmail.com") : "Arenium.official@gmail.com";
+  document.getElementById("coord-profile-dept").value = c ? (c.dept || "") : "";
+  document.getElementById("coord-profile-photo").value = c ? (c.photo || "") : "";
+
+  const heading = document.getElementById("coord-profile-modal-heading");
+  if (heading) heading.textContent = c ? `Edit Details: ${c.name}` : "Add New Coordinator";
+
+  window.updateAdminCoordProfilePhotoPreview(c ? c.photo : "");
+  modal.style.display = "flex";
+};
+
+window.closeAdminCoordinatorEditModal = function() {
+  const modal = document.getElementById("admin-coord-profile-modal");
+  if (modal) modal.style.display = "none";
+};
+
+window.saveAdminCoordinatorProfileModal = function() {
+  const id = document.getElementById("coord-profile-id").value;
+  const name = document.getElementById("coord-profile-name").value.trim();
+  const role = document.getElementById("coord-profile-role").value.trim();
+  const phone = document.getElementById("coord-profile-phone").value.trim();
+  const email = document.getElementById("coord-profile-email").value.trim() || "Arenium.official@gmail.com";
+  const dept = document.getElementById("coord-profile-dept").value.trim();
+  const photo = document.getElementById("coord-profile-photo").value.trim() || "images/coord-generic.svg";
+
+  if (!name || !phone) {
+    alert("Please enter Coordinator Name and Phone Number.");
+    return;
+  }
+
+  const db = FestDB.getData();
+  if (!db.coordinators) db.coordinators = [];
+
+  let c = db.coordinators.find(x => x.id === id);
+  if (c) {
+    c.name = name;
+    c.role = role;
+    c.phone = phone;
+    c.email = email;
+    c.dept = dept;
+    c.photo = photo;
+  } else {
+    // Add new coordinator
+    const newId = "coord-" + Date.now();
+    db.coordinators.push({
+      id: newId,
+      name,
+      role,
+      phone,
+      email,
+      dept,
+      photo
+    });
+  }
+
+  FestDB.saveData(db);
+  closeAdminCoordinatorEditModal();
+  renderAdminCoordinators(db);
+  alert("Coordinator profile & email updated successfully! Synced across all devices.");
+};
+
+window.deleteAdminCoordinator = function(id) {
+  if (!confirm("Are you sure you want to remove this coordinator?")) return;
+  const db = FestDB.getData();
+  if (!db.coordinators) return;
+  db.coordinators = db.coordinators.filter(c => c.id !== id);
+  FestDB.saveData(db);
+  renderAdminCoordinators(db);
+  alert("Coordinator removed!");
+};
+
+window.handleAdminCoordProfilePhotoUpload = async function(file) {
+  if (!file) return;
+  try {
+    const dataUrl = await compressAndConvertImage(file, 600, 600, 0.85);
+    const photoInput = document.getElementById("coord-profile-photo");
+    if (photoInput) {
+      photoInput.value = dataUrl;
+      window.updateAdminCoordProfilePhotoPreview(dataUrl);
+    }
+  } catch (err) {
+    console.error("Photo upload error:", err);
+    alert("Could not process image file: " + err.message);
+  }
+};
+
+window.updateAdminCoordProfilePhotoPreview = function(url) {
+  const wrap = document.getElementById("coord-profile-photo-preview-wrap");
+  const img = document.getElementById("coord-profile-photo-preview");
+  if (!wrap || !img) return;
+  if (url && url.trim()) {
+    img.src = resolveAssetPath(url.trim(), "images/coord-generic.svg");
+    wrap.style.display = "flex";
+  } else {
+    wrap.style.display = "none";
+  }
+};
+
+window.editAdminCoordinator = function(id) {
+  const modal = document.getElementById("admin-coord-profile-modal");
+  if (modal) {
+    window.openAdminCoordinatorEditModal(id);
+    return;
+  }
+  const db = FestDB.getData();
+  const c = (db.coordinators || []).find(x => x.id === id);
   if (!c) return;
 
   const newName = prompt("Coordinator Name:", c.name);
   if (newName) c.name = newName;
 
+  const newRole = prompt("Role / Title:", c.role);
+  if (newRole) c.role = newRole;
+
   const newPhone = prompt("Phone Number:", c.phone);
   if (newPhone) c.phone = newPhone;
 
-  const newRole = prompt("Role / Title:", c.role);
-  if (newRole) c.role = newRole;
+  const newEmail = prompt("Email ID:", c.email || "Arenium.official@gmail.com");
+  if (newEmail) c.email = newEmail.trim();
 
   const newPhoto = prompt("Photo Image URL / Path (e.g. images/Kaushal.jpeg):", c.photo);
   if (newPhoto) c.photo = resolveAssetPath(newPhoto.trim(), "images/coord-generic.svg");

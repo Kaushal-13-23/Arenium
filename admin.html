@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2027_COORDS_CARD_REFINEMENT_V44">
+  <link rel="stylesheet" href="css/style.css?v=2027_COORD_EMAIL_EDIT_AND_WRAP_FIX_V45">
 
     <style>
     /* ========================================================================
@@ -1722,12 +1722,19 @@
            TAB 3: COORDINATORS & PHOTOS
            -------------------------------------------------------------------- -->
       <div id="tab-coords" class="admin-tab-pane" style="display: none;">
-        <div style="margin-bottom: 1.5rem;">
-          <span class="section-tag">LEADERSHIP MATRIX</span>
-          <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important;">4 STUDENT COORDINATORS</h2>
-          <p style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.88rem; font-weight: 600;">
-            Update names, phone numbers, roles, and avatar/photo image paths for Kaushal Kumar, Ashlin, Abhyas Kathuria, and Vimal.
-          </p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 1rem;">
+          <div>
+            <span class="section-tag" style="margin: 0; color: #0369A1; background: #E0F2FE; border-color: #BAE6FD;">LEADERSHIP MATRIX</span>
+            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #000000 !important; font-weight: 800; -webkit-text-fill-color: #000000 !important; margin: 0.25rem 0 0.35rem;">
+              COORDINATORS, CONTACTS &amp; PHOTOS
+            </h2>
+            <p style="color: #475569 !important; -webkit-text-fill-color: #475569 !important; font-size: 0.88rem; font-weight: 600; margin: 0;">
+              Edit coordinator names, roles, phone numbers, official email IDs, and upload live device photos. Changes sync across all devices via MongoDB Atlas.
+            </p>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="openAdminCoordinatorEditModal('')" style="font-size: 0.84rem; font-weight: 800; padding: 0.55rem 1.25rem; display: flex; align-items: center; gap: 0.5rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF;">
+            + Add Coordinator
+          </button>
         </div>
 
         <div id="admin-coords-list">
@@ -2202,7 +2209,7 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_COORDS_CARD_REFINEMENT_V44"></script>
+  <script src="js/main.js?v=2027_COORD_EMAIL_EDIT_AND_WRAP_FIX_V45"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
@@ -2561,6 +2568,90 @@
           <div style="display: flex; gap: 0.8rem;">
             <button type="button" class="btn btn-ghost" onclick="closeAdminCoordModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
             <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800;">SAVE COORDINATORS</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       ADMIN EDIT COORDINATOR PROFILE MODAL (NAME, ROLE, PHONE, EMAIL, PHOTO)
+       ======================================================================== -->
+  <div id="admin-coord-profile-modal" class="admin-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; width: 100%; max-width: 620px; max-height: 92vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.22); position: relative; color: #0F172A;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
+        <div>
+          <span class="section-tag" style="margin: 0; color: #0369A1; background: #E0F2FE; border-color: #BAE6FD;">COORDINATOR PROFILE &amp; CONTACT</span>
+          <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.25rem; margin: 0.2rem 0 0;" id="coord-profile-modal-heading">
+            Edit Coordinator Details
+          </h3>
+        </div>
+        <button type="button" class="btn btn-ghost" onclick="closeAdminCoordinatorEditModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
+          ✕
+        </button>
+      </div>
+
+      <form id="admin-coord-profile-form" onsubmit="event.preventDefault(); saveAdminCoordinatorProfileModal();">
+        <input type="hidden" id="coord-profile-id">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+          <div>
+            <label class="admin-label" for="coord-profile-name" style="font-weight: 800; color: #0F172A;">FULL NAME *</label>
+            <input type="text" id="coord-profile-name" class="admin-input" placeholder="e.g. Kaushal Kumar Singh" required style="font-weight: 700; color: #0F172A;">
+          </div>
+          <div>
+            <label class="admin-label" for="coord-profile-role" style="font-weight: 800; color: #0F172A;">ROLE / TITLE *</label>
+            <input type="text" id="coord-profile-role" class="admin-input" placeholder="e.g. Finance &amp; Registration Manager" required>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+          <div>
+            <label class="admin-label" for="coord-profile-phone" style="font-weight: 800; color: #0F172A;">PHONE NUMBER *</label>
+            <input type="text" id="coord-profile-phone" class="admin-input" placeholder="e.g. +91 87977 86686" required>
+          </div>
+          <div>
+            <label class="admin-label" for="coord-profile-email" style="font-weight: 800; color: #0284C7; display: flex; align-items: center; gap: 0.35rem;">
+              <span>EMAIL ADDRESS *</span>
+              <span style="font-size: 0.68rem; background: #E0F2FE; color: #0369A1; padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 800;">EDITABLE</span>
+            </label>
+            <input type="email" id="coord-profile-email" class="admin-input" placeholder="Arenium.official@gmail.com" value="Arenium.official@gmail.com" required style="font-weight: 700; color: #0F172A; border: 1.5px solid #0284C7; background: #F0F9FF;">
+          </div>
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label" for="coord-profile-dept" style="font-weight: 800; color: #0F172A;">DEPARTMENT / OFFICE (OPTIONAL)</label>
+          <input type="text" id="coord-profile-dept" class="admin-input" placeholder="e.g. SOIS Office or School of Information Science">
+        </div>
+
+        <!-- Coordinator Photo with File Upload & Preview -->
+        <div class="admin-form-group" style="margin-bottom: 1.5rem; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1.1rem;">
+          <label class="admin-label" style="font-weight: 800; color: #0369A1; margin-bottom: 0.4rem;">
+            COORDINATOR PHOTO (UPLOAD FROM PHONE/PC OR ENTER URL)
+          </label>
+          <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.6rem;">
+            <input type="text" id="coord-profile-photo" class="admin-input" placeholder="e.g. images/Kaushal.jpeg or click Upload Photo" style="flex: 1;" oninput="updateAdminCoordProfilePhotoPreview(this.value)">
+            <label class="btn btn-secondary" style="margin: 0; padding: 0.55rem 1rem; font-size: 0.78rem; cursor: pointer; white-space: nowrap; background: #0284C7; border-color: #0284C7; color: #FFF; font-weight: 800; border-radius: 8px;">
+              Upload Photo
+              <input type="file" id="coord-profile-photo-file" accept="image/*" style="display: none;" onchange="handleAdminCoordProfilePhotoUpload(this.files[0])">
+            </label>
+          </div>
+          <div id="coord-profile-photo-preview-wrap" style="display: none; align-items: center; gap: 0.8rem; background: #FFFFFF; border: 1px solid #E2E8F0; padding: 0.6rem; border-radius: 8px;">
+            <img id="coord-profile-photo-preview" src="" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid #0284C7;">
+            <div>
+              <div style="font-size: 0.8rem; font-weight: 700; color: #0F172A;">Photo Ready</div>
+              <div style="font-size: 0.72rem; color: #059669; font-weight: 600;">Will sync across all devices and display on website</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid #E2E8F0; padding-top: 1rem; flex-wrap: wrap; gap: 0.8rem;">
+          <span style="font-size: 0.74rem; color: #0284C7; font-weight: 700;">
+            Changes sync automatically to Cloud MongoDB Atlas.
+          </span>
+          <div style="display: flex; gap: 0.8rem;">
+            <button type="button" class="btn btn-ghost" onclick="closeAdminCoordinatorEditModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800;">SAVE COORDINATOR</button>
           </div>
         </div>
       </form>

@@ -18,3 +18,4 @@ __pycache__/
 # Temporary test / verification files
 verify_*.png
 test_*.html
+*.crt
