@@ -1169,6 +1169,9 @@
           <a href="https://arenium-27-core.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 0.5rem 0.9rem; font-size: 0.75rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF; font-weight: 800;" title="Open ARENIUM 27 CORE Operations Platform">
              ARENIUM CORE ↗
           </a>
+          <button id="admin-cloud-sync-btn" type="button" class="btn btn-secondary" onclick="syncFestConfigToCloudManual()" style="padding: 0.5rem 0.9rem; font-size: 0.75rem; background: #059669; border-color: #059669; color: #FFFFFF; font-weight: 800;" title="Push all settings, events and coordinators to Cloud MongoDB Atlas so all devices get the update">
+             SYNC CLOUD
+          </button>
           <button id="admin-export-btn" class="btn btn-primary" style="padding: 0.5rem 0.9rem; font-size: 0.75rem;">
              EXPORT JSON
           </button>
@@ -2269,15 +2272,15 @@
   </div>
 
   <!-- ========================================================================
-       ADMIN ASSIGN / ADD EVENT COORDINATOR MODAL
+       ADMIN ASSIGN / ADD EVENT COORDINATORS MODAL (UP TO 3 COORDINATORS)
        ======================================================================== -->
   <div id="admin-coord-modal" class="admin-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
-    <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; width: 100%; max-width: 580px; max-height: 92vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.22); position: relative; color: #0F172A;">
+    <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; width: 100%; max-width: 680px; max-height: 92vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.22); position: relative; color: #0F172A;">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
         <div>
           <span class="section-tag" style="margin: 0; color: #0369A1; background: #E0F2FE; border-color: #BAE6FD;">EVENT &amp; RULEBOOK MANAGEMENT</span>
           <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.25rem; margin: 0.2rem 0 0;" id="coord-modal-heading">
-            Assign / Add Event Coordinator
+            Manage Event Coordinators (1, 2 or 3 Coordinators)
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminCoordModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
@@ -2286,53 +2289,174 @@
       </div>
 
       <form id="admin-coord-form" onsubmit="event.preventDefault(); saveAdminEventCoordinator();">
-        <div class="admin-form-group" style="margin-bottom: 1rem;">
+        <div class="admin-form-group" style="margin-bottom: 1.2rem;">
           <label class="admin-label" for="coord-modal-event-select" style="font-weight: 800; color: #0F172A;">TARGET EVENT / ARENA *</label>
-          <select id="coord-modal-event-select" class="admin-input" style="font-weight: 700; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;" required>
+          <select id="coord-modal-event-select" class="admin-input" style="font-weight: 700; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;" onchange="onAdminCoordEventChanged(this.value)" required>
             <!-- Populated dynamically -->
           </select>
         </div>
 
-        <div class="admin-form-group" style="margin-bottom: 1rem; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 0.85rem;">
-          <label class="admin-label" for="coord-modal-quick-select" style="font-weight: 800; color: #0369A1; margin-bottom: 0.3rem;">
-            QUICK ASSIGN FROM COMMITTEE LEADERSHIP
-          </label>
-          <select id="coord-modal-quick-select" class="admin-input" style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;" onchange="onCoordModalQuickSelect(this.value)">
-            <option value="">-- Select from Committee or Enter Custom Details Below --</option>
-            <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 · Arenium.official@gmail.com)</option>
-            <option value="vimal">Vimal Raj (+91 96201 92249 · Arenium.official@gmail.com)</option>
-            <option value="ashlin">Ashlin Siddharth (+91 91087 40761 · Arenium.official@gmail.com)</option>
-            <option value="abhyas">Abhyas Kathuria (+91 85958 48421 · Arenium.official@gmail.com)</option>
-            <option value="keren">Ms. Keren Lois Daniel (SOIS Office · Arenium.official@gmail.com)</option>
-          </select>
-          <span style="font-size: 0.73rem; color: #64748B; margin-top: 0.3rem; display: block;">
-            Picking a committee member auto-populates their credentials below. You can also customize them freely.
+        <!-- COORDINATOR 1 (PRIMARY / LEAD) -->
+        <div class="coord-slot-box" style="background: #F8FAFC; border: 1.5px solid #BAE6FD; border-radius: 12px; padding: 1.1rem; margin-bottom: 1.2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+            <div style="font-family: var(--font-display); font-weight: 800; font-size: 0.95rem; color: #0369A1;">
+              COORDINATOR 1 (LEAD) *
+            </div>
+            <span class="admin-quick-pill-badge" style="background: #E0F2FE; color: #0284C7; border-color: #7DD3FC;">PRIMARY LEAD</span>
+          </div>
+
+          <div style="margin-bottom: 0.8rem;">
+            <label class="admin-label" style="font-size: 0.76rem; color: #475569; font-weight: 700;">QUICK ASSIGN PRESET</label>
+            <select id="coord1-quick-select" class="admin-input" style="font-size: 0.82rem; background: #FFFFFF;" onchange="onCoordPresetSelected(1, this.value)">
+              <option value="">-- Choose from Core Committee or type below --</option>
+              <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 · Arenium.official@gmail.com)</option>
+              <option value="vimal">Vimal Raj (+91 96201 92249 · Arenium.official@gmail.com)</option>
+              <option value="ashlin">Ashlin Siddharth (+91 91087 40761 · Arenium.official@gmail.com)</option>
+              <option value="abhyas">Abhyas Kathuria (+91 85958 48421 · Arenium.official@gmail.com)</option>
+              <option value="keren">Ms. Keren Lois Daniel (SOIS Office · Arenium.official@gmail.com)</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+            <div>
+              <label class="admin-label" for="coord1-name" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">FULL NAME *</label>
+              <input type="text" id="coord1-name" class="admin-input" placeholder="e.g. Kaushal Kumar Singh" required>
+            </div>
+            <div>
+              <label class="admin-label" for="coord1-role" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">ROLE / TITLE</label>
+              <input type="text" id="coord1-role" class="admin-input" placeholder="e.g. Lead Coordinator" value="Lead Coordinator">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+            <div>
+              <label class="admin-label" for="coord1-phone" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">PHONE NUMBER *</label>
+              <input type="text" id="coord1-phone" class="admin-input" placeholder="e.g. +91 87977 86686" required>
+            </div>
+            <div>
+              <label class="admin-label" for="coord1-email" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">EMAIL ID</label>
+              <input type="email" id="coord1-email" class="admin-input" placeholder="Arenium.official@gmail.com" value="Arenium.official@gmail.com">
+            </div>
+          </div>
+
+          <div>
+            <label class="admin-label" for="coord1-photo" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">PHOTO PATH / URL</label>
+            <input type="text" id="coord1-photo" class="admin-input" placeholder="e.g. images/Kaushal.jpeg">
+          </div>
+        </div>
+
+        <!-- COORDINATOR 2 (OPTIONAL / CO-LEAD) -->
+        <div class="coord-slot-box" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1.1rem; margin-bottom: 1.2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-family: var(--font-display); font-weight: 800; font-size: 0.95rem; color: #0F172A;">
+              <input type="checkbox" id="coord2-enabled" onchange="toggleCoordSlot(2)" style="width: 17px; height: 17px;">
+              <span>ENABLE 2ND COORDINATOR</span>
+            </label>
+            <span class="admin-quick-pill-badge" style="background: #F1F5F9; color: #64748B; border-color: #CBD5E1;">CO-COORDINATOR</span>
+          </div>
+
+          <div id="coord2-fields" style="display: none;">
+            <div style="margin-bottom: 0.8rem;">
+              <label class="admin-label" style="font-size: 0.76rem; color: #475569; font-weight: 700;">QUICK ASSIGN PRESET</label>
+              <select id="coord2-quick-select" class="admin-input" style="font-size: 0.82rem; background: #FFFFFF;" onchange="onCoordPresetSelected(2, this.value)">
+                <option value="">-- Choose from Core Committee or type below --</option>
+                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 · Arenium.official@gmail.com)</option>
+                <option value="vimal">Vimal Raj (+91 96201 92249 · Arenium.official@gmail.com)</option>
+                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 · Arenium.official@gmail.com)</option>
+                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 · Arenium.official@gmail.com)</option>
+                <option value="keren">Ms. Keren Lois Daniel (SOIS Office · Arenium.official@gmail.com)</option>
+              </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+              <div>
+                <label class="admin-label" for="coord2-name" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">FULL NAME</label>
+                <input type="text" id="coord2-name" class="admin-input" placeholder="e.g. Vimal Raj">
+              </div>
+              <div>
+                <label class="admin-label" for="coord2-role" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">ROLE / TITLE</label>
+                <input type="text" id="coord2-role" class="admin-input" placeholder="e.g. Co-Coordinator" value="Co-Coordinator">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+              <div>
+                <label class="admin-label" for="coord2-phone" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">PHONE NUMBER</label>
+                <input type="text" id="coord2-phone" class="admin-input" placeholder="e.g. +91 96201 92249">
+              </div>
+              <div>
+                <label class="admin-label" for="coord2-email" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">EMAIL ID</label>
+                <input type="email" id="coord2-email" class="admin-input" placeholder="Arenium.official@gmail.com" value="Arenium.official@gmail.com">
+              </div>
+            </div>
+
+            <div>
+              <label class="admin-label" for="coord2-photo" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">PHOTO PATH / URL</label>
+              <input type="text" id="coord2-photo" class="admin-input" placeholder="e.g. images/Vimal.png">
+            </div>
+          </div>
+        </div>
+
+        <!-- COORDINATOR 3 (OPTIONAL / STUDENT COORD) -->
+        <div class="coord-slot-box" style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1.1rem; margin-bottom: 1.4rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-family: var(--font-display); font-weight: 800; font-size: 0.95rem; color: #0F172A;">
+              <input type="checkbox" id="coord3-enabled" onchange="toggleCoordSlot(3)" style="width: 17px; height: 17px;">
+              <span>ENABLE 3RD COORDINATOR</span>
+            </label>
+            <span class="admin-quick-pill-badge" style="background: #F1F5F9; color: #64748B; border-color: #CBD5E1;">STUDENT COORDINATOR</span>
+          </div>
+
+          <div id="coord3-fields" style="display: none;">
+            <div style="margin-bottom: 0.8rem;">
+              <label class="admin-label" style="font-size: 0.76rem; color: #475569; font-weight: 700;">QUICK ASSIGN PRESET</label>
+              <select id="coord3-quick-select" class="admin-input" style="font-size: 0.82rem; background: #FFFFFF;" onchange="onCoordPresetSelected(3, this.value)">
+                <option value="">-- Choose from Core Committee or type below --</option>
+                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 · Arenium.official@gmail.com)</option>
+                <option value="vimal">Vimal Raj (+91 96201 92249 · Arenium.official@gmail.com)</option>
+                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 · Arenium.official@gmail.com)</option>
+                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 · Arenium.official@gmail.com)</option>
+                <option value="keren">Ms. Keren Lois Daniel (SOIS Office · Arenium.official@gmail.com)</option>
+              </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+              <div>
+                <label class="admin-label" for="coord3-name" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">FULL NAME</label>
+                <input type="text" id="coord3-name" class="admin-input" placeholder="e.g. Ashlin Siddharth">
+              </div>
+              <div>
+                <label class="admin-label" for="coord3-role" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">ROLE / TITLE</label>
+                <input type="text" id="coord3-role" class="admin-input" placeholder="e.g. Student Coordinator" value="Student Coordinator">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+              <div>
+                <label class="admin-label" for="coord3-phone" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">PHONE NUMBER</label>
+                <input type="text" id="coord3-phone" class="admin-input" placeholder="e.g. +91 91087 40761">
+              </div>
+              <div>
+                <label class="admin-label" for="coord3-email" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">EMAIL ID</label>
+                <input type="email" id="coord3-email" class="admin-input" placeholder="Arenium.official@gmail.com" value="Arenium.official@gmail.com">
+              </div>
+            </div>
+
+            <div>
+              <label class="admin-label" for="coord3-photo" style="font-size: 0.76rem; color: #0F172A; font-weight: 800;">PHOTO PATH / URL</label>
+              <input type="text" id="coord3-photo" class="admin-input" placeholder="e.g. images/Ashlin Siddharth.png">
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid #E2E8F0; padding-top: 1rem; flex-wrap: wrap; gap: 0.8rem;">
+          <span style="font-size: 0.74rem; color: #0284C7; font-weight: 700;">
+            Changes sync automatically to Cloud MongoDB Atlas across all devices.
           </span>
-        </div>
-
-        <div class="admin-form-group" style="margin-bottom: 1rem;">
-          <label class="admin-label" for="coord-modal-name" style="font-weight: 800; color: #0F172A;">COORDINATOR FULL NAME *</label>
-          <input type="text" id="coord-modal-name" class="admin-input" placeholder="e.g. Kaushal Kumar Singh" required style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;">
-        </div>
-
-        <div class="admin-form-group" style="margin-bottom: 1rem;">
-          <label class="admin-label" for="coord-modal-phone" style="font-weight: 800; color: #0F172A;">PHONE / WHATSAPP NUMBER *</label>
-          <input type="text" id="coord-modal-phone" class="admin-input" placeholder="e.g. +91 87977 86686" required style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;">
-        </div>
-
-        <div class="admin-form-group" style="margin-bottom: 1rem;">
-          <label class="admin-label" for="coord-modal-email" style="font-weight: 800; color: #0F172A;">EMAIL ID</label>
-          <input type="email" id="coord-modal-email" class="admin-input" placeholder="Arenium.official@gmail.com" value="Arenium.official@gmail.com" style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;">
-        </div>
-
-        <div class="admin-form-group" style="margin-bottom: 1.5rem;">
-          <label class="admin-label" for="coord-modal-photo" style="font-weight: 800; color: #0F172A;">PHOTO IMAGE URL / PATH</label>
-          <input type="text" id="coord-modal-photo" class="admin-input" placeholder="e.g. images/Kaushal.jpeg" style="font-weight: 600; color: #0F172A; background: #FFFFFF; border: 1.5px solid #94A3B8;">
-        </div>
-
-        <div style="display: flex; justify-content: flex-end; gap: 0.8rem; border-top: 1.5px solid #E2E8F0; padding-top: 1rem;">
-          <button type="button" class="btn btn-ghost" onclick="closeAdminCoordModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
-          <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800;">SAVE COORDINATOR</button>
+          <div style="display: flex; gap: 0.8rem;">
+            <button type="button" class="btn btn-ghost" onclick="closeAdminCoordModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800;">SAVE COORDINATORS</button>
+          </div>
         </div>
       </form>
     </div>

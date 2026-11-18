@@ -23,6 +23,13 @@ function resolveAssetPath(path, fallback = "images/coord-generic.svg") {
 }
 window.resolveAssetPath = resolveAssetPath;
 
+// Global backend endpoint (Localhost vs Production Vercel on MongoDB Atlas)
+window.CORE_BACKEND_URL = window.CORE_BACKEND_URL || (
+  (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"))
+    ? "http://localhost:5000/api"
+    : "https://arenium-27-core.vercel.app/api"
+);
+
 // ==========================================================================
 // 1. FESTDB (CENTRAL LOCALSTORAGE STATE ENGINE)
 // ==========================================================================
@@ -850,22 +857,104 @@ const FestDB = {
           registrations: (parsed.registrations && Array.isArray(parsed.registrations)) ? parsed.registrations : defaults.registrations,
           certificates: (parsed.certificates && Array.isArray(parsed.certificates) && parsed.certificates.length) ? parsed.certificates : defaults.certificates
         };
+
+        // Normalize coordinators array on all events for multi-coordinator support
+        if (Array.isArray(state.events)) {
+          state.events.forEach(ev => {
+            if (!Array.isArray(ev.coordinators) || ev.coordinators.length === 0) {
+              ev.coordinators = ev.coordinator ? [ev.coordinator] : [];
+            }
+            if (!ev.coordinator && ev.coordinators.length > 0) {
+              ev.coordinator = ev.coordinators[0];
+            }
+          });
+        }
+        return state;
       }
     } catch (e) {
       console.error("FestDB Read Exception:", e);
     }
-    return this.getDefaults();
+    const def = this.getDefaults();
+    if (Array.isArray(def.events)) {
+      def.events.forEach(ev => {
+        if (!Array.isArray(ev.coordinators) || ev.coordinators.length === 0) {
+          ev.coordinators = ev.coordinator ? [ev.coordinator] : [];
+        }
+        if (!ev.coordinator && ev.coordinators.length > 0) {
+          ev.coordinator = ev.coordinators[0];
+        }
+      });
+    }
+    return def;
   },
 
-  saveData(data) {
+  saveData(data, shouldPushToCloud = true) {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
       window.dispatchEvent(new CustomEvent("arenium_db_change", { detail: data }));
+      if (shouldPushToCloud !== false) {
+        this.pushToCloud(data);
+      }
       return true;
     } catch (e) {
       console.error("FestDB Save Exception:", e);
       return false;
     }
+  },
+
+  async pushToCloud(data) {
+    try {
+      const payload = {
+        settings: data.settings,
+        events: data.events,
+        coordinators: data.coordinators
+      };
+      const res = await fetch(`${window.CORE_BACKEND_URL}/fest-config`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ festConfig: payload })
+      });
+      const json = await res.json();
+      if (json && json.success) {
+        console.log("[FestDB] Cloud MongoDB Atlas synchronization successful.");
+      }
+    } catch (err) {
+      console.warn("[FestDB] Cloud push warning:", err);
+    }
+  },
+
+  async pullFromCloud() {
+    try {
+      const res = await fetch(`${window.CORE_BACKEND_URL}/fest-config`);
+      if (!res.ok) return null;
+      const json = await res.json();
+      if (json && json.success && json.festConfig) {
+        const localData = this.getData();
+        const cloudConfig = json.festConfig;
+        let changed = false;
+        if (cloudConfig.settings) {
+          localData.settings = Object.assign({}, localData.settings, cloudConfig.settings);
+          changed = true;
+        }
+        if (Array.isArray(cloudConfig.events) && cloudConfig.events.length > 0) {
+          localData.events = cloudConfig.events;
+          changed = true;
+        }
+        if (Array.isArray(cloudConfig.coordinators) && cloudConfig.coordinators.length > 0) {
+          localData.coordinators = cloudConfig.coordinators;
+          changed = true;
+        }
+        if (changed) {
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(localData));
+          window.dispatchEvent(new CustomEvent("arenium_db_change", { detail: localData }));
+          console.log("[FestDB] Synced from Cloud MongoDB Atlas successfully across devices.");
+          return localData;
+        }
+      }
+    } catch (err) {
+      console.warn("[FestDB] Cloud pull warning:", err);
+    }
+    return null;
   },
 
   resetDefaults() {
@@ -947,6 +1036,16 @@ document.addEventListener("DOMContentLoaded", () => {
   initSponsorsPage(db);
   initRulebookModal();
   initAdminPanel();
+
+  // Automatic real-time Cloud Sync from MongoDB Atlas on all devices
+  FestDB.pullFromCloud().then(cloudDb => {
+    if (cloudDb) {
+      if (typeof initEventsPage === "function") initEventsPage(cloudDb);
+      if (typeof renderAdminEvents === "function") renderAdminEvents(cloudDb);
+      if (typeof renderAdminOverview === "function") renderAdminOverview(cloudDb);
+      if (typeof initRegistrationButtons === "function") initRegistrationButtons(cloudDb);
+    }
+  });
 });
 
 // ==========================================================================
@@ -1378,7 +1477,27 @@ function initEventsPage(db) {
       card.setAttribute("data-tech", isTech ? "true" : "false");
       card.setAttribute("data-nontech", isNonTech ? "true" : "false");
 
-      const coord = ev.coordinator || { name: "Kaushal Kumar Singh", phone: "+91 87977 86686", photo: "images/Kaushal.jpeg" };
+      const coords = (Array.isArray(ev.coordinators) && ev.coordinators.length > 0)
+        ? ev.coordinators
+        : (ev.coordinator ? [ev.coordinator] : [{ name: "Kaushal Kumar Singh", phone: "+91 87977 86686", email: "Arenium.official@gmail.com", photo: "images/Kaushal.jpeg", role: "Event Lead" }]);
+
+      const coordsHtml = coords.map((c, idx) => `
+        <div class="event-coord-mini" style="background: #F8FAFC !important; border: 1.5px solid #E2E8F0 !important; border-radius: 10px; padding: 0.5rem 0.75rem; display: flex; align-items: center; gap: 0.65rem; margin-bottom: ${idx === coords.length - 1 ? '1.2rem' : '0.45rem'};">
+          <img src="${resolveAssetPath(c.photo, 'images/coord-generic.svg')}" alt="${c.name}" class="event-coord-thumb" style="width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #CBD5E1; object-fit: cover; flex-shrink: 0;">
+          <div class="event-coord-details" style="min-width: 0; flex: 1;">
+            <div style="display: flex; align-items: center; gap: 0.4rem; justify-content: space-between;">
+              <span class="event-coord-name" style="color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700; font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${c.name}</span>
+              ${c.role ? `<span style="font-size: 0.68rem; color: #0284C7; font-weight: 700; background: #E0F2FE; border: 1px solid #BAE6FD; padding: 0.1rem 0.4rem; border-radius: 6px; white-space: nowrap;">${c.role}</span>` : ''}
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; margin-top: 0.15rem;">
+              <a href="tel:${(c.phone || '').replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-size: 0.78rem; text-decoration: none; font-weight: 700;">
+                ${c.phone || '+91 87977 86686'}
+              </a>
+              ${c.email ? `<span style="color: #CBD5E1;">•</span><a href="mailto:${c.email}" class="event-coord-email" style="color: #64748B !important; -webkit-text-fill-color: #64748B !important; font-size: 0.72rem; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${c.email}</a>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
 
       card.innerHTML = `
         <div class="event-poster-wrapper" style="height: 220px; position: relative; overflow: hidden; border-bottom: 1.5px solid #000000; background: #F8FAFC;">
@@ -1398,21 +1517,12 @@ function initEventsPage(db) {
           <h3 class="event-title" style="margin: 0.4rem 0 0.5rem; font-family: 'Playfair Display', Georgia, serif; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; font-size: 1.35rem; word-break: keep-all; hyphens: none;">${ev.name}</h3>
           <p class="event-desc" style="color: #475569 !important; -webkit-text-fill-color: #475569 !important; font-size: 0.88rem; line-height: 1.55; margin-bottom: 1rem; flex: 1;">${ev.description}</p>
           
-          <div class="event-coord-mini" style="background: #F8FAFC !important; border: 1.5px solid #E2E8F0 !important; border-radius: 10px; padding: 0.6rem 0.8rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.2rem;">
-            <img src="${resolveAssetPath(coord.photo, 'images/coord-generic.svg')}" alt="${coord.name}" class="event-coord-thumb" style="width: 38px; height: 38px; border-radius: 50%; border: 1px solid #CBD5E1; object-fit: cover; flex-shrink: 0;">
-            <div class="event-coord-details" style="min-width: 0;">
-              <div class="event-coord-name" style="color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700; font-size: 0.84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${coord.name}</div>
-              <a href="tel:${(coord.phone || '').replace(/[^0-9+]/g, '')}" class="event-coord-phone" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-size: 0.8rem; text-decoration: none; font-weight: 700; display: block;">
-                ${coord.phone || '+91 87977 86686'}
-              </a>
-              ${coord.email ? `<a href="mailto:${coord.email}" class="event-coord-email" style="color: #64748B !important; -webkit-text-fill-color: #64748B !important; font-size: 0.72rem; text-decoration: none; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${coord.email}</a>` : ''}
-            </div>
-          </div>
+          ${coordsHtml}
 
           <div class="event-action-footer" style="display: flex; gap: 0.75rem; margin-top: auto;">
-            <a href="rulebook.pdf" target="_blank" rel="noopener noreferrer" class="btn-pill-outline open-rulebook-btn" data-event-id="${ev.id}" style="flex: 1; text-align: center; justify-content: center; text-decoration: none;">
+            <button type="button" class="btn-pill-outline open-rulebook-btn" data-event-id="${ev.id}" style="flex: 1; text-align: center; justify-content: center; cursor: pointer; background: transparent;">
               Rulebook
-            </a>
+            </button>
             <a href="${regUrl}" class="btn-pill-solid" style="flex: 1.2; text-align: center; justify-content: center;" data-register-btn>
               Register
             </a>
@@ -2158,21 +2268,153 @@ function initSponsorsPage(db) {
 // ==========================================================================
 // 16.5. RULEBOOK MODAL & HANDLERS
 // ==========================================================================
-function initRulebookModal() {
-  if (typeof window.openRulebookModal !== "function") {
-    window.openRulebookModal = function(evId) {
-      window.open("rulebook.pdf", "_blank");
-    };
+window.openRulebookModal = function(evId) {
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === evId) || (db.events && db.events[0]);
+  if (!ev) {
+    window.open("rulebook.pdf", "_blank");
+    return;
   }
 
+  let modal = document.getElementById("dynamic-rulebook-modal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "dynamic-rulebook-modal";
+    modal.className = "admin-modal-overlay";
+    modal.style.cssText = "display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;";
+    document.body.appendChild(modal);
+  }
+
+  const coords = (Array.isArray(ev.coordinators) && ev.coordinators.length > 0)
+    ? ev.coordinators
+    : (ev.coordinator ? [ev.coordinator] : [{ name: "Kaushal Kumar Singh", phone: "+91 87977 86686", email: "Arenium.official@gmail.com", photo: "images/Kaushal.jpeg", role: "Lead Coordinator" }]);
+
+  const rb = ev.rulebook || {};
+  const rounds = Array.isArray(rb.rounds) ? rb.rounds : (rb.rounds ? [rb.rounds] : []);
+  const rules = Array.isArray(rb.rules) ? rb.rules : (rb.rules ? [rb.rules] : []);
+
+  modal.innerHTML = `
+    <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.25); position: relative; color: #0F172A;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 1rem; margin-bottom: 1.2rem;">
+        <div>
+          <span style="font-size: 0.75rem; color: #0284C7; font-weight: 800; background: #E0F2FE; border: 1px solid #BAE6FD; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase;">
+            ${ev.category || 'ARENA COMPETITION'}
+          </span>
+          <h2 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.6rem; color: #0F172A; margin: 0.4rem 0 0.2rem; font-weight: 800;">
+            ${ev.name}
+          </h2>
+          <div style="font-size: 0.85rem; color: #64748B; font-weight: 600;">
+            ${ev.tagline || ev.description}
+          </div>
+        </div>
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('dynamic-rulebook-modal').style.display='none'" style="padding: 0.3rem 0.7rem; font-size: 1.1rem; line-height: 1;" title="Close">
+          ✕
+        </button>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 1.2rem;">
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.6rem 0.8rem;">
+          <div style="font-size: 0.68rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Prize Pool</div>
+          <div style="font-size: 0.95rem; color: #0284C7; font-weight: 800;">${ev.prize || '₹15,000'}</div>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.6rem 0.8rem;">
+          <div style="font-size: 0.68rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Date</div>
+          <div style="font-size: 0.85rem; color: #0F172A; font-weight: 700;">${ev.date || '4–5 Feb 2027'}</div>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.6rem 0.8rem;">
+          <div style="font-size: 0.68rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Venue</div>
+          <div style="font-size: 0.85rem; color: #0F172A; font-weight: 700;">${ev.venue || 'SOIS Block'}</div>
+        </div>
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 0.6rem 0.8rem;">
+          <div style="font-size: 0.68rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Team Size</div>
+          <div style="font-size: 0.85rem; color: #0F172A; font-weight: 700;">${rb.teamSize || 'Solo / Squad'}</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.2rem;">
+        <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #0F172A; font-weight: 800; margin-bottom: 0.4rem;">Overview</h4>
+        <p style="font-size: 0.88rem; color: #475569; line-height: 1.55; margin: 0 0 0.6rem;">${rb.overview || ev.description}</p>
+        ${rb.eligibility ? `<div style="font-size: 0.82rem; color: #0369A1; background: #F0F9FF; border: 1px solid #BAE6FD; padding: 0.5rem 0.75rem; border-radius: 8px;"><strong>Eligibility:</strong> ${rb.eligibility}</div>` : ''}
+      </div>
+
+      ${rounds.length ? `
+      <div style="margin-bottom: 1.2rem;">
+        <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #0F172A; font-weight: 800; margin-bottom: 0.4rem;">Rounds & Stages</h4>
+        <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #475569; line-height: 1.6;">
+          ${rounds.map(r => `<li style="margin-bottom: 0.35rem;">${r}</li>`).join('')}
+        </ul>
+      </div>` : ''}
+
+      ${rules.length ? `
+      <div style="margin-bottom: 1.2rem;">
+        <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #0F172A; font-weight: 800; margin-bottom: 0.4rem;">Rules & Guidelines</h4>
+        <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85rem; color: #475569; line-height: 1.6;">
+          ${rules.map(r => `<li style="margin-bottom: 0.35rem;">${r}</li>`).join('')}
+        </ul>
+      </div>` : ''}
+
+      ${rb.judging ? `
+      <div style="margin-bottom: 1.2rem; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 0.75rem 0.9rem; border-radius: 8px;">
+        <span style="font-size: 0.75rem; color: #0F172A; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 0.2rem;">Judging Criteria</span>
+        <span style="font-size: 0.82rem; color: #475569;">${rb.judging}</span>
+      </div>` : ''}
+
+      <!-- EVENT COORDINATORS (UP TO 3) -->
+      <div style="border-top: 1.5px solid #E2E8F0; padding-top: 1rem; margin-top: 1.2rem; margin-bottom: 1.2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.7rem;">
+          <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #0F172A; font-weight: 800; margin: 0;">
+            Event Coordinators (${coords.length})
+          </h4>
+          <span style="font-size: 0.72rem; color: #64748B;">Official Point of Contact</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+          ${coords.map(c => `
+            <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 0.75rem 0.85rem; display: flex; align-items: center; gap: 0.75rem;">
+              <img src="${resolveAssetPath(c.photo, 'images/coord-generic.svg')}" alt="${c.name}" style="width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid #CBD5E1; object-fit: cover; flex-shrink: 0;">
+              <div style="min-width: 0; flex: 1;">
+                <div style="font-weight: 800; font-size: 0.88rem; color: #0F172A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${c.name}</div>
+                <div style="font-size: 0.72rem; color: #0284C7; font-weight: 700; margin-bottom: 0.2rem;">${c.role || 'Coordinator'}</div>
+                <div style="display: flex; flex-direction: column; gap: 0.15rem;">
+                  <a href="tel:${(c.phone || '').replace(/[^0-9+]/g, '')}" style="color: #0284C7; font-size: 0.78rem; text-decoration: none; font-weight: 700;">
+                    ${c.phone || '+91 87977 86686'}
+                  </a>
+                  <a href="mailto:${c.email || 'Arenium.official@gmail.com'}" style="color: #64748B; font-size: 0.72rem; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    ${c.email || 'Arenium.official@gmail.com'}
+                  </a>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid #E2E8F0; padding-top: 1rem; flex-wrap: wrap; gap: 0.6rem;">
+        <a href="rulebook.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="font-size: 0.82rem; padding: 0.5rem 1rem; text-decoration: none; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 700;">
+          Download Fest Rulebook (PDF) ↗
+        </a>
+        <div style="display: flex; gap: 0.6rem;">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('dynamic-rulebook-modal').style.display='none'" style="font-size: 0.82rem; padding: 0.5rem 1rem;">
+            Close
+          </button>
+          <a href="register.html?event=${encodeURIComponent(ev.id)}" class="btn btn-primary" style="font-size: 0.82rem; padding: 0.5rem 1.4rem; font-weight: 800; text-decoration: none; background: #000000; color: #FFFFFF;">
+            Register For Arena ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  modal.style.display = "flex";
+};
+
+function initRulebookModal() {
   try {
     document.querySelectorAll(".open-rulebook-btn").forEach(btn => {
       btn.addEventListener("click", function(e) {
+        e.preventDefault();
         const evId = this.getAttribute("data-event-id");
-        if (typeof window.openRulebookModal === "function") {
-          e.preventDefault();
-          window.openRulebookModal(evId);
-        }
+        window.openRulebookModal(evId);
       });
     });
   } catch (e) {
@@ -2421,26 +2663,34 @@ function renderAdminEvents(db) {
 
   db.events.forEach((ev, idx) => {
     const tr = document.createElement("tr");
-    const coord = ev.coordinator || {};
-    const coordName = coord.name || '—';
-    const coordPhone = coord.phone || '';
-    const coordEmail = coord.email || '';
+    const coords = (Array.isArray(ev.coordinators) && ev.coordinators.length > 0)
+      ? ev.coordinators
+      : (ev.coordinator ? [ev.coordinator] : []);
+
+    const coordsListHtml = coords.length ? coords.map((c, i) => `
+      <div style="margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.45rem;">
+        <img src="${resolveAssetPath(c.photo, 'images/coord-generic.svg')}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 1.5px solid #CBD5E1; flex-shrink: 0;">
+        <div style="min-width: 0; line-height: 1.25;">
+          <span style="font-weight: 700; color: #0F172A; font-size: 0.82rem;">${c.name}</span>
+          ${c.role ? `<span style="font-size: 0.68rem; color: #0284C7; font-weight: 600; margin-left: 0.25rem; background: #E0F2FE; padding: 0.05rem 0.35rem; border-radius: 4px;">${c.role}</span>` : ''}
+          <div style="font-size: 0.73rem; color: #64748B;">${c.phone || ''}</div>
+        </div>
+      </div>
+    `).join('') : '<span style="color:#94A3B8; font-size:0.78rem;">No coordinator assigned</span>';
 
     tr.innerHTML = `
       <td><strong>${ev.name}</strong><br><span style="color:var(--text-muted); font-size:0.75rem;">${ev.id}</span></td>
       <td><span class="event-category-badge">${ev.category}</span></td>
       <td><span style="color:var(--neon-yellow);">${ev.prize || '—'}</span></td>
       <td>
-        <div style="font-size:0.85rem; font-weight:700; color:#0F172A;">${coordName}</div>
-        ${coordPhone ? `<div style="font-size:0.75rem; color:#0284C7; font-weight:600;">${coordPhone}</div>` : ''}
-        ${coordEmail ? `<div style="font-size:0.72rem; color:#64748B;">${coordEmail}</div>` : ''}
-        <button type="button" class="btn btn-ghost" style="padding:0.22rem 0.55rem; font-size:0.72rem; margin-top:0.35rem; color:#0284C7; border:1px solid #CBD5E1; font-weight:700; background:#F8FAFC;" onclick="openAdminEventCoordinatorModal('${ev.id}')">
-          ${coord.name ? 'Change Coordinator' : '+ Add Coordinator'}
+        <div style="margin-bottom: 0.4rem;">${coordsListHtml}</div>
+        <button type="button" class="btn btn-ghost" style="padding:0.25rem 0.6rem; font-size:0.74rem; color:#0284C7; border:1.5px solid #CBD5E1; font-weight:700; background:#F8FAFC;" onclick="openAdminEventCoordinatorModal('${ev.id}')">
+          Manage Coordinators (${coords.length})
         </button>
       </td>
       <td>
         <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminEvent('${ev.id}')">Edit</button>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:#0284C7; border-color:#0284C7;" onclick="openAdminEventCoordinatorModal('${ev.id}')">Coordinator</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:#0284C7; border-color:#0284C7;" onclick="openAdminEventCoordinatorModal('${ev.id}')">Coordinators</button>
         <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminEvent('${ev.id}')">Delete</button>
       </td>
     `;
@@ -2448,14 +2698,96 @@ function renderAdminEvents(db) {
   });
 }
 
+window.populateAdminCoordSlotsForEvent = function(selectedId) {
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === selectedId);
+  if (!ev) return;
+
+  const coords = (Array.isArray(ev.coordinators) && ev.coordinators.length > 0)
+    ? ev.coordinators
+    : (ev.coordinator ? [ev.coordinator] : []);
+
+  // Coordinator 1 (Lead)
+  const c1 = coords[0] || { name: "Kaushal Kumar Singh", role: "Lead Coordinator", phone: "+91 87977 86686", email: "Arenium.official@gmail.com", photo: "images/Kaushal.jpeg" };
+  const c1Name = document.getElementById("coord1-name");
+  const c1Role = document.getElementById("coord1-role");
+  const c1Phone = document.getElementById("coord1-phone");
+  const c1Email = document.getElementById("coord1-email");
+  const c1Photo = document.getElementById("coord1-photo");
+  const c1Quick = document.getElementById("coord1-quick-select");
+  if (c1Name) c1Name.value = c1.name || "";
+  if (c1Role) c1Role.value = c1.role || "Lead Coordinator";
+  if (c1Phone) c1Phone.value = c1.phone || "";
+  if (c1Email) c1Email.value = c1.email || "Arenium.official@gmail.com";
+  if (c1Photo) c1Photo.value = c1.photo || "";
+  if (c1Quick) c1Quick.value = "";
+
+  // Coordinator 2 (Optional)
+  const c2 = coords[1];
+  const c2Cb = document.getElementById("coord2-enabled");
+  const c2Fields = document.getElementById("coord2-fields");
+  const c2Name = document.getElementById("coord2-name");
+  const c2Role = document.getElementById("coord2-role");
+  const c2Phone = document.getElementById("coord2-phone");
+  const c2Email = document.getElementById("coord2-email");
+  const c2Photo = document.getElementById("coord2-photo");
+  const c2Quick = document.getElementById("coord2-quick-select");
+  if (c2Cb && c2Fields) {
+    if (c2) {
+      c2Cb.checked = true;
+      c2Fields.style.display = "block";
+      if (c2Name) c2Name.value = c2.name || "";
+      if (c2Role) c2Role.value = c2.role || "Co-Coordinator";
+      if (c2Phone) c2Phone.value = c2.phone || "";
+      if (c2Email) c2Email.value = c2.email || "Arenium.official@gmail.com";
+      if (c2Photo) c2Photo.value = c2.photo || "";
+    } else {
+      c2Cb.checked = false;
+      c2Fields.style.display = "none";
+      if (c2Name) c2Name.value = "";
+      if (c2Role) c2Role.value = "Co-Coordinator";
+      if (c2Phone) c2Phone.value = "";
+      if (c2Email) c2Email.value = "Arenium.official@gmail.com";
+      if (c2Photo) c2Photo.value = "";
+    }
+    if (c2Quick) c2Quick.value = "";
+  }
+
+  // Coordinator 3 (Optional)
+  const c3 = coords[2];
+  const c3Cb = document.getElementById("coord3-enabled");
+  const c3Fields = document.getElementById("coord3-fields");
+  const c3Name = document.getElementById("coord3-name");
+  const c3Role = document.getElementById("coord3-role");
+  const c3Phone = document.getElementById("coord3-phone");
+  const c3Email = document.getElementById("coord3-email");
+  const c3Photo = document.getElementById("coord3-photo");
+  const c3Quick = document.getElementById("coord3-quick-select");
+  if (c3Cb && c3Fields) {
+    if (c3) {
+      c3Cb.checked = true;
+      c3Fields.style.display = "block";
+      if (c3Name) c3Name.value = c3.name || "";
+      if (c3Role) c3Role.value = c3.role || "Student Coordinator";
+      if (c3Phone) c3Phone.value = c3.phone || "";
+      if (c3Email) c3Email.value = c3.email || "Arenium.official@gmail.com";
+      if (c3Photo) c3Photo.value = c3.photo || "";
+    } else {
+      c3Cb.checked = false;
+      c3Fields.style.display = "none";
+      if (c3Name) c3Name.value = "";
+      if (c3Role) c3Role.value = "Student Coordinator";
+      if (c3Phone) c3Phone.value = "";
+      if (c3Email) c3Email.value = "Arenium.official@gmail.com";
+      if (c3Photo) c3Photo.value = "";
+    }
+    if (c3Quick) c3Quick.value = "";
+  }
+};
+
 window.openAdminEventCoordinatorModal = function(eventId) {
   const modal = document.getElementById("admin-coord-modal");
   const eventSelect = document.getElementById("coord-modal-event-select");
-  const quickSelect = document.getElementById("coord-modal-quick-select");
-  const nameInp = document.getElementById("coord-modal-name");
-  const phoneInp = document.getElementById("coord-modal-phone");
-  const emailInp = document.getElementById("coord-modal-email");
-  const photoInp = document.getElementById("coord-modal-photo");
 
   const db = FestDB.getData();
   const events = db.events || [];
@@ -2470,41 +2802,20 @@ window.openAdminEventCoordinatorModal = function(eventId) {
       eventSelect.appendChild(opt);
     });
 
-    const populateForEvent = (selectedId) => {
-      const ev = events.find(e => e.id === selectedId);
-      if (ev && ev.coordinator) {
-        if (nameInp) nameInp.value = ev.coordinator.name || "";
-        if (phoneInp) phoneInp.value = ev.coordinator.phone || "";
-        if (emailInp) emailInp.value = ev.coordinator.email || "Arenium.official@gmail.com";
-        if (photoInp) photoInp.value = ev.coordinator.photo || "";
-      } else {
-        if (nameInp) nameInp.value = "Kaushal Kumar Singh";
-        if (phoneInp) phoneInp.value = "+91 87977 86686";
-        if (emailInp) emailInp.value = "Arenium.official@gmail.com";
-        if (photoInp) photoInp.value = "images/Kaushal.jpeg";
-      }
-      if (quickSelect) quickSelect.value = "";
-    };
-
-    eventSelect.onchange = () => populateForEvent(eventSelect.value);
-    populateForEvent(eventSelect.value);
+    const activeId = eventId || (events[0] ? events[0].id : "");
+    if (activeId) {
+      eventSelect.value = activeId;
+      window.populateAdminCoordSlotsForEvent(activeId);
+    }
   }
 
   if (modal) {
     modal.style.display = "flex";
-  } else {
-    const targetId = eventId || (events[0] ? events[0].id : null);
-    if (!targetId) return;
-    const ev = events.find(e => e.id === targetId);
-    const cName = prompt(`Coordinator Name for "${ev.name}":`, ev.coordinator ? ev.coordinator.name : "Kaushal Kumar Singh");
-    if (!cName) return;
-    const cPhone = prompt("Coordinator Phone Number:", ev.coordinator ? ev.coordinator.phone : "+91 87977 86686") || "+91 87977 86686";
-    const cEmail = prompt("Coordinator Email:", ev.coordinator ? (ev.coordinator.email || "Arenium.official@gmail.com") : "Arenium.official@gmail.com") || "Arenium.official@gmail.com";
-    ev.coordinator = { name: cName, phone: cPhone, email: cEmail, photo: (ev.coordinator && ev.coordinator.photo) || "images/Kaushal.jpeg" };
-    FestDB.saveData(db);
-    alert(`Coordinator assigned for "${ev.name}"!`);
-    location.reload();
   }
+};
+
+window.onAdminCoordEventChanged = function(eventId) {
+  window.populateAdminCoordSlotsForEvent(eventId);
 };
 
 window.closeAdminCoordModal = function() {
@@ -2512,48 +2823,42 @@ window.closeAdminCoordModal = function() {
   if (modal) modal.style.display = "none";
 };
 
-window.onCoordModalQuickSelect = function(val) {
-  const nameInp = document.getElementById("coord-modal-name");
-  const phoneInp = document.getElementById("coord-modal-phone");
-  const emailInp = document.getElementById("coord-modal-email");
-  const photoInp = document.getElementById("coord-modal-photo");
+window.toggleCoordSlot = function(slotNum) {
+  const cb = document.getElementById(`coord${slotNum}-enabled`);
+  const fields = document.getElementById(`coord${slotNum}-fields`);
+  if (fields && cb) {
+    fields.style.display = cb.checked ? "block" : "none";
+  }
+};
 
+window.onCoordPresetSelected = function(slotNum, key) {
   const presets = {
-    kaushal: { name: "Kaushal Kumar Singh", phone: "+91 87977 86686", email: "Arenium.official@gmail.com", photo: "images/Kaushal.jpeg" },
-    vimal: { name: "Vimal Raj", phone: "+91 96201 92249", email: "Arenium.official@gmail.com", photo: "images/Vimal.png" },
-    ashlin: { name: "Ashlin Siddharth", phone: "+91 91087 40761", email: "Arenium.official@gmail.com", photo: "images/Ashlin Siddharth.png" },
-    abhyas: { name: "Abhyas Kathuria", phone: "+91 85958 48421", email: "Arenium.official@gmail.com", photo: "images/ABHYAS.png" },
-    keren: { name: "Ms. Keren Lois Daniel", phone: "SOIS Office", email: "Arenium.official@gmail.com", photo: "images/Ms. Keren Lois Daniel.jpg" }
+    kaushal: { name: "Kaushal Kumar Singh", role: slotNum === 1 ? "Lead Coordinator" : "Co-Coordinator", phone: "+91 87977 86686", email: "Arenium.official@gmail.com", photo: "images/Kaushal.jpeg" },
+    vimal: { name: "Vimal Raj", role: slotNum === 1 ? "Lead Coordinator" : "Co-Coordinator", phone: "+91 96201 92249", email: "Arenium.official@gmail.com", photo: "images/Vimal.png" },
+    ashlin: { name: "Ashlin Siddharth", role: slotNum === 1 ? "Lead Coordinator" : "Marketing & Student Coordinator", phone: "+91 91087 40761", email: "Arenium.official@gmail.com", photo: "images/Ashlin Siddharth.png" },
+    abhyas: { name: "Abhyas Kathuria", role: slotNum === 1 ? "Lead Coordinator" : "Technical Coordinator", phone: "+91 85958 48421", email: "Arenium.official@gmail.com", photo: "images/ABHYAS.png" },
+    keren: { name: "Ms. Keren Lois Daniel", role: "Faculty Convener", phone: "SOIS Office", email: "Arenium.official@gmail.com", photo: "images/Ms. Keren Lois Daniel.jpg" }
   };
 
-  if (presets[val]) {
-    if (nameInp) nameInp.value = presets[val].name;
-    if (phoneInp) phoneInp.value = presets[val].phone;
-    if (emailInp) emailInp.value = presets[val].email;
-    if (photoInp) photoInp.value = presets[val].photo;
-  }
+  const p = presets[key];
+  if (!p) return;
+  const nameEl = document.getElementById(`coord${slotNum}-name`);
+  const roleEl = document.getElementById(`coord${slotNum}-role`);
+  const phoneEl = document.getElementById(`coord${slotNum}-phone`);
+  const emailEl = document.getElementById(`coord${slotNum}-email`);
+  const photoEl = document.getElementById(`coord${slotNum}-photo`);
+  if (nameEl) nameEl.value = p.name;
+  if (roleEl && (!roleEl.value || roleEl.value.includes("Coordinator"))) roleEl.value = p.role;
+  if (phoneEl) phoneEl.value = p.phone;
+  if (emailEl) emailEl.value = p.email;
+  if (photoEl) photoEl.value = p.photo;
 };
 
 window.saveAdminEventCoordinator = function() {
   const eventSelect = document.getElementById("coord-modal-event-select");
-  const nameInp = document.getElementById("coord-modal-name");
-  const phoneInp = document.getElementById("coord-modal-phone");
-  const emailInp = document.getElementById("coord-modal-email");
-  const photoInp = document.getElementById("coord-modal-photo");
-
   const eventId = eventSelect ? eventSelect.value : "";
   if (!eventId) {
     alert("Please select an event.");
-    return;
-  }
-
-  const name = nameInp ? nameInp.value.trim() : "";
-  const phone = phoneInp ? phoneInp.value.trim() : "";
-  const email = emailInp ? emailInp.value.trim() : "Arenium.official@gmail.com";
-  const photo = photoInp ? photoInp.value.trim() : "images/Kaushal.jpeg";
-
-  if (!name || !phone) {
-    alert("Please provide coordinator name and phone number.");
     return;
   }
 
@@ -2564,17 +2869,87 @@ window.saveAdminEventCoordinator = function() {
     return;
   }
 
-  ev.coordinator = {
-    name,
-    phone,
-    email,
-    photo: photo || "images/coord-generic.svg"
-  };
+  // Slot 1 (Primary Lead)
+  const c1Name = (document.getElementById("coord1-name")?.value || "").trim();
+  const c1Role = (document.getElementById("coord1-role")?.value || "Lead Coordinator").trim();
+  const c1Phone = (document.getElementById("coord1-phone")?.value || "").trim();
+  const c1Email = (document.getElementById("coord1-email")?.value || "Arenium.official@gmail.com").trim();
+  const c1Photo = (document.getElementById("coord1-photo")?.value || "images/Kaushal.jpeg").trim();
 
-  FestDB.saveData(db);
+  if (!c1Name || !c1Phone) {
+    alert("Please provide at least Coordinator 1 name and phone number.");
+    return;
+  }
+
+  const newCoords = [
+    {
+      name: c1Name,
+      role: c1Role,
+      phone: c1Phone,
+      email: c1Email,
+      photo: c1Photo || "images/coord-generic.svg"
+    }
+  ];
+
+  // Slot 2 (Optional)
+  const c2Cb = document.getElementById("coord2-enabled");
+  if (c2Cb && c2Cb.checked) {
+    const c2Name = (document.getElementById("coord2-name")?.value || "").trim();
+    const c2Role = (document.getElementById("coord2-role")?.value || "Co-Coordinator").trim();
+    const c2Phone = (document.getElementById("coord2-phone")?.value || "").trim();
+    const c2Email = (document.getElementById("coord2-email")?.value || "Arenium.official@gmail.com").trim();
+    const c2Photo = (document.getElementById("coord2-photo")?.value || "").trim();
+    if (c2Name && c2Phone) {
+      newCoords.push({
+        name: c2Name,
+        role: c2Role,
+        phone: c2Phone,
+        email: c2Email,
+        photo: c2Photo || "images/coord-generic.svg"
+      });
+    }
+  }
+
+  // Slot 3 (Optional)
+  const c3Cb = document.getElementById("coord3-enabled");
+  if (c3Cb && c3Cb.checked) {
+    const c3Name = (document.getElementById("coord3-name")?.value || "").trim();
+    const c3Role = (document.getElementById("coord3-role")?.value || "Student Coordinator").trim();
+    const c3Phone = (document.getElementById("coord3-phone")?.value || "").trim();
+    const c3Email = (document.getElementById("coord3-email")?.value || "Arenium.official@gmail.com").trim();
+    const c3Photo = (document.getElementById("coord3-photo")?.value || "").trim();
+    if (c3Name && c3Phone) {
+      newCoords.push({
+        name: c3Name,
+        role: c3Role,
+        phone: c3Phone,
+        email: c3Email,
+        photo: c3Photo || "images/coord-generic.svg"
+      });
+    }
+  }
+
+  ev.coordinators = newCoords;
+  ev.coordinator = newCoords[0];
+
+  FestDB.saveData(db); // Automatically triggers cloud push to MongoDB Atlas
   closeAdminCoordModal();
   renderAdminEvents(db);
-  alert(`Coordinator "${name}" assigned successfully to "${ev.name}"!`);
+  alert(`Successfully saved ${newCoords.length} coordinator(s) for "${ev.name}" and synced to Cloud Atlas!`);
+};
+
+window.syncFestConfigToCloudManual = async function() {
+  const btn = document.getElementById("admin-cloud-sync-btn");
+  if (btn) btn.textContent = "SYNCING...";
+  try {
+    const db = FestDB.getData();
+    await FestDB.pushToCloud(db);
+    alert("Fest configuration (settings, events, coordinators) successfully synchronized with Cloud MongoDB Atlas!");
+  } catch (err) {
+    alert("Could not sync to cloud: " + err.message);
+  } finally {
+    if (btn) btn.textContent = "SYNC CLOUD";
+  }
 };
 
 window.editAdminEvent = function(id) {
