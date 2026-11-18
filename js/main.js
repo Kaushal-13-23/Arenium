@@ -822,7 +822,7 @@ const FestDB = {
               else if (photo.includes("coord-vimal.svg") || photo.endsWith("Vimal.png")) photo = "images/Vimal.png";
               else if (photo.includes("coord-ashlin.svg") || photo.endsWith("Ashlin Siddharth.png")) photo = "images/Ashlin Siddharth.png";
               else if (photo.includes("coord-abhyas.svg") || photo.endsWith("ABHYAS.png")) photo = "images/ABHYAS.png";
-              else if (photo.includes("leader-organiser.svg") || photo.endsWith("Ms. Keren Lois Daniel.jpg")) photo = "images/Ms. Keren Lois Daniel.jpg";
+              else if (photo.includes("leader-organiser.svg") || photo.toLowerCase().includes("keren")) photo = "images/keren-lois-daniel.jpg";
               else photo = resolveAssetPath(photo, "images/coord-generic.svg");
 
               const email = c.email || "Arenium.official@gmail.com";
