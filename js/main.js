@@ -2783,6 +2783,13 @@ window.populateAdminCoordSlotsForEvent = function(selectedId) {
     }
     if (c3Quick) c3Quick.value = "";
   }
+
+  // Update photo previews
+  if (typeof window.updateCoordPhotoPreview === "function") {
+    window.updateCoordPhotoPreview(1, c1.photo || "");
+    window.updateCoordPhotoPreview(2, c2 ? c2.photo : "");
+    window.updateCoordPhotoPreview(3, c3 ? c3.photo : "");
+  }
 };
 
 window.openAdminEventCoordinatorModal = function(eventId) {
@@ -2952,30 +2959,164 @@ window.syncFestConfigToCloudManual = async function() {
   }
 };
 
-window.editAdminEvent = function(id) {
+// ==========================================================================
+// CLIENT-SIDE HIGH EFFICIENCY IMAGE COMPRESSION & BASE64 GLOBAL SYNC ENGINE
+// ==========================================================================
+function compressAndConvertImage(file, maxWidth = 800, maxHeight = 800, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    if (!file) return resolve("");
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth || height > maxHeight) {
+          if (width > height) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          } else {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL("image/jpeg", quality);
+        resolve(dataUrl);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+window.compressAndConvertImage = compressAndConvertImage;
+
+window.handleAdminPhotoUpload = async function(slotNum, file) {
+  if (!file) return;
+  try {
+    const dataUrl = await compressAndConvertImage(file, 600, 600, 0.85);
+    const photoInput = document.getElementById(`coord${slotNum}-photo`);
+    if (photoInput) {
+      photoInput.value = dataUrl;
+      window.updateCoordPhotoPreview(slotNum, dataUrl);
+    }
+  } catch (err) {
+    console.error("Photo upload error:", err);
+    alert("Could not process image file: " + err.message);
+  }
+};
+
+window.updateCoordPhotoPreview = function(slotNum, url) {
+  const wrap = document.getElementById(`coord${slotNum}-photo-preview-wrap`);
+  const img = document.getElementById(`coord${slotNum}-photo-preview`);
+  if (!wrap || !img) return;
+  if (url && url.trim()) {
+    img.src = resolveAssetPath(url.trim(), "images/coord-generic.svg");
+    wrap.style.display = "flex";
+  } else {
+    wrap.style.display = "none";
+  }
+};
+
+window.openAdminEditEventModal = function(id) {
   const db = FestDB.getData();
-  const ev = db.events.find(e => e.id === id);
+  const ev = (db.events || []).find(e => e.id === id);
   if (!ev) return;
 
-  const newName = prompt("Edit Event Name:", ev.name);
-  if (newName === null) return;
-  ev.name = newName;
+  const modal = document.getElementById("admin-event-edit-modal");
+  const idEl = document.getElementById("edit-event-id");
+  const nameEl = document.getElementById("edit-event-name");
+  const catEl = document.getElementById("edit-event-category");
+  const prizeEl = document.getElementById("edit-event-prize");
+  const descEl = document.getElementById("edit-event-desc");
+  const posterEl = document.getElementById("edit-event-poster");
 
-  const newCat = prompt("Edit Event Category:", ev.category);
-  if (newCat) ev.category = newCat;
+  if (idEl) idEl.value = ev.id;
+  if (nameEl) nameEl.value = ev.name || "";
+  if (catEl) catEl.value = ev.category || "";
+  if (prizeEl) prizeEl.value = ev.prize || "";
+  if (descEl) descEl.value = ev.description || "";
+  if (posterEl) {
+    posterEl.value = ev.poster || "";
+    window.updateEventPosterPreview(ev.poster || "");
+  }
 
-  const newPrize = prompt("Edit Prize Pool (e.g. ₹20,000):", ev.prize || "₹10,000");
-  if (newPrize) ev.prize = newPrize;
+  if (modal) {
+    modal.style.display = "flex";
+  }
+};
 
-  const newDesc = prompt("Edit Description:", ev.description);
-  if (newDesc) ev.description = newDesc;
+window.closeAdminEditEventModal = function() {
+  const modal = document.getElementById("admin-event-edit-modal");
+  if (modal) modal.style.display = "none";
+};
 
-  const newPoster = prompt("Poster Image Path / URL:", ev.poster);
-  if (newPoster) ev.poster = newPoster;
+window.handleAdminPosterUpload = async function(file) {
+  if (!file) return;
+  try {
+    const dataUrl = await compressAndConvertImage(file, 1200, 900, 0.82);
+    const posterInput = document.getElementById("edit-event-poster");
+    if (posterInput) {
+      posterInput.value = dataUrl;
+      window.updateEventPosterPreview(dataUrl);
+    }
+  } catch (err) {
+    console.error("Poster upload error:", err);
+    alert("Could not process poster file: " + err.message);
+  }
+};
 
-  FestDB.saveData(db);
-  alert("Event updated successfully!");
-  location.reload();
+window.updateEventPosterPreview = function(url) {
+  const wrap = document.getElementById("edit-event-poster-preview-wrap");
+  const img = document.getElementById("edit-event-poster-preview");
+  if (!wrap || !img) return;
+  if (url && url.trim()) {
+    img.src = resolveAssetPath(url.trim(), "images/main-poster.jpg");
+    wrap.style.display = "flex";
+  } else {
+    wrap.style.display = "none";
+  }
+};
+
+window.saveAdminEditEventModal = function() {
+  const id = document.getElementById("edit-event-id")?.value;
+  if (!id) return;
+
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === id);
+  if (!ev) return;
+
+  const name = document.getElementById("edit-event-name")?.value.trim();
+  const cat = document.getElementById("edit-event-category")?.value.trim();
+  const prize = document.getElementById("edit-event-prize")?.value.trim();
+  const desc = document.getElementById("edit-event-desc")?.value.trim();
+  const poster = document.getElementById("edit-event-poster")?.value.trim();
+
+  if (!name) {
+    alert("Please enter event name.");
+    return;
+  }
+
+  ev.name = name;
+  if (cat) ev.category = cat;
+  if (prize) ev.prize = prize;
+  if (desc) ev.description = desc;
+  if (poster) ev.poster = poster;
+
+  FestDB.saveData(db); // Automatically triggers cloud push to MongoDB Atlas
+  window.closeAdminEditEventModal();
+  renderAdminEvents(db);
+  alert(`Arena "${ev.name}" updated successfully and synced to Cloud Atlas across all devices!`);
+};
+
+window.editAdminEvent = function(id) {
+  window.openAdminEditEventModal(id);
 };
 
 window.deleteAdminEvent = function(id) {
