@@ -34,12 +34,12 @@ window.CORE_BACKEND_URL = window.CORE_BACKEND_URL || (
 // 1. FESTDB (CENTRAL LOCALSTORAGE STATE ENGINE)
 // ==========================================================================
 const FestDB = {
-  STORAGE_KEY: "arenium_fest_db_v8",
+  STORAGE_KEY: "arenium_fest_db_v9",
 
   getDefaults() {
     return {
       settings: {
-        eventDate: "2027-02-04T08:30:00+05:30",
+        eventDate: "2027-02-04T10:00:00+05:30",
         registerUrl: "register.html",
         paymentGatewayUrlInternal: "https://pages.razorpay.com/arenium27-pay",
         paymentGatewayUrlExternal: "https://presidencyuniversity.in/arenium27-register",
@@ -55,21 +55,21 @@ const FestDB = {
           upiId: "arenium27@icici",
           qrCodeImg: "images/qrcode.png",
           internalFee: 200,
-          internalAddFee: 200,
+          internalAddFee: 0,
           externalFee: 300,
-          externalAddFee: 300,
-          instructions: "REGISTRATION FEE STRUCTURE: Internal Participants (Presidency University): ₹200 for up to 2 events (additional ₹200 for 3rd event). External Participants: ₹300 for up to 2 events (additional ₹300 for 3rd event). Participation in 2nd event is optional and free. Please check the schedule to avoid timing conflicts.",
+          externalAddFee: 0,
+          instructions: "REGISTRATION FEE STRUCTURE: Internal Participants (Presidency University): ₹200 covers up to 2 competitive events. External Participants: ₹300 covers up to 2 competitive events. Participation in 2nd event is optional and 100% FREE (Maximum 2 events in total). Please verify event schedules to ensure non-overlapping timings.",
           fees: {
-            "tech-odyssey": "₹300 / Team of 2-3",
-            "shadow-code": "₹150 / Solo",
-            "design-nova": "₹150 / Solo",
-            "tech-talk": "₹200 / Solo or Duo",
-            "data-chronicles": "₹200 / Solo or Duo",
-            "founders-arena": "₹300 / Team",
-            "technova-27": "₹1,500 / Team of 4",
-            "quad-damage": "₹400 / Squad (₹150 Solo)",
-            "biochroma": "₹1,000 / Team",
-            "apl-auction": "₹500 / Team"
+            "tech-odyssey": "₹200 Internal / ₹300 External (Team of 2–4)",
+            "shadow-code": "₹200 Internal / ₹300 External (Team of 2–4)",
+            "design-nova": "₹200 Internal / ₹300 External (Team of 2–3)",
+            "tech-talk": "₹200 Internal / ₹300 External (Solo or Duo: 1–2)",
+            "data-chronicles": "₹200 Internal / ₹300 External (Team of 3–4)",
+            "founders-arena": "₹200 Internal / ₹300 External (Solo or Team: 1–3)",
+            "hackstorm": "₹200 Internal / ₹300 External per member (Team of 4)",
+            "quad-damage": "₹200 Internal / ₹300 External (Solo or Squad: 1–4)",
+            "biochroma": "₹200 Internal / ₹300 External per member (Team of 8)",
+            "apl-auction": "₹200 Internal / ₹300 External (Team of 4–8)"
           }
         },
         tagline: "THE ARENA OF INNOVATION",
@@ -255,20 +255,23 @@ const FestDB = {
           photo: "images/leader-sois.svg"
         }
       ],
-                  events: [
-        // 1. Tech Odyssey (Technical Event)
+      events: [
+        // 1. Tech Odyssey (Tech)
         {
           id: "tech-odyssey",
           name: "TECH ODYSSEY",
           tagline: "Technical Clue Hunt & Code Debugging Challenge",
-          category: "Technical Event",
+          category: "Tech",
           group: "technical",
           prize: "₹15,000",
-          venue: "SOIS Block & Central Campus",
+          venue: "Seminar Hall 1 (SH-1)",
           date: "Day 1 (4 February 2027)",
-          time: "10:45 AM – 01:00 PM",
-          description: "Teams solve campus-wide technical clues and debug syntax errors against the clock. Open to teams of 2 to 3 participants across a 2-hour multi-stage hunt.",
+          time: "1:00 PM – 3:00 PM",
+          description: "Teams solve campus-wide technical clues and debug syntax errors against the clock. Open to teams of 2 to 4 participants across a fast-paced multi-stage quest.",
           poster: "images/events/tech-odyssey.svg",
+          minMembers: 2,
+          maxMembers: 4,
+          slotId: "day1_afternoon",
           coordinator: {
             name: "Kaushal Kumar Singh",
             phone: "+91 91087 40761",
@@ -276,11 +279,11 @@ const FestDB = {
           },
           rulebook: {
             overview: "A multi-stage technical treasure hunt featuring technical reasoning questions, hidden clues embedded across campus, and rapid syntax debugging.",
-            eligibility: "Teams of 2 to 3 members. Participants must bring their own charged laptops. No generative AI tools permitted.",
-            teamSize: "2 - 3 Members per team",
+            eligibility: "Teams of 2 to 4 members. Participants must bring their own charged laptops. No generative AI tools permitted.",
+            teamSize: "2 – 4 Members per team",
             rounds: [
-              "Round 1: Technical Qualification Quiz (20 questions covering logic, puzzles, and computing concepts).",
-              "Round 2: Campus Clue Quest (Locating hidden technical clues and checkpoints across campus).",
+              "Round 1: Technical Qualification Quiz (Logic, puzzles, and computing concepts).",
+              "Round 2: Campus Clue Quest (Locating hidden technical checkpoints across campus).",
               "Round 3: Code Debugging Sprint (Identifying and correcting bugs in provided code snippets)."
             ],
             rules: [
@@ -293,28 +296,31 @@ const FestDB = {
           }
         },
 
-        // 2. ShadowCode (Technical Event)
+        // 2. Shadow Code (Tech)
         {
           id: "shadow-code",
-          name: "SHADOWCODE",
+          name: "SHADOW CODE",
           tagline: "Blindfold Competitive Programming Challenge",
-          category: "Technical Event",
+          category: "Tech",
           group: "technical",
           prize: "₹15,000",
-          venue: "SOIS Lab 01",
-          date: "Day 1 (4 February 2027)",
-          time: "11:00 AM – 01:00 PM",
-          description: "Participants write and optimize algorithms with their display monitors turned completely off. Solo competition lasting 2 hours across C, C++, Java, and Python.",
+          venue: "Seminar Hall 2 (SH-2)",
+          date: "Day 2 (5 February 2027)",
+          time: "9:00 AM – 12:00 PM",
+          description: "Participants write and optimize algorithms with their display monitors turned completely off. Open to teams of 2 to 4 participants across C, C++, Java, and Python.",
           poster: "images/events/shadow-code.svg",
+          minMembers: 2,
+          maxMembers: 4,
+          slotId: "day2_morning",
           coordinator: {
             name: "Abhyas Kathuria",
             phone: "+91 85958 48421",
             photo: "images/coord-abhyas.svg"
           },
           rulebook: {
-            overview: "A pure competitive programming sprint where contestants demonstrate syntax accuracy, algorithmic mastery, and muscle memory without visual feedback.",
-            eligibility: "Solo participation. Open to all undergraduate and postgraduate students.",
-            teamSize: "1 Participant",
+            overview: "A competitive programming sprint where teams demonstrate syntax accuracy, algorithmic mastery, and muscle memory without visual feedback.",
+            eligibility: "Teams of 2 to 4 members. Open to all undergraduate and postgraduate students.",
+            teamSize: "2 – 4 Members per team",
             rounds: [
               "Round 1: Code Debugging Sprint (Fix faulty algorithmic scripts against strict clock).",
               "Round 2: Blind Coding (Monitors turned OFF; write algorithms from memory).",
@@ -330,19 +336,22 @@ const FestDB = {
           }
         },
 
-        // 3. DesignNova (Technical Event)
+        // 3. Design Nova (Design)
         {
           id: "design-nova",
-          name: "DESIGNNOVA",
+          name: "DESIGN NOVA",
           tagline: "UI/UX Design Sprint & Prototyping Arena",
-          category: "Technical Event",
+          category: "Design",
           group: "technical",
           prize: "₹15,000",
-          venue: "Design Studio (Ground Floor)",
+          venue: "Seminar Hall 2 (SH-2)",
           date: "Day 1 (4 February 2027)",
-          time: "02:00 PM – 04:30 PM",
-          description: "Designers receive a real-world product prompt to create wireframes, user journeys, and interactive prototypes. Open to solo participants or teams of 2 for a 2.5-hour design sprint.",
+          time: "1:00 PM – 4:00 PM",
+          description: "Designers receive a real-world product prompt to create wireframes, user journeys, and interactive prototypes. Open to teams of 2 to 3 members for an intensive 3-hour design sprint.",
           poster: "images/events/design-nova.svg",
+          minMembers: 2,
+          maxMembers: 3,
+          slotId: "day1_afternoon",
           coordinator: {
             name: "Vimal Raj",
             phone: "+91 96201 92249",
@@ -350,12 +359,12 @@ const FestDB = {
           },
           rulebook: {
             overview: "Participants receive an on-the-spot problem statement to craft an intuitive mobile or web interface, complete with user journey mapping and interactive prototyping.",
-            eligibility: "Solo or teams of 2 members. Bring laptops with Figma or Adobe XD installed.",
-            teamSize: "1 - 2 Participants",
+            eligibility: "Teams of 2 to 3 members. Bring laptops with Figma or Adobe XD installed.",
+            teamSize: "2 – 3 Members per team",
             rounds: [
               "Phase 1: Problem Briefing & User Journey Mapping (30 minutes).",
               "Phase 2: High-Fidelity Wireframing & Prototyping (2 hours Figma sprint).",
-              "Phase 3: Jury Presentation & Interactive Product Walkthrough (5 minutes)."
+              "Phase 3: Jury Presentation & Interactive Product Walkthrough (5 minutes per team)."
             ],
             rules: [
               "All component libraries and UI assets must be created or customized on-site.",
@@ -367,19 +376,22 @@ const FestDB = {
           }
         },
 
-        // 4. TechTalk (Technical Event)
+        // 4. Tech Talk (Presentation)
         {
           id: "tech-talk",
-          name: "TECHTALK",
+          name: "TECH TALK",
           tagline: "Technical Paper & Keynote Presentation Symposium",
-          category: "Technical Event",
+          category: "Presentation",
           group: "technical",
           prize: "₹10,000",
-          venue: "Seminar Hall 1",
+          venue: "Seminar Hall 4 (SH-4)",
           date: "Day 1 (4 February 2027)",
-          time: "04:30 PM – 06:00 PM",
+          time: "1:00 PM – 4:00 PM",
           description: "Present original research papers, architecture designs, or emerging technology analyses before an academic jury. Solo or 2-member teams deliver an 8-minute presentation followed by Q&A.",
           poster: "images/events/tech-talk.svg",
+          minMembers: 1,
+          maxMembers: 2,
+          slotId: "day1_afternoon",
           coordinator: {
             name: "Ashlin Siddharth",
             phone: "+91 87976 86786",
@@ -387,8 +399,8 @@ const FestDB = {
           },
           rulebook: {
             overview: "An academic and technical presentation symposium celebrating innovative computing research, system architectures, and emerging technologies.",
-            eligibility: "Solo or teams of 2 members.",
-            teamSize: "1 - 2 Participants",
+            eligibility: "Solo (1) or teams of 2 members.",
+            teamSize: "1 – 2 Members (Solo or Duo)",
             rounds: [
               "Round 1: Abstract & Slide Deck Review.",
               "Round 2: Live 8-Minute Stage Presentation + 3-Minute Technical Jury Q&A."
@@ -403,19 +415,61 @@ const FestDB = {
           }
         },
 
-        // 5. DataChronicles (Technical Event)
+        // 5. Founder's Arena (Pitchathon)
+        {
+          id: "founders-arena",
+          name: "FOUNDER'S ARENA",
+          tagline: "Startup Pitchathon & Business Plan Showcase",
+          category: "Pitchathon",
+          group: "technical",
+          prize: "₹18,000",
+          venue: "Seminar Hall 1 (SH-1)",
+          date: "Day 2 (5 February 2027)",
+          time: "9:00 AM – 12:00 PM",
+          description: "Pitch your startup idea, business model, and prototype before a panel of industry evaluators. Open to solo participants or teams of 1 to 3 members with a pitch and investor Q&A.",
+          poster: "images/events/founders-arena.svg",
+          minMembers: 1,
+          maxMembers: 3,
+          slotId: "day2_morning",
+          coordinator: {
+            name: "Vimal Raj",
+            phone: "+91 96201 92249",
+            photo: "images/coord-vimal.svg"
+          },
+          rulebook: {
+            overview: "A business and technology pitchathon where student founders showcase scalable software or hardware solutions, market research, revenue models, and MVP prototypes.",
+            eligibility: "Solo (1) or teams of up to 3 members. Cross-college teams permitted.",
+            teamSize: "1 – 3 Members",
+            rounds: [
+              "Round 1: Pitch Deck & Executive Summary Pre-Screening.",
+              "Round 2: Live 7-Minute Pitch + 5-Minute Investor Q&A on Stage."
+            ],
+            rules: [
+              "Pitch deck must cover Problem, Solution, Architecture, Market Size, Revenue Model, and Team.",
+              "Working prototype demonstration carries bonus evaluation weightage.",
+              "Jury evaluation determines final podium standings."
+            ],
+            judging: "Market Feasibility (30%), Technological Innovation (30%), Financial Viability (20%), Pitch Poise (20%).",
+            cashPrize: "Winner: ₹10,000 | Runner-up: ₹5,000 | 2nd Runner-up: ₹3,000 + Incubation Fast-Track"
+          }
+        },
+
+        // 6. Data Chronicles (Data Analysis)
         {
           id: "data-chronicles",
-          name: "DATACHRONICLES",
+          name: "DATA CHRONICLES",
           tagline: "Data Science, Machine Learning & Analytics Championship",
-          category: "Technical Event",
+          category: "Data Analysis",
           group: "technical",
           prize: "₹15,000",
-          venue: "SOIS Lab 03",
+          venue: "Seminar Hall 3 (SH-3)",
           date: "Day 2 (5 February 2027)",
-          time: "09:30 AM – 11:30 AM",
-          description: "Analyze complex raw datasets, train predictive models, and present interactive data dashboards. Open to teams of 2 participants for a 2-hour analytics challenge.",
+          time: "9:00 AM – 12:00 PM",
+          description: "Analyze complex raw datasets, train predictive models, and present interactive data dashboards. Open to teams of 3 to 4 participants across a 3-hour analytics challenge.",
           poster: "images/events/data-chronicles.svg",
+          minMembers: 3,
+          maxMembers: 4,
+          slotId: "day2_morning",
           coordinator: {
             name: "Kaushal Kumar Singh",
             phone: "+91 91087 40761",
@@ -423,8 +477,8 @@ const FestDB = {
           },
           rulebook: {
             overview: "End-to-end data analytics challenge from exploratory data analysis (EDA) to predictive modeling and executive storytelling dashboards.",
-            eligibility: "Teams of 2 participants. Must bring laptops configured with Python/R, Jupyter, and data visualization tools.",
-            teamSize: "2 Participants",
+            eligibility: "Teams of 3 to 4 participants. Must bring laptops configured with Python/R, Jupyter, and data visualization tools.",
+            teamSize: "3 – 4 Members per team",
             rounds: [
               "Stage 1: Raw Dataset Release & Cleaning / Feature Engineering.",
               "Stage 2: Model Training & Predictive Performance Benchmarking.",
@@ -440,55 +494,22 @@ const FestDB = {
           }
         },
 
-        // 6. Founders' Arena (Technical Event)
+        // 7. Hackstorm (Tech Hackathon - 24H)
         {
-          id: "founders-arena",
-          name: "FOUNDERS' ARENA",
-          tagline: "Startup Pitch & Business Plan Competition",
-          category: "Technical Event",
+          id: "hackstorm",
+          name: "HACKSTORM",
+          tagline: "24-Hour National Flagship Tech Hackathon",
+          category: "Tech Hackathon",
           group: "technical",
-          prize: "₹18,000",
-          venue: "Seminar Hall 1",
-          date: "Day 1 (4 February 2027)",
-          time: "04:30 PM – 06:30 PM",
-          description: "Pitch your startup idea, business model, and prototype before a panel of industry evaluators. Open to teams of 2 to 4 members with a 7-minute pitch and investor Q&A.",
-          poster: "images/events/founders-arena.svg",
-          coordinator: {
-            name: "Vimal Raj",
-            phone: "+91 96201 92249",
-            photo: "images/coord-vimal.svg"
-          },
-          rulebook: {
-            overview: "A business and technology pitching competition where student founders showcase scalable software or hardware solutions, market research, revenue models, and MVP prototypes.",
-            eligibility: "Teams of 2 to 4 members. Cross-college teams permitted.",
-            teamSize: "2 - 4 Participants",
-            rounds: [
-              "Round 1: Pitch Deck & Executive Summary Pre-Screening.",
-              "Round 2: Live 7-Minute Pitch + 5-Minute Investor Q&A on Stage."
-            ],
-            rules: [
-              "Pitch deck must cover Problem, Solution, Architecture, Market Size, Revenue Model, and Team.",
-              "Working prototype demonstration carries bonus evaluation weightage.",
-              "Jury evaluation determines final podium standings."
-            ],
-            judging: "Market Feasibility (30%), Technological Innovation (30%), Financial Viability (20%), Pitch Poise (20%).",
-            cashPrize: "Winner: ₹10,000 | Runner-up: ₹5,000 | 2nd Runner-up: ₹3,000 + Incubation Fast-Track"
-          }
-        },
-
-        // 7. TechNova '27 (Technical Event - 24H Hackathon)
-        {
-          id: "technova-27",
-          name: "TECHNOVA '27",
-          tagline: "24-Hour National Flagship Hackathon",
-          category: "Technical Event",
-          group: "technical",
-          prize: "₹22,500",
-          venue: "Central Computing Lab (24-Hour Facility)",
-          date: "4–5 February 2027 (Overnight 24H)",
-          time: "Day 1 10:30 AM Kickoff to Day 2 10:30 AM Submissions",
-          description: "Build and deploy innovative software or hardware solutions to address live industry problem statements. Open to teams of 4 members for a continuous 24-hour sprint with food and accommodation provided.",
+          prize: "₹25,000",
+          venue: "Central Computing Lab (D-Block)",
+          date: "Day 1 & Day 2 (4–5 February 2027)",
+          time: "12:00 PM (Day 1) – 12:00 PM (Day 2)",
+          description: "Build and deploy innovative software or hardware solutions to address live industry problem statements. Continuous 24-hour sprint for teams of 4 members with mentors and refreshments.",
           poster: "images/events/technova-27.svg",
+          minMembers: 4,
+          maxMembers: 4,
+          slotId: "hackathon_24h",
           coordinator: {
             name: "Abhyas Kathuria",
             phone: "+91 85958 48421",
@@ -496,13 +517,13 @@ const FestDB = {
           },
           rulebook: {
             overview: "A continuous 24-hour development sprint bringing student developers together to build production-grade web, mobile, AI, or hardware solutions.",
-            eligibility: "Teams of strictly 4 members. ₹1,500 registration per team includes meals, stay, and mentors.",
+            eligibility: "Teams of strictly 4 members.",
             teamSize: "Strictly 4 Members per team",
             rounds: [
-              "Kickoff: Problem statement release at 10:30 AM Day 1.",
-              "Checkpoint 1: Mentorship review at 04:00 PM Day 1.",
+              "Kickoff: Problem statement release at 12:00 PM Day 1.",
+              "Checkpoint 1: Mentorship review at 05:00 PM Day 1.",
               "Checkpoint 2: Midnight code architecture audit at 12:00 AM.",
-              "Final Demos: 10:30 AM – 01:00 PM Day 2 before industry judges."
+              "Final Demos: 10:00 AM – 12:00 PM Day 2 before industry judges."
             ],
             rules: [
               "All code must be written during the 24-hour window; fresh Git commit history enforced.",
@@ -510,23 +531,26 @@ const FestDB = {
               "Teams must adhere to campus safety and hackathon lab guidelines."
             ],
             judging: "Technical Innovation (35%), Functional Completion (30%), UI/UX (20%), Presentation Demo (15%).",
-            cashPrize: "Winner: ₹12,000 | Runner-up: ₹7,000 | Best Tech Prototype: ₹3,500 + Trophies"
+            cashPrize: "Winner: ₹14,000 | Runner-up: ₹7,000 | Best Tech Prototype: ₹4,000 + Trophies"
           }
         },
 
-        // 8. Quad Damage (Non-Technical Event)
+        // 8. Quad / Quad Damage (Gaming)
         {
           id: "quad-damage",
-          name: "QUAD DAMAGE",
-          tagline: "Collegiate LAN Esports Tournament",
-          category: "Non-Technical Event",
+          name: "QUAD / QUAD DAMAGE",
+          tagline: "Collegiate LAN Esports & Gaming Championship",
+          category: "Gaming",
           group: "non-technical",
           prize: "₹20,000",
-          venue: "Classroom DJL01 & SH4 (SOIS Gaming Hub)",
-          date: "Day 1 & Day 2 (4–5 February 2027)",
-          time: "Day 1 02:00 PM Qualifiers | Day 2 01:00 PM Finals",
-          description: "Compete in structured custom-lobby tournaments featuring Valorant (PC) and BGMI (Mobile). Open to solo players and squads of up to 4 participants across knockout stages.",
+          venue: "Classroom DJL01 & Gaming Hub",
+          date: "Day 1 (4 February 2027)",
+          time: "Slot to be confirmed (after 11:00 AM / 1:00 PM)",
+          description: "Compete in custom esports lobbies featuring Valorant (PC) and BGMI (Mobile). Open to solo players and squads of up to 4 participants across knockout stages.",
           poster: "images/events/quad-damage.svg",
+          minMembers: 1,
+          maxMembers: 4,
+          slotId: "gaming_flex",
           coordinator: {
             name: "Ashlin Siddharth",
             phone: "+91 87976 86786",
@@ -534,8 +558,8 @@ const FestDB = {
           },
           rulebook: {
             overview: "Collegiate esports championship played across dedicated low-latency tournament LAN networks with official tournament referees.",
-            eligibility: "Teams of 1 to 4 members. Must carry college IDs and personal gaming devices/peripherals.",
-            teamSize: "1 - 4 Players per squad",
+            eligibility: "Solo (1) or squads of up to 4 members. Must carry college IDs and personal gaming devices/peripherals.",
+            teamSize: "1 – 4 Members per squad",
             rounds: [
               "Stage 1: Custom Room Knockout Qualifiers (Single Elimination).",
               "Stage 2: Semi-Finals & Grand Finals cast live on stage displays."
@@ -550,19 +574,22 @@ const FestDB = {
           }
         },
 
-        // 9. Biochroma (Non-Technical Event)
+        // 9. Bio Chroma (Fashion / Showcase)
         {
           id: "biochroma",
-          name: "BIOCHROMA",
-          tagline: "Technology-Inspired Fashion Runway Competition",
-          category: "Non-Technical Event",
+          name: "BIO CHROMA",
+          tagline: "Technology-Inspired Fashion & Creative Showcase",
+          category: "Fashion / Showcase",
           group: "non-technical",
           prize: "₹15,000",
-          venue: "Main Open Stage",
+          venue: "Main University Auditorium",
           date: "Day 2 (5 February 2027)",
-          time: "03:30 PM – 05:00 PM",
-          description: "Teams present runway ensembles combining sustainable materials, wearable technology, and modern fashion design. Open to teams of 5 to 10 participants for an 8-minute stage showcase.",
+          time: "1:30 PM – 3:30 PM",
+          description: "Teams present runway ensembles combining sustainable materials, wearable technology, and modern fashion design. Strictly 8 members per team for an 8-minute stage showcase.",
           poster: "images/events/biochroma.svg",
+          minMembers: 8,
+          maxMembers: 8,
+          slotId: "day2_afternoon",
           coordinator: {
             name: "Vimal Raj",
             phone: "+91 96201 92249",
@@ -570,8 +597,8 @@ const FestDB = {
           },
           rulebook: {
             overview: "A themed fashion runway experience where students showcase wearable electronics, sustainable materials, and smart textiles.",
-            eligibility: "Teams of 5 to 10 members (models, designers, and audio-visual support).",
-            teamSize: "5 - 10 Members per team",
+            eligibility: "Teams of strictly 8 members (models, designers, and audio-visual support).",
+            teamSize: "Strictly 8 Members per team",
             rounds: [
               "Runway Round: 8-minute choreographed team walk with music and concept narration.",
               "Concept Defence: 2-minute Q&A with fashion and tech judges explaining sustainability aspects."
@@ -586,19 +613,22 @@ const FestDB = {
           }
         },
 
-        // 10. APL (Arenium Premier League) (Non-Technical Event)
+        // 10. APL (Auction)
         {
           id: "apl-auction",
           name: "APL (ARENIUM PREMIER LEAGUE)",
-          tagline: "Strategic Mock Cricket & Brand Auction",
-          category: "Non-Technical Event",
+          tagline: "Strategic Mock Auction & Corporate Valuation Challenge",
+          category: "Auction",
           group: "non-technical",
           prize: "₹15,000",
-          venue: "Management Amphitheatre",
+          venue: "L Block Mini Audi",
           date: "Day 2 (5 February 2027)",
-          time: "02:00 PM – 03:30 PM",
-          description: "Manage virtual budgets to bid on iconic brands and build high-value corporate portfolios. Open to teams of 2 to 3 members across auction and business strategy rounds.",
+          time: "9:00 AM – 12:00 PM",
+          description: "Manage virtual budgets to bid on iconic sports franchises, brands, and corporate assets. Open to teams of 4 to 8 members across live auction and valuation rounds.",
           poster: "images/events/apl-auction.svg",
+          minMembers: 4,
+          maxMembers: 8,
+          slotId: "day2_morning",
           coordinator: {
             name: "Kaushal Kumar Singh",
             phone: "+91 91087 40761",
@@ -606,8 +636,8 @@ const FestDB = {
           },
           rulebook: {
             overview: "A strategic business auction simulation where teams manage a virtual budget, acquire corporate assets, analyze market scenarios, and pitch their business portfolio.",
-            eligibility: "Teams of 2 to 3 members.",
-            teamSize: "2 - 3 Members per team",
+            eligibility: "Teams of 4 to 8 members.",
+            teamSize: "4 – 8 Members per team",
             rounds: [
               "Round 1: Virtual Budget Bidding Auction (Acquiring business brands and sports franchises).",
               "Round 2: Strategic Scenario Challenge (Solving market disruption prompts).",
@@ -623,153 +653,135 @@ const FestDB = {
           }
         }
       ],
-            schedule: [
-        // Day 1 (4 February 2027)
+      schedule: [
+        // Day 1 — Thursday, February 4, 2027
         {
           id: "sch-01",
           day: "Day 1",
-          time: "09:30 AM – 10:30 AM",
-          name: "Grand Inaugural Ceremony & Lamp Lighting",
+          time: "10:00 AM – 11:30 AM",
+          name: "Grand Inauguration & Lamp Lighting",
           category: "Inaugural",
           venue: "Main University Auditorium",
-          note: "Patron welcome address by Dean SOIS Dr. R. Mahalakshmi, Registrar, University Leadership, and invited industry guests."
+          note: "Patron address by Dean SOIS Dr. R. Mahalakshmi, Registrar, University Leadership, and invited industry guests."
         },
         {
           id: "sch-02",
           day: "Day 1",
-          time: "10:30 AM (24 Hours)",
-          name: "TECHNOVA '27 (24-Hour Hackathon Flagoff)",
-          category: "Technical Flagship",
-          venue: "Central Computing Lab (D-Block)",
-          note: "Problem statements released on portal. Non-stop software and hardware build sprint begins."
+          time: "11:30 AM – 12:00 PM",
+          name: "Tea Break & Delegate Networking",
+          category: "Break",
+          venue: "Auditorium Concourse",
+          note: "Official morning tea break and networking for registered participants, teams, and faculty."
         },
         {
           id: "sch-03",
           day: "Day 1",
-          time: "10:45 AM – 01:00 PM",
-          name: "TECH ODYSSEY (Clue Hunt & Bug Spotting)",
-          category: "Technical Event",
-          venue: "SOIS Lab 02 & Campus",
-          note: "Three-stage technical challenge: Kahoot qualification, campus clue hunt, and syntax debugging."
+          time: "12:00 PM (Day 1) – 12:00 PM (Day 2)",
+          name: "HACKSTORM (24-Hour Hackathon)",
+          category: "Tech Hackathon",
+          venue: "Central Computing Lab (D-Block)",
+          note: "24-hour national flagship hackathon kickoff. Live problem statements released; non-stop software and hardware building begins."
         },
         {
           id: "sch-04",
           day: "Day 1",
-          time: "11:00 AM – 01:00 PM",
-          name: "SHADOWCODE (Blindfold Code Sprint)",
-          category: "Technical Event",
-          venue: "SOIS Lab 01",
-          note: "Screen-off blind programming in C, C++, Java, and Python. Syntax precision and algorithmic efficiency."
+          time: "1:00 PM – 3:00 PM",
+          name: "TECH ODYSSEY (Clue Hunt & Bug Spotting)",
+          category: "Tech",
+          venue: "Seminar Hall 1 (SH-1)",
+          note: "Teams of 2–4 solve technical clues and debug syntax errors against the clock."
         },
         {
           id: "sch-05",
           day: "Day 1",
-          time: "01:00 PM – 02:00 PM",
-          name: "Official Lunch Pause",
-          category: "Break",
-          venue: "University Food Court",
-          note: "Lunch break for all registered delegates and faculty in the University Food Court."
+          time: "1:00 PM – 4:00 PM",
+          name: "DESIGN NOVA (UI/UX Design Sprint)",
+          category: "Design",
+          venue: "Seminar Hall 2 (SH-2)",
+          note: "Teams of 2–3 tackle real-world design prompts, high-fidelity wireframing, and interactive prototyping."
         },
         {
           id: "sch-06",
           day: "Day 1",
-          time: "02:00 PM – 04:30 PM",
-          name: "DESIGNNOVA (UI/UX Design Sprint)",
-          category: "Technical Event",
-          venue: "Design Studio (Ground Floor)",
-          note: "Live 2.5-hour Figma interface design, wireframing, component design systems, and prototype presentation."
+          time: "1:00 PM – 4:00 PM",
+          name: "TECH TALK (Paper & Keynote Symposium)",
+          category: "Presentation",
+          venue: "Seminar Hall 4 (SH-4)",
+          note: "Solo or duo (1–2 members) research paper and technology keynote presentation symposium."
         },
         {
           id: "sch-07",
           day: "Day 1",
-          time: "02:00 PM – 05:30 PM",
-          name: "QUAD DAMAGE (Esports Knockouts)",
-          category: "Esports Arena",
-          venue: "DJL01 & Seminar Hall 4",
-          note: "LAN tournament preliminary rounds across Valorant (PC 5v5) and BGMI squads."
+          time: "Slot to be confirmed (after 11:00 AM / 1:00 PM)",
+          name: "QUAD / QUAD DAMAGE (Gaming Tournament)",
+          category: "Gaming",
+          venue: "Classroom DJL01 & Gaming Hub",
+          note: "Solo or squad (1–4 members) collegiate esports LAN battle featuring competitive gaming."
         },
+
+        // Day 2 — Friday, February 5, 2027
         {
           id: "sch-08",
-          day: "Day 1",
-          time: "04:30 PM – 06:00 PM",
-          name: "TECHTALK (Technical Paper Symposium)",
-          category: "Technical Event",
-          venue: "Seminar Hall 1",
-          note: "Paper presentations and technical defence on computing architectures, AI/ML, and cloud systems."
+          day: "Day 2",
+          time: "9:00 AM – 12:00 PM",
+          name: "FOUNDER'S ARENA (Startup Pitchathon)",
+          category: "Pitchathon",
+          venue: "Seminar Hall 1 (SH-1)",
+          note: "Solo or teams of 1–3 members pitch startup concepts, scalable business models, and prototypes before investor panel."
         },
         {
           id: "sch-09",
-          day: "Day 1",
-          time: "04:30 PM – 06:30 PM",
-          name: "FOUNDERS' ARENA (Startup Pitch Deck)",
-          category: "Technical Event",
-          venue: "Seminar Hall 1",
-          note: "Startup business pitch and prototype demonstration before industry evaluators."
+          day: "Day 2",
+          time: "9:00 AM – 12:00 PM",
+          name: "SHADOW CODE (Blindfold Programming Challenge)",
+          category: "Tech",
+          venue: "Seminar Hall 2 (SH-2)",
+          note: "Teams of 2–4 members demonstrate algorithmic precision and screen-off blindfold coding."
         },
-
-        // Day 2 (5 February 2027)
         {
           id: "sch-10",
           day: "Day 2",
-          time: "09:30 AM – 11:30 AM",
-          name: "DATACHRONICLES (Data Science Challenge)",
-          category: "Technical Event",
-          venue: "SOIS Lab 03",
-          note: "Exploratory data analysis, machine learning model evaluation, and visual dashboard presentation."
+          time: "9:00 AM – 12:00 PM",
+          name: "DATA CHRONICLES (Data Science & Analytics)",
+          category: "Data Analysis",
+          venue: "Seminar Hall 3 (SH-3)",
+          note: "Teams of 3–4 members analyze raw datasets, engineer predictive models, and build visual dashboards."
         },
         {
           id: "sch-11",
           day: "Day 2",
-          time: "10:30 AM – 12:30 PM",
-          name: "TECHNOVA '27 (Hackathon Finale & Demos)",
-          category: "Technical Flagship",
-          venue: "Central Computing Lab & Aud 2",
-          note: "Sprint code freeze, prototype testing, and 5-minute project presentations before judges."
+          time: "9:00 AM – 12:00 PM",
+          name: "APL (ARENIUM PREMIER LEAGUE)",
+          category: "Auction",
+          venue: "L Block Mini Audi",
+          note: "Teams of 4–8 members manage virtual budgets in a high-stakes mock corporate and brand auction."
         },
         {
           id: "sch-12",
           day: "Day 2",
-          time: "11:30 AM – 02:30 PM",
-          name: "QUAD DAMAGE (Esports Grand Finals)",
-          category: "Esports Arena",
-          venue: "Main Auditorium Display Arena",
-          note: "Valorant and BGMI championship grand finals live-cast on auditorium display walls."
+          time: "12:00 PM",
+          name: "HACKSTORM CONCLUDES (Code Freeze & Demos)",
+          category: "Tech Hackathon",
+          venue: "Central Computing Lab",
+          note: "Hackstorm 24-hour hackathon concludes. Final code freeze, project submissions, and jury evaluations."
         },
         {
           id: "sch-13",
           day: "Day 2",
-          time: "01:00 PM – 02:00 PM",
-          name: "Official Lunch Pause",
-          category: "Break",
-          venue: "University Food Court",
-          note: "Lunch break and final score compilation by the adjudication committee."
+          time: "1:30 PM – 3:30 PM",
+          name: "BIO CHROMA (Fashion / Showcase)",
+          category: "Fashion / Showcase",
+          venue: "Main University Auditorium",
+          note: "Teams of 8 members present runway ensembles blending wearable tech and sustainable fashion."
         },
         {
           id: "sch-14",
           day: "Day 2",
-          time: "02:00 PM – 03:30 PM",
-          name: "APL (ARENIUM PREMIER LEAGUE)",
-          category: "Non-Technical Event",
-          venue: "Management Amphitheatre",
-          note: "Strategic brand and mock cricket player auction with virtual portfolio management."
-        },
-        {
-          id: "sch-15",
-          day: "Day 2",
-          time: "03:30 PM – 05:00 PM",
-          name: "BIOCHROMA (Tech Fashion Runway)",
-          category: "Cultural & Design",
-          venue: "Main Open Stage",
-          note: "Fashion showcase combining wearable technology, smart textiles, and sustainable design."
-        },
-        {
-          id: "sch-16",
-          day: "Day 2",
-          time: "05:00 PM – 06:30 PM",
+          time: "3:30 PM – 5:00 PM",
           name: "Grand Valedictory Ceremony & Prize Distribution",
           category: "Valedictory",
           venue: "Main University Auditorium",
-          note: "Official trophy handovers, Dean's address, certificate distribution, and closing ceremony for ARENIUM'27."
+          note: "Official trophy handovers, cash prize felicitations, Dean's address, and closing ceremony for ARENIUM'27."
         }
       ],
       winners: [],
@@ -849,8 +861,16 @@ const FestDB = {
             }));
           })(),
           soisFaculty: parsed.soisFaculty && parsed.soisFaculty.length ? parsed.soisFaculty : defaults.soisFaculty,
-          events: parsed.events && parsed.events.length ? parsed.events : defaults.events,
-          schedule: parsed.schedule && parsed.schedule.length ? parsed.schedule : defaults.schedule,
+          events: (() => {
+            if (!parsed.events || !parsed.events.length) return defaults.events;
+            const hasHackstorm = parsed.events.some(e => e.id === "hackstorm" || (e.name && e.name.toLowerCase().includes("hackstorm")));
+            return hasHackstorm ? parsed.events : defaults.events;
+          })(),
+          schedule: (() => {
+            if (!parsed.schedule || !parsed.schedule.length) return defaults.schedule;
+            const hasHackstorm = parsed.schedule.some(s => s.name && s.name.toLowerCase().includes("hackstorm"));
+            return hasHackstorm ? parsed.schedule : defaults.schedule;
+          })(),
           winners: parsed.winners && parsed.winners.length ? parsed.winners : defaults.winners,
           sponsors: parsed.sponsors && parsed.sponsors.length ? parsed.sponsors : defaults.sponsors,
           gallery: parsed.gallery && parsed.gallery.length ? parsed.gallery : defaults.gallery,
