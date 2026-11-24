@@ -353,12 +353,12 @@
                   EVENT 2: SECOND ARENA (OPTIONAL)
                   <span style="font-size: 0.74rem; color: #059669; font-weight: 800; margin-left: 0.5rem; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 2px 8px; border-radius: 12px;">100% FREE / INCLUDED</span>
                 </label>
-                <select id="reg-event-2" class="form-select">
-                  <option value="">-- No Second Event (Participating in 1 Event Only) --</option>
+                <select id="reg-event-2" class="form-select" disabled>
+                  <option value="">-- Please select Event 1 (Primary Arena) first --</option>
                 </select>
                 <div id="event-2-meta-pill" style="display: none; margin-top: 0.4rem; font-size: 0.76rem; color: #065F46; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 0.35rem 0.75rem; border-radius: 8px; font-weight: 600;"></div>
-                <span style="font-size: 0.74rem; color: #64748B; margin-top: 0.2rem; display: block;">
-                  Participation in a 2nd arena is optional and completely <strong>free of charge</strong>. Maximum 2 events total.
+                <span id="event-2-hint-text" style="font-size: 0.74rem; color: #64748B; margin-top: 0.2rem; display: block;">
+                  Participation in a 2nd arena is optional and completely <strong>free of charge</strong>. Select an arena scheduled on the alternate day to avoid timing conflicts (Maximum 2 events total).
                 </span>
               </div>
 
@@ -1353,45 +1353,112 @@
         }
       }
 
-      function populateEventSelects() {
-        const sel1 = ev1Select ? ev1Select.value : "";
-        const sel2 = ev2Select ? ev2Select.value : "";
+      function getEventDayNumber(id) {
+        if (!id) return null;
+        const norm = normalizeEventId(id);
+        const ev = EVENT_CATALOG[norm];
+        if (!ev) return null;
+        if (norm === "hackstorm" || (ev.day && ev.day.includes("Day 1 & Day 2"))) {
+          return "both";
+        }
+        if (ev.day && (ev.day.includes("Day 1") || ev.day.includes("4 Feb"))) {
+          return 1;
+        }
+        if (ev.day && (ev.day.includes("Day 2") || ev.day.includes("5 Feb"))) {
+          return 2;
+        }
+        return null;
+      }
 
-        // Event 1 options (all 10 events)
-        if (ev1Select) {
-          ev1Select.innerHTML = `<option value="">Select your 1st competitive arena...</option>`;
-          eventsList.forEach(ev => {
-            const meta = EVENT_CATALOG[normalizeEventId(ev.id)] || ev;
-            const opt = document.createElement("option");
-            opt.value = ev.id;
-            opt.textContent = `${ev.name} (${meta.category || ev.category}) — ${meta.day || ''} ${meta.time || ''}`;
-            opt.dataset.eventName = ev.name;
-            if (ev.id === sel1) opt.selected = true;
-            ev1Select.appendChild(opt);
-          });
+      function populateEvent1Select() {
+        if (!ev1Select) return;
+        const sel1 = ev1Select.value;
+        ev1Select.innerHTML = `<option value="">Select your 1st competitive arena...</option>`;
+        eventsList.forEach(ev => {
+          const normId = normalizeEventId(ev.id);
+          const meta = EVENT_CATALOG[normId] || ev;
+          const opt = document.createElement("option");
+          opt.value = ev.id;
+          opt.textContent = `${ev.name} (${meta.category || ev.category}) — ${meta.day || ''} ${meta.time || ''}`;
+          opt.dataset.eventName = ev.name;
+          if (ev.id === sel1 || normId === sel1) opt.selected = true;
+          ev1Select.appendChild(opt);
+        });
+      }
+
+      function populateEvent2Select() {
+        if (!ev2Select) return;
+        const id1 = ev1Select ? ev1Select.value : "";
+        const prevSel2 = ev2Select.value;
+        const ev2Hint = document.getElementById("event-2-hint-text");
+
+        if (!id1) {
+          ev2Select.innerHTML = `<option value="">-- Please select Event 1 (Primary Arena) first --</option>`;
+          ev2Select.disabled = true;
+          if (ev2Hint) {
+            ev2Hint.innerHTML = "Participation in a 2nd arena is optional and <strong>100% free</strong>. Please select Event 1 first to unlock available alternate-day tracks.";
+          }
+          updateScheduleAdvisor();
+          return;
         }
 
-        // Event 2 options (all except Event 1)
-        if (ev2Select) {
-          ev2Select.innerHTML = `<option value="">-- No Second Event (Participate in 1 Event Only) --</option>`;
-          eventsList.forEach(ev => {
-            if (ev.id !== sel1) {
-              const meta = EVENT_CATALOG[normalizeEventId(ev.id)] || ev;
-              const clashTest = sel1 ? checkTimingClash(sel1, ev.id) : { clash: false };
-              const opt = document.createElement("option");
-              opt.value = ev.id;
-              if (clashTest.clash) {
-                opt.textContent = `⚠️ [CLASH] ${ev.name} (${meta.category || ev.category}) — Overlaps with Event 1`;
-                opt.style.color = "#DC2626";
-              } else {
-                opt.textContent = `${ev.name} (${meta.category || ev.category}) — 100% FREE / INCLUDED`;
-              }
-              opt.dataset.eventName = ev.name;
-              if (ev.id === sel2) opt.selected = true;
-              ev2Select.appendChild(opt);
-            }
-          });
+        const norm1 = normalizeEventId(id1);
+        const day1 = getEventDayNumber(norm1);
+
+        if (day1 === "both") {
+          ev2Select.innerHTML = `<option value="">-- No Second Event Available (Hackstorm is 24H Full-Fest Hackathon) --</option>`;
+          ev2Select.disabled = true;
+          if (ev2Hint) {
+            ev2Hint.innerHTML = `<strong style="color: #0284C7;">24-Hour Continuous Hackathon:</strong> Hackstorm spans Day 1 (12:00 PM) to Day 2 (12:00 PM). Concurrent daytime arenas are prohibited.`;
+          }
+          updateScheduleAdvisor();
+          return;
         }
+
+        ev2Select.disabled = false;
+        const targetDay = (day1 === 1) ? 2 : 1;
+        const targetDayLabel = (targetDay === 1) ? "Day 1 (4 Feb 2027)" : "Day 2 (5 Feb 2027)";
+
+        ev2Select.innerHTML = `<option value="">-- No Second Event (Participate in 1 Event Only) --</option>`;
+
+        if (ev2Hint) {
+          ev2Hint.innerHTML = `Showing scheduled <strong>${targetDayLabel}</strong> events for your 2nd arena (Cross-day guarantee: zero time clash). Participation is <strong>100% free</strong>.`;
+        }
+
+        // Only include events from the alternate day, strictly excluding Event 1 and same-day events
+        const eligibleEvents = eventsList.filter(ev => {
+          const norm = normalizeEventId(ev.id);
+          if (norm === norm1 || ev.id === id1) return false;
+          return getEventDayNumber(norm) === targetDay;
+        });
+
+        eligibleEvents.forEach(ev => {
+          const norm = normalizeEventId(ev.id);
+          const meta = EVENT_CATALOG[norm] || ev;
+          const opt = document.createElement("option");
+          opt.value = ev.id;
+          opt.textContent = `${ev.name} (${meta.category || ev.category}) — ${meta.day} ${meta.time} · 100% FREE / INCLUDED`;
+          opt.dataset.eventName = ev.name;
+          if (ev.id === prevSel2 || norm === prevSel2) {
+            opt.selected = true;
+          }
+          ev2Select.appendChild(opt);
+        });
+
+        // If previously selected event is not in the alternate-day list, reset selection
+        const stillValid = Array.from(ev2Select.options).some(o => o.value === ev2Select.value && o.value !== "");
+        if (!stillValid && ev2Select.value !== "") {
+          ev2Select.value = "";
+        }
+
+        updateScheduleAdvisor();
+      }
+
+      function populateEventSelects(populatePrimary = true) {
+        if (populatePrimary) {
+          populateEvent1Select();
+        }
+        populateEvent2Select();
       }
 
       const teamSizeSelect = document.getElementById("reg-team-size-select");
@@ -1558,27 +1625,27 @@
       const queryEvent = urlParams.get("event");
       if (queryEvent && ev1Select) {
         ev1Select.value = (queryEvent === "technova-27") ? "hackstorm" : queryEvent;
-        populateEventSelects();
+        populateEvent2Select();
       }
 
       updatePricing();
 
       if (catSelect) {
         catSelect.addEventListener("change", () => {
-          populateEventSelects();
           updatePricing();
         });
       }
 
       if (ev1Select) {
         ev1Select.addEventListener("change", () => {
-          populateEventSelects();
+          populateEvent2Select();
           updatePricing();
         });
       }
 
       if (ev2Select) {
         ev2Select.addEventListener("change", () => {
+          updateScheduleAdvisor();
           updatePricing();
         });
       }
