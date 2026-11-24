@@ -506,7 +506,7 @@ const FestDB = {
           date: "Day 1 & Day 2 (4–5 February 2027)",
           time: "12:00 PM (Day 1) – 12:00 PM (Day 2)",
           description: "Build and deploy innovative software or hardware solutions to address live industry problem statements. Continuous 24-hour sprint for teams of 4 members with mentors and refreshments.",
-          poster: "images/events/technova-27.svg",
+          poster: "images/events/hackstorm.svg",
           minMembers: 4,
           maxMembers: 4,
           slotId: "hackathon_24h",
@@ -965,24 +965,49 @@ const FestDB = {
         const localData = this.getData();
         const cloudConfig = json.festConfig;
         let changed = false;
+
+        // Settings diff check
         if (cloudConfig.settings) {
-          localData.settings = Object.assign({}, localData.settings, cloudConfig.settings);
-          changed = true;
+          const s1 = JSON.stringify(localData.settings || {});
+          const s2 = JSON.stringify(Object.assign({}, localData.settings, cloudConfig.settings));
+          if (s1 !== s2) {
+            localData.settings = Object.assign({}, localData.settings, cloudConfig.settings);
+            changed = true;
+          }
         }
-        if (Array.isArray(cloudConfig.events) && cloudConfig.events.length > 0) {
-          localData.events = cloudConfig.events;
-          changed = true;
+
+        // Validate events: Only accept modern official lineup (must include hackstorm & >= 10 events)
+        const isModernEvents = Array.isArray(cloudConfig.events) &&
+          cloudConfig.events.length >= 10 &&
+          cloudConfig.events.some(e => e.id === "hackstorm");
+
+        if (isModernEvents) {
+          const e1 = JSON.stringify(localData.events || []);
+          const e2 = JSON.stringify(cloudConfig.events);
+          if (e1 !== e2) {
+            localData.events = cloudConfig.events;
+            changed = true;
+          }
         }
+
+        // Coordinators diff check
         if (Array.isArray(cloudConfig.coordinators) && cloudConfig.coordinators.length > 0) {
-          localData.coordinators = cloudConfig.coordinators;
-          changed = true;
+          const c1 = JSON.stringify(localData.coordinators || []);
+          const c2 = JSON.stringify(cloudConfig.coordinators);
+          if (c1 !== c2) {
+            localData.coordinators = cloudConfig.coordinators;
+            changed = true;
+          }
         }
+
         if (changed) {
           localStorage.setItem(this.STORAGE_KEY, JSON.stringify(localData));
           window.dispatchEvent(new CustomEvent("arenium_db_change", { detail: localData }));
-          console.log("[FestDB] Synced from Cloud MongoDB Atlas successfully across devices.");
+          console.log("[FestDB] Synced new changes from Cloud MongoDB Atlas successfully across devices.");
+          return localData;
         }
-        return localData;
+        // If nothing changed from local state, return null so UI doesn't unnecessarily re-render
+        return null;
       }
     } catch (err) {
       console.warn("[FestDB] Cloud pull warning:", err);
@@ -1579,7 +1604,7 @@ function initEventsPage(db) {
 
       card.innerHTML = `
         <div class="event-poster-wrapper" style="height: 220px; position: relative; overflow: hidden; border-bottom: 1.5px solid #000000; background: #F8FAFC;">
-          <img src="${ev.poster || 'images/events/' + ev.id + '.svg'}" alt="${ev.name}" class="event-poster-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+          <img src="${resolveAssetPath(ev.poster || ('images/events/' + ev.id + '.svg'), 'images/events-poster.svg')}" alt="${ev.name}" class="event-poster-img" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='images/events-poster.svg';">
           <span class="event-prize-badge" style="position: absolute; top: 12px; right: 12px; background: #000000; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 9999px; z-index: 5;">
             ${ev.prize ? 'Prize: ' + ev.prize : 'Prize: ₹15,000'}
           </span>
@@ -3216,17 +3241,22 @@ window.editAdminEvent = function(id) {
   window.openAdminEditEventModal(id);
 };
 
-window.deleteAdminEvent = function(id) {
+window.deleteAdminEvent = async function(id) {
   const db = FestDB.getData();
   if (confirm(`Are you sure you want to remove event "${id}"?`)) {
     db.events = db.events.filter(e => e.id !== id);
-    FestDB.saveData(db);
-    alert("Event removed!");
-    location.reload();
+    FestDB.saveData(db, false);
+    try {
+      await FestDB.pushToCloud(db);
+      alert("Event removed and synced to Cloud Atlas!");
+    } catch (e) {
+      alert("Event removed locally. Cloud note: " + e.message);
+    }
+    renderAdminEvents(db);
   }
 };
 
-window.addNewAdminEvent = function() {
+window.addNewAdminEvent = async function() {
   const db = FestDB.getData();
   const name = prompt("Enter New Event Name:");
   if (!name) return;
@@ -3243,7 +3273,7 @@ window.addNewAdminEvent = function() {
     group,
     prize,
     venue: "Presidency University SOIS Campus",
-    date: "Day 1 (March 26, 2027)",
+    date: "Day 1 (4 February 2027)",
     time: "11:00 AM - 02:00 PM",
     description: desc,
     poster: "images/events-poster.svg",
@@ -3264,9 +3294,14 @@ window.addNewAdminEvent = function() {
   };
 
   db.events.push(newEv);
-  FestDB.saveData(db);
-  alert(`Event "${name}" added successfully!`);
-  location.reload();
+  FestDB.saveData(db, false);
+  try {
+    await FestDB.pushToCloud(db);
+    alert(`Event "${name}" added successfully and synced to Cloud Atlas!`);
+  } catch (e) {
+    alert(`Event "${name}" added locally. Cloud note: ` + e.message);
+  }
+  renderAdminEvents(db);
 };
 
 function renderAdminSchedule(db) {
@@ -3535,7 +3570,7 @@ window.updateAdminCoordProfilePhotoPreview = function(url) {
   }
 };
 
-window.editAdminCoordinator = function(id) {
+window.editAdminCoordinator = async function(id) {
   const modal = document.getElementById("admin-coord-profile-modal");
   if (modal) {
     window.openAdminCoordinatorEditModal(id);
@@ -3560,9 +3595,14 @@ window.editAdminCoordinator = function(id) {
   const newPhoto = prompt("Photo Image URL / Path (e.g. images/Kaushal.jpeg):", c.photo);
   if (newPhoto) c.photo = resolveAssetPath(newPhoto.trim(), "images/coord-generic.svg");
 
-  FestDB.saveData(db);
-  alert("Coordinator updated!");
-  location.reload();
+  FestDB.saveData(db, false);
+  try {
+    await FestDB.pushToCloud(db);
+    alert("Coordinator updated and synchronized with Cloud Atlas!");
+  } catch (e) {
+    alert("Coordinator updated locally. Cloud note: " + e.message);
+  }
+  renderAdminCoordinators(db);
 };
 
 function renderAdminLeadership(db) {
