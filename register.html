@@ -407,7 +407,7 @@
                         TEAM SQUAD MEMBERS (INDIVIDUAL REGISTRATION FIELDS)
                       </strong>
                       <span class="team-squad-subtitle" style="font-size: 0.76rem; color: #334155 !important; -webkit-text-fill-color: #334155 !important; display: block; margin-top: 0.2rem; font-weight: 600;">
-                        Fill in distinct credentials for each participating team member.
+                        Fill in distinct credentials for each participating team member. No duplicate entries permitted.
                       </span>
                     </div>
                     <span class="team-lead-badge" style="background: #DCFCE7 !important; border: 1px solid #86EFAC !important; color: #166534 !important; -webkit-text-fill-color: #166534 !important; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 20px;">
@@ -415,14 +415,35 @@
                     </span>
                   </div>
 
+                  <!-- Candidate Count Selector Card -->
+                  <div class="team-candidate-selector-card" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; background: #FFFFFF; border: 1.5px solid #0284C7; border-radius: 10px; padding: 0.8rem 1rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.08);">
+                    <div>
+                      <label for="reg-team-size-select" style="font-weight: 800; font-size: 0.88rem; color: #0369A1; display: flex; align-items: center; gap: 0.4rem; margin: 0;">
+                        <span>NUMBER OF CANDIDATES (SQUAD SIZE):</span>
+                        <span class="req" style="color: #EF4444;">*</span>
+                      </label>
+                      <span style="font-size: 0.74rem; color: #64748B; display: block; margin-top: 0.15rem;">
+                        Includes Team Leader (Member 1) + all participating squad members
+                      </span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                      <select id="reg-team-size-select" class="form-select" style="min-width: 160px; font-weight: 800; color: #0284C7; background: #F0F9FF; border: 1.5px solid #0284C7; padding: 0.45rem 0.8rem; border-radius: 8px; cursor: pointer;">
+                        <!-- Options generated dynamically based on chosen arena -->
+                      </select>
+                      <span id="candidate-price-pill" style="font-family: var(--font-mono); font-weight: 800; font-size: 0.82rem; background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; padding: 0.35rem 0.7rem; border-radius: 20px; white-space: nowrap;">
+                        ₹400 (2 × ₹200)
+                      </span>
+                    </div>
+                  </div>
+
                   <!-- Team Leader Notification -->
                   <div class="team-lead-notice" style="background: #E0F2FE !important; border-left: 3.5px solid #0284C7 !important; border-radius: 6px; padding: 0.75rem 0.95rem; margin-bottom: 1rem; font-size: 0.82rem; color: #0369A1 !important; -webkit-text-fill-color: #0369A1 !important; line-height: 1.5; font-weight: 600;">
-                    <strong style="color: #0369A1 !important; -webkit-text-fill-color: #0369A1 !important; font-weight: 800;">Team Leader (Member 1):</strong> Primary registrant credentials above are automatically linked as the Team Leader (<span id="team-lead-name-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">Full Name</span> · <span id="team-lead-usn-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">USN</span>).
+                    <strong style="color: #0369A1 !important; -webkit-text-fill-color: #0369A1 !important; font-weight: 800;">Team Leader (Member 1):</strong> Primary credentials from above are linked as Lead: <span id="team-lead-name-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">Full Name</span> · <span id="team-lead-usn-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">USN</span> · <span id="team-lead-email-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">Email</span> · <span id="team-lead-phone-preview" style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important; font-weight: 800;">Phone</span>.
                   </div>
 
                   <!-- Dynamic Member Entry Cards -->
                   <div id="team-members-container" style="display: flex; flex-direction: column; gap: 0.9rem;">
-                    <!-- Injected via JavaScript with distinct Name, USN, Phone/Email fields -->
+                    <!-- Injected via JavaScript with distinct Name, USN, Email, Phone fields -->
                   </div>
 
                   <!-- Add Member Action -->
@@ -431,7 +452,7 @@
                       <span style="color: #0284C7 !important; -webkit-text-fill-color: #0284C7 !important;">+</span> Add Another Team Member
                     </button>
                     <span class="team-pricing-tip" style="font-size: 0.76rem; color: #334155 !important; -webkit-text-fill-color: #334155 !important; font-weight: 600;">
-                      Pricing: ₹200/member (Internal) · ₹300/member (External) · Up to 8 participants total
+                      Fee: ₹200/candidate (Internal) · ₹300/candidate (External) · Rate scales directly with candidates
                     </span>
                   </div>
 
@@ -1373,6 +1394,64 @@
         }
       }
 
+      const teamSizeSelect = document.getElementById("reg-team-size-select");
+      const candidatePricePill = document.getElementById("candidate-price-pill");
+
+      function syncCandidateSizeOptions(minTeam = 2, maxTeam = 8) {
+        if (!teamSizeSelect) return;
+        const currentVal = parseInt(teamSizeSelect.value, 10);
+        teamSizeSelect.innerHTML = "";
+        for (let s = minTeam; s <= maxTeam; s++) {
+          const opt = document.createElement("option");
+          opt.value = s;
+          opt.textContent = `${s} Candidates (${s === 1 ? 'Solo' : 'Lead + ' + (s - 1) + ' Members'})`;
+          teamSizeSelect.appendChild(opt);
+        }
+        const boxes = teamMembersContainer ? teamMembersContainer.querySelectorAll(".team-member-entry-box") : [];
+        const currentCount = 1 + boxes.length;
+        if (currentCount >= minTeam && currentCount <= maxTeam) {
+          teamSizeSelect.value = String(currentCount);
+        } else if (currentVal >= minTeam && currentVal <= maxTeam) {
+          teamSizeSelect.value = String(currentVal);
+        } else {
+          teamSizeSelect.value = String(minTeam);
+        }
+      }
+
+      function setExactCandidateCount(totalCandidates) {
+        if (!teamMembersContainer) return;
+        const targetAdditional = Math.max(1, totalCandidates - 1); // 1 is Team Lead
+        const currentBoxes = teamMembersContainer.querySelectorAll(".team-member-entry-box");
+        const currentAdditional = currentBoxes.length;
+
+        if (currentAdditional < targetAdditional) {
+          for (let i = currentAdditional + 1; i <= targetAdditional; i++) {
+            const nextIdx = i + 1;
+            teamMembersContainer.appendChild(createMemberEntry(nextIdx, true));
+          }
+        } else if (currentAdditional > targetAdditional) {
+          // Remove extra trailing member boxes
+          for (let i = currentAdditional - 1; i >= targetAdditional; i--) {
+            currentBoxes[i].remove();
+          }
+        }
+
+        const id1 = ev1Select ? ev1Select.value : "";
+        const id2 = ev2Select ? ev2Select.value : "";
+        const squadRules = checkSquadRules(id1, id2);
+        reindexMembers(squadRules.minTeam || 2, squadRules.maxTeam || 8);
+        updatePricing();
+      }
+
+      if (teamSizeSelect) {
+        teamSizeSelect.addEventListener("change", (e) => {
+          const count = parseInt(e.target.value, 10);
+          if (count && !isNaN(count)) {
+            setExactCandidateCount(count);
+          }
+        });
+      }
+
       function adjustTeamMemberSlots(minTeam = 2, maxTeam = 8) {
         if (!teamMembersContainer) return;
         const currentBoxes = teamMembersContainer.querySelectorAll(".team-member-entry-box");
@@ -1425,6 +1504,9 @@
 
         const isTeam = typeSelect && typeSelect.value === "Team";
 
+        // Sync candidate dropdown options for current squad rules
+        syncCandidateSizeOptions(squadRules.minTeam || 2, squadRules.maxTeam || 8);
+
         // Adjust member entry count to match event requirements
         if (isTeam && squadRules.compatible) {
           adjustTeamMemberSlots(squadRules.minTeam, squadRules.maxTeam);
@@ -1439,10 +1521,14 @@
 
         const totalFee = participantCount * perPersonBase;
 
+        if (candidatePricePill) {
+          candidatePricePill.textContent = `₹${totalFee} (${participantCount} × ₹${perPersonBase})`;
+        }
+
         let breakdownText = "";
         if (isInternal) {
           if (isTeam) {
-            breakdownText = `Internal Squad (${participantCount} Members): ${participantCount} × ₹${internalBase} = ₹${totalFee} Total · Covers up to 2 events per member (2nd Event is FREE)`;
+            breakdownText = `Internal Squad (${participantCount} Candidates): ${participantCount} × ₹${internalBase} = ₹${totalFee} Total · Covers up to 2 events per member (2nd Event is FREE)`;
           } else {
             breakdownText = hasEv2
               ? `Internal Delegate (Solo): Base Fee (₹${internalBase}) · 1st Event included + 2nd Event FREE`
@@ -1450,7 +1536,7 @@
           }
         } else {
           if (isTeam) {
-            breakdownText = `External Squad (${participantCount} Members): ${participantCount} × ₹${externalBase} = ₹${totalFee} Total · Covers up to 2 events per member (2nd Event is FREE)`;
+            breakdownText = `External Squad (${participantCount} Candidates): ${participantCount} × ₹${externalBase} = ₹${totalFee} Total · Covers up to 2 events per member (2nd Event is FREE)`;
           } else {
             breakdownText = hasEv2
               ? `External Delegate (Solo): Base Fee (₹${externalBase}) · 1st Event included + 2nd Event FREE`
@@ -1502,47 +1588,63 @@
       const btnAddMember = document.getElementById("btn-add-team-member");
       const teamLeadNamePreview = document.getElementById("team-lead-name-preview");
       const teamLeadUsnPreview = document.getElementById("team-lead-usn-preview");
+      const teamLeadEmailPreview = document.getElementById("team-lead-email-preview");
+      const teamLeadPhonePreview = document.getElementById("team-lead-phone-preview");
 
       // Sync Team Lead preview
       const fullNameInput = document.getElementById("reg-fullname");
       const usnInputEl = document.getElementById("reg-usn");
+      const emailInputEl = document.getElementById("reg-email");
+      const phoneInputEl = document.getElementById("reg-phone");
 
       function updateLeadPreview() {
         if (teamLeadNamePreview) {
           teamLeadNamePreview.textContent = (fullNameInput && fullNameInput.value.trim()) ? fullNameInput.value.trim() : "Full Name";
         }
         if (teamLeadUsnPreview) {
-          teamLeadUsnPreview.textContent = (usnInputEl && usnInputEl.value.trim()) ? usnInputEl.value.trim() : "USN";
+          teamLeadUsnPreview.textContent = (usnInputEl && usnInputEl.value.trim()) ? usnInputEl.value.trim().toUpperCase() : "USN";
+        }
+        if (teamLeadEmailPreview) {
+          teamLeadEmailPreview.textContent = (emailInputEl && emailInputEl.value.trim()) ? emailInputEl.value.trim() : "Email";
+        }
+        if (teamLeadPhonePreview) {
+          teamLeadPhonePreview.textContent = (phoneInputEl && phoneInputEl.value.trim()) ? phoneInputEl.value.trim() : "Phone";
         }
       }
 
       if (fullNameInput) fullNameInput.addEventListener("input", updateLeadPreview);
       if (usnInputEl) usnInputEl.addEventListener("input", updateLeadPreview);
+      if (emailInputEl) emailInputEl.addEventListener("input", updateLeadPreview);
+      if (phoneInputEl) phoneInputEl.addEventListener("input", updateLeadPreview);
       updateLeadPreview();
 
-      function createMemberEntry(memberIndex, canRemove = true, nameVal = "", usnVal = "", contactVal = "") {
+      function createMemberEntry(memberIndex, canRemove = true, nameVal = "", usnVal = "", emailVal = "", phoneVal = "") {
         const div = document.createElement("div");
         div.className = "team-member-entry-box";
         div.dataset.memberIndex = memberIndex;
         div.innerHTML = `
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.55rem;">
-            <div class="member-title" style="font-size: 0.84rem; font-weight: 700; color: #38BDF8 !important; font-family: var(--font-mono); display: flex; align-items: center; gap: 0.4rem;">
+            <div class="member-title" style="font-size: 0.84rem; font-weight: 700; color: #0284C7 !important; font-family: var(--font-mono); display: flex; align-items: center; gap: 0.4rem;">
               MEMBER ${memberIndex} <span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>
             </div>
-            ${canRemove ? `<button type="button" class="btn-remove-member" style="background: rgba(239, 68, 68, 0.25); border: 1px solid #EF4444; color: #FCA5A5 !important; font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;" title="Remove Member ${memberIndex}">Remove</button>` : ''}
+            ${canRemove ? `<button type="button" class="btn-remove-member" style="background: rgba(239, 68, 68, 0.1); border: 1.5px solid #EF4444; color: #DC2626 !important; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;" title="Remove Member ${memberIndex}">✕ Remove</button>` : ''}
           </div>
           <div class="team-member-grid">
             <div>
-              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">FULL NAME <span class="req" style="color:#EF4444 !important;">*</span></label>
-              <input type="text" class="form-input member-field-name" placeholder="Member ${memberIndex} Full Name" value="${nameVal}" style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important;">
+              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">FULL NAME <span class="req" style="color:#EF4444 !important;">*</span></label>
+              <input type="text" class="form-input member-field-name" placeholder="Member ${memberIndex} Full Name" value="${nameVal}" required style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1;">
             </div>
             <div>
-              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">USN / STUDENT ID <span class="req" style="color:#EF4444 !important;">*</span></label>
-              <input type="text" class="form-input member-field-usn" placeholder="e.g. 20231CSE0291" value="${usnVal}" style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important;">
+              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">USN / STUDENT ID <span class="req" style="color:#EF4444 !important;">*</span></label>
+              <input type="text" class="form-input member-field-usn" placeholder="e.g. 20231CSE0291" value="${usnVal}" required style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1; text-transform: uppercase;">
             </div>
             <div>
-              <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.25rem; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">PHONE / WHATSAPP / EMAIL</label>
-              <input type="text" class="form-input member-field-contact" placeholder="Phone or email (optional)" value="${contactVal}" style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important;">
+              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">EMAIL ADDRESS <span class="req" style="color:#EF4444 !important;">*</span></label>
+              <input type="email" class="form-input member-field-email" placeholder="member${memberIndex}@college.edu" value="${emailVal}" required style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1;">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">PHONE / WHATSAPP <span class="req" style="color:#EF4444 !important;">*</span></label>
+              <input type="tel" class="form-input member-field-phone" placeholder="10-digit number" value="${phoneVal}" required maxlength="15" style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1;">
             </div>
           </div>
         `;
@@ -1574,9 +1676,9 @@
           const num = idx + 2;
           box.dataset.memberIndex = num;
           const isRequired = num <= reqMin;
-          const headerEl = box.querySelector(".member-title") || box.querySelector("div > div");
+          const headerEl = box.querySelector(".member-title");
           if (headerEl) {
-            headerEl.innerHTML = `MEMBER ${num} ${isRequired ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#CBD5E1 !important; font-size:0.75rem;">(Optional)</span>'}`;
+            headerEl.innerHTML = `MEMBER ${num} ${isRequired ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#64748B !important; font-size:0.75rem;">(Optional)</span>'}`;
           }
           const nameInput = box.querySelector(".member-field-name");
           if (nameInput) nameInput.placeholder = `Member ${num} Full Name`;
@@ -1586,17 +1688,18 @@
           }
         });
 
+        const totalMembers = 1 + boxes.length;
         if (btnAddMember) {
-          const totalMembers = 1 + boxes.length;
           const atMax = totalMembers >= reqMax;
           btnAddMember.disabled = atMax;
           btnAddMember.style.opacity = atMax ? "0.5" : "1";
           btnAddMember.innerHTML = atMax
-            ? `<span style="color:#64748B;">✓ Max Squad Size (${reqMax} Members) Reached</span>`
+            ? `<span style="color:#64748B;">✓ Max Squad Size (${reqMax} Candidates) Reached</span>`
             : `<span style="color:#0284C7;">+</span> Add Another Team Member (Up to ${reqMax})`;
         }
-        if (typeof updatePricing === "function") {
-          // Keep pricing synchronized
+
+        if (teamSizeSelect && teamSizeSelect.value !== String(totalMembers)) {
+          teamSizeSelect.value = String(totalMembers);
         }
       }
 
@@ -1613,6 +1716,7 @@
         for (let i = 3; i <= targetCount; i++) {
           teamMembersContainer.appendChild(createMemberEntry(i, i > (squadRules.minTeam || 2)));
         }
+        syncCandidateSizeOptions(squadRules.minTeam || 2, squadRules.maxTeam || 8);
         reindexMembers(squadRules.minTeam || 2, squadRules.maxTeam || 8);
         if (typeof updatePricing === "function") updatePricing();
       }
@@ -1638,6 +1742,129 @@
           reindexMembers(squadRules.minTeam || 2, reqMax);
           if (typeof updatePricing === "function") updatePricing();
         });
+      }
+
+      // 4.3 Robust Duplicate Entry Validation (Intra-Team and Database Duplicates)
+      function validateDuplicateEntries() {
+        const isTeam = document.getElementById("reg-type")?.value === "Team";
+        const ev1Id = ev1Select ? ev1Select.value : "";
+        const ev2Id = ev2Select ? ev2Select.value : "";
+
+        // 1. Gather all candidate credentials in current form submission
+        const leadName = document.getElementById("reg-fullname").value.trim();
+        const leadUsn = document.getElementById("reg-usn").value.trim().toUpperCase();
+        const leadEmail = document.getElementById("reg-email").value.trim().toLowerCase();
+        const leadPhone = document.getElementById("reg-phone").value.trim().replace(/[^0-9]/g, "");
+
+        const candidates = [
+          { role: "Team Leader (Member 1)", name: leadName, usn: leadUsn, email: leadEmail, phone: leadPhone }
+        ];
+
+        if (isTeam && teamMembersContainer) {
+          const boxes = teamMembersContainer.querySelectorAll(".team-member-entry-box");
+          boxes.forEach(box => {
+            const idx = box.dataset.memberIndex;
+            const mName = (box.querySelector(".member-field-name")?.value || "").trim();
+            const mUsn = (box.querySelector(".member-field-usn")?.value || "").trim().toUpperCase();
+            const mEmail = (box.querySelector(".member-field-email")?.value || "").trim().toLowerCase();
+            const mPhone = (box.querySelector(".member-field-phone")?.value || "").trim().replace(/[^0-9]/g, "");
+            candidates.push({ role: `Member ${idx}`, name: mName, usn: mUsn, email: mEmail, phone: mPhone, box });
+          });
+        }
+
+        // 2. Intra-form duplicate check (within this registration squad)
+        const seenUsn = new Map();
+        const seenEmail = new Map();
+        const seenPhone = new Map();
+
+        for (const c of candidates) {
+          if (c.usn) {
+            if (seenUsn.has(c.usn)) {
+              return {
+                hasDuplicate: true,
+                message: `Duplicate USN / Student ID Detected!\n\n"${c.usn}" is entered for both ${seenUsn.get(c.usn)} and ${c.role}.\nEvery team member must have a distinct, individual USN.`
+              };
+            }
+            seenUsn.set(c.usn, c.role);
+          }
+
+          if (c.email) {
+            if (seenEmail.has(c.email)) {
+              return {
+                hasDuplicate: true,
+                message: `Duplicate Email Address Detected!\n\n"${c.email}" is entered for both ${seenEmail.get(c.email)} and ${c.role}.\nEvery team member must provide their own unique email address.`
+              };
+            }
+            seenEmail.set(c.email, c.role);
+          }
+
+          if (c.phone && c.phone.length >= 10) {
+            if (seenPhone.has(c.phone)) {
+              return {
+                hasDuplicate: true,
+                message: `Duplicate Phone Number Detected!\n\nPhone number "${c.phone}" is used for both ${seenPhone.get(c.phone)} and ${c.role}.\nPlease provide distinct contact numbers for all members.`
+              };
+            }
+            seenPhone.set(c.phone, c.role);
+          }
+        }
+
+        // 3. Database duplicate check (against prior registrations in FestDB for selected arenas)
+        const db = FestDB.getData();
+        const existingRegs = (db.registrations || []).filter(r => r.status !== "Rejected");
+        const chosenEventIds = [ev1Id, ev2Id].filter(Boolean);
+
+        for (const c of candidates) {
+          if (!c.usn && !c.email) continue;
+
+          for (const ex of existingRegs) {
+            const exEvents = [ex.event1Id || ex.eventId, ex.event2Id].filter(Boolean);
+            const overlappingEvent = chosenEventIds.find(id => exEvents.includes(id));
+            if (!overlappingEvent) continue;
+
+            const evMeta = EVENT_CATALOG[normalizeEventId(overlappingEvent)] || {};
+            const evName = evMeta.name || overlappingEvent;
+
+            const exLeadUsn = (ex.usn || "").trim().toUpperCase();
+            const exLeadEmail = (ex.email || "").trim().toLowerCase();
+
+            let isDuplicate = false;
+            let matchedCred = "";
+
+            if (c.usn && exLeadUsn && c.usn === exLeadUsn) {
+              isDuplicate = true;
+              matchedCred = `USN ${c.usn}`;
+            } else if (c.email && exLeadEmail && c.email === exLeadEmail) {
+              isDuplicate = true;
+              matchedCred = `Email ${c.email}`;
+            }
+
+            if (!isDuplicate && Array.isArray(ex.teamMembersList)) {
+              for (const m of ex.teamMembersList) {
+                const mUsn = (m.usn || "").trim().toUpperCase();
+                const mEmail = (m.email || "").trim().toLowerCase();
+                if (c.usn && mUsn && c.usn === mUsn) {
+                  isDuplicate = true;
+                  matchedCred = `USN ${c.usn}`;
+                  break;
+                } else if (c.email && mEmail && c.email === mEmail) {
+                  isDuplicate = true;
+                  matchedCred = `Email ${c.email}`;
+                  break;
+                }
+              }
+            }
+
+            if (isDuplicate) {
+              return {
+                hasDuplicate: true,
+                message: `Duplicate Registration Blocked!\n\nCandidate "${c.name || c.role}" (${matchedCred}) has already registered for "${evName}" under Registration ID: ${ex.id} (${ex.teamName ? 'Squad: ' + ex.teamName : 'Delegate: ' + ex.fullName}).\n\nEach participant may only register once per competitive arena.`
+              };
+            }
+          }
+        }
+
+        return { hasDuplicate: false };
       }
 
       const typeSelect = document.getElementById("reg-type");
@@ -2072,10 +2299,10 @@
             `<span style="font-size:0.75rem; color:#10B981; font-weight:700;">${teamMembersList.length ? (teamMembersList.length + 1) + ' Confirmed Members' : 'Confirmed Squad'}</span>` +
             `</div>`;
           squadHtml += `<div style="display:flex; flex-direction:column; gap:0.4rem; font-size:0.83rem; line-height:1.5;">`;
-          squadHtml += `<div style="background:rgba(0,0,0,0.04); padding:0.45rem 0.75rem; border-radius:6px;"><strong>Lead (Member 1):</strong> ${reg.fullName} <span style="color:#64748B;">(${reg.usn} • ${reg.phone})</span></div>`;
+          squadHtml += `<div style="background:rgba(0,0,0,0.04); padding:0.45rem 0.75rem; border-radius:6px;"><strong>Lead (Member 1):</strong> ${reg.fullName} <span style="color:#64748B;">(${reg.usn} • ${reg.email || ''} • ${reg.phone || ''})</span></div>`;
           if (teamMembersList.length) {
             teamMembersList.forEach(m => {
-              squadHtml += `<div style="background:rgba(0,0,0,0.02); padding:0.45rem 0.75rem; border-radius:6px;"><strong>Member ${m.memberIndex}:</strong> ${m.name} <span style="color:#64748B;">(${m.usn}${m.contact ? ' • ' + m.contact : ''})</span></div>`;
+              squadHtml += `<div style="background:rgba(0,0,0,0.02); padding:0.45rem 0.75rem; border-radius:6px;"><strong>Member ${m.memberIndex}:</strong> ${m.name} <span style="color:#64748B;">(${m.usn}${m.email ? ' • ' + m.email : ''}${m.phone ? ' • ' + m.phone : (m.contact ? ' • ' + m.contact : '')})</span></div>`;
             });
           } else if (reg.teamMembers) {
             squadHtml += `<div style="background:rgba(0,0,0,0.02); padding:0.45rem 0.75rem; border-radius:6px;">${reg.teamMembers}</div>`;
@@ -2230,6 +2457,13 @@
             alert(`The chosen arena requires a team of at least ${squadRules.minTeam} members. Please choose 'Team' and register your squad.`);
             return;
           }
+
+          // Validate duplicate entries (Intra-team duplicates and prior registration duplicates)
+          const dupCheck = validateDuplicateEntries();
+          if (dupCheck.hasDuplicate) {
+            alert(dupCheck.message);
+            return;
+          }
           
           let teamMembers = "";
           let teamMembersList = [];
@@ -2250,46 +2484,63 @@
               const mNum = i + 2;
               const nameInp = box.querySelector(".member-field-name");
               const usnInp = box.querySelector(".member-field-usn");
-              const contactInp = box.querySelector(".member-field-contact");
+              const emailInp = box.querySelector(".member-field-email");
+              const phoneInp = box.querySelector(".member-field-phone");
 
               const mName = nameInp ? nameInp.value.trim() : "";
-              const mUsn = usnInp ? usnInp.value.trim() : "";
-              const mContact = contactInp ? contactInp.value.trim() : "";
+              const mUsn = usnInp ? usnInp.value.trim().toUpperCase() : "";
+              const mEmail = emailInp ? emailInp.value.trim().toLowerCase() : "";
+              const mPhone = phoneInp ? phoneInp.value.trim() : "";
 
-              // Member 2 is required
-              if (i === 0 && (!mName || !mUsn)) {
-                alert("Please fill in Member 2's Full Name and USN/ID for your team.");
+              // Required members check
+              const isRequiredSlot = mNum <= (squadRules.minTeam || 2);
+              if (isRequiredSlot && (!mName || !mUsn || !mEmail || !mPhone)) {
+                alert(`Please fill in all required fields (Full Name, USN, Email, and Phone Number) for Member ${mNum}.`);
                 if (!mName && nameInp) { nameInp.focus(); nameInp.scrollIntoView({ behavior: "smooth" }); }
-                else if (usnInp) { usnInp.focus(); usnInp.scrollIntoView({ behavior: "smooth" }); }
+                else if (!mUsn && usnInp) { usnInp.focus(); usnInp.scrollIntoView({ behavior: "smooth" }); }
+                else if (!mEmail && emailInp) { emailInp.focus(); emailInp.scrollIntoView({ behavior: "smooth" }); }
+                else if (phoneInp) { phoneInp.focus(); phoneInp.scrollIntoView({ behavior: "smooth" }); }
                 return;
               }
 
-              if (mName || mUsn) {
+              if (mName || mUsn || mEmail || mPhone) {
                 if (!mName) {
-                  alert(`Please provide the Full Name for Team Member ${mNum}.`);
+                  alert(`Please provide the Full Name for Member ${mNum}.`);
                   if (nameInp) { nameInp.focus(); nameInp.scrollIntoView({ behavior: "smooth" }); }
                   return;
                 }
                 if (!mUsn) {
-                  alert(`Please provide the USN / Student ID for Team Member ${mNum}.`);
+                  alert(`Please provide the USN / Student ID for Member ${mNum}.`);
                   if (usnInp) { usnInp.focus(); usnInp.scrollIntoView({ behavior: "smooth" }); }
                   return;
                 }
-                memberDetails.push(`Member ${mNum}: ${mName} (${mUsn}${mContact ? ', ' + mContact : ''})`);
+                if (!mEmail || !mEmail.includes("@")) {
+                  alert(`Please provide a valid Email Address for Member ${mNum}.`);
+                  if (emailInp) { emailInp.focus(); emailInp.scrollIntoView({ behavior: "smooth" }); }
+                  return;
+                }
+                if (!mPhone || mPhone.length < 10) {
+                  alert(`Please provide a valid 10-digit Phone / WhatsApp Number for Member ${mNum}.`);
+                  if (phoneInp) { phoneInp.focus(); phoneInp.scrollIntoView({ behavior: "smooth" }); }
+                  return;
+                }
+
+                memberDetails.push(`Member ${mNum}: ${mName} (${mUsn}, ${mEmail}, ${mPhone})`);
                 teamMembersList.push({
                   memberIndex: mNum,
                   name: mName,
                   usn: mUsn,
-                  contact: mContact
+                  email: mEmail,
+                  phone: mPhone
                 });
               } else if (i > 0) {
-                alert(`Please enter Full Name & USN for Member ${mNum}, or click "Remove" to remove this member slot.`);
+                alert(`Please enter credentials for Member ${mNum}, or click "✕ Remove" to remove this member slot.`);
                 if (nameInp) { nameInp.focus(); nameInp.scrollIntoView({ behavior: "smooth" }); }
                 return;
               }
             }
 
-            teamMembers = `Lead (M1): ${fullName} (${usn}) | ` + memberDetails.join(" | ");
+            teamMembers = `Lead (M1): ${fullName} (${usn}, ${email}, ${phone}) | ` + memberDetails.join(" | ");
 
             const totalTeamMembers = 1 + teamMembersList.length;
             if (squadRules.minTeam && totalTeamMembers < squadRules.minTeam) {

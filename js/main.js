@@ -830,12 +830,18 @@ const FestDB = {
             const list = (parsed.coordinators && parsed.coordinators.length) ? parsed.coordinators : defaults.coordinators;
             return list.map(c => {
               let photo = c.photo || "";
-              if (!photo || photo.includes("coord-kaushal.svg") || photo.endsWith("Kaushal.jpeg")) photo = "images/Kaushal.jpeg";
-              else if (photo.includes("coord-vimal.svg") || photo.endsWith("Vimal.png")) photo = "images/Vimal.png";
-              else if (photo.includes("coord-ashlin.svg") || photo.endsWith("Ashlin Siddharth.png")) photo = "images/Ashlin Siddharth.png";
-              else if (photo.includes("coord-abhyas.svg") || photo.endsWith("ABHYAS.png")) photo = "images/ABHYAS.png";
-              else if (photo.includes("leader-organiser.svg") || photo.toLowerCase().includes("keren")) photo = "images/keren-lois-daniel.jpg";
-              else photo = resolveAssetPath(photo, "images/coord-generic.svg");
+              if (!photo) {
+                if (c.id === "coord-1") photo = "images/Kaushal.jpeg";
+                else if (c.id === "coord-2") photo = "images/Vimal.png";
+                else if (c.id === "coord-3") photo = "images/Ashlin Siddharth.png";
+                else if (c.id === "coord-4") photo = "images/ABHYAS.png";
+                else if (c.id === "coord-lead") photo = "images/keren-lois-daniel.jpg";
+                else photo = "images/coord-generic.svg";
+              } else if (photo.startsWith("data:") || photo.startsWith("http:") || photo.startsWith("https:") || photo.startsWith("images/")) {
+                // Keep the exact photo set by admin
+              } else {
+                photo = resolveAssetPath(photo, "images/coord-generic.svg");
+              }
 
               const email = c.email || "Arenium.official@gmail.com";
 
@@ -843,7 +849,7 @@ const FestDB = {
                 ...c,
                 photo,
                 email,
-                dept: "" // Class and roll number completely removed per user request
+                dept: (c.dept !== undefined && c.dept !== null) ? c.dept : ""
               };
             });
           })(),
@@ -931,21 +937,28 @@ const FestDB = {
       };
       const res = await fetch(`${window.CORE_BACKEND_URL}/fest-config`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Cache-Control": "no-cache" },
         body: JSON.stringify({ festConfig: payload })
       });
       const json = await res.json();
       if (json && json.success) {
         console.log("[FestDB] Cloud MongoDB Atlas synchronization successful.");
+        return true;
       }
+      return false;
     } catch (err) {
       console.warn("[FestDB] Cloud push warning:", err);
+      throw err;
     }
   },
 
   async pullFromCloud() {
     try {
-      const res = await fetch(`${window.CORE_BACKEND_URL}/fest-config`);
+      const url = `${window.CORE_BACKEND_URL}/fest-config?_t=${Date.now()}`;
+      const res = await fetch(url, {
+        cache: "no-store",
+        headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" }
+      });
       if (!res.ok) return null;
       const json = await res.json();
       if (json && json.success && json.festConfig) {
@@ -968,8 +981,8 @@ const FestDB = {
           localStorage.setItem(this.STORAGE_KEY, JSON.stringify(localData));
           window.dispatchEvent(new CustomEvent("arenium_db_change", { detail: localData }));
           console.log("[FestDB] Synced from Cloud MongoDB Atlas successfully across devices.");
-          return localData;
         }
+        return localData;
       }
     } catch (err) {
       console.warn("[FestDB] Cloud pull warning:", err);
@@ -1068,6 +1081,25 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof renderAdminCoordinators === "function") renderAdminCoordinators(cloudDb);
       if (typeof renderAdminLeadership === "function") renderAdminLeadership(cloudDb);
     }
+  });
+
+  // Real-time inter-tab & cross-window live synchronizer
+  window.addEventListener("storage", (e) => {
+    if (e.key === FestDB.STORAGE_KEY && e.newValue) {
+      try {
+        const updated = FestDB.getData();
+        if (typeof initTeamSections === "function") initTeamSections(updated);
+        if (typeof initEventsPage === "function") initEventsPage(updated);
+        if (typeof renderAdminCoordinators === "function") renderAdminCoordinators(updated);
+        if (typeof renderAdminEvents === "function") renderAdminEvents(updated);
+      } catch (err) {}
+    }
+  });
+
+  window.addEventListener("arenium_db_change", (e) => {
+    const updated = e.detail || FestDB.getData();
+    if (typeof initTeamSections === "function") initTeamSections(updated);
+    if (typeof initEventsPage === "function") initEventsPage(updated);
   });
 });
 
@@ -2907,7 +2939,7 @@ window.onCoordPresetSelected = function(slotNum, key) {
   if (photoEl) photoEl.value = p.photo;
 };
 
-window.saveAdminEventCoordinator = function() {
+window.saveAdminEventCoordinator = async function() {
   const eventSelect = document.getElementById("coord-modal-event-select");
   const eventId = eventSelect ? eventSelect.value : "";
   if (!eventId) {
@@ -2985,10 +3017,29 @@ window.saveAdminEventCoordinator = function() {
   ev.coordinators = newCoords;
   ev.coordinator = newCoords[0];
 
-  FestDB.saveData(db); // Automatically triggers cloud push to MongoDB Atlas
+  FestDB.saveData(db, false); // Instant local update
+
+  const submitBtn = document.querySelector("#admin-coord-form button[type='submit']");
+  const origText = submitBtn ? submitBtn.innerHTML : "SAVE COORDINATORS";
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = "Syncing to Cloud Atlas...";
+  }
+
+  try {
+    await FestDB.pushToCloud(db);
+    alert(`Successfully saved ${newCoords.length} coordinator(s) for "${ev.name}" and synchronized with Cloud Atlas!`);
+  } catch (err) {
+    alert(`Saved locally for "${ev.name}". Cloud sync warning: ${err.message}`);
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origText;
+    }
+  }
+
   closeAdminCoordModal();
   renderAdminEvents(db);
-  alert(`Successfully saved ${newCoords.length} coordinator(s) for "${ev.name}" and synced to Cloud Atlas!`);
 };
 
 window.syncFestConfigToCloudManual = async function() {
@@ -3379,7 +3430,10 @@ window.closeAdminCoordinatorEditModal = function() {
   if (modal) modal.style.display = "none";
 };
 
-window.saveAdminCoordinatorProfileModal = function() {
+window.saveAdminCoordinatorProfileModal = async function() {
+  const submitBtn = document.querySelector("#admin-coord-profile-form button[type='submit']");
+  const origText = submitBtn ? submitBtn.innerHTML : "SAVE COORDINATOR";
+
   const id = document.getElementById("coord-profile-id").value;
   const name = document.getElementById("coord-profile-name").value.trim();
   const role = document.getElementById("coord-profile-role").value.trim();
@@ -3391,6 +3445,11 @@ window.saveAdminCoordinatorProfileModal = function() {
   if (!name || !phone) {
     alert("Please enter Coordinator Name and Phone Number.");
     return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = "Syncing to Cloud Atlas...";
   }
 
   const db = FestDB.getData();
@@ -3418,26 +3477,41 @@ window.saveAdminCoordinatorProfileModal = function() {
     });
   }
 
-  FestDB.saveData(db);
+  FestDB.saveData(db, false); // Instant local update
+
+  try {
+    await FestDB.pushToCloud(db); // Push directly to MongoDB Atlas
+    alert("Coordinator profile updated successfully and synchronized with Cloud Atlas!");
+  } catch (err) {
+    alert("Saved locally! Cloud sync note: " + err.message);
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origText;
+    }
+  }
+
   closeAdminCoordinatorEditModal();
   renderAdminCoordinators(db);
-  alert("Coordinator profile & email updated successfully! Synced across all devices.");
 };
 
-window.deleteAdminCoordinator = function(id) {
+window.deleteAdminCoordinator = async function(id) {
   if (!confirm("Are you sure you want to remove this coordinator?")) return;
   const db = FestDB.getData();
   if (!db.coordinators) return;
   db.coordinators = db.coordinators.filter(c => c.id !== id);
-  FestDB.saveData(db);
+  FestDB.saveData(db, false);
+  try {
+    await FestDB.pushToCloud(db);
+  } catch (e) {}
   renderAdminCoordinators(db);
-  alert("Coordinator removed!");
+  alert("Coordinator removed and synced!");
 };
 
 window.handleAdminCoordProfilePhotoUpload = async function(file) {
   if (!file) return;
   try {
-    const dataUrl = await compressAndConvertImage(file, 600, 600, 0.85);
+    const dataUrl = await compressAndConvertImage(file, 400, 400, 0.75);
     const photoInput = document.getElementById("coord-profile-photo");
     if (photoInput) {
       photoInput.value = dataUrl;
