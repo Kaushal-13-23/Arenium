@@ -1227,18 +1227,318 @@
         };
       }
 
-      // 4.2 Multi-Event Dropdowns Population & Fee Calculation (Maximum 2 Events Total)
+      // 4.2 Multi-Event Dropdowns, Team Squad Members & Fee Controller
       const catSelect = document.getElementById("reg-category");
       const ev1Select = document.getElementById("reg-event-1");
       const ev2Select = document.getElementById("reg-event-2");
       const feeAmountEl = document.getElementById("reg-fee-amount");
       const feeBreakdownEl = document.getElementById("reg-fee-breakdown");
 
+      // Participation Type & Team Squad DOM references
+      const typeSelect = document.getElementById("reg-type");
+      const teamNameGroup = document.getElementById("group-team-name");
+      const teamMembersGroup = document.getElementById("group-team-members");
+      const labelTeamText = document.getElementById("label-team-name-text");
+      const labelTeamReq = document.getElementById("label-team-req");
+      const hintTeam = document.getElementById("hint-team-name");
+      const teamNameInput = document.getElementById("reg-team-name");
+      const teamSizeSelect = document.getElementById("reg-team-size-select");
+      const candidatePricePill = document.getElementById("candidate-price-pill");
+      const teamMembersContainer = document.getElementById("team-members-container");
+      const btnAddMember = document.getElementById("btn-add-team-member");
+
+      // Primary delegate / Team Lead fields
+      const fullNameInput = document.getElementById("reg-fullname");
+      const usnInputEl = document.getElementById("reg-usn");
+      const emailInputEl = document.getElementById("reg-email");
+      const phoneInputEl = document.getElementById("reg-phone");
+      const teamLeadNamePreview = document.getElementById("team-lead-name-preview");
+      const teamLeadUsnPreview = document.getElementById("team-lead-usn-preview");
+      const teamLeadEmailPreview = document.getElementById("team-lead-email-preview");
+      const teamLeadPhonePreview = document.getElementById("team-lead-phone-preview");
+
       // Merge defaults from catalog
       const eventsList = (db.events && db.events.length) ? db.events : Object.values(EVENT_CATALOG);
 
       let activeScheduleClash = false;
       let activeSquadMismatch = false;
+
+      // Sync Team Lead preview
+      function updateLeadPreview() {
+        if (teamLeadNamePreview) {
+          teamLeadNamePreview.textContent = (fullNameInput && fullNameInput.value.trim()) ? fullNameInput.value.trim() : "Full Name";
+        }
+        if (teamLeadUsnPreview) {
+          teamLeadUsnPreview.textContent = (usnInputEl && usnInputEl.value.trim()) ? usnInputEl.value.trim().toUpperCase() : "USN";
+        }
+        if (teamLeadEmailPreview) {
+          teamLeadEmailPreview.textContent = (emailInputEl && emailInputEl.value.trim()) ? emailInputEl.value.trim() : "Email";
+        }
+        if (teamLeadPhonePreview) {
+          teamLeadPhonePreview.textContent = (phoneInputEl && phoneInputEl.value.trim()) ? phoneInputEl.value.trim() : "Phone";
+        }
+      }
+
+      if (fullNameInput) fullNameInput.addEventListener("input", updateLeadPreview);
+      if (usnInputEl) usnInputEl.addEventListener("input", updateLeadPreview);
+      if (emailInputEl) emailInputEl.addEventListener("input", updateLeadPreview);
+      if (phoneInputEl) phoneInputEl.addEventListener("input", updateLeadPreview);
+
+      // Create a squad member box
+      function createMemberEntry(memberIndex, canRemove = true, nameVal = "", usnVal = "", emailVal = "", phoneVal = "") {
+        const div = document.createElement("div");
+        div.className = "team-member-entry-box";
+        div.dataset.memberIndex = memberIndex;
+        div.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.55rem;">
+            <div class="member-title" style="font-size: 0.84rem; font-weight: 700; color: #0284C7 !important; font-family: var(--font-mono); display: flex; align-items: center; gap: 0.4rem;">
+              MEMBER ${memberIndex} <span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>
+            </div>
+            ${canRemove ? `<button type="button" class="btn-remove-member" style="background: rgba(239, 68, 68, 0.1); border: 1.5px solid #EF4444; color: #DC2626 !important; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;" title="Remove Member ${memberIndex}">✕ Remove</button>` : ''}
+          </div>
+          <div class="team-member-grid">
+            <div>
+              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">FULL NAME <span class="req" style="color:#EF4444 !important;">*</span></label>
+              <input type="text" class="form-input member-field-name" placeholder="Member ${memberIndex} Full Name" value="${nameVal}" required style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1;">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">USN / STUDENT ID <span class="req" style="color:#EF4444 !important;">*</span></label>
+              <input type="text" class="form-input member-field-usn" placeholder="e.g. 20231CSE0291" value="${usnVal}" required style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1; text-transform: uppercase;">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">EMAIL ADDRESS <span class="req" style="color:#EF4444 !important;">*</span></label>
+              <input type="email" class="form-input member-field-email" placeholder="member${memberIndex}@college.edu" value="${emailVal}" required style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1;">
+            </div>
+            <div>
+              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">PHONE / WHATSAPP <span class="req" style="color:#EF4444 !important;">*</span></label>
+              <input type="tel" class="form-input member-field-phone" placeholder="10-digit number" value="${phoneVal}" required maxlength="15" style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1;">
+            </div>
+          </div>
+        `;
+
+        if (canRemove) {
+          const removeBtn = div.querySelector(".btn-remove-member");
+          if (removeBtn) {
+            removeBtn.addEventListener("click", () => {
+              div.remove();
+              reindexMembers();
+              updatePricing();
+            });
+          }
+        }
+
+        return div;
+      }
+
+      function reindexMembers(minTeam = 2, maxTeam = 8) {
+        if (!teamMembersContainer) return;
+        const id1 = ev1Select ? ev1Select.value : "";
+        const id2 = ev2Select ? ev2Select.value : "";
+        const squadRules = checkSquadRules(id1, id2);
+        const reqMin = (squadRules && squadRules.minTeam) ? Math.max(2, squadRules.minTeam) : Math.max(2, minTeam);
+        const reqMax = (squadRules && squadRules.maxTeam) ? Math.max(reqMin, squadRules.maxTeam) : Math.max(reqMin, maxTeam);
+
+        const boxes = teamMembersContainer.querySelectorAll(".team-member-entry-box");
+        boxes.forEach((box, idx) => {
+          const num = idx + 2;
+          box.dataset.memberIndex = num;
+          const isRequired = num <= reqMin;
+          const headerEl = box.querySelector(".member-title");
+          if (headerEl) {
+            headerEl.innerHTML = `MEMBER ${num} ${isRequired ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#64748B !important; font-size:0.75rem;">(Optional)</span>'}`;
+          }
+          const nameInput = box.querySelector(".member-field-name");
+          if (nameInput) nameInput.placeholder = `Member ${num} Full Name`;
+          const removeBtn = box.querySelector(".btn-remove-member");
+          if (removeBtn) {
+            removeBtn.style.display = isRequired ? "none" : "inline-block";
+          }
+        });
+
+        const totalMembers = 1 + boxes.length;
+        if (btnAddMember) {
+          const atMax = totalMembers >= reqMax;
+          btnAddMember.disabled = atMax;
+          btnAddMember.style.opacity = atMax ? "0.5" : "1";
+          btnAddMember.style.cursor = atMax ? "not-allowed" : "pointer";
+          btnAddMember.innerHTML = atMax
+            ? `<span style="color:#64748B;">✓ Max Squad Limit (${reqMax} Candidates) Reached</span>`
+            : `<span style="color:#0284C7; font-size:1.1rem; line-height:1;">+</span> Add Another Team Member (Up to ${reqMax})`;
+        }
+
+        if (teamSizeSelect && teamSizeSelect.value !== String(totalMembers)) {
+          if (Array.from(teamSizeSelect.options).some(o => o.value === String(totalMembers))) {
+            teamSizeSelect.value = String(totalMembers);
+          }
+        }
+      }
+
+      function syncCandidateSizeOptions(minTeam = 2, maxTeam = 8) {
+        if (!teamSizeSelect) return;
+        const isTeam = typeSelect && typeSelect.value === "Team";
+        const effectiveMin = isTeam ? Math.max(2, minTeam) : minTeam;
+        const effectiveMax = Math.max(effectiveMin, maxTeam);
+
+        const prevVal = parseInt(teamSizeSelect.value, 10);
+        teamSizeSelect.innerHTML = "";
+
+        if (effectiveMin === effectiveMax) {
+          const opt = document.createElement("option");
+          opt.value = effectiveMin;
+          opt.textContent = `Strictly ${effectiveMin} Candidates (${effectiveMin === 1 ? 'Solo Delegate' : 'Lead + ' + (effectiveMin - 1) + ' Members'})`;
+          teamSizeSelect.appendChild(opt);
+          teamSizeSelect.value = String(effectiveMin);
+          teamSizeSelect.disabled = true;
+        } else {
+          teamSizeSelect.disabled = false;
+          for (let s = effectiveMin; s <= effectiveMax; s++) {
+            const opt = document.createElement("option");
+            opt.value = s;
+            opt.textContent = `${s} Candidates (Lead + ${s - 1} Members)`;
+            teamSizeSelect.appendChild(opt);
+          }
+          const currentBoxes = teamMembersContainer ? teamMembersContainer.querySelectorAll(".team-member-entry-box").length : 0;
+          const currentTotal = 1 + currentBoxes;
+
+          if (currentTotal >= effectiveMin && currentTotal <= effectiveMax) {
+            teamSizeSelect.value = String(currentTotal);
+          } else if (prevVal >= effectiveMin && prevVal <= effectiveMax) {
+            teamSizeSelect.value = String(prevVal);
+          } else {
+            teamSizeSelect.value = String(effectiveMin);
+          }
+        }
+      }
+
+      function setExactCandidateCount(totalCandidates) {
+        if (!teamMembersContainer) return;
+        const id1 = ev1Select ? ev1Select.value : "";
+        const id2 = ev2Select ? ev2Select.value : "";
+        const squadRules = checkSquadRules(id1, id2);
+        const effectiveMin = Math.max(2, squadRules.minTeam || 2);
+        const effectiveMax = Math.max(effectiveMin, squadRules.maxTeam || 8);
+
+        const clampedCount = Math.max(effectiveMin, Math.min(effectiveMax, totalCandidates));
+        const targetAdditional = clampedCount - 1; // 1 is Team Lead
+
+        let currentBoxes = Array.from(teamMembersContainer.querySelectorAll(".team-member-entry-box"));
+
+        if (currentBoxes.length < targetAdditional) {
+          while (currentBoxes.length < targetAdditional) {
+            const nextIdx = currentBoxes.length + 2;
+            const newBox = createMemberEntry(nextIdx, nextIdx > effectiveMin);
+            teamMembersContainer.appendChild(newBox);
+            currentBoxes.push(newBox);
+          }
+        } else if (currentBoxes.length > targetAdditional) {
+          while (currentBoxes.length > targetAdditional) {
+            const extraBox = currentBoxes.pop();
+            extraBox.remove();
+          }
+        }
+
+        reindexMembers(effectiveMin, effectiveMax);
+        updatePricing();
+      }
+
+      if (teamSizeSelect) {
+        teamSizeSelect.addEventListener("change", (e) => {
+          const count = parseInt(e.target.value, 10);
+          if (count && !isNaN(count)) {
+            setExactCandidateCount(count);
+          }
+        });
+      }
+
+      function adjustTeamMemberSlots(minTeam = 2, maxTeam = 8) {
+        if (!teamMembersContainer) return;
+        const effectiveMin = Math.max(2, minTeam);
+        const effectiveMax = Math.max(effectiveMin, maxTeam);
+
+        let currentBoxes = Array.from(teamMembersContainer.querySelectorAll(".team-member-entry-box"));
+        const requiredAdditional = effectiveMin - 1; // Member 1 is Team Lead
+
+        while (currentBoxes.length < requiredAdditional) {
+          const nextIdx = currentBoxes.length + 2;
+          const newBox = createMemberEntry(nextIdx, nextIdx > effectiveMin);
+          teamMembersContainer.appendChild(newBox);
+          currentBoxes.push(newBox);
+        }
+
+        const maxAdditional = effectiveMax - 1;
+        while (currentBoxes.length > maxAdditional) {
+          const extraBox = currentBoxes.pop();
+          extraBox.remove();
+        }
+
+        reindexMembers(effectiveMin, effectiveMax);
+      }
+
+      function syncParticipationType() {
+        if (!typeSelect) return;
+        const isTeam = typeSelect.value === "Team";
+
+        if (teamNameGroup) {
+          teamNameGroup.style.display = isTeam ? "flex" : "none";
+        }
+        if (teamMembersGroup) {
+          teamMembersGroup.style.display = isTeam ? "flex" : "none";
+        }
+        if (labelTeamText) {
+          labelTeamText.textContent = isTeam ? "TEAM / SQUAD NAME" : "GAMING TAG / ALIAS (OPTIONAL)";
+        }
+        if (labelTeamReq) {
+          labelTeamReq.style.display = isTeam ? "inline" : "none";
+        }
+        if (hintTeam) {
+          hintTeam.textContent = isTeam ? "Mandatory for Team / Squad registrations." : "Optional for solo delegates: Enter your gaming handle, squad alias, or team name.";
+        }
+        if (teamNameInput) {
+          teamNameInput.placeholder = isTeam ? "e.g. MatrixBreakers" : "e.g. MatrixBreakers or Gaming Tag / Alias";
+          teamNameInput.required = isTeam;
+        }
+
+        if (isTeam) {
+          updateLeadPreview();
+        }
+      }
+
+      function initTeamMembers(count = 2) {
+        if (!teamMembersContainer) return;
+        teamMembersContainer.innerHTML = "";
+        const id1 = ev1Select ? ev1Select.value : "";
+        const id2 = ev2Select ? ev2Select.value : "";
+        const squadRules = checkSquadRules(id1, id2);
+        const targetMin = Math.max(2, squadRules.minTeam || 2);
+        const targetCount = Math.max(count, targetMin);
+
+        // Member 2 is required for any team registration
+        teamMembersContainer.appendChild(createMemberEntry(2, false));
+        for (let i = 3; i <= targetCount; i++) {
+          teamMembersContainer.appendChild(createMemberEntry(i, i > targetMin));
+        }
+        syncCandidateSizeOptions(squadRules.minTeam || 2, squadRules.maxTeam || 8);
+        reindexMembers(squadRules.minTeam || 2, squadRules.maxTeam || 8);
+      }
+
+      if (btnAddMember) {
+        btnAddMember.addEventListener("click", () => {
+          const id1 = ev1Select ? ev1Select.value : "";
+          const id2 = ev2Select ? ev2Select.value : "";
+          const squadRules = checkSquadRules(id1, id2);
+          const reqMax = squadRules.maxTeam || 8;
+
+          const currentCount = teamMembersContainer ? teamMembersContainer.querySelectorAll(".team-member-entry-box").length : 0;
+          if (1 + currentCount >= reqMax) {
+            alert(`Maximum team size for the selected arena is ${reqMax} participants.`);
+            return;
+          }
+          const nextIndex = currentCount + 2;
+          teamMembersContainer.appendChild(createMemberEntry(nextIndex, true));
+          reindexMembers(squadRules.minTeam || 2, reqMax);
+          updatePricing();
+        });
+      }
 
       function updateScheduleAdvisor() {
         const id1 = ev1Select ? ev1Select.value : "";
@@ -1425,7 +1725,6 @@
           ev2Hint.innerHTML = `Showing scheduled <strong>${targetDayLabel}</strong> events for your 2nd arena (Cross-day guarantee: zero time clash). Participation is <strong>100% free</strong>.`;
         }
 
-        // Only include events from the alternate day, strictly excluding Event 1 and same-day events
         const eligibleEvents = eventsList.filter(ev => {
           const norm = normalizeEventId(ev.id);
           if (norm === norm1 || ev.id === id1) return false;
@@ -1445,7 +1744,6 @@
           ev2Select.appendChild(opt);
         });
 
-        // If previously selected event is not in the alternate-day list, reset selection
         const stillValid = Array.from(ev2Select.options).some(o => o.value === ev2Select.value && o.value !== "");
         if (!stillValid && ev2Select.value !== "") {
           ev2Select.value = "";
@@ -1461,82 +1759,8 @@
         populateEvent2Select();
       }
 
-      const teamSizeSelect = document.getElementById("reg-team-size-select");
-      const candidatePricePill = document.getElementById("candidate-price-pill");
-
-      function syncCandidateSizeOptions(minTeam = 2, maxTeam = 8) {
-        if (!teamSizeSelect) return;
-        const currentVal = parseInt(teamSizeSelect.value, 10);
-        teamSizeSelect.innerHTML = "";
-        for (let s = minTeam; s <= maxTeam; s++) {
-          const opt = document.createElement("option");
-          opt.value = s;
-          opt.textContent = `${s} Candidates (${s === 1 ? 'Solo' : 'Lead + ' + (s - 1) + ' Members'})`;
-          teamSizeSelect.appendChild(opt);
-        }
-        const boxes = teamMembersContainer ? teamMembersContainer.querySelectorAll(".team-member-entry-box") : [];
-        const currentCount = 1 + boxes.length;
-        if (currentCount >= minTeam && currentCount <= maxTeam) {
-          teamSizeSelect.value = String(currentCount);
-        } else if (currentVal >= minTeam && currentVal <= maxTeam) {
-          teamSizeSelect.value = String(currentVal);
-        } else {
-          teamSizeSelect.value = String(minTeam);
-        }
-      }
-
-      function setExactCandidateCount(totalCandidates) {
-        if (!teamMembersContainer) return;
-        const targetAdditional = Math.max(1, totalCandidates - 1); // 1 is Team Lead
-        const currentBoxes = teamMembersContainer.querySelectorAll(".team-member-entry-box");
-        const currentAdditional = currentBoxes.length;
-
-        if (currentAdditional < targetAdditional) {
-          for (let i = currentAdditional + 1; i <= targetAdditional; i++) {
-            const nextIdx = i + 1;
-            teamMembersContainer.appendChild(createMemberEntry(nextIdx, true));
-          }
-        } else if (currentAdditional > targetAdditional) {
-          // Remove extra trailing member boxes
-          for (let i = currentAdditional - 1; i >= targetAdditional; i--) {
-            currentBoxes[i].remove();
-          }
-        }
-
-        const id1 = ev1Select ? ev1Select.value : "";
-        const id2 = ev2Select ? ev2Select.value : "";
-        const squadRules = checkSquadRules(id1, id2);
-        reindexMembers(squadRules.minTeam || 2, squadRules.maxTeam || 8);
-        updatePricing();
-      }
-
-      if (teamSizeSelect) {
-        teamSizeSelect.addEventListener("change", (e) => {
-          const count = parseInt(e.target.value, 10);
-          if (count && !isNaN(count)) {
-            setExactCandidateCount(count);
-          }
-        });
-      }
-
-      function adjustTeamMemberSlots(minTeam = 2, maxTeam = 8) {
-        if (!teamMembersContainer) return;
-        const currentBoxes = teamMembersContainer.querySelectorAll(".team-member-entry-box");
-        const requiredAdditional = Math.max(1, minTeam - 1); // Member 1 is Team Lead
-
-        // If we currently have fewer than the minimum required members for this event:
-        if (currentBoxes.length < requiredAdditional) {
-          for (let i = currentBoxes.length + 1; i <= requiredAdditional; i++) {
-            const nextIdx = i + 1;
-            teamMembersContainer.appendChild(createMemberEntry(nextIdx, nextIdx > minTeam));
-          }
-        }
-
-        reindexMembers(minTeam, maxTeam);
-      }
-
       function updatePricing() {
-        const isInternal = !catSelect || catSelect.value === "internal";
+        const isInternal = !catSelect || !catSelect.value || catSelect.value === "internal";
         const perPersonBase = isInternal ? internalBase : externalBase; // ₹200 Internal, ₹300 External
         const hasEv2 = ev2Select && ev2Select.value !== "";
 
@@ -1544,24 +1768,19 @@
         const id2 = ev2Select ? ev2Select.value : "";
         const squadRules = checkSquadRules(id1, id2);
 
-        const typeSelect = document.getElementById("reg-type");
-        
         // Auto-enforce participation type based on squad requirements
-        if (squadRules.requiresTeam) {
-          if (typeSelect && typeSelect.value !== "Team") {
-            typeSelect.value = "Team";
-            if (typeof syncParticipationType === "function") syncParticipationType();
-          }
-          if (typeSelect) {
-            const soloOpt = typeSelect.querySelector("option[value='Solo']");
+        if (typeSelect) {
+          const soloOpt = typeSelect.querySelector("option[value='Solo']");
+          if (squadRules.requiresTeam) {
+            if (typeSelect.value !== "Team") {
+              typeSelect.value = "Team";
+              syncParticipationType();
+            }
             if (soloOpt) {
               soloOpt.disabled = true;
-              soloOpt.textContent = "Solo (Unavailable - Team Required for chosen arena)";
+              soloOpt.textContent = "Solo (Unavailable — Squad Required for chosen arena)";
             }
-          }
-        } else {
-          if (typeSelect) {
-            const soloOpt = typeSelect.querySelector("option[value='Solo']");
+          } else {
             if (soloOpt) {
               soloOpt.disabled = false;
               soloOpt.textContent = "Solo (Individual Delegate)";
@@ -1571,12 +1790,12 @@
 
         const isTeam = typeSelect && typeSelect.value === "Team";
 
-        // Sync candidate dropdown options for current squad rules
-        syncCandidateSizeOptions(squadRules.minTeam || 2, squadRules.maxTeam || 8);
-
-        // Adjust member entry count to match event requirements
-        if (isTeam && squadRules.compatible) {
-          adjustTeamMemberSlots(squadRules.minTeam, squadRules.maxTeam);
+        if (isTeam) {
+          // Sync candidate dropdown options strictly to chosen arena rules
+          syncCandidateSizeOptions(squadRules.minTeam || 2, squadRules.maxTeam || 8);
+          if (squadRules.compatible) {
+            adjustTeamMemberSlots(squadRules.minTeam || 2, squadRules.maxTeam || 8);
+          }
         }
 
         let participantCount = 1;
@@ -1618,210 +1837,17 @@
         updateScheduleAdvisor();
       }
 
-      populateEventSelects();
-
-      // Pre-select if URL has ?event=ID
-      const urlParams = new URLSearchParams(window.location.search);
-      const queryEvent = urlParams.get("event");
-      if (queryEvent && ev1Select) {
-        ev1Select.value = (queryEvent === "technova-27") ? "hackstorm" : queryEvent;
-        populateEvent2Select();
-      }
-
-      updatePricing();
-
-      if (catSelect) {
-        catSelect.addEventListener("change", () => {
-          updatePricing();
-        });
-      }
-
-      if (ev1Select) {
-        ev1Select.addEventListener("change", () => {
-          populateEvent2Select();
-          updatePricing();
-        });
-      }
-
-      if (ev2Select) {
-        ev2Select.addEventListener("change", () => {
-          updateScheduleAdvisor();
-          updatePricing();
-        });
-      }
-
-      // Distinct Team Members Controller Logic
-      const teamMembersContainer = document.getElementById("team-members-container");
-      const btnAddMember = document.getElementById("btn-add-team-member");
-      const teamLeadNamePreview = document.getElementById("team-lead-name-preview");
-      const teamLeadUsnPreview = document.getElementById("team-lead-usn-preview");
-      const teamLeadEmailPreview = document.getElementById("team-lead-email-preview");
-      const teamLeadPhonePreview = document.getElementById("team-lead-phone-preview");
-
-      // Sync Team Lead preview
-      const fullNameInput = document.getElementById("reg-fullname");
-      const usnInputEl = document.getElementById("reg-usn");
-      const emailInputEl = document.getElementById("reg-email");
-      const phoneInputEl = document.getElementById("reg-phone");
-
-      function updateLeadPreview() {
-        if (teamLeadNamePreview) {
-          teamLeadNamePreview.textContent = (fullNameInput && fullNameInput.value.trim()) ? fullNameInput.value.trim() : "Full Name";
-        }
-        if (teamLeadUsnPreview) {
-          teamLeadUsnPreview.textContent = (usnInputEl && usnInputEl.value.trim()) ? usnInputEl.value.trim().toUpperCase() : "USN";
-        }
-        if (teamLeadEmailPreview) {
-          teamLeadEmailPreview.textContent = (emailInputEl && emailInputEl.value.trim()) ? emailInputEl.value.trim() : "Email";
-        }
-        if (teamLeadPhonePreview) {
-          teamLeadPhonePreview.textContent = (phoneInputEl && phoneInputEl.value.trim()) ? phoneInputEl.value.trim() : "Phone";
-        }
-      }
-
-      if (fullNameInput) fullNameInput.addEventListener("input", updateLeadPreview);
-      if (usnInputEl) usnInputEl.addEventListener("input", updateLeadPreview);
-      if (emailInputEl) emailInputEl.addEventListener("input", updateLeadPreview);
-      if (phoneInputEl) phoneInputEl.addEventListener("input", updateLeadPreview);
-      updateLeadPreview();
-
-      function createMemberEntry(memberIndex, canRemove = true, nameVal = "", usnVal = "", emailVal = "", phoneVal = "") {
-        const div = document.createElement("div");
-        div.className = "team-member-entry-box";
-        div.dataset.memberIndex = memberIndex;
-        div.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.55rem;">
-            <div class="member-title" style="font-size: 0.84rem; font-weight: 700; color: #0284C7 !important; font-family: var(--font-mono); display: flex; align-items: center; gap: 0.4rem;">
-              MEMBER ${memberIndex} <span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>
-            </div>
-            ${canRemove ? `<button type="button" class="btn-remove-member" style="background: rgba(239, 68, 68, 0.1); border: 1.5px solid #EF4444; color: #DC2626 !important; font-size: 0.74rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 6px; cursor: pointer; transition: all 0.2s;" title="Remove Member ${memberIndex}">✕ Remove</button>` : ''}
-          </div>
-          <div class="team-member-grid">
-            <div>
-              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">FULL NAME <span class="req" style="color:#EF4444 !important;">*</span></label>
-              <input type="text" class="form-input member-field-name" placeholder="Member ${memberIndex} Full Name" value="${nameVal}" required style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1;">
-            </div>
-            <div>
-              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">USN / STUDENT ID <span class="req" style="color:#EF4444 !important;">*</span></label>
-              <input type="text" class="form-input member-field-usn" placeholder="e.g. 20231CSE0291" value="${usnVal}" required style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1; text-transform: uppercase;">
-            </div>
-            <div>
-              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">EMAIL ADDRESS <span class="req" style="color:#EF4444 !important;">*</span></label>
-              <input type="email" class="form-input member-field-email" placeholder="member${memberIndex}@college.edu" value="${emailVal}" required style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1;">
-            </div>
-            <div>
-              <label class="form-label" style="font-size: 0.74rem; margin-bottom: 0.25rem; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; font-weight: 700;">PHONE / WHATSAPP <span class="req" style="color:#EF4444 !important;">*</span></label>
-              <input type="tel" class="form-input member-field-phone" placeholder="10-digit number" value="${phoneVal}" required maxlength="15" style="background: #FFFFFF !important; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; border: 1.5px solid #CBD5E1;">
-            </div>
-          </div>
-        `;
-
-        if (canRemove) {
-          const removeBtn = div.querySelector(".btn-remove-member");
-          if (removeBtn) {
-            removeBtn.addEventListener("click", () => {
-              div.remove();
-              reindexMembers();
-              if (typeof updatePricing === "function") updatePricing();
-            });
-          }
-        }
-
-        return div;
-      }
-
-      function reindexMembers(minTeam = 2, maxTeam = 8) {
-        if (!teamMembersContainer) return;
-        const id1 = ev1Select ? ev1Select.value : "";
-        const id2 = ev2Select ? ev2Select.value : "";
-        const squadRules = checkSquadRules(id1, id2);
-        const reqMin = (squadRules && squadRules.minTeam) ? squadRules.minTeam : minTeam;
-        const reqMax = (squadRules && squadRules.maxTeam) ? squadRules.maxTeam : maxTeam;
-
-        const boxes = teamMembersContainer.querySelectorAll(".team-member-entry-box");
-        boxes.forEach((box, idx) => {
-          const num = idx + 2;
-          box.dataset.memberIndex = num;
-          const isRequired = num <= reqMin;
-          const headerEl = box.querySelector(".member-title");
-          if (headerEl) {
-            headerEl.innerHTML = `MEMBER ${num} ${isRequired ? '<span class="member-required" style="color:#EF4444 !important; font-size:0.75rem;">* (Required)</span>' : '<span class="member-optional" style="color:#64748B !important; font-size:0.75rem;">(Optional)</span>'}`;
-          }
-          const nameInput = box.querySelector(".member-field-name");
-          if (nameInput) nameInput.placeholder = `Member ${num} Full Name`;
-          const removeBtn = box.querySelector(".btn-remove-member");
-          if (removeBtn) {
-            removeBtn.style.display = isRequired ? "none" : "inline-block";
-          }
-        });
-
-        const totalMembers = 1 + boxes.length;
-        if (btnAddMember) {
-          const atMax = totalMembers >= reqMax;
-          btnAddMember.disabled = atMax;
-          btnAddMember.style.opacity = atMax ? "0.5" : "1";
-          btnAddMember.innerHTML = atMax
-            ? `<span style="color:#64748B;">✓ Max Squad Size (${reqMax} Candidates) Reached</span>`
-            : `<span style="color:#0284C7;">+</span> Add Another Team Member (Up to ${reqMax})`;
-        }
-
-        if (teamSizeSelect && teamSizeSelect.value !== String(totalMembers)) {
-          teamSizeSelect.value = String(totalMembers);
-        }
-      }
-
-      function initTeamMembers(count = 2) {
-        if (!teamMembersContainer) return;
-        teamMembersContainer.innerHTML = "";
-        const id1 = ev1Select ? ev1Select.value : "";
-        const id2 = ev2Select ? ev2Select.value : "";
-        const squadRules = checkSquadRules(id1, id2);
-        const targetCount = Math.max(count, squadRules.minTeam || 2);
-
-        // Member 2 is required for any team registration
-        teamMembersContainer.appendChild(createMemberEntry(2, false));
-        for (let i = 3; i <= targetCount; i++) {
-          teamMembersContainer.appendChild(createMemberEntry(i, i > (squadRules.minTeam || 2)));
-        }
-        syncCandidateSizeOptions(squadRules.minTeam || 2, squadRules.maxTeam || 8);
-        reindexMembers(squadRules.minTeam || 2, squadRules.maxTeam || 8);
-        if (typeof updatePricing === "function") updatePricing();
-      }
-
-      // Initialize team members
-      initTeamMembers(2);
-
-      if (btnAddMember) {
-        btnAddMember.addEventListener("click", () => {
-          const id1 = ev1Select ? ev1Select.value : "";
-          const id2 = ev2Select ? ev2Select.value : "";
-          const squadRules = checkSquadRules(id1, id2);
-          const reqMax = squadRules.maxTeam || 8;
-
-          const currentCount = teamMembersContainer.querySelectorAll(".team-member-entry-box").length;
-          // 1 Lead + currentCount
-          if (1 + currentCount >= reqMax) {
-            alert(`Maximum team size for the selected arena is ${reqMax} participants.`);
-            return;
-          }
-          const nextIndex = currentCount + 2;
-          teamMembersContainer.appendChild(createMemberEntry(nextIndex, true));
-          reindexMembers(squadRules.minTeam || 2, reqMax);
-          if (typeof updatePricing === "function") updatePricing();
-        });
-      }
-
       // 4.3 Robust Duplicate Entry Validation (Intra-Team and Database Duplicates)
       function validateDuplicateEntries() {
-        const isTeam = document.getElementById("reg-type")?.value === "Team";
+        const isTeam = typeSelect && typeSelect.value === "Team";
         const ev1Id = ev1Select ? ev1Select.value : "";
         const ev2Id = ev2Select ? ev2Select.value : "";
 
         // 1. Gather all candidate credentials in current form submission
-        const leadName = document.getElementById("reg-fullname").value.trim();
-        const leadUsn = document.getElementById("reg-usn").value.trim().toUpperCase();
-        const leadEmail = document.getElementById("reg-email").value.trim().toLowerCase();
-        const leadPhone = document.getElementById("reg-phone").value.trim().replace(/[^0-9]/g, "");
+        const leadName = (fullNameInput ? fullNameInput.value : "").trim();
+        const leadUsn = (usnInputEl ? usnInputEl.value : "").trim().toUpperCase();
+        const leadEmail = (emailInputEl ? emailInputEl.value : "").trim().toLowerCase();
+        const leadPhone = (phoneInputEl ? phoneInputEl.value : "").trim().replace(/[^0-9]/g, "");
 
         const candidates = [
           { role: "Team Leader (Member 1)", name: leadName, usn: leadUsn, email: leadEmail, phone: leadPhone }
@@ -1934,41 +1960,48 @@
         return { hasDuplicate: false };
       }
 
-      const typeSelect = document.getElementById("reg-type");
-      function syncParticipationType() {
-        const teamNameGroup = document.getElementById("group-team-name");
-        const teamMembersGroup = document.getElementById("group-team-members");
-        const labelTeamText = document.getElementById("label-team-name-text");
-        const labelTeamReq = document.getElementById("label-team-req");
-        const hintTeam = document.getElementById("hint-team-name");
-        const teamNameInput = document.getElementById("reg-team-name");
+      // Initial page startup & listener registration
+      populateEventSelects();
 
-        if (typeSelect && typeSelect.value === "Team") {
-          if (teamNameGroup) teamNameGroup.style.display = "flex";
-          if (teamMembersGroup) teamMembersGroup.style.display = "flex";
-          if (labelTeamText) labelTeamText.textContent = "TEAM / SQUAD NAME";
-          if (labelTeamReq) labelTeamReq.style.display = "inline";
-          if (hintTeam) hintTeam.textContent = "Mandatory for Team / Squad registrations.";
-          if (teamNameInput) {
-            teamNameInput.placeholder = "e.g. MatrixBreakers";
-            teamNameInput.required = true;
-          }
-          updateLeadPreview();
-        } else {
-          // Individual / Solo event: strictly intake single participant credentials only
-          if (teamNameGroup) teamNameGroup.style.display = "none";
-          if (teamMembersGroup) teamMembersGroup.style.display = "none";
-          if (labelTeamReq) labelTeamReq.style.display = "none";
-          if (teamNameInput) {
-            teamNameInput.value = "";
-            teamNameInput.required = false;
-          }
-        }
+      // Pre-select if URL has ?event=ID
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryEvent = urlParams.get("event");
+      if (queryEvent && ev1Select) {
+        ev1Select.value = (queryEvent === "technova-27") ? "hackstorm" : queryEvent;
+        populateEvent2Select();
       }
+
+      initTeamMembers(2);
+      syncParticipationType();
+      updatePricing();
+
       if (typeSelect) {
-        typeSelect.addEventListener("change", syncParticipationType);
-        syncParticipationType();
+        typeSelect.addEventListener("change", () => {
+          syncParticipationType();
+          updatePricing();
+        });
       }
+
+      if (catSelect) {
+        catSelect.addEventListener("change", () => {
+          updatePricing();
+        });
+      }
+
+      if (ev1Select) {
+        ev1Select.addEventListener("change", () => {
+          populateEvent2Select();
+          updatePricing();
+        });
+      }
+
+      if (ev2Select) {
+        ev2Select.addEventListener("change", () => {
+          updateScheduleAdvisor();
+          updatePricing();
+        });
+      }
+
 
       // 5. Handle Form Submission
       // 5. Image Compression Helper & Dropzone Controller

@@ -590,10 +590,28 @@ const FestDB = {
           minMembers: 8,
           maxMembers: 8,
           slotId: "day2_afternoon",
+          coordinators: [
+            {
+              name: "Pratham Jain",
+              role: "Event Head",
+              phone: "+91 89660 53333",
+              email: "Arenium.official@gmail.com",
+              photo: "images/coord-generic.svg"
+            },
+            {
+              name: "Tirtho Raj Banik",
+              role: "Student Coordinator",
+              phone: "+91 76379 28858",
+              email: "Arenium.official@gmail.com",
+              photo: "images/coord-generic.svg"
+            }
+          ],
           coordinator: {
-            name: "Vimal Raj",
-            phone: "+91 96201 92249",
-            photo: "images/coord-vimal.svg"
+            name: "Pratham Jain",
+            role: "Event Head",
+            phone: "+91 89660 53333",
+            email: "Arenium.official@gmail.com",
+            photo: "images/coord-generic.svg"
           },
           rulebook: {
             overview: "A themed fashion runway experience where students showcase wearable electronics, sustainable materials, and smart textiles.",
