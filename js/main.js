@@ -2899,9 +2899,22 @@ function renderAdminEvents(db) {
       </div>
     `).join('') : '<span style="color:#94A3B8; font-size:0.78rem;">No coordinator assigned</span>';
 
+    const venueHtml = `
+      <div style="display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap;">
+        <span class="venue-badge" style="font-weight: 700; color: #0284C7; background: #E0F2FE; border: 1.5px solid #BAE6FD; padding: 0.25rem 0.6rem; border-radius: 8px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 0.35rem; line-height: 1.25;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${ev.venue || 'Not Assigned'}
+        </span>
+        <button type="button" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; color: #0284C7; border: 1px solid #BAE6FD; background: #FFFFFF; font-weight: 700; cursor: pointer;" onclick="openAdminEventVenueModal('${ev.id}')" title="Change venue">
+          ✏️ Edit Venue
+        </button>
+      </div>
+    `;
+
     tr.innerHTML = `
       <td><strong>${ev.name}</strong><br><span style="color:var(--text-muted); font-size:0.75rem;">${ev.id}</span></td>
       <td><span class="event-category-badge">${ev.category}</span></td>
+      <td>${venueHtml}</td>
       <td><span style="color:var(--neon-yellow);">${ev.prize || '—'}</span></td>
       <td>
         <div style="margin-bottom: 0.4rem;">${coordsListHtml}</div>
@@ -2910,8 +2923,8 @@ function renderAdminEvents(db) {
         </button>
       </td>
       <td>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminEvent('${ev.id}')">Edit</button>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:#0284C7; border-color:#0284C7;" onclick="openAdminEventCoordinatorModal('${ev.id}')">Coordinators</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminEvent('${ev.id}')">Edit Arena</button>
+        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:#0284C7; border-color:#0284C7;" onclick="openAdminEventVenueModal('${ev.id}')">Venue</button>
         <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:var(--neon-pink); border-color:var(--neon-pink);" onclick="deleteAdminEvent('${ev.id}')">Delete</button>
       </td>
     `;
@@ -3360,15 +3373,20 @@ window.saveAdminEditEventModal = async function() {
     ev.tagline = desc;
   }
   if (poster) ev.poster = poster;
-  if (venue !== undefined) ev.venue = venue;
+  if (venue !== undefined) {
+    ev.venue = venue;
+    syncEventVenueToSchedule(db, ev.id, ev.name, ev.venue);
+  }
   if (date !== undefined) ev.date = date;
   if (time !== undefined) ev.time = time;
 
   FestDB.saveData(db); // Automatically triggers localStorage save, arenium_db_change event, and cloud push
   window.closeAdminEditEventModal();
   renderAdminEvents(db);
+  if (typeof renderAdminSchedule === "function") renderAdminSchedule(db);
   if (typeof initMovingCardsMarquee === "function") initMovingCardsMarquee(db);
   if (typeof initEventsPage === "function") initEventsPage(db);
+  if (typeof initSchedulePage === "function") initSchedulePage(db);
 
   try {
     await FestDB.pushToCloud(db);
@@ -3376,6 +3394,116 @@ window.saveAdminEditEventModal = async function() {
   } catch (err) {
     alert(`Arena "${ev.name}" updated locally. Cloud sync notice: ${err.message}`);
   }
+};
+
+// ==========================================================================
+// ARENA VENUE SYNCHRONIZER & DEDICATED VENUE MANAGEMENT MODAL
+// ==========================================================================
+function syncEventVenueToSchedule(db, eventId, eventName, newVenue) {
+  if (!db || !Array.isArray(db.schedule)) return;
+  const targetId = (eventId || "").toLowerCase();
+  const targetName = (eventName || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+
+  db.schedule.forEach(item => {
+    const itemName = (item.name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    
+    let matches = false;
+    if (targetId.includes("hackstorm") && itemName.includes("hackstorm")) matches = true;
+    else if (targetId.includes("tech-odyssey") && itemName.includes("odyssey")) matches = true;
+    else if (targetId.includes("shadow-code") && itemName.includes("shadow")) matches = true;
+    else if (targetId.includes("design-nova") && itemName.includes("design")) matches = true;
+    else if (targetId.includes("tech-talk") && itemName.includes("talk")) matches = true;
+    else if (targetId.includes("founders-arena") && itemName.includes("founder")) matches = true;
+    else if (targetId.includes("data-chronicles") && itemName.includes("data")) matches = true;
+    else if (targetId.includes("quad") && (itemName.includes("quad") || itemName.includes("damage"))) matches = true;
+    else if (targetId.includes("biochroma") && (itemName.includes("chroma") || itemName.includes("fashion"))) matches = true;
+    else if (targetId.includes("apl") && itemName.includes("apl")) matches = true;
+    else if (itemName && targetName && (itemName.includes(targetName) || targetName.includes(itemName))) matches = true;
+
+    if (matches) {
+      item.venue = newVenue;
+    }
+  });
+}
+window.syncEventVenueToSchedule = syncEventVenueToSchedule;
+
+window.openAdminEventVenueModal = function(id) {
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === id);
+  if (!ev) return;
+
+  const modal = document.getElementById("admin-event-venue-modal");
+  const idEl = document.getElementById("edit-venue-event-id");
+  const nameEl = document.getElementById("edit-venue-event-name");
+  const venueEl = document.getElementById("edit-venue-input");
+
+  if (modal && idEl && venueEl) {
+    idEl.value = ev.id;
+    if (nameEl) nameEl.textContent = ev.name || "ARENA";
+    venueEl.value = ev.venue || "";
+    modal.style.display = "flex";
+    venueEl.focus();
+  } else {
+    // Quick fallback prompt if modal DOM is unavailable
+    const currentVenue = ev.venue || "";
+    const newVenue = prompt(`Edit Venue for "${ev.name}":\n(e.g., Seminar Hall 1 (SH-1), CCL, Main Auditorium, L Block Mini Audi)`, currentVenue);
+    if (newVenue === null) return;
+    const trimmed = newVenue.trim();
+    ev.venue = trimmed || "SOIS Campus";
+    syncEventVenueToSchedule(db, ev.id, ev.name, ev.venue);
+    FestDB.saveData(db);
+    renderAdminEvents(db);
+    if (typeof renderAdminSchedule === "function") renderAdminSchedule(db);
+    if (typeof initEventsPage === "function") initEventsPage(db);
+    if (typeof initSchedulePage === "function") initSchedulePage(db);
+    FestDB.pushToCloud(db).then(() => {
+      alert(`Venue for "${ev.name}" updated to "${ev.venue}" and synchronized to Cloud Atlas!`);
+    }).catch(err => {
+      alert(`Venue updated locally: ${ev.venue}. Cloud notice: ${err.message}`);
+    });
+  }
+};
+
+window.closeAdminEventVenueModal = function() {
+  const modal = document.getElementById("admin-event-venue-modal");
+  if (modal) modal.style.display = "none";
+};
+
+window.saveAdminEventVenueModal = async function() {
+  const id = document.getElementById("edit-venue-event-id")?.value;
+  if (!id) return;
+
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === id);
+  if (!ev) return;
+
+  const venueInput = document.getElementById("edit-venue-input");
+  const newVenue = venueInput ? venueInput.value.trim() : "";
+  if (!newVenue) {
+    alert("Please enter a valid venue name.");
+    return;
+  }
+
+  ev.venue = newVenue;
+  syncEventVenueToSchedule(db, ev.id, ev.name, ev.venue);
+
+  FestDB.saveData(db); // Automatically saves to localStorage and dispatches arenium_db_change
+  window.closeAdminEventVenueModal();
+  renderAdminEvents(db);
+  if (typeof renderAdminSchedule === "function") renderAdminSchedule(db);
+  if (typeof initEventsPage === "function") initEventsPage(db);
+  if (typeof initSchedulePage === "function") initSchedulePage(db);
+
+  try {
+    await FestDB.pushToCloud(db);
+    alert(`Venue for "${ev.name}" successfully updated to "${ev.venue}" and synced across all devices!`);
+  } catch (err) {
+    alert(`Venue for "${ev.name}" updated locally to "${ev.venue}". Cloud notice: ${err.message}`);
+  }
+};
+
+window.quickEditEventVenue = function(id) {
+  window.openAdminEventVenueModal(id);
 };
 
 window.editAdminEvent = function(id) {
@@ -3405,6 +3533,7 @@ window.addNewAdminEvent = async function() {
   const category = prompt("Enter Event Category (e.g. Coding, Gaming, Design):") || "Technical";
   const group = confirm("Is this an On-Campus Main Event? (Click Cancel for Pre-Event)") ? "main" : "pre";
   const prize = prompt("Enter Cash Prize Pool (e.g. ₹15,000):") || "₹10,000";
+  const venue = prompt("Enter Venue (e.g. Seminar Hall 1 (SH-1), CCL, Auditorium):") || "Seminar Hall 1 (SH-1)";
   const desc = prompt("Enter Brief Event Description:") || "Arena challenge at Arenium'27.";
 
   const newEv = {
@@ -3413,7 +3542,7 @@ window.addNewAdminEvent = async function() {
     category,
     group,
     prize,
-    venue: "Presidency University SOIS Campus",
+    venue,
     date: "Day 1 (4 February 2027)",
     time: "11:00 AM - 02:00 PM",
     description: desc,

@@ -1348,6 +1348,7 @@
               <tr>
                 <th>Event Name &amp; ID</th>
                 <th>Category</th>
+                <th>Venue &amp; Location</th>
                 <th>Prize Pool</th>
                 <th>Coordinator</th>
                 <th>Actions</th>
@@ -2209,7 +2210,7 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_MOVING_CARDS_ADMIN_SYNC_V46"></script>
+  <script src="js/main.js?v=2027_VENUE_ADMIN_EDIT_V47"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
@@ -2319,14 +2320,36 @@
           <textarea id="edit-event-desc" class="admin-input" rows="3" style="resize: vertical;" required></textarea>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
-          <div>
-            <label class="admin-label" for="edit-event-venue" style="font-weight: 800; color: #0F172A;">VENUE</label>
-            <input type="text" id="edit-event-venue" class="admin-input" placeholder="e.g. Seminar Hall 1 (SH-1)">
+        <!-- Venue & Date/Time Management -->
+        <div class="admin-form-group" style="margin-bottom: 1.2rem; background: #F0F9FF; border: 1.5px solid #BAE6FD; border-radius: 12px; padding: 1.1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <label class="admin-label" for="edit-event-venue" style="font-weight: 800; color: #0369A1; margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              ARENA VENUE / HALL / LAB *
+            </label>
+            <span style="font-size: 0.72rem; color: #0284C7; font-weight: 700;">Updates badge on events.html &amp; schedule</span>
           </div>
-          <div>
-            <label class="admin-label" for="edit-event-date" style="font-weight: 800; color: #0F172A;">DATE &amp; TIME</label>
-            <input type="text" id="edit-event-date" class="admin-input" placeholder="e.g. Day 1 (4 February 2027)">
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.6rem;">
+            <div>
+              <input type="text" id="edit-event-venue" class="admin-input" placeholder="e.g. Seminar Hall 1 (SH-1)" required style="font-weight: 700; color: #0F172A; background: #FFFFFF;">
+            </div>
+            <div>
+              <input type="text" id="edit-event-date" class="admin-input" placeholder="e.g. Day 1 (4 February 2027)" style="background: #FFFFFF;">
+            </div>
+          </div>
+
+          <!-- Quick Preset Venue Pills -->
+          <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
+            <span style="font-size: 0.7rem; color: #0369A1; font-weight: 700; text-transform: uppercase;">Presets:</span>
+            <button type="button" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; border: 1px solid #CBD5E1; background: #FFF; font-weight: 700; color: #0F172A;" onclick="document.getElementById('edit-event-venue').value='Seminar Hall 1 (SH-1)'">SH-1</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; border: 1px solid #CBD5E1; background: #FFF; font-weight: 700; color: #0F172A;" onclick="document.getElementById('edit-event-venue').value='Seminar Hall 2 (SH-2)'">SH-2</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; border: 1px solid #CBD5E1; background: #FFF; font-weight: 700; color: #0F172A;" onclick="document.getElementById('edit-event-venue').value='Seminar Hall 3 (SH-3)'">SH-3</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; border: 1px solid #CBD5E1; background: #FFF; font-weight: 700; color: #0F172A;" onclick="document.getElementById('edit-event-venue').value='Seminar Hall 4 (SH-4)'">SH-4</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; border: 1px solid #CBD5E1; background: #FFF; font-weight: 700; color: #0F172A;" onclick="document.getElementById('edit-event-venue').value='Central Computing Lab (D-Block)'">CCL (D-Block)</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; border: 1px solid #CBD5E1; background: #FFF; font-weight: 700; color: #0F172A;" onclick="document.getElementById('edit-event-venue').value='Classroom DJL01 &amp; Gaming Hub'">DJL01 Gaming Hub</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; border: 1px solid #CBD5E1; background: #FFF; font-weight: 700; color: #0F172A;" onclick="document.getElementById('edit-event-venue').value='Main University Auditorium'">Main Auditorium</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.2rem 0.5rem; font-size: 0.72rem; border: 1px solid #CBD5E1; background: #FFF; font-weight: 700; color: #0F172A;" onclick="document.getElementById('edit-event-venue').value='L Block Mini Audi'">L Block Audi</button>
           </div>
         </div>
 
@@ -2358,6 +2381,67 @@
           <div style="display: flex; gap: 0.8rem;">
             <button type="button" class="btn btn-ghost" onclick="closeAdminEditEventModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
             <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800;">SAVE EVENT</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: QUICK EDIT EVENT VENUE
+       ======================================================================== -->
+  <div id="admin-event-venue-modal" class="admin-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99999; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 18px; width: 100%; max-width: 560px; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.18); position: relative;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
+        <div>
+          <span class="section-tag" style="margin: 0; color: #0369A1; background: #E0F2FE; border-color: #BAE6FD;">ARENA LOCATION</span>
+          <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.25rem; margin: 0.2rem 0 0;" id="edit-venue-modal-heading">
+            Edit Event Venue
+          </h3>
+        </div>
+        <button type="button" class="btn btn-ghost" onclick="closeAdminEventVenueModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
+          ✕
+        </button>
+      </div>
+
+      <form id="admin-event-venue-form" onsubmit="event.preventDefault(); saveAdminEventVenueModal();">
+        <input type="hidden" id="edit-venue-event-id">
+
+        <div style="margin-bottom: 1.2rem; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 0.9rem 1.1rem;">
+          <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; text-transform: uppercase;">Selected Competition Arena</div>
+          <div id="edit-venue-event-name" style="font-size: 1.15rem; font-weight: 800; color: #0F172A; font-family: var(--font-display); margin-top: 0.2rem;">ARENA</div>
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1.2rem;">
+          <label class="admin-label" for="edit-venue-input" style="font-weight: 800; color: #0F172A; display: flex; align-items: center; gap: 0.4rem;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            VENUE / HALL / LAB LOCATION *
+          </label>
+          <input type="text" id="edit-venue-input" class="admin-input" required placeholder="e.g. Central Computing Lab (D-Block)" style="font-weight: 700; font-size: 0.95rem; color: #0F172A;">
+        </div>
+
+        <!-- Quick 1-Click Preset Buttons -->
+        <div style="margin-bottom: 1.5rem;">
+          <div style="font-size: 0.75rem; color: #64748B; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase;">Quick Preset Locations (Click to Apply):</div>
+          <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-ghost" style="padding: 0.3rem 0.65rem; font-size: 0.76rem; border: 1px solid #CBD5E1; background: #F8FAFC; color: #0F172A; font-weight: 700;" onclick="document.getElementById('edit-venue-input').value='Seminar Hall 1 (SH-1)'">SH-1</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.3rem 0.65rem; font-size: 0.76rem; border: 1px solid #CBD5E1; background: #F8FAFC; color: #0F172A; font-weight: 700;" onclick="document.getElementById('edit-venue-input').value='Seminar Hall 2 (SH-2)'">SH-2</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.3rem 0.65rem; font-size: 0.76rem; border: 1px solid #CBD5E1; background: #F8FAFC; color: #0F172A; font-weight: 700;" onclick="document.getElementById('edit-venue-input').value='Seminar Hall 3 (SH-3)'">SH-3</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.3rem 0.65rem; font-size: 0.76rem; border: 1px solid #CBD5E1; background: #F8FAFC; color: #0F172A; font-weight: 700;" onclick="document.getElementById('edit-venue-input').value='Seminar Hall 4 (SH-4)'">SH-4</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.3rem 0.65rem; font-size: 0.76rem; border: 1px solid #CBD5E1; background: #F8FAFC; color: #0F172A; font-weight: 700;" onclick="document.getElementById('edit-venue-input').value='Central Computing Lab (D-Block)'">CCL (D-Block)</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.3rem 0.65rem; font-size: 0.76rem; border: 1px solid #CBD5E1; background: #F8FAFC; color: #0F172A; font-weight: 700;" onclick="document.getElementById('edit-venue-input').value='Classroom DJL01 &amp; Gaming Hub'">DJL01 Gaming Hub</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.3rem 0.65rem; font-size: 0.76rem; border: 1px solid #CBD5E1; background: #F8FAFC; color: #0F172A; font-weight: 700;" onclick="document.getElementById('edit-venue-input').value='Main University Auditorium'">Main Auditorium</button>
+            <button type="button" class="btn btn-ghost" style="padding: 0.3rem 0.65rem; font-size: 0.76rem; border: 1px solid #CBD5E1; background: #F8FAFC; color: #0F172A; font-weight: 700;" onclick="document.getElementById('edit-venue-input').value='L Block Mini Audi'">L Block Audi</button>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid #E2E8F0; padding-top: 1rem;">
+          <span style="font-size: 0.74rem; color: #0284C7; font-weight: 700;">
+            Syncs to events.html card pills &amp; schedule timeline
+          </span>
+          <div style="display: flex; gap: 0.8rem;">
+            <button type="button" class="btn btn-ghost" onclick="closeAdminEventVenueModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800; background: #0284C7; border-color: #0284C7;">SAVE VENUE</button>
           </div>
         </div>
       </form>
