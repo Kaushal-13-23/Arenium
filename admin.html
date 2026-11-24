@@ -2209,7 +2209,7 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_COORD_EMAIL_EDIT_AND_WRAP_FIX_V45"></script>
+  <script src="js/main.js?v=2027_MOVING_CARDS_ADMIN_SYNC_V46"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
@@ -2317,6 +2317,17 @@
         <div class="admin-form-group" style="margin-bottom: 1rem;">
           <label class="admin-label" for="edit-event-desc" style="font-weight: 800; color: #0F172A;">DESCRIPTION *</label>
           <textarea id="edit-event-desc" class="admin-input" rows="3" style="resize: vertical;" required></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+          <div>
+            <label class="admin-label" for="edit-event-venue" style="font-weight: 800; color: #0F172A;">VENUE</label>
+            <input type="text" id="edit-event-venue" class="admin-input" placeholder="e.g. Seminar Hall 1 (SH-1)">
+          </div>
+          <div>
+            <label class="admin-label" for="edit-event-date" style="font-weight: 800; color: #0F172A;">DATE &amp; TIME</label>
+            <input type="text" id="edit-event-date" class="admin-input" placeholder="e.g. Day 1 (4 February 2027)">
+          </div>
         </div>
 
         <!-- Poster Upload -->

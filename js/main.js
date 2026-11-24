@@ -1105,6 +1105,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollAnimations();
   initTeamSections(db);
   initEventsPage(db);
+  initMovingCardsMarquee(db);
   initSchedulePage(db);
   initWinnersPage(db);
   initCertificateStudio(db);
@@ -1117,6 +1118,8 @@ document.addEventListener("DOMContentLoaded", () => {
   FestDB.pullFromCloud().then(cloudDb => {
     if (cloudDb) {
       if (typeof initEventsPage === "function") initEventsPage(cloudDb);
+      if (typeof initMovingCardsMarquee === "function") initMovingCardsMarquee(cloudDb);
+      if (typeof initSchedulePage === "function") initSchedulePage(cloudDb);
       if (typeof renderAdminEvents === "function") renderAdminEvents(cloudDb);
       if (typeof renderAdminOverview === "function") renderAdminOverview(cloudDb);
       if (typeof initRegistrationButtons === "function") initRegistrationButtons(cloudDb);
@@ -1133,6 +1136,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const updated = FestDB.getData();
         if (typeof initTeamSections === "function") initTeamSections(updated);
         if (typeof initEventsPage === "function") initEventsPage(updated);
+        if (typeof initMovingCardsMarquee === "function") initMovingCardsMarquee(updated);
+        if (typeof initSchedulePage === "function") initSchedulePage(updated);
         if (typeof renderAdminCoordinators === "function") renderAdminCoordinators(updated);
         if (typeof renderAdminEvents === "function") renderAdminEvents(updated);
       } catch (err) {}
@@ -1143,6 +1148,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const updated = e.detail || FestDB.getData();
     if (typeof initTeamSections === "function") initTeamSections(updated);
     if (typeof initEventsPage === "function") initEventsPage(updated);
+    if (typeof initMovingCardsMarquee === "function") initMovingCardsMarquee(updated);
+    if (typeof initSchedulePage === "function") initSchedulePage(updated);
   });
 });
 
@@ -1159,6 +1166,95 @@ function initMovingTicker(db) {
     console.error("Ticker init error:", err);
   }
 }
+
+// ==========================================================================
+// 3.1 MOVING CARDS MARQUEE (DYNAMIC HOME PAGE EVENT CAROUSEL)
+// ==========================================================================
+function initMovingCardsMarquee(db) {
+  try {
+    const track = document.querySelector(".moving-cards-track");
+    if (!track) return;
+
+    const data = db || (window.FestDB && typeof FestDB.getData === "function" ? FestDB.getData() : null);
+    const events = (data && Array.isArray(data.events) && data.events.length > 0)
+      ? data.events
+      : (window.FestDB && typeof FestDB.getDefaults === "function" ? FestDB.getDefaults().events : []);
+
+    if (!events || events.length === 0) return;
+
+    const formatTag = (ev) => {
+      if (ev.category) {
+        const cat = ev.category.trim();
+        const lcat = cat.toLowerCase();
+        if (lcat === "tech") return "Technical Event";
+        if (lcat === "design") return "Design Sprint";
+        if (lcat === "gaming") return "Esports Arena";
+        if (lcat === "tech hackathon" || lcat === "hackathon") return "Flagship Hackathon";
+        if (lcat === "fashion / showcase" || lcat === "fashion") return "Cultural Arena";
+        if (lcat === "auction") return "Management Arena";
+        if (lcat === "pitchathon") return "Pitchathon Arena";
+        if (lcat === "data analysis") return "Data Analytics";
+        if (lcat === "presentation") return "Presentation Arena";
+        return cat;
+      }
+      return "Official Arena";
+    };
+
+    const formatPrize = (ev) => {
+      if (!ev.prize) return "Prize: ₹15,000";
+      const p = String(ev.prize).trim();
+      return p.toLowerCase().startsWith("prize:") ? p : `Prize: ${p}`;
+    };
+
+    const escapeStr = (str) => {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    };
+
+    const renderCard = (ev) => {
+      const tag = formatTag(ev);
+      const prize = formatPrize(ev);
+      const desc = ev.description || ev.tagline || "";
+      const name = ev.name || "Arena Challenge";
+      const eventUrl = `events.html#${encodeURIComponent(ev.id || "")}`;
+      return `
+        <a href="${eventUrl}" class="moving-card-item" aria-label="Explore ${escapeStr(name)}">
+          <div>
+            <span class="team-card-tag">${escapeStr(tag)}</span>
+            <h3 class="event-title">${escapeStr(name)}</h3>
+            <p class="event-desc">${escapeStr(desc)}</p>
+          </div>
+          <div class="moving-card-footer">
+            <span class="moving-card-prize">${escapeStr(prize)}</span>
+            <span class="btn-pill-outline" style="padding: 0.35rem 0.9rem; font-size: 0.78rem;">Learn more</span>
+          </div>
+        </a>
+      `;
+    };
+
+    const singleSet = events.map(renderCard).join("");
+    // Render twice for seamless continuous infinite CSS marquee (-50% translation)
+    track.innerHTML = singleSet + singleSet;
+
+    // Update summary text if present
+    const summaryText = document.getElementById("events-preview-summary-text");
+    if (summaryText) {
+      summaryText.textContent = `${events.length} Competitions · 2 Days · ₹1,50,000 Cash Prize Pool`;
+    }
+    const browseBtn = document.getElementById("events-preview-browse-btn");
+    if (browseBtn) {
+      browseBtn.textContent = `BROWSE ALL ${events.length} ARENAS`;
+    }
+  } catch (err) {
+    console.error("Moving cards marquee init error:", err);
+  }
+}
+window.initMovingCardsMarquee = initMovingCardsMarquee;
 
 // ==========================================================================
 // 4. REGISTRATION BUTTONS BINDING
@@ -1575,6 +1671,10 @@ function initTeamSections(db) {
 // ==========================================================================
 function initEventsPage(db) {
   try {
+    if (typeof initMovingCardsMarquee === "function") {
+      initMovingCardsMarquee(db);
+    }
+
     const mainContainer = document.getElementById("main-events-container") || document.getElementById("pre-events-container");
     if (!mainContainer) return;
 
@@ -3176,12 +3276,18 @@ window.openAdminEditEventModal = function(id) {
   const prizeEl = document.getElementById("edit-event-prize");
   const descEl = document.getElementById("edit-event-desc");
   const posterEl = document.getElementById("edit-event-poster");
+  const venueEl = document.getElementById("edit-event-venue");
+  const dateEl = document.getElementById("edit-event-date");
+  const timeEl = document.getElementById("edit-event-time");
 
   if (idEl) idEl.value = ev.id;
   if (nameEl) nameEl.value = ev.name || "";
   if (catEl) catEl.value = ev.category || "";
   if (prizeEl) prizeEl.value = ev.prize || "";
   if (descEl) descEl.value = ev.description || "";
+  if (venueEl) venueEl.value = ev.venue || "";
+  if (dateEl) dateEl.value = ev.date || "";
+  if (timeEl) timeEl.value = ev.time || "";
   if (posterEl) {
     posterEl.value = ev.poster || "";
     window.updateEventPosterPreview(ev.poster || "");
@@ -3224,7 +3330,7 @@ window.updateEventPosterPreview = function(url) {
   }
 };
 
-window.saveAdminEditEventModal = function() {
+window.saveAdminEditEventModal = async function() {
   const id = document.getElementById("edit-event-id")?.value;
   if (!id) return;
 
@@ -3237,6 +3343,9 @@ window.saveAdminEditEventModal = function() {
   const prize = document.getElementById("edit-event-prize")?.value.trim();
   const desc = document.getElementById("edit-event-desc")?.value.trim();
   const poster = document.getElementById("edit-event-poster")?.value.trim();
+  const venue = document.getElementById("edit-event-venue")?.value.trim();
+  const date = document.getElementById("edit-event-date")?.value.trim();
+  const time = document.getElementById("edit-event-time")?.value.trim();
 
   if (!name) {
     alert("Please enter event name.");
@@ -3246,13 +3355,27 @@ window.saveAdminEditEventModal = function() {
   ev.name = name;
   if (cat) ev.category = cat;
   if (prize) ev.prize = prize;
-  if (desc) ev.description = desc;
+  if (desc) {
+    ev.description = desc;
+    ev.tagline = desc;
+  }
   if (poster) ev.poster = poster;
+  if (venue !== undefined) ev.venue = venue;
+  if (date !== undefined) ev.date = date;
+  if (time !== undefined) ev.time = time;
 
-  FestDB.saveData(db); // Automatically triggers cloud push to MongoDB Atlas
+  FestDB.saveData(db); // Automatically triggers localStorage save, arenium_db_change event, and cloud push
   window.closeAdminEditEventModal();
   renderAdminEvents(db);
-  alert(`Arena "${ev.name}" updated successfully and synced to Cloud Atlas across all devices!`);
+  if (typeof initMovingCardsMarquee === "function") initMovingCardsMarquee(db);
+  if (typeof initEventsPage === "function") initEventsPage(db);
+
+  try {
+    await FestDB.pushToCloud(db);
+    alert(`Arena "${ev.name}" updated successfully and synced to Cloud Atlas across all devices!`);
+  } catch (err) {
+    alert(`Arena "${ev.name}" updated locally. Cloud sync notice: ${err.message}`);
+  }
 };
 
 window.editAdminEvent = function(id) {
