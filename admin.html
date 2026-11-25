@@ -2256,7 +2256,7 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_OUR_TEAM_PAGE_V48"></script>
+  <script src="js/main.js?v=2027_OUR_TEAM_CUSTOM_BADGE_V49"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
@@ -2522,7 +2522,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
           <div>
             <label class="admin-label" for="team-member-category" style="font-weight: 800; color: #0F172A;">CATEGORY *</label>
-            <select id="team-member-category" class="admin-input" style="font-weight: 700; color: #0F172A; background: #FFFFFF;" required>
+            <select id="team-member-category" class="admin-input" style="font-weight: 700; color: #0F172A; background: #FFFFFF;" required onchange="handleTeamCategoryChange(this.value)">
               <option value="volunteer">Student Volunteer / Crew</option>
               <option value="lead">Student Lead / Coordinator</option>
               <option value="faculty">Faculty Mentor / Patron</option>
@@ -2532,6 +2532,17 @@
             <label class="admin-label" for="team-member-role" style="font-weight: 800; color: #0F172A;">ROLE / DESIGNATION *</label>
             <input type="text" id="team-member-role" class="admin-input" placeholder="e.g. Tech Operations Volunteer" required style="font-weight: 700; color: #0F172A;">
           </div>
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label" for="team-member-badge" style="font-weight: 800; color: #0284C7; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.3rem;">
+            <span>CARD BADGE / PILL LABEL (EDIT "VOLUNTEER &amp; CREW") *</span>
+            <span style="font-size: 0.72rem; color: #64748B; font-weight: 600;">Top-left card pill</span>
+          </label>
+          <input type="text" id="team-member-badge" class="admin-input" placeholder="e.g. VOLUNTEER &amp; CREW or EVENT HEAD or TECH LEAD" style="font-weight: 700; color: #0F172A; background: #F0F9FF; border-color: #BAE6FD;">
+          <small style="color: #64748B; font-size: 0.74rem; display: block; margin-top: 3px;">
+            Customize the badge text shown in the top-left pill on this member's card (e.g. <strong>VOLUNTEER &amp; CREW</strong>, <strong>EVENT HEAD</strong>, <strong>STUDENT LEAD</strong>, etc.).
+          </small>
         </div>
 
         <div class="admin-form-group" style="margin-bottom: 1rem;">

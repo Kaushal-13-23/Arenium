@@ -12309,3 +12309,31 @@ body:not(#admin-app) [data-student-coords-grid] .coord-contact-link:hover .coord
 .coord-contact-link:hover .coord-contact-icon {
   color: #0284C7 !important;
 }
+
+/* ==========================================================================
+   OUR TEAM PAGE HERO PILL & BOTTOM SUPPORT CARD WHITE TEXT OVERRIDES
+   ========================================================================== */
+#team-page-pill,
+span#team-page-pill.section-tag,
+.page-header-banner #team-page-pill {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  background: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+  font-weight: 800 !important;
+}
+
+#team-support-banner,
+.team-support-banner,
+#team-support-banner h2,
+.team-support-banner h2,
+#team-support-banner p,
+.team-support-banner p {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+#team-support-banner p,
+.team-support-banner p {
+  opacity: 0.95 !important;
+}

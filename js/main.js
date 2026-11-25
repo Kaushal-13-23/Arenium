@@ -1881,14 +1881,25 @@ function initOurTeamPage(db) {
         card.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.04)";
         card.style.transition = "transform 0.25s ease, box-shadow 0.25s ease";
 
-        let catBadge = "";
+        const badgeText = (m.badge && m.badge.trim())
+          ? m.badge.trim().toUpperCase()
+          : (m.category === "lead" ? "STUDENT LEAD" : (m.category === "faculty" ? "FACULTY MENTOR" : "VOLUNTEER & CREW"));
+
+        let badgeBg = "#F1F5F9";
+        let badgeColor = "#475569";
+        let badgeBorder = "#CBD5E1";
+
         if (m.category === "lead") {
-          catBadge = `<span style="background: #E0F2FE; color: #0284C7; border: 1px solid #BAE6FD; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">STUDENT LEAD</span>`;
+          badgeBg = "#E0F2FE";
+          badgeColor = "#0284C7";
+          badgeBorder = "#BAE6FD";
         } else if (m.category === "faculty") {
-          catBadge = `<span style="background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">FACULTY MENTOR</span>`;
-        } else {
-          catBadge = `<span style="background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">VOLUNTEER &amp; CREW</span>`;
+          badgeBg = "#FEF3C7";
+          badgeColor = "#D97706";
+          badgeBorder = "#FDE68A";
         }
+
+        const catBadge = `<span class="team-card-badge-pill" style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">${escapeHtml(badgeText)}</span>`;
 
         const photoSrc = resolveAssetPath(m.photo, "images/coord-generic.svg");
         const email = m.email || "Arenium.official@gmail.com";
@@ -1972,6 +1983,7 @@ function initOurTeamPage(db) {
     console.error("initOurTeamPage error:", err);
   }
 }
+window.initOurTeamPage = initOurTeamPage;
 
 // ==========================================================================
 // 10. EVENTS MATRIX & FILTERING (WITH RULEBOOK MODAL & COORD PHOTOS)
@@ -4255,13 +4267,15 @@ function renderAdminTeam(db) {
   list.forEach(m => {
     const tr = document.createElement("tr");
 
-    let catBadge = "";
+    const badgeText = (m.badge && m.badge.trim())
+      ? m.badge.trim()
+      : (m.category === "lead" ? "Student Lead" : (m.category === "faculty" ? "Faculty Mentor" : "Volunteer & Crew"));
+
+    let catBadge = `<span class="badge" style="background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; font-weight: 700;">${escapeHtml(badgeText)}</span>`;
     if (m.category === "lead") {
-      catBadge = `<span class="badge" style="background: #E0F2FE; color: #0284C7; border: 1px solid #BAE6FD;">Student Lead</span>`;
+      catBadge = `<span class="badge" style="background: #E0F2FE; color: #0284C7; border: 1px solid #BAE6FD; font-weight: 700;">${escapeHtml(badgeText)}</span>`;
     } else if (m.category === "faculty") {
-      catBadge = `<span class="badge" style="background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A;">Faculty Mentor</span>`;
-    } else {
-      catBadge = `<span class="badge" style="background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">Volunteer &amp; Crew</span>`;
+      catBadge = `<span class="badge" style="background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; font-weight: 700;">${escapeHtml(badgeText)}</span>`;
     }
 
     const photoSrc = resolveAssetPath(m.photo, "images/coord-generic.svg");
@@ -4304,6 +4318,19 @@ function renderAdminTeam(db) {
     tbody.appendChild(tr);
   });
 }
+window.renderAdminTeam = renderAdminTeam;
+
+function handleTeamCategoryChange(cat) {
+  const badgeInput = document.getElementById("team-member-badge");
+  if (!badgeInput) return;
+  const currentVal = badgeInput.value.trim().toUpperCase();
+  if (!currentVal || currentVal === "VOLUNTEER & CREW" || currentVal === "STUDENT LEAD" || currentVal === "FACULTY MENTOR") {
+    if (cat === "lead") badgeInput.value = "STUDENT LEAD";
+    else if (cat === "faculty") badgeInput.value = "FACULTY MENTOR";
+    else badgeInput.value = "VOLUNTEER & CREW";
+  }
+}
+window.handleTeamCategoryChange = handleTeamCategoryChange;
 
 function openAdminTeamMemberModal(id) {
   const modal = document.getElementById("admin-team-member-modal");
@@ -4313,6 +4340,7 @@ function openAdminTeamMemberModal(id) {
   const idInput = document.getElementById("team-member-id");
   const nameInput = document.getElementById("team-member-name");
   const catSelect = document.getElementById("team-member-category");
+  const badgeInput = document.getElementById("team-member-badge");
   const roleInput = document.getElementById("team-member-role");
   const descInput = document.getElementById("team-member-desc");
   const phoneInput = document.getElementById("team-member-phone");
@@ -4328,6 +4356,7 @@ function openAdminTeamMemberModal(id) {
     if (idInput) idInput.value = m.id;
     if (nameInput) nameInput.value = m.name || "";
     if (catSelect) catSelect.value = m.category || "volunteer";
+    if (badgeInput) badgeInput.value = m.badge || (m.category === "lead" ? "STUDENT LEAD" : (m.category === "faculty" ? "FACULTY MENTOR" : "VOLUNTEER & CREW"));
     if (roleInput) roleInput.value = m.role || "";
     if (descInput) descInput.value = m.bio || m.description || "";
     if (phoneInput) phoneInput.value = m.phone || "";
@@ -4339,6 +4368,7 @@ function openAdminTeamMemberModal(id) {
     if (idInput) idInput.value = "";
     if (nameInput) nameInput.value = "";
     if (catSelect) catSelect.value = "volunteer";
+    if (badgeInput) badgeInput.value = "VOLUNTEER & CREW";
     if (roleInput) roleInput.value = "";
     if (descInput) descInput.value = "";
     if (phoneInput) phoneInput.value = "";
@@ -4395,6 +4425,8 @@ async function saveAdminTeamMemberModal() {
   const id = document.getElementById("team-member-id") ? document.getElementById("team-member-id").value.trim() : "";
   const name = document.getElementById("team-member-name") ? document.getElementById("team-member-name").value.trim() : "";
   const category = document.getElementById("team-member-category") ? document.getElementById("team-member-category").value : "volunteer";
+  const badgeInput = document.getElementById("team-member-badge");
+  const badge = badgeInput ? badgeInput.value.trim() : "";
   const role = document.getElementById("team-member-role") ? document.getElementById("team-member-role").value.trim() : "";
   const desc = document.getElementById("team-member-desc") ? document.getElementById("team-member-desc").value.trim() : "";
   const phone = document.getElementById("team-member-phone") ? document.getElementById("team-member-phone").value.trim() : "";
@@ -4406,10 +4438,12 @@ async function saveAdminTeamMemberModal() {
     return;
   }
 
+  const defaultBadge = (category === "lead" ? "STUDENT LEAD" : (category === "faculty" ? "FACULTY MENTOR" : "VOLUNTEER & CREW"));
   const memberPayload = {
     id: id || `team-mem-${Date.now()}`,
     name,
     category,
+    badge: badge || defaultBadge,
     role,
     bio: desc,
     description: desc,
@@ -4430,7 +4464,7 @@ async function saveAdminTeamMemberModal() {
   }
 
   FestDB.saveData(db, false);
-  renderAdminTeam(db);
+  if (typeof renderAdminTeam === "function") renderAdminTeam(db);
   closeAdminTeamMemberModal();
 
   try {
@@ -4456,7 +4490,7 @@ async function deleteAdminTeamMember(id) {
 
   db.team = db.team.filter(x => x.id !== id);
   FestDB.saveData(db, false);
-  renderAdminTeam(db);
+  if (typeof renderAdminTeam === "function") renderAdminTeam(db);
 
   try {
     await FestDB.pushToCloud(db);
