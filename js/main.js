@@ -812,7 +812,139 @@ const FestDB = {
           src: "images/arenium27-poster.jpg"
         }
       ],
-      registrations: []
+      registrations: [],
+      team: [
+        {
+          id: "team-lead-1",
+          name: "Kaushal Kumar Singh",
+          category: "lead",
+          role: "Student Coordinator & Finance Lead",
+          bio: "Overseeing fest registrations, finance operations, budget governance, and overall inter-collegiate coordination.",
+          phone: "+91 87977 86686",
+          email: "Arenium.official@gmail.com",
+          photo: "images/Kaushal.jpeg"
+        },
+        {
+          id: "team-lead-2",
+          name: "Abhyas Kathuria",
+          category: "lead",
+          role: "Student Coordinator & Technical Lead",
+          bio: "Directing festival web architecture, real-time sync systems, registration portals, and 24-hour hackathon lab infrastructure.",
+          phone: "+91 85958 48421",
+          email: "Arenium.official@gmail.com",
+          photo: "images/ABHYAS.png"
+        },
+        {
+          id: "team-lead-3",
+          name: "Ashlin Siddharth",
+          category: "lead",
+          role: "Student Coordinator & Event Logistics",
+          bio: "Managing competition schedules, esports arena management, technical stage arrangements, and delegate hospitality.",
+          phone: "+91 91087 40761",
+          email: "Arenium.official@gmail.com",
+          photo: "images/Ashlin Siddharth.png"
+        },
+        {
+          id: "team-lead-4",
+          name: "Vimal Raj",
+          category: "lead",
+          role: "Student Coordinator & Operations",
+          bio: "Supervising campus crowd logistics, seminar hall venue operations, media coverage, and volunteer coordination.",
+          phone: "+91 96201 92249",
+          email: "Arenium.official@gmail.com",
+          photo: "images/Vimal.png"
+        },
+        {
+          id: "team-faculty-1",
+          name: "Dr. Mahalakshmi",
+          category: "faculty",
+          role: "Dean, School of Information Science",
+          bio: "Chief Patron guiding academic vision, industry alignment, and technical excellence across all ARENIUM'27 competitive arenas.",
+          phone: "",
+          email: "sois.dean@presidencyuniversity.in",
+          photo: "images/leader-dean.jpg"
+        },
+        {
+          id: "team-faculty-2",
+          name: "Ms. Keren Lois Daniel",
+          category: "faculty",
+          role: "Assistant Professor & Faculty Coordinator",
+          bio: "Faculty in-charge of ARENIUM'27, mentoring student organizing committees, departmental juries, and competition governance.",
+          phone: "",
+          email: "Arenium.official@gmail.com",
+          photo: "images/keren-lois-daniel.jpg"
+        },
+        {
+          id: "team-faculty-3",
+          name: "Dr. Renukadevi",
+          category: "faculty",
+          role: "Associate Professor & Program Chair",
+          bio: "Faculty mentor supporting curriculum-aligned technical tracks, hackathon problem statements, and academic evaluation panels.",
+          phone: "",
+          email: "sois@presidencyuniversity.in",
+          photo: "images/leader-dean.jpg"
+        },
+        {
+          id: "team-faculty-4",
+          name: "Dr. Vetrimani",
+          category: "faculty",
+          role: "Assistant Professor",
+          bio: "Faculty mentor guiding coding challenges, data analysis competitions, and computational lab logistics.",
+          phone: "",
+          email: "sois@presidencyuniversity.in",
+          photo: "images/leader-dean.jpg"
+        },
+        {
+          id: "team-vol-1",
+          name: "Rohit Roy",
+          category: "volunteer",
+          role: "Technical Operations Volunteer",
+          bio: "Supporting lab networking, offline compiler verification, coding workstations, and participant terminal configurations.",
+          phone: "+91 98765 43210",
+          email: "Arenium.official@gmail.com",
+          photo: "images/coord-generic.svg"
+        },
+        {
+          id: "team-vol-2",
+          name: "Anjani Soni",
+          category: "volunteer",
+          role: "Hospitality & Helpdesk Volunteer",
+          bio: "Coordinating delegate registration counters, welcome kits, campus navigation guides, and participant inquiry desks.",
+          phone: "+91 98765 43211",
+          email: "Arenium.official@gmail.com",
+          photo: "images/coord-generic.svg"
+        },
+        {
+          id: "team-vol-3",
+          name: "Hritik Raj",
+          category: "volunteer",
+          role: "Event Operations Volunteer",
+          bio: "Managing seminar hall queue flow, live stage audio-visual cues, timer boards, and judging score tabulations.",
+          phone: "+91 98765 43212",
+          email: "Arenium.official@gmail.com",
+          photo: "images/coord-generic.svg"
+        },
+        {
+          id: "team-vol-4",
+          name: "Vidyanshi Jain",
+          category: "volunteer",
+          role: "Creative & Media Volunteer",
+          bio: "Capturing real-time photography, keynote highlights, social media stories, and participant victory portraits.",
+          phone: "+91 98765 43213",
+          email: "Arenium.official@gmail.com",
+          photo: "images/coord-generic.svg"
+        },
+        {
+          id: "team-vol-5",
+          name: "Shubham Kumar",
+          category: "volunteer",
+          role: "Logistics & Venue Crew",
+          bio: "Overseeing classroom setup, power backups, display projection systems, and stage transition readiness.",
+          phone: "+91 98765 43214",
+          email: "Arenium.official@gmail.com",
+          photo: "images/coord-generic.svg"
+        }
+      ]
     };
   },
 
@@ -836,7 +968,7 @@ const FestDB = {
           regConfig.paymentGatewayUrlExternal = regConfig.externalUrl || regConfig.paymentGatewayUrl || "https://presidencyuniversity.in/arenium27-register";
         }
 
-        return {
+        const state = {
           settings: {
             ...defaults.settings,
             ...(parsed.settings || {}),
@@ -899,7 +1031,8 @@ const FestDB = {
           sponsors: parsed.sponsors && parsed.sponsors.length ? parsed.sponsors : defaults.sponsors,
           gallery: parsed.gallery && parsed.gallery.length ? parsed.gallery : defaults.gallery,
           registrations: (parsed.registrations && Array.isArray(parsed.registrations)) ? parsed.registrations : defaults.registrations,
-          certificates: (parsed.certificates && Array.isArray(parsed.certificates) && parsed.certificates.length) ? parsed.certificates : defaults.certificates
+          certificates: (parsed.certificates && Array.isArray(parsed.certificates) && parsed.certificates.length) ? parsed.certificates : defaults.certificates,
+          team: (parsed.team && Array.isArray(parsed.team) && parsed.team.length) ? parsed.team : defaults.team
         };
 
         // Normalize coordinators array on all events for multi-coordinator support
@@ -951,7 +1084,8 @@ const FestDB = {
       const payload = {
         settings: data.settings,
         events: data.events,
-        coordinators: data.coordinators
+        coordinators: data.coordinators,
+        team: data.team
       };
       const res = await fetch(`${window.CORE_BACKEND_URL}/fest-config`, {
         method: "POST",
@@ -1014,6 +1148,16 @@ const FestDB = {
           const c2 = JSON.stringify(cloudConfig.coordinators);
           if (c1 !== c2) {
             localData.coordinators = cloudConfig.coordinators;
+            changed = true;
+          }
+        }
+
+        // Team diff check
+        if (Array.isArray(cloudConfig.team) && cloudConfig.team.length > 0) {
+          const t1 = JSON.stringify(localData.team || []);
+          const t2 = JSON.stringify(cloudConfig.team);
+          if (t1 !== t2) {
+            localData.team = cloudConfig.team;
             changed = true;
           }
         }
@@ -1104,6 +1248,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroCanvas();
   initScrollAnimations();
   initTeamSections(db);
+  initOurTeamPage(db);
   initEventsPage(db);
   initMovingCardsMarquee(db);
   initSchedulePage(db);
@@ -1124,8 +1269,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof renderAdminOverview === "function") renderAdminOverview(cloudDb);
       if (typeof initRegistrationButtons === "function") initRegistrationButtons(cloudDb);
       if (typeof initTeamSections === "function") initTeamSections(cloudDb);
+      if (typeof initOurTeamPage === "function") initOurTeamPage(cloudDb);
       if (typeof renderAdminCoordinators === "function") renderAdminCoordinators(cloudDb);
       if (typeof renderAdminLeadership === "function") renderAdminLeadership(cloudDb);
+      if (typeof renderAdminTeam === "function") renderAdminTeam(cloudDb);
     }
   });
 
@@ -1135,11 +1282,13 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         const updated = FestDB.getData();
         if (typeof initTeamSections === "function") initTeamSections(updated);
+        if (typeof initOurTeamPage === "function") initOurTeamPage(updated);
         if (typeof initEventsPage === "function") initEventsPage(updated);
         if (typeof initMovingCardsMarquee === "function") initMovingCardsMarquee(updated);
         if (typeof initSchedulePage === "function") initSchedulePage(updated);
         if (typeof renderAdminCoordinators === "function") renderAdminCoordinators(updated);
         if (typeof renderAdminEvents === "function") renderAdminEvents(updated);
+        if (typeof renderAdminTeam === "function") renderAdminTeam(updated);
       } catch (err) {}
     }
   });
@@ -1147,9 +1296,11 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("arenium_db_change", (e) => {
     const updated = e.detail || FestDB.getData();
     if (typeof initTeamSections === "function") initTeamSections(updated);
+    if (typeof initOurTeamPage === "function") initOurTeamPage(updated);
     if (typeof initEventsPage === "function") initEventsPage(updated);
     if (typeof initMovingCardsMarquee === "function") initMovingCardsMarquee(updated);
     if (typeof initSchedulePage === "function") initSchedulePage(updated);
+    if (typeof renderAdminTeam === "function") renderAdminTeam(updated);
   });
 });
 
@@ -1663,6 +1814,162 @@ function initTeamSections(db) {
     });
   } catch (err) {
     console.error("Error rendering team sections:", err);
+  }
+}
+
+// ==========================================================================
+// 9.1 OUR TEAM PAGE (FULL DIRECTORY WITH FILTERS & LIVE SEARCH)
+// ==========================================================================
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function initOurTeamPage(db) {
+  try {
+    const grid = document.getElementById("our-team-grid");
+    if (!grid) return;
+
+    const data = db || FestDB.getData();
+    const teamMembers = (data && Array.isArray(data.team) && data.team.length > 0)
+      ? data.team
+      : (FestDB.getDefaults().team || []);
+
+    let currentFilter = "all";
+    let currentSearch = "";
+
+    function renderTeamList() {
+      const q = currentSearch.trim().toLowerCase();
+      const filtered = teamMembers.filter(m => {
+        const matchesCategory = (currentFilter === "all") || (m.category === currentFilter);
+        if (!matchesCategory) return false;
+        if (!q) return true;
+        const nameMatch = (m.name || "").toLowerCase().includes(q);
+        const roleMatch = (m.role || "").toLowerCase().includes(q);
+        const bioMatch = (m.bio || m.description || "").toLowerCase().includes(q);
+        const deptMatch = (m.dept || "").toLowerCase().includes(q);
+        return nameMatch || roleMatch || bioMatch || deptMatch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1.5rem; background: #FFFFFF; border: 1.5px dashed #CBD5E1; border-radius: 16px;">
+            <div style="font-size: 2.2rem; margin-bottom: 0.5rem;">🔍</div>
+            <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.35rem; color: #0F172A; margin: 0 0 0.4rem;">No Team Members Found</h3>
+            <p style="color: #64748B; font-size: 0.9rem; margin: 0 0 1.2rem;">No members match your current filter or search criteria.</p>
+            <button type="button" class="btn btn-secondary" onclick="resetOurTeamFilters()" style="padding: 0.5rem 1.2rem; font-size: 0.82rem; font-weight: 700;">Reset Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = "";
+      filtered.forEach(m => {
+        const card = document.createElement("div");
+        card.className = "editorial-card team-card reveal-on-scroll is-visible";
+        card.style.display = "flex";
+        card.style.flexDirection = "column";
+        card.style.padding = "1.4rem";
+        card.style.background = "#FFFFFF";
+        card.style.border = "1.5px solid #E2E8F0";
+        card.style.borderRadius = "16px";
+        card.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.04)";
+        card.style.transition = "transform 0.25s ease, box-shadow 0.25s ease";
+
+        let catBadge = "";
+        if (m.category === "lead") {
+          catBadge = `<span style="background: #E0F2FE; color: #0284C7; border: 1px solid #BAE6FD; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">STUDENT LEAD</span>`;
+        } else if (m.category === "faculty") {
+          catBadge = `<span style="background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">FACULTY MENTOR</span>`;
+        } else {
+          catBadge = `<span style="background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">VOLUNTEER &amp; CREW</span>`;
+        }
+
+        const photoSrc = resolveAssetPath(m.photo, "images/coord-generic.svg");
+        const email = m.email || "Arenium.official@gmail.com";
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`;
+        const cleanPhone = (m.phone || "").replace(/[^0-9+]/g, "");
+
+        card.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            ${catBadge}
+            <span style="font-size: 0.72rem; color: #94A3B8; font-weight: 700; text-transform: uppercase;">ARENIUM '27</span>
+          </div>
+
+          <div style="width: 100%; height: 210px; border-radius: 12px; overflow: hidden; background: #F8FAFC; border: 1px solid #E2E8F0; margin-bottom: 1rem; position: relative;">
+            <img src="${photoSrc}" alt="${escapeHtml(m.name)}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; object-position: center top;" onerror="this.onerror=null;this.src='images/coord-generic.svg';">
+          </div>
+
+          <div style="flex: 1; display: flex; flex-direction: column;">
+            <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; font-weight: 700; color: #0F172A; margin: 0 0 0.25rem;">
+              ${escapeHtml(m.name)}
+            </h3>
+            <div style="color: #0284C7; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.65rem;">
+              ${escapeHtml(m.role || "")}
+            </div>
+            <p style="color: #64748B; font-size: 0.85rem; line-height: 1.5; margin: 0 0 1.2rem; flex: 1;">
+              ${escapeHtml(m.bio || m.description || "")}
+            </p>
+
+            <div style="border-top: 1px solid #F1F5F9; padding-top: 0.85rem; display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+              ${cleanPhone ? `
+                <a href="tel:${cleanPhone}" style="display: inline-flex; align-items: center; gap: 0.35rem; color: #0F172A; font-size: 0.78rem; font-weight: 700; text-decoration: none; padding: 0.35rem 0.65rem; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px;" title="Call ${escapeHtml(m.name)}">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  <span>${escapeHtml(m.phone)}</span>
+                </a>
+              ` : ''}
+
+              <a href="${gmailUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.35rem; color: #0284C7; font-size: 0.78rem; font-weight: 700; text-decoration: none; padding: 0.35rem 0.65rem; background: #F0F9FF; border: 1px solid #BAE6FD; border-radius: 6px; margin-left: auto;" title="Send Email via Gmail">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <span>Gmail</span>
+              </a>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    // Bind Filter Buttons
+    const filterBtns = document.querySelectorAll("[data-team-filter]");
+    filterBtns.forEach(btn => {
+      btn.onclick = function() {
+        filterBtns.forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        currentFilter = this.getAttribute("data-team-filter") || "all";
+        renderTeamList();
+      };
+    });
+
+    // Bind Live Search Input
+    const searchInput = document.getElementById("team-search-input");
+    if (searchInput) {
+      searchInput.oninput = function() {
+        currentSearch = this.value || "";
+        renderTeamList();
+      };
+    }
+
+    window.resetOurTeamFilters = function() {
+      currentFilter = "all";
+      currentSearch = "";
+      if (searchInput) searchInput.value = "";
+      filterBtns.forEach(b => {
+        if (b.getAttribute("data-team-filter") === "all") b.classList.add("active");
+        else b.classList.remove("active");
+      });
+      renderTeamList();
+    };
+
+    renderTeamList();
+  } catch (err) {
+    console.error("initOurTeamPage error:", err);
   }
 }
 
@@ -2806,6 +3113,7 @@ function initAdminPanel() {
   renderAdminSchedule(db);
   renderAdminCoordinators(db);
   renderAdminLeadership(db);
+  renderAdminTeam(db);
   renderAdminAnnouncements(db);
   renderAdminWinners(db);
   renderAdminCertificates(db);
@@ -3921,6 +4229,243 @@ window.editAdminLeader = function(id) {
   alert("Leadership details updated!");
   location.reload();
 };
+
+// ==========================================================================
+// ADMIN: OUR TEAM & VOLUNTEERS DIRECTORY MANAGEMENT
+// ==========================================================================
+function renderAdminTeam(db) {
+  const tbody = document.getElementById("admin-team-table-body");
+  if (!tbody) return;
+
+  const data = db || FestDB.getData();
+  const list = (data && Array.isArray(data.team)) ? data.team : (FestDB.getDefaults().team || []);
+
+  tbody.innerHTML = "";
+  if (list.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 2rem; color: #64748B;">
+          No team members or volunteers found. Click "+ Add Team Member / Volunteer" above to create one.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  list.forEach(m => {
+    const tr = document.createElement("tr");
+
+    let catBadge = "";
+    if (m.category === "lead") {
+      catBadge = `<span class="badge" style="background: #E0F2FE; color: #0284C7; border: 1px solid #BAE6FD;">Student Lead</span>`;
+    } else if (m.category === "faculty") {
+      catBadge = `<span class="badge" style="background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A;">Faculty Mentor</span>`;
+    } else {
+      catBadge = `<span class="badge" style="background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">Volunteer &amp; Crew</span>`;
+    }
+
+    const photoSrc = resolveAssetPath(m.photo, "images/coord-generic.svg");
+    const descText = (m.bio || m.description || "—");
+    const truncatedDesc = descText.length > 80 ? descText.slice(0, 80) + "..." : descText;
+
+    tr.innerHTML = `
+      <td>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <img src="${photoSrc}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1.5px solid #CBD5E1; background: #F8FAFC;" onerror="this.onerror=null;this.src='images/coord-generic.svg';">
+          <div>
+            <div style="font-weight: 800; color: #0F172A; font-size: 0.92rem;">${escapeHtml(m.name)}</div>
+            <div style="font-size: 0.74rem; color: #64748B; font-family: monospace;">ID: ${escapeHtml(m.id)}</div>
+          </div>
+        </div>
+      </td>
+      <td>${catBadge}</td>
+      <td>
+        <div style="font-weight: 700; color: #0F172A; font-size: 0.88rem;">${escapeHtml(m.role || "—")}</div>
+      </td>
+      <td>
+        <div style="font-size: 0.82rem; font-weight: 600; color: #0F172A;">${escapeHtml(m.phone || "—")}</div>
+        <div style="font-size: 0.76rem; color: #0284C7;">${escapeHtml(m.email || "—")}</div>
+      </td>
+      <td style="max-width: 240px; font-size: 0.8rem; color: #64748B; line-height: 1.4;">
+        ${escapeHtml(truncatedDesc)}
+      </td>
+      <td>
+        <div style="display: flex; gap: 0.4rem;">
+          <button type="button" class="btn btn-secondary" onclick="openAdminTeamMemberModal('${escapeHtml(m.id)}')" style="padding: 0.35rem 0.7rem; font-size: 0.76rem; font-weight: 700; background: #0284C7; border-color: #0284C7; color: #FFFFFF;">
+            Edit
+          </button>
+          <button type="button" class="btn btn-ghost" onclick="deleteAdminTeamMember('${escapeHtml(m.id)}')" style="padding: 0.35rem 0.6rem; font-size: 0.76rem; color: #EF4444; border-color: #FCA5A5;" title="Delete Member">
+            Delete
+          </button>
+        </div>
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+function openAdminTeamMemberModal(id) {
+  const modal = document.getElementById("admin-team-member-modal");
+  if (!modal) return;
+
+  const heading = document.getElementById("admin-team-modal-heading");
+  const idInput = document.getElementById("team-member-id");
+  const nameInput = document.getElementById("team-member-name");
+  const catSelect = document.getElementById("team-member-category");
+  const roleInput = document.getElementById("team-member-role");
+  const descInput = document.getElementById("team-member-desc");
+  const phoneInput = document.getElementById("team-member-phone");
+  const emailInput = document.getElementById("team-member-email");
+  const photoInput = document.getElementById("team-member-photo");
+
+  const db = FestDB.getData();
+  const list = (db && Array.isArray(db.team)) ? db.team : (FestDB.getDefaults().team || []);
+  const m = id ? list.find(x => x.id === id) : null;
+
+  if (m) {
+    if (heading) heading.textContent = `Edit Team Member (${m.name})`;
+    if (idInput) idInput.value = m.id;
+    if (nameInput) nameInput.value = m.name || "";
+    if (catSelect) catSelect.value = m.category || "volunteer";
+    if (roleInput) roleInput.value = m.role || "";
+    if (descInput) descInput.value = m.bio || m.description || "";
+    if (phoneInput) phoneInput.value = m.phone || "";
+    if (emailInput) emailInput.value = m.email || "";
+    if (photoInput) photoInput.value = m.photo || "";
+    updateTeamMemberPhotoPreview(m.photo || "");
+  } else {
+    if (heading) heading.textContent = "Add Team Member / Volunteer";
+    if (idInput) idInput.value = "";
+    if (nameInput) nameInput.value = "";
+    if (catSelect) catSelect.value = "volunteer";
+    if (roleInput) roleInput.value = "";
+    if (descInput) descInput.value = "";
+    if (phoneInput) phoneInput.value = "";
+    if (emailInput) emailInput.value = "Arenium.official@gmail.com";
+    if (photoInput) photoInput.value = "";
+    updateTeamMemberPhotoPreview("");
+  }
+
+  modal.style.display = "flex";
+}
+window.openAdminTeamMemberModal = openAdminTeamMemberModal;
+
+function closeAdminTeamMemberModal() {
+  const modal = document.getElementById("admin-team-member-modal");
+  if (modal) modal.style.display = "none";
+}
+window.closeAdminTeamMemberModal = closeAdminTeamMemberModal;
+
+function updateTeamMemberPhotoPreview(url) {
+  const wrap = document.getElementById("team-member-photo-preview-wrap");
+  const img = document.getElementById("team-member-photo-preview");
+  if (!wrap || !img) return;
+  if (url && url.trim()) {
+    img.src = resolveAssetPath(url.trim(), "images/coord-generic.svg");
+    wrap.style.display = "flex";
+  } else {
+    wrap.style.display = "none";
+  }
+}
+window.updateTeamMemberPhotoPreview = updateTeamMemberPhotoPreview;
+
+async function handleTeamMemberPhotoUpload(file) {
+  if (!file) return;
+  try {
+    const dataUrl = await compressAndConvertImage(file, 500, 500, 0.82);
+    const photoInput = document.getElementById("team-member-photo");
+    if (photoInput) {
+      photoInput.value = dataUrl;
+      updateTeamMemberPhotoPreview(dataUrl);
+    }
+  } catch (err) {
+    console.error("Team member photo upload error:", err);
+    alert("Could not process uploaded image: " + err.message);
+  }
+}
+window.handleTeamMemberPhotoUpload = handleTeamMemberPhotoUpload;
+
+async function saveAdminTeamMemberModal() {
+  const db = FestDB.getData();
+  if (!Array.isArray(db.team)) {
+    db.team = FestDB.getDefaults().team ? [...FestDB.getDefaults().team] : [];
+  }
+
+  const id = document.getElementById("team-member-id") ? document.getElementById("team-member-id").value.trim() : "";
+  const name = document.getElementById("team-member-name") ? document.getElementById("team-member-name").value.trim() : "";
+  const category = document.getElementById("team-member-category") ? document.getElementById("team-member-category").value : "volunteer";
+  const role = document.getElementById("team-member-role") ? document.getElementById("team-member-role").value.trim() : "";
+  const desc = document.getElementById("team-member-desc") ? document.getElementById("team-member-desc").value.trim() : "";
+  const phone = document.getElementById("team-member-phone") ? document.getElementById("team-member-phone").value.trim() : "";
+  const email = document.getElementById("team-member-email") ? document.getElementById("team-member-email").value.trim() : "";
+  const photo = document.getElementById("team-member-photo") ? document.getElementById("team-member-photo").value.trim() : "";
+
+  if (!name || !role) {
+    alert("Please provide at least member Name and Role / Designation.");
+    return;
+  }
+
+  const memberPayload = {
+    id: id || `team-mem-${Date.now()}`,
+    name,
+    category,
+    role,
+    bio: desc,
+    description: desc,
+    phone,
+    email: email || "Arenium.official@gmail.com",
+    photo: photo || "images/coord-generic.svg"
+  };
+
+  if (id) {
+    const idx = db.team.findIndex(x => x.id === id);
+    if (idx !== -1) {
+      db.team[idx] = Object.assign({}, db.team[idx], memberPayload);
+    } else {
+      db.team.push(memberPayload);
+    }
+  } else {
+    db.team.push(memberPayload);
+  }
+
+  FestDB.saveData(db, false);
+  renderAdminTeam(db);
+  closeAdminTeamMemberModal();
+
+  try {
+    await FestDB.pushToCloud(db);
+    alert(`Success: ${name} saved and synchronized with Cloud Atlas!`);
+  } catch (e) {
+    alert(`Saved locally! Cloud note: ${e.message}`);
+  }
+}
+window.saveAdminTeamMemberModal = saveAdminTeamMemberModal;
+
+async function deleteAdminTeamMember(id) {
+  if (!id) return;
+  const db = FestDB.getData();
+  if (!Array.isArray(db.team)) return;
+
+  const target = db.team.find(x => x.id === id);
+  const name = target ? target.name : "this member";
+
+  if (!confirm(`Are you sure you want to delete ${name} from Our Team and Volunteers directory?`)) {
+    return;
+  }
+
+  db.team = db.team.filter(x => x.id !== id);
+  FestDB.saveData(db, false);
+  renderAdminTeam(db);
+
+  try {
+    await FestDB.pushToCloud(db);
+    alert(`${name} removed and cloud synchronized.`);
+  } catch (e) {
+    alert(`${name} removed locally.`);
+  }
+}
+window.deleteAdminTeamMember = deleteAdminTeamMember;
 
 function renderAdminAnnouncements(db) {
   const tickerInput = document.getElementById("admin-ticker-input");

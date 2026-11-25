@@ -1214,6 +1214,9 @@
       <button type="button" class="admin-nav-btn" data-tab="tab-leadership" onclick="switchAdminTab('tab-leadership')">
          Dean, HOD &amp; SOIS Faculty
       </button>
+      <button type="button" class="admin-nav-btn" data-tab="tab-our-team" onclick="switchAdminTab('tab-our-team')" style="color: #0284C7; font-weight: 800;">
+         Our Team &amp; Volunteers
+      </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-winners" onclick="switchAdminTab('tab-winners')">
          Winners &amp; Results
       </button>
@@ -1761,6 +1764,44 @@
       </div>
 
       <!-- --------------------------------------------------------------------
+           TAB: OUR TEAM & VOLUNTEERS
+           -------------------------------------------------------------------- -->
+      <div id="tab-our-team" class="admin-tab-pane" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 1rem;">
+          <div>
+            <span class="section-tag" style="margin: 0; color: #0284C7; background: #E0F2FE; border-color: #BAE6FD;">TEAM DIRECTORY</span>
+            <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: #0F172A !important; font-weight: 800; -webkit-text-fill-color: #0F172A !important; margin: 0.25rem 0 0.35rem;">
+              OUR TEAM &amp; VOLUNTEERS MANAGER
+            </h2>
+            <p style="color: #475569 !important; -webkit-text-fill-color: #475569 !important; font-size: 0.88rem; font-weight: 600; margin: 0;">
+              Full admin control over student coordinators, faculty patrons, and student volunteers (name, photo, description/bio, contacts). Synchronizes in real time to team.html and Cloud Atlas.
+            </p>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="openAdminTeamMemberModal('')" style="font-size: 0.84rem; font-weight: 800; padding: 0.55rem 1.25rem; display: flex; align-items: center; gap: 0.5rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF;">
+            + Add Team Member / Volunteer
+          </button>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Member &amp; ID</th>
+                <th>Category</th>
+                <th>Role / Designation</th>
+                <th>Contact</th>
+                <th>Bio / Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-team-table-body">
+              <!-- Rendered via renderAdminTeam() -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------
            TAB 5: WINNERS & RESULTS
            -------------------------------------------------------------------- -->
       <div id="tab-winners" class="admin-tab-pane" style="display: none;">
@@ -2210,7 +2251,7 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_VENUE_ADMIN_EDIT_V47"></script>
+  <script src="js/main.js?v=2027_OUR_TEAM_PAGE_V48"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
@@ -2442,6 +2483,96 @@
           <div style="display: flex; gap: 0.8rem;">
             <button type="button" class="btn btn-ghost" onclick="closeAdminEventVenueModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
             <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800; background: #0284C7; border-color: #0284C7;">SAVE VENUE</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: ADD / EDIT TEAM MEMBER & VOLUNTEER
+       ======================================================================== -->
+  <div id="admin-team-member-modal" class="admin-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; width: 100%; max-width: 640px; max-height: 92vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.22); position: relative; color: #0F172A;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
+        <div>
+          <span class="section-tag" style="margin: 0; color: #0369A1; background: #E0F2FE; border-color: #BAE6FD;">TEAM ROSTER</span>
+          <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.25rem; margin: 0.2rem 0 0;" id="admin-team-modal-heading">
+            Add Team Member
+          </h3>
+        </div>
+        <button type="button" class="btn btn-ghost" onclick="closeAdminTeamMemberModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
+          ✕
+        </button>
+      </div>
+
+      <form id="admin-team-member-form" onsubmit="event.preventDefault(); saveAdminTeamMemberModal();">
+        <input type="hidden" id="team-member-id">
+
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label" for="team-member-name" style="font-weight: 800; color: #0F172A;">FULL NAME *</label>
+          <input type="text" id="team-member-name" class="admin-input" required placeholder="e.g. Kaushal Kumar Singh or Rohit Roy" style="font-weight: 700; color: #0F172A;">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+          <div>
+            <label class="admin-label" for="team-member-category" style="font-weight: 800; color: #0F172A;">CATEGORY *</label>
+            <select id="team-member-category" class="admin-input" style="font-weight: 700; color: #0F172A; background: #FFFFFF;" required>
+              <option value="volunteer">Student Volunteer / Crew</option>
+              <option value="lead">Student Lead / Coordinator</option>
+              <option value="faculty">Faculty Mentor / Patron</option>
+            </select>
+          </div>
+          <div>
+            <label class="admin-label" for="team-member-role" style="font-weight: 800; color: #0F172A;">ROLE / DESIGNATION *</label>
+            <input type="text" id="team-member-role" class="admin-input" placeholder="e.g. Tech Operations Volunteer" required style="font-weight: 700; color: #0F172A;">
+          </div>
+        </div>
+
+        <div class="admin-form-group" style="margin-bottom: 1rem;">
+          <label class="admin-label" for="team-member-desc" style="font-weight: 800; color: #0F172A;">DESCRIPTION / BIO</label>
+          <textarea id="team-member-desc" class="admin-input" rows="3" placeholder="Brief description of member's contributions, focus area, or department..." style="resize: vertical;"></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+          <div>
+            <label class="admin-label" for="team-member-phone" style="font-weight: 800; color: #0F172A;">CONTACT PHONE</label>
+            <input type="tel" id="team-member-phone" class="admin-input" placeholder="e.g. +91 87977 86686">
+          </div>
+          <div>
+            <label class="admin-label" for="team-member-email" style="font-weight: 800; color: #0F172A;">CONTACT EMAIL</label>
+            <input type="email" id="team-member-email" class="admin-input" placeholder="e.g. student@presidencyuniversity.in">
+          </div>
+        </div>
+
+        <!-- Photo Upload / URL -->
+        <div class="admin-form-group" style="margin-bottom: 1.5rem; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1.1rem;">
+          <label class="admin-label" style="font-weight: 800; color: #0369A1; margin-bottom: 0.4rem;">
+            MEMBER PHOTO (UPLOAD FROM PHONE/PC OR ENTER URL)
+          </label>
+          <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.6rem;">
+            <input type="text" id="team-member-photo" class="admin-input" placeholder="e.g. images/Kaushal.jpeg or click Upload Photo" style="flex: 1;" oninput="updateTeamMemberPhotoPreview(this.value)">
+            <label class="btn btn-secondary" style="margin: 0; padding: 0.55rem 1rem; font-size: 0.78rem; cursor: pointer; white-space: nowrap; background: #0284C7; border-color: #0284C7; color: #FFF; font-weight: 800; border-radius: 8px;">
+              Upload Photo
+              <input type="file" id="team-member-photo-file" accept="image/*" style="display: none;" onchange="handleTeamMemberPhotoUpload(this.files[0])">
+            </label>
+          </div>
+          <div id="team-member-photo-preview-wrap" style="display: none; align-items: center; gap: 0.8rem; background: #FFFFFF; border: 1px solid #E2E8F0; padding: 0.5rem; border-radius: 8px;">
+            <img id="team-member-photo-preview" src="" style="width: 55px; height: 55px; object-fit: cover; border-radius: 50%; border: 1.5px solid #CBD5E1;">
+            <div>
+              <div style="font-size: 0.78rem; font-weight: 700; color: #0F172A;">Photo Ready</div>
+              <div style="font-size: 0.72rem; color: #059669; font-weight: 600;">Will display on team.html and sync across devices</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid #E2E8F0; padding-top: 1rem;">
+          <span style="font-size: 0.74rem; color: #0284C7; font-weight: 700;">
+            Syncs to team.html &amp; Cloud MongoDB Atlas.
+          </span>
+          <div style="display: flex; gap: 0.8rem;">
+            <button type="button" class="btn btn-ghost" onclick="closeAdminTeamMemberModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800; background: #0284C7; border-color: #0284C7;">SAVE MEMBER</button>
           </div>
         </div>
       </form>
