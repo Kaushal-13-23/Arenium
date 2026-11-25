@@ -1065,6 +1065,29 @@ const FestDB = {
     return def;
   },
 
+  getMasterRulebookUrl(db) {
+    const currentDb = db || this.getData();
+    if (currentDb && currentDb.settings) {
+      if (currentDb.settings.rulebookPdf && currentDb.settings.rulebookPdf.trim()) {
+        return currentDb.settings.rulebookPdf.trim();
+      }
+      if (currentDb.settings.rulebookUrl && currentDb.settings.rulebookUrl.trim()) {
+        return currentDb.settings.rulebookUrl.trim();
+      }
+    }
+    return "rulebook.pdf";
+  },
+
+  getEventRulebookUrl(evId, db) {
+    const currentDb = db || this.getData();
+    const ev = (currentDb.events || []).find(e => e.id === evId);
+    if (ev) {
+      if (ev.rulebookPdf && ev.rulebookPdf.trim()) return ev.rulebookPdf.trim();
+      if (ev.rulebookUrl && ev.rulebookUrl.trim()) return ev.rulebookUrl.trim();
+    }
+    return this.getMasterRulebookUrl(currentDb);
+  },
+
   saveData(data, shouldPushToCloud = true) {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
@@ -1273,6 +1296,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof renderAdminCoordinators === "function") renderAdminCoordinators(cloudDb);
       if (typeof renderAdminLeadership === "function") renderAdminLeadership(cloudDb);
       if (typeof renderAdminTeam === "function") renderAdminTeam(cloudDb);
+      if (typeof syncGlobalRulebookLinks === "function") syncGlobalRulebookLinks(cloudDb);
     }
   });
 
@@ -1289,6 +1313,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (typeof renderAdminCoordinators === "function") renderAdminCoordinators(updated);
         if (typeof renderAdminEvents === "function") renderAdminEvents(updated);
         if (typeof renderAdminTeam === "function") renderAdminTeam(updated);
+        if (typeof syncGlobalRulebookLinks === "function") syncGlobalRulebookLinks(updated);
       } catch (err) {}
     }
   });
@@ -1301,6 +1326,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof initMovingCardsMarquee === "function") initMovingCardsMarquee(updated);
     if (typeof initSchedulePage === "function") initSchedulePage(updated);
     if (typeof renderAdminTeam === "function") renderAdminTeam(updated);
+    if (typeof syncGlobalRulebookLinks === "function") syncGlobalRulebookLinks(updated);
   });
 });
 
@@ -2806,13 +2832,77 @@ function initSponsorsPage(db) {
 }
 
 // ==========================================================================
-// 16.5. RULEBOOK MODAL & HANDLERS
+// 16.5. UNIVERSAL RULEBOOK ENGINE & DYNAMIC MODAL (MASTER + EVENT-WISE)
 // ==========================================================================
+function openPdfInNewTab(urlOrDataUrl, defaultFilename = "rulebook.pdf") {
+  if (!urlOrDataUrl) {
+    alert("No Rulebook PDF found.");
+    return;
+  }
+  
+  if (typeof urlOrDataUrl === "string" && urlOrDataUrl.startsWith("data:application/pdf")) {
+    try {
+      const parts = urlOrDataUrl.split(',');
+      const base64Data = parts[1];
+      const byteCharacters = atob(base64Data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "application/pdf" });
+      const blobUrl = URL.createObjectURL(blob);
+      const win = window.open(blobUrl, "_blank");
+      if (!win) {
+        const a = document.createElement("a");
+        a.href = blobUrl;
+        a.download = defaultFilename;
+        a.target = "_blank";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+      return;
+    } catch (err) {
+      console.error("PDF Blob preview error:", err);
+      window.open(urlOrDataUrl, "_blank");
+      return;
+    }
+  }
+
+  let finalUrl = urlOrDataUrl;
+  if (typeof finalUrl === "string" && finalUrl.includes("drive.google.com/file/d/")) {
+    const fileIdMatch = finalUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (fileIdMatch && fileIdMatch[1]) {
+      finalUrl = `https://drive.google.com/file/d/${fileIdMatch[1]}/view?usp=sharing`;
+    }
+  }
+
+  window.open(finalUrl, "_blank", "noopener,noreferrer");
+}
+window.openPdfInNewTab = openPdfInNewTab;
+
+function syncGlobalRulebookLinks(db) {
+  try {
+    const masterUrl = FestDB.getMasterRulebookUrl(db);
+    document.querySelectorAll('a[href="rulebook.pdf"], a.rulebook-nav-link').forEach(a => {
+      a.setAttribute("data-rulebook-synced", "true");
+      a.onclick = function(e) {
+        e.preventDefault();
+        openPdfInNewTab(FestDB.getMasterRulebookUrl(), "Arenium27_Master_Rulebook.pdf");
+      };
+    });
+  } catch (err) {
+    console.warn("syncGlobalRulebookLinks error:", err);
+  }
+}
+window.syncGlobalRulebookLinks = syncGlobalRulebookLinks;
+
 window.openRulebookModal = function(evId) {
   const db = FestDB.getData();
   const ev = (db.events || []).find(e => e.id === evId) || (db.events && db.events[0]);
   if (!ev) {
-    window.open("rulebook.pdf", "_blank");
+    openPdfInNewTab(FestDB.getMasterRulebookUrl(db), "Arenium27_Master_Rulebook.pdf");
     return;
   }
 
@@ -2832,6 +2922,9 @@ window.openRulebookModal = function(evId) {
   const rb = ev.rulebook || {};
   const rounds = Array.isArray(rb.rounds) ? rb.rounds : (rb.rounds ? [rb.rounds] : []);
   const rules = Array.isArray(rb.rules) ? rb.rules : (rb.rules ? [rb.rules] : []);
+
+  const hasEventPdf = !!(ev.rulebookPdf || ev.rulebookUrl);
+  const eventPdfTarget = ev.rulebookPdf || ev.rulebookUrl;
 
   modal.innerHTML = `
     <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.25); position: relative; color: #0F172A;">
@@ -2930,9 +3023,20 @@ window.openRulebookModal = function(evId) {
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1.5px solid #E2E8F0; padding-top: 1rem; flex-wrap: wrap; gap: 0.6rem;">
-        <a href="rulebook.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="font-size: 0.82rem; padding: 0.5rem 1rem; text-decoration: none; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 700;">
-          Download Fest Rulebook (PDF) ↗
-        </a>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          ${hasEventPdf ? `
+            <button type="button" class="btn btn-secondary" onclick="openPdfInNewTab('${eventPdfTarget.replace(/'/g, "\\'")}', '${(ev.name || 'Event').replace(/[^a-zA-Z0-9_-]/g, '_')}_Rulebook.pdf')" style="font-size: 0.82rem; padding: 0.5rem 1rem; border: 1.5px solid #0284C7; color: #0284C7; font-weight: 800; background: #E0F2FE; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+              📄 Download ${ev.name} Rulebook (PDF) ↗
+            </button>
+            <button type="button" class="btn btn-ghost" onclick="openPdfInNewTab(FestDB.getMasterRulebookUrl(), 'Arenium27_Master_Rulebook.pdf')" style="font-size: 0.8rem; padding: 0.5rem 0.8rem; border: 1px solid #CBD5E1; color: #64748B; font-weight: 700; background: #FFFFFF; cursor: pointer;">
+              Fest Rulebook (PDF) ↗
+            </button>
+          ` : `
+            <button type="button" class="btn btn-ghost" onclick="openPdfInNewTab(FestDB.getMasterRulebookUrl(), 'Arenium27_Master_Rulebook.pdf')" style="font-size: 0.82rem; padding: 0.5rem 1rem; border: 1.5px solid #CBD5E1; color: #0F172A; font-weight: 700; background: #FFFFFF; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem;">
+              Download Fest Rulebook (PDF) ↗
+            </button>
+          `}
+        </div>
         <div style="display: flex; gap: 0.6rem;">
           <button type="button" class="btn btn-ghost" onclick="document.getElementById('dynamic-rulebook-modal').style.display='none'" style="font-size: 0.82rem; padding: 0.5rem 1rem;">
             Close
@@ -2957,6 +3061,9 @@ function initRulebookModal() {
         window.openRulebookModal(evId);
       });
     });
+    if (typeof syncGlobalRulebookLinks === "function") {
+      syncGlobalRulebookLinks(FestDB.getData());
+    }
   } catch (e) {
     console.error("Rulebook modal init error:", e);
   }
@@ -3231,6 +3338,31 @@ function renderAdminEvents(db) {
       </div>
     `;
 
+    const hasCustomRb = !!(ev.rulebookPdf || ev.rulebookUrl);
+    const rbBadge = hasCustomRb
+      ? `<span style="display:inline-flex; align-items:center; gap:0.25rem; background:#DCFCE7; color:#15803D; font-weight:700; font-size:0.72rem; padding:0.2rem 0.55rem; border-radius:9999px; border:1px solid #86EFAC;">
+           📄 Custom PDF
+         </span>`
+      : `<span style="font-size:0.72rem; color:#64748B; font-weight:600; background:#F1F5F9; padding:0.2rem 0.55rem; border-radius:9999px; border:1px solid #E2E8F0;">
+           Fest Rulebook
+         </span>`;
+
+    const rbActionsHtml = `
+      <div style="display:flex; flex-direction:column; gap:0.35rem; align-items:flex-start;">
+        ${rbBadge}
+        <div style="display:flex; gap:0.3rem; flex-wrap:wrap; margin-top:0.2rem;">
+          <button type="button" class="btn btn-ghost" style="padding:0.2rem 0.5rem; font-size:0.72rem; color:#0284C7; border:1px solid #BAE6FD; font-weight:700; background:#FFF; cursor:pointer;" onclick="openAdminEventRulebookModal('${ev.id}')" title="Upload or change PDF for ${ev.name}">
+            ${hasCustomRb ? '✏️ Edit PDF' : '+ Upload PDF'}
+          </button>
+          ${hasCustomRb ? `
+            <button type="button" class="btn btn-ghost" style="padding:0.2rem 0.5rem; font-size:0.72rem; color:#0F172A; border:1px solid #CBD5E1; font-weight:700; background:#FFF; cursor:pointer;" onclick="previewEventRulebookDirect('${ev.id}')" title="Preview Rulebook">
+              ↗
+            </button>
+          ` : ''}
+        </div>
+      </div>
+    `;
+
     tr.innerHTML = `
       <td><strong>${ev.name}</strong><br><span style="color:var(--text-muted); font-size:0.75rem;">${ev.id}</span></td>
       <td><span class="event-category-badge">${ev.category}</span></td>
@@ -3242,6 +3374,7 @@ function renderAdminEvents(db) {
           Manage Coordinators (${coords.length})
         </button>
       </td>
+      <td>${rbActionsHtml}</td>
       <td>
         <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="editAdminEvent('${ev.id}')">Edit Arena</button>
         <button class="btn btn-ghost" style="padding:0.3rem 0.6rem; font-size:0.75rem; color:#0284C7; border-color:#0284C7;" onclick="openAdminEventVenueModal('${ev.id}')">Venue</button>
@@ -3250,7 +3383,12 @@ function renderAdminEvents(db) {
     `;
     container.appendChild(tr);
   });
+
+  if (typeof renderMasterRulebookStatus === "function") {
+    renderMasterRulebookStatus(db);
+  }
 }
+window.renderAdminEvents = renderAdminEvents;
 
 window.populateAdminCoordSlotsForEvent = function(selectedId) {
   const db = FestDB.getData();
@@ -3626,6 +3764,42 @@ window.openAdminEditEventModal = function(id) {
     window.updateEventPosterPreview(ev.poster || "");
   }
 
+  // Populate Event-Specific Rulebook Fields
+  const rbPdfInput = document.getElementById("edit-event-rulebook-pdf");
+  const rbUrlInput = document.getElementById("edit-event-rulebook-url");
+  const rbPreviewWrap = document.getElementById("edit-event-rulebook-preview-wrap");
+  const rbFilename = document.getElementById("edit-event-rulebook-filename");
+  const rbBadge = document.getElementById("edit-event-rulebook-status-badge");
+
+  if (rbPdfInput) {
+    rbPdfInput.value = ev.rulebookPdf || "";
+    if (ev.rulebookPdfName) {
+      rbPdfInput.setAttribute("data-filename", ev.rulebookPdfName);
+    } else {
+      rbPdfInput.removeAttribute("data-filename");
+    }
+  }
+  if (rbUrlInput) rbUrlInput.value = ev.rulebookUrl || "";
+
+  if (ev.rulebookPdf || ev.rulebookUrl) {
+    if (rbPreviewWrap) rbPreviewWrap.style.display = "flex";
+    if (rbFilename) rbFilename.textContent = ev.rulebookPdfName || (ev.rulebookPdf ? "Uploaded PDF Attached" : ev.rulebookUrl);
+    if (rbBadge) {
+      rbBadge.textContent = ev.rulebookPdf ? "Custom PDF Attached" : "External PDF Link";
+      rbBadge.style.background = "#DCFCE7";
+      rbBadge.style.color = "#15803D";
+      rbBadge.style.borderColor = "#86EFAC";
+    }
+  } else {
+    if (rbPreviewWrap) rbPreviewWrap.style.display = "none";
+    if (rbBadge) {
+      rbBadge.textContent = "Using Master Fest PDF";
+      rbBadge.style.background = "#E0F2FE";
+      rbBadge.style.color = "#0284C7";
+      rbBadge.style.borderColor = "#BAE6FD";
+    }
+  }
+
   if (modal) {
     modal.style.display = "flex";
   }
@@ -3699,6 +3873,25 @@ window.saveAdminEditEventModal = async function() {
   }
   if (date !== undefined) ev.date = date;
   if (time !== undefined) ev.time = time;
+
+  // Save Event Rulebook Configuration
+  const rbPdf = document.getElementById("edit-event-rulebook-pdf")?.value;
+  const rbPdfName = document.getElementById("edit-event-rulebook-pdf")?.getAttribute("data-filename");
+  const rbUrl = document.getElementById("edit-event-rulebook-url")?.value.trim();
+
+  if (rbPdf) {
+    ev.rulebookPdf = rbPdf;
+    if (rbPdfName) ev.rulebookPdfName = rbPdfName;
+  } else {
+    delete ev.rulebookPdf;
+    delete ev.rulebookPdfName;
+  }
+
+  if (rbUrl) {
+    ev.rulebookUrl = rbUrl;
+  } else {
+    delete ev.rulebookUrl;
+  }
 
   FestDB.saveData(db); // Automatically triggers localStorage save, arenium_db_change event, and cloud push
   window.closeAdminEditEventModal();
@@ -3892,6 +4085,354 @@ window.addNewAdminEvent = async function() {
     alert(`Event "${name}" added locally. Cloud note: ` + e.message);
   }
   renderAdminEvents(db);
+};
+
+// ==========================================================================
+// MASTER & INDIVIDUAL EVENT RULEBOOK PDF MANAGEMENT SYSTEM
+// ==========================================================================
+function renderMasterRulebookStatus(db) {
+  const currentDb = db || FestDB.getData();
+  const badge = document.getElementById("master-rulebook-status-badge");
+  const urlInput = document.getElementById("admin-master-rulebook-url");
+  const s = currentDb.settings || {};
+
+  const hasPdf = !!(s.rulebookPdf && s.rulebookPdf.trim());
+  const hasUrl = !!(s.rulebookUrl && s.rulebookUrl.trim());
+
+  if (urlInput) {
+    urlInput.value = s.rulebookUrl || "";
+  }
+
+  if (badge) {
+    if (hasPdf) {
+      badge.style.background = "#DCFCE7";
+      badge.style.color = "#15803D";
+      badge.style.borderColor = "#86EFAC";
+      badge.textContent = s.rulebookPdfName ? `Custom PDF: ${s.rulebookPdfName}` : "Custom PDF Active";
+    } else if (hasUrl) {
+      badge.style.background = "#E0F2FE";
+      badge.style.color = "#0369A1";
+      badge.style.borderColor = "#BAE6FD";
+      badge.textContent = "External Cloud Link Active";
+    } else {
+      badge.style.background = "#F1F5F9";
+      badge.style.color = "#475569";
+      badge.style.borderColor = "#CBD5E1";
+      badge.textContent = "Default (rulebook.pdf)";
+    }
+  }
+}
+window.renderMasterRulebookStatus = renderMasterRulebookStatus;
+
+window.handleMasterRulebookUpload = async function(file) {
+  if (!file) return;
+  if (!file.name.toLowerCase().endsWith(".pdf") && file.type !== "application/pdf") {
+    alert("Please select a valid PDF file (.pdf).");
+    return;
+  }
+
+  const maxBytes = 10 * 1024 * 1024; // 10MB
+  if (file.size > maxBytes) {
+    alert(`File is ${(file.size / (1024 * 1024)).toFixed(1)}MB. To prevent browser memory and storage limits, please choose a PDF under 10MB or paste a direct Google Drive link.`);
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onerror = function() {
+    alert("Error reading master rulebook PDF file.");
+  };
+  reader.onload = async function(e) {
+    try {
+      const dataUrl = e.target.result;
+      const db = FestDB.getData();
+      if (!db.settings) db.settings = {};
+      db.settings.rulebookPdf = dataUrl;
+      db.settings.rulebookPdfName = file.name;
+      FestDB.saveData(db);
+      renderMasterRulebookStatus(db);
+      if (typeof syncGlobalRulebookLinks === "function") syncGlobalRulebookLinks(db);
+      try {
+        await FestDB.pushToCloud(db);
+        alert(`Master Fest Rulebook ("${file.name}") uploaded and synchronized with Cloud Atlas!`);
+      } catch (err) {
+        alert(`Master Fest Rulebook saved locally. Cloud notice: ${err.message}`);
+      }
+    } catch (err) {
+      console.error("Master rulebook upload error:", err);
+      alert("Failed to upload master rulebook: " + err.message);
+    }
+  };
+  reader.readAsDataURL(file);
+};
+
+window.saveMasterRulebookUrl = async function() {
+  const urlInput = document.getElementById("admin-master-rulebook-url");
+  const url = urlInput ? urlInput.value.trim() : "";
+  const db = FestDB.getData();
+  if (!db.settings) db.settings = {};
+  db.settings.rulebookUrl = url;
+  FestDB.saveData(db);
+  renderMasterRulebookStatus(db);
+  if (typeof syncGlobalRulebookLinks === "function") syncGlobalRulebookLinks(db);
+  try {
+    await FestDB.pushToCloud(db);
+    alert(url ? "Master Rulebook cloud link saved and synced across all pages!" : "Master Rulebook link cleared.");
+  } catch (err) {
+    alert("Saved locally. Cloud notice: " + err.message);
+  }
+};
+
+window.openMasterRulebookPreview = function() {
+  const db = FestDB.getData();
+  const url = FestDB.getMasterRulebookUrl(db);
+  openPdfInNewTab(url, "Arenium27_Master_Rulebook.pdf");
+};
+
+window.resetMasterRulebookToDefault = async function() {
+  if (!confirm("Reset Fest Rulebook to default 'rulebook.pdf'? This will remove any uploaded PDF or external link.")) {
+    return;
+  }
+  const db = FestDB.getData();
+  if (db.settings) {
+    delete db.settings.rulebookPdf;
+    delete db.settings.rulebookPdfName;
+    delete db.settings.rulebookUrl;
+  }
+  FestDB.saveData(db);
+  renderMasterRulebookStatus(db);
+  if (typeof syncGlobalRulebookLinks === "function") syncGlobalRulebookLinks(db);
+  try {
+    await FestDB.pushToCloud(db);
+    alert("Fest Rulebook reset to default 'rulebook.pdf' and synchronized across all pages!");
+  } catch (err) {
+    alert("Reset locally. Cloud notice: " + err.message);
+  }
+};
+
+window.previewEventRulebookFromEditModal = function() {
+  const pdfVal = document.getElementById("edit-event-rulebook-pdf")?.value;
+  const urlVal = document.getElementById("edit-event-rulebook-url")?.value.trim();
+  const name = document.getElementById("edit-event-name")?.value.trim() || "Arena";
+  const db = FestDB.getData();
+  const target = pdfVal || urlVal || FestDB.getMasterRulebookUrl(db);
+  openPdfInNewTab(target, `${name.replace(/[^a-zA-Z0-9_-]/g, '_')}_Rulebook.pdf`);
+};
+
+window.clearEventRulebookInEditModal = function() {
+  const pdfInput = document.getElementById("edit-event-rulebook-pdf");
+  const urlInput = document.getElementById("edit-event-rulebook-url");
+  const previewWrap = document.getElementById("edit-event-rulebook-preview-wrap");
+  const badge = document.getElementById("edit-event-rulebook-status-badge");
+
+  if (pdfInput) {
+    pdfInput.value = "";
+    pdfInput.removeAttribute("data-filename");
+  }
+  if (urlInput) urlInput.value = "";
+  if (previewWrap) previewWrap.style.display = "none";
+  if (badge) {
+    badge.textContent = "Using Master Fest PDF";
+    badge.style.background = "#E0F2FE";
+    badge.style.color = "#0284C7";
+    badge.style.borderColor = "#BAE6FD";
+  }
+};
+
+window.openAdminEventRulebookModal = function(evId) {
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === evId);
+  if (!ev) return;
+
+  const modal = document.getElementById("admin-event-rulebook-modal");
+  const targetId = document.getElementById("event-rulebook-target-id");
+  const nameEl = document.getElementById("event-rulebook-modal-event-name");
+  const statusEl = document.getElementById("event-rulebook-modal-status-text");
+  const urlEl = document.getElementById("event-rulebook-modal-url");
+  const dataPdfEl = document.getElementById("event-rulebook-data-pdf");
+  const fileInfoEl = document.getElementById("event-rulebook-modal-file-info");
+
+  if (targetId) targetId.value = ev.id;
+  if (nameEl) nameEl.textContent = `${ev.name} (${ev.id})`;
+
+  const hasCustomPdf = !!(ev.rulebookPdf && ev.rulebookPdf.trim());
+  const hasCustomUrl = !!(ev.rulebookUrl && ev.rulebookUrl.trim());
+
+  if (urlEl) urlEl.value = ev.rulebookUrl || "";
+  if (dataPdfEl) {
+    dataPdfEl.value = ev.rulebookPdf || "";
+    if (ev.rulebookPdfName) {
+      dataPdfEl.setAttribute("data-filename", ev.rulebookPdfName);
+    } else {
+      dataPdfEl.removeAttribute("data-filename");
+    }
+  }
+
+  if (statusEl) {
+    if (hasCustomPdf) {
+      statusEl.textContent = `Custom PDF attached: ${ev.rulebookPdfName || 'Direct upload'}`;
+      statusEl.style.color = "#15803D";
+    } else if (hasCustomUrl) {
+      statusEl.textContent = `External link configured: ${ev.rulebookUrl}`;
+      statusEl.style.color = "#0369A1";
+    } else {
+      statusEl.textContent = "Currently using Master Fest Rulebook (Default)";
+      statusEl.style.color = "#64748B";
+    }
+  }
+
+  if (fileInfoEl) {
+    if (hasCustomPdf) {
+      fileInfoEl.textContent = `📄 ${ev.rulebookPdfName || 'Custom PDF Attached'}`;
+      fileInfoEl.style.color = "#15803D";
+    } else if (hasCustomUrl) {
+      fileInfoEl.textContent = `🔗 External Link: ${ev.rulebookUrl}`;
+      fileInfoEl.style.color = "#0369A1";
+    } else {
+      fileInfoEl.textContent = "No event-specific PDF (uses Master Fest Rulebook)";
+      fileInfoEl.style.color = "#64748B";
+    }
+  }
+
+  if (modal) modal.style.display = "flex";
+};
+
+window.closeAdminEventRulebookModal = function() {
+  const modal = document.getElementById("admin-event-rulebook-modal");
+  if (modal) modal.style.display = "none";
+};
+
+window.handleAdminEventRulebookFileUpload = function(file, context = 'quick-modal') {
+  if (!file) return;
+  if (!file.name.toLowerCase().endsWith(".pdf") && file.type !== "application/pdf") {
+    alert("Please select a valid PDF file (.pdf).");
+    return;
+  }
+  const maxBytes = 10 * 1024 * 1024;
+  if (file.size > maxBytes) {
+    alert(`File is ${(file.size / (1024 * 1024)).toFixed(1)}MB. To prevent browser memory issues, please upload a PDF under 10MB or paste a Google Drive link.`);
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onerror = function() { alert("Error reading PDF file."); };
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    if (context === 'quick-modal') {
+      const dataPdfEl = document.getElementById("event-rulebook-data-pdf");
+      const fileInfoEl = document.getElementById("event-rulebook-modal-file-info");
+      const statusEl = document.getElementById("event-rulebook-modal-status-text");
+      if (dataPdfEl) {
+        dataPdfEl.value = dataUrl;
+        dataPdfEl.setAttribute("data-filename", file.name);
+      }
+      if (fileInfoEl) {
+        fileInfoEl.textContent = `📄 Attached: ${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+        fileInfoEl.style.color = "#15803D";
+      }
+      if (statusEl) {
+        statusEl.textContent = `New PDF ready to save: ${file.name}`;
+        statusEl.style.color = "#15803D";
+      }
+    } else if (context === 'edit-modal') {
+      const pdfInput = document.getElementById("edit-event-rulebook-pdf");
+      const previewWrap = document.getElementById("edit-event-rulebook-preview-wrap");
+      const filenameEl = document.getElementById("edit-event-rulebook-filename");
+      const badge = document.getElementById("edit-event-rulebook-status-badge");
+      if (pdfInput) {
+        pdfInput.value = dataUrl;
+        pdfInput.setAttribute("data-filename", file.name);
+      }
+      if (filenameEl) filenameEl.textContent = `${file.name} (${(file.size / 1024).toFixed(0)} KB)`;
+      if (previewWrap) previewWrap.style.display = "flex";
+      if (badge) {
+        badge.textContent = "Custom PDF Uploaded";
+        badge.style.background = "#DCFCE7";
+        badge.style.color = "#15803D";
+        badge.style.borderColor = "#86EFAC";
+      }
+    }
+  };
+  reader.readAsDataURL(file);
+};
+
+window.saveAdminEventRulebookModal = async function() {
+  const targetId = document.getElementById("event-rulebook-target-id")?.value;
+  if (!targetId) return;
+
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === targetId);
+  if (!ev) return;
+
+  const dataPdfEl = document.getElementById("event-rulebook-data-pdf");
+  const urlEl = document.getElementById("event-rulebook-modal-url");
+
+  const newPdf = dataPdfEl ? dataPdfEl.value : "";
+  const newFilename = dataPdfEl ? dataPdfEl.getAttribute("data-filename") : "";
+  const newUrl = urlEl ? urlEl.value.trim() : "";
+
+  if (newPdf) {
+    ev.rulebookPdf = newPdf;
+    if (newFilename) ev.rulebookPdfName = newFilename;
+  } else {
+    delete ev.rulebookPdf;
+    delete ev.rulebookPdfName;
+  }
+
+  if (newUrl) {
+    ev.rulebookUrl = newUrl;
+  } else {
+    delete ev.rulebookUrl;
+  }
+
+  FestDB.saveData(db);
+  window.closeAdminEventRulebookModal();
+  renderAdminEvents(db);
+
+  try {
+    await FestDB.pushToCloud(db);
+    alert(`Rulebook for "${ev.name}" updated successfully and synced to Cloud Atlas!`);
+  } catch (err) {
+    alert(`Rulebook for "${ev.name}" saved locally. Cloud notice: ${err.message}`);
+  }
+};
+
+window.previewEventRulebookDirect = function(evId) {
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === evId);
+  if (!ev) return;
+  const url = ev.rulebookPdf || ev.rulebookUrl || FestDB.getMasterRulebookUrl(db);
+  openPdfInNewTab(url, `${(ev.name || 'Arena').replace(/[^a-zA-Z0-9_-]/g, '_')}_Rulebook.pdf`);
+};
+
+window.previewEventRulebookFromQuickModal = function() {
+  const dataPdfEl = document.getElementById("event-rulebook-data-pdf");
+  const urlEl = document.getElementById("event-rulebook-modal-url");
+  const targetId = document.getElementById("event-rulebook-target-id")?.value;
+  const db = FestDB.getData();
+  const ev = (db.events || []).find(e => e.id === targetId);
+  const pdfVal = (dataPdfEl && dataPdfEl.value) ? dataPdfEl.value : (urlEl && urlEl.value ? urlEl.value.trim() : FestDB.getMasterRulebookUrl(db));
+  openPdfInNewTab(pdfVal, `${ev ? ev.name : 'Event'}_Rulebook.pdf`);
+};
+
+window.clearEventRulebookInQuickModal = function() {
+  const dataPdfEl = document.getElementById("event-rulebook-data-pdf");
+  const urlEl = document.getElementById("event-rulebook-modal-url");
+  const fileInfoEl = document.getElementById("event-rulebook-modal-file-info");
+  const statusEl = document.getElementById("event-rulebook-modal-status-text");
+
+  if (dataPdfEl) {
+    dataPdfEl.value = "";
+    dataPdfEl.removeAttribute("data-filename");
+  }
+  if (urlEl) urlEl.value = "";
+  if (fileInfoEl) {
+    fileInfoEl.textContent = "Removed event PDF (will fall back to Fest Rulebook)";
+    fileInfoEl.style.color = "#64748B";
+  }
+  if (statusEl) {
+    statusEl.textContent = "Will use Master Fest Rulebook upon saving";
+    statusEl.style.color = "#64748B";
+  }
 };
 
 function renderAdminSchedule(db) {

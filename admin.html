@@ -1,4 +1,4 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   
@@ -23,7 +23,7 @@
 
     <style>
     /* ========================================================================
-       ARENIUM'27 SUPERADMIN CONSOLE ‚Äî DEDICATED CRISP WHITE / LIGHT SYSTEM
+       ARENIUM'27 SUPERADMIN CONSOLE ó DEDICATED CRISP WHITE / LIGHT SYSTEM
        Clean, modern, high-contrast executive light dashboard
        ======================================================================== */
     
@@ -856,12 +856,12 @@
       </div>
 
       <div class="admin-gateway-badge">
-         SECURITY CLEARANCE REQUIRED ¬∑ LEVEL 5
+         SECURITY CLEARANCE REQUIRED ∑ LEVEL 5
       </div>
 
       <h1 class="admin-gateway-title">SUPERADMIN GATEWAY</h1>
       <p class="admin-gateway-subtitle">
-        School of Information Science (SOIS) ¬∑ Presidency University<br>
+        School of Information Science (SOIS) ∑ Presidency University<br>
         Access restricted to authorized fest committee leads.
       </p>
 
@@ -870,7 +870,7 @@
       </div>
 
       <div id="admin-auth-success" class="admin-auth-success" role="alert">
-         ACCESS GRANTED ¬∑ INITIALIZING TERMINAL...
+         ACCESS GRANTED ∑ INITIALIZING TERMINAL...
       </div>
 
       <form id="admin-login-form" onsubmit="event.preventDefault(); submitAdminLogin();">
@@ -970,6 +970,17 @@
           var panel = document.querySelector(".admin-main-panel");
           if (panel) panel.scrollTop = 0;
         }
+        if (window.FestDB) {
+          var db = FestDB.getData();
+          if (targetTabId === "tab-events") {
+            if (typeof renderAdminEvents === "function") renderAdminEvents(db);
+            if (typeof renderMasterRulebookStatus === "function") renderMasterRulebookStatus(db);
+          } else if (targetTabId === "tab-our-team") {
+            if (typeof renderAdminTeam === "function") renderAdminTeam(db);
+          } else if (targetTabId === "tab-overview") {
+            if (typeof renderAdminOverview === "function") renderAdminOverview(db);
+          }
+        }
       };
 
 
@@ -982,7 +993,7 @@
         if (nameEl) nameEl.textContent = admin.name;
         if (roleEl) roleEl.textContent = admin.role;
         if (ovNameEl) ovNameEl.textContent = admin.name;
-        if (ovMetaEl) ovMetaEl.textContent = `${admin.email} ¬∑ ${admin.role}`;
+        if (ovMetaEl) ovMetaEl.textContent = `${admin.email} ∑ ${admin.role}`;
       }
 
       function checkAuth() {
@@ -1081,7 +1092,7 @@
           if (err) err.style.display = "none";
           if (succ) {
             succ.style.display = "block";
-            succ.textContent = ` ACCESS GRANTED ¬∑ WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
+            succ.textContent = ` ACCESS GRANTED ∑ WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
           }
 
           setTimeout(function() {
@@ -1167,7 +1178,7 @@
              VIEW LIVE WEBSITE &gt;
           </a>
           <a href="https://arenium-27-core.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 0.5rem 0.9rem; font-size: 0.75rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF; font-weight: 800;" title="Open ARENIUM 27 CORE Operations Platform">
-             ARENIUM CORE ‚Üó
+             ARENIUM CORE ?
           </a>
           <button id="admin-cloud-sync-btn" type="button" class="btn btn-secondary" onclick="syncFestConfigToCloudManual()" style="padding: 0.5rem 0.9rem; font-size: 0.75rem; background: #059669; border-color: #059669; color: #FFFFFF; font-weight: 800;" title="Push all settings, events and coordinators to Cloud MongoDB Atlas so all devices get the update">
              SYNC CLOUD
@@ -1224,7 +1235,7 @@
          Uploaded Certificates
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-announcements" onclick="switchAdminTab('tab-announcements')">
-         ‚Çπ1.5L Ticker &amp; Alerts
+         ?1.5L Ticker &amp; Alerts
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-sponsors" onclick="switchAdminTab('tab-sponsors')">
          Sponsors &amp; Partners
@@ -1261,11 +1272,11 @@
             <div>
               <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">CURRENT ACTIVE ADMINISTRATOR</div>
               <div id="overview-admin-name" style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Kaushal Kumar Singh</div>
-              <div id="overview-admin-meta" style="font-family: var(--font-mono); font-size: 0.78rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600;">singhkaushal.2507@gmail.com ¬∑ Finance &amp; Registration Manager</div>
+              <div id="overview-admin-meta" style="font-family: var(--font-mono); font-size: 0.78rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600;">singhkaushal.2507@gmail.com ∑ Finance &amp; Registration Manager</div>
             </div>
           </div>
           <div style="display: flex; align-items: center; gap: 0.6rem;">
-            <span class="admin-quick-pill-badge" style="background: rgba(0, 255, 170, 0.15); border-color: #00ffaa; color: #00ffaa;">‚óè ACTIVE SESSION</span>
+            <span class="admin-quick-pill-badge" style="background: rgba(0, 255, 170, 0.15); border-color: #00ffaa; color: #00ffaa;">? ACTIVE SESSION</span>
             <button class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;" onclick="adminLogout()"> SWITCH ADMIN</button>
           </div>
         </div>
@@ -1345,6 +1356,51 @@
           </div>
         </div>
 
+        <!-- MASTER FEST RULEBOOK (OFFICIAL PDF) MANAGER CARD -->
+        <div class="admin-card" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 14px; padding: 1.4rem; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.04);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+                <span class="section-tag" style="margin: 0; background: #E0F2FE; color: #0284C7; border-color: #BAE6FD;">MASTER RULEBOOK</span>
+                <span id="master-rulebook-status-badge" style="font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 9999px; background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">
+                  Default (rulebook.pdf)
+                </span>
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 800; color: #0F172A; margin: 0 0 0.3rem;">
+                OFFICIAL FESTIVAL RULEBOOK (GLOBAL PDF)
+              </h3>
+              <p style="font-size: 0.85rem; color: #64748B; margin: 0; font-weight: 500; max-width: 620px;">
+                Upload the master fest rulebook PDF or paste a direct cloud link (Google Drive / S3). This dynamically powers the "RULEBOOK" links in the navbar, hero buttons, and footers across all 11 pages and syncs to MongoDB Atlas.
+              </p>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+              <input type="file" id="admin-master-rulebook-file" accept="application/pdf" style="display: none;" onchange="handleMasterRulebookUpload(this.files[0])">
+              <button type="button" class="btn btn-primary" onclick="document.getElementById('admin-master-rulebook-file').click()" style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 700; background: #0284C7; border-color: #0284C7;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                Upload Master PDF
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="openMasterRulebookPreview()" style="font-size: 0.82rem; font-weight: 700; background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0F172A;">
+                Preview Rulebook ?
+              </button>
+              <button type="button" class="btn btn-ghost" onclick="resetMasterRulebookToDefault()" style="font-size: 0.82rem; color: #EF4444; border-color: #FECACA;" title="Reset to default rulebook.pdf">
+                Reset Default
+              </button>
+            </div>
+          </div>
+
+          <!-- Master Rulebook External Link Row -->
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #E2E8F0; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <label for="admin-master-rulebook-url" style="font-size: 0.78rem; font-weight: 800; color: #0F172A; white-space: nowrap;">
+              Or Cloud / Drive PDF Link:
+            </label>
+            <input type="url" id="admin-master-rulebook-url" class="admin-input" placeholder="https://drive.google.com/... or https://.../fest-rulebook.pdf" style="flex: 1; min-width: 260px; font-size: 0.82rem; padding: 0.45rem 0.8rem; background: #F8FAFC;">
+            <button type="button" class="btn btn-secondary" onclick="saveMasterRulebookUrl()" style="font-size: 0.8rem; font-weight: 700; padding: 0.45rem 0.9rem; background: #000000; color: #FFFFFF;">
+              Save Link
+            </button>
+          </div>
+        </div>
+
         <div style="overflow-x: auto;">
           <table class="admin-table">
             <thead>
@@ -1354,6 +1410,7 @@
                 <th>Venue &amp; Location</th>
                 <th>Prize Pool</th>
                 <th>Coordinator</th>
+                <th>Rulebook (PDF)</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -1398,7 +1455,7 @@
               + Add Walk-in
             </button>
             <a href="register.html" target="_blank" class="btn btn-ghost">
-              ‚Üó Live Portal View
+              ? Live Portal View
             </a>
           </div>
         </div>
@@ -1458,7 +1515,7 @@
                   INTERNAL PARTICIPANTS PAYMENT LINK (PRESIDENCY UNIVERSITY)
                 </label>
                 <span id="gateway-status-badge-internal" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
-                  ‚óè ACTIVE
+                  ? ACTIVE
                 </span>
               </div>
 
@@ -1486,7 +1543,7 @@
                   EXTERNAL PARTICIPANTS EVENT / REGISTRATION LINK (OTHER COLLEGES)
                 </label>
                 <span id="gateway-status-badge-external" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
-                  ‚óè ACTIVE
+                  ? ACTIVE
                 </span>
               </div>
 
@@ -1779,7 +1836,7 @@
           </div>
           <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
             <a href="team.html" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="font-size: 0.82rem; font-weight: 700; padding: 0.55rem 1rem; border: 1.5px solid #CBD5E1; color: #0284C7; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
-              üëÅ View Public Page ‚Üó
+              ?? View Public Page ?
             </a>
             <button type="button" class="btn btn-primary" onclick="openAdminTeamMemberModal('')" style="font-size: 0.84rem; font-weight: 800; padding: 0.55rem 1.25rem; display: flex; align-items: center; gap: 0.5rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF;">
               + Add Team Member / Volunteer
@@ -1914,9 +1971,9 @@
               <div class="admin-form-group" style="margin-bottom: 0;">
                 <label class="admin-label" for="admin-cert-award">CERTIFICATE TYPE / TIER <span style="color: var(--neon-pink);">*</span></label>
                 <select id="admin-cert-award" class="admin-select" required>
-                  <option value="CHAMPION ¬∑ FIRST PLACE"> CHAMPION ¬∑ FIRST PLACE</option>
-                  <option value="RUNNER UP ¬∑ SECOND PLACE"> RUNNER UP ¬∑ SECOND PLACE</option>
-                  <option value="2ND RUNNER UP ¬∑ THIRD PLACE"> 2ND RUNNER UP ¬∑ THIRD PLACE</option>
+                  <option value="CHAMPION ∑ FIRST PLACE"> CHAMPION ∑ FIRST PLACE</option>
+                  <option value="RUNNER UP ∑ SECOND PLACE"> RUNNER UP ∑ SECOND PLACE</option>
+                  <option value="2ND RUNNER UP ∑ THIRD PLACE"> 2ND RUNNER UP ∑ THIRD PLACE</option>
                   <option value="SPECIAL MERIT & INNOVATION"> SPECIAL MERIT & INNOVATION</option>
                   <option value="CERTIFICATE OF MERIT & PARTICIPATION" selected> CERTIFICATE OF MERIT & PARTICIPATION</option>
                 </select>
@@ -2091,7 +2148,7 @@
                 INTERNAL PARTICIPANTS PAYMENT GATEWAY LINK (PRESIDENCY UNIVERSITY)
               </label>
               <span id="admin-setting-gateway-status-internal" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
-                ‚óè ACTIVE
+                ? ACTIVE
               </span>
             </div>
             <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
@@ -2114,7 +2171,7 @@
                 EXTERNAL PARTICIPANTS EVENT / REGISTRATION LINK (OTHER COLLEGES)
               </label>
               <span id="admin-setting-gateway-status-external" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
-                ‚óè ACTIVE
+                ? ACTIVE
               </span>
             </div>
             <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
@@ -2185,31 +2242,31 @@
                   <td><strong>Kaushal Kumar Singh</strong></td>
                   <td><code>singhkaushal.2507@gmail.com</code></td>
                   <td>Finance &amp; Registration Manager</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
                 </tr>
                 <tr>
                   <td><strong>Abhyas Kathuria</strong></td>
                   <td><code>Kathuriaabhyas@gmail.com</code></td>
                   <td>Technical Manager</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
                 </tr>
                 <tr>
                   <td><strong>Ashlin Siddharth</strong></td>
                   <td><code>ashlinsiddharth1@gmail.com</code></td>
                   <td>Marketing &amp; Registration Manager</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
                 </tr>
                 <tr>
                   <td><strong>Vimal Raj</strong></td>
                   <td><code>vimalrajsnkk@gmail.com</code></td>
                   <td>Event Manager</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
                 </tr>
                 <tr>
                   <td><strong>Ms. Keren Lois Daniel</strong></td>
                   <td><code>kerenlois@presidencyuniversity.in</code></td>
                   <td>Faculty Co-ordinator &amp; Programme Lead</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
                 </tr>
               </tbody>
             </table>
@@ -2256,7 +2313,7 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_OUR_TEAM_CUSTOM_BADGE_V49"></script>
+  <script src="js/main.js?v=2027_RULEBOOK_UPLOAD_V50"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
@@ -2284,7 +2341,7 @@
 
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.2rem; flex-wrap: wrap; gap: 0.8rem;">
         <a id="proof-modal-open-btn" href="#" target="_blank" class="btn btn-ghost" style="padding: 0.4rem 1rem; font-size: 0.8rem;">
-          ‚Üó Open Original Image
+          ? Open Original Image
         </a>
         <button type="button" class="btn btn-primary" onclick="closeAdminProofModal()" style="padding: 0.4rem 1.4rem; font-size: 0.8rem;">
           Close Preview
@@ -2338,7 +2395,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminEditEventModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ‚úï
+          ?
         </button>
       </div>
 
@@ -2357,7 +2414,7 @@
           </div>
           <div>
             <label class="admin-label" for="edit-event-prize" style="font-weight: 800; color: #0F172A;">PRIZE POOL *</label>
-            <input type="text" id="edit-event-prize" class="admin-input" placeholder="e.g. ‚Çπ15,000" required>
+            <input type="text" id="edit-event-prize" class="admin-input" placeholder="e.g. ?15,000" required>
           </div>
         </div>
 
@@ -2400,7 +2457,7 @@
         </div>
 
         <!-- Poster Upload -->
-        <div class="admin-form-group" style="margin-bottom: 1.5rem; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1.1rem;">
+        <div class="admin-form-group" style="margin-bottom: 1.2rem; background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1.1rem;">
           <label class="admin-label" style="font-weight: 800; color: #0369A1; margin-bottom: 0.4rem;">
             OFFICIAL ARENA POSTER (UPLOAD FROM PHONE/PC OR URL)
           </label>
@@ -2416,6 +2473,50 @@
             <div>
               <div style="font-size: 0.78rem; font-weight: 700; color: #0F172A;">Poster Loaded Successfully</div>
               <div style="font-size: 0.72rem; color: #059669; font-weight: 600;">Will sync globally to all devices and live website</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Arena Rulebook (Event-Specific PDF) -->
+        <div class="admin-form-group" style="margin-bottom: 1.5rem; background: #F0F9FF; border: 1.5px solid #BAE6FD; border-radius: 12px; padding: 1.1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+            <label class="admin-label" style="font-weight: 800; color: #0369A1; margin: 0; display: flex; align-items: center; gap: 0.4rem;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              ARENA RULEBOOK (EVENT-SPECIFIC PDF)
+            </label>
+            <span id="edit-event-rulebook-status-badge" style="font-size: 0.72rem; font-weight: 700; color: #0284C7; background: #E0F2FE; padding: 0.15rem 0.5rem; border-radius: 9999px; border: 1px solid #BAE6FD;">
+              Using Master Fest PDF
+            </span>
+          </div>
+          <p style="font-size: 0.76rem; color: #0284C7; margin: 0 0 0.8rem; font-weight: 600;">
+            Upload an individual PDF rulebook for this arena, or enter a cloud link (Google Drive / S3). If none is uploaded, this arena uses the Master Fest Rulebook.
+          </p>
+
+          <input type="hidden" id="edit-event-rulebook-pdf">
+
+          <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap;">
+            <input type="url" id="edit-event-rulebook-url" class="admin-input" placeholder="Paste direct PDF URL or Google Drive link..." style="flex: 1; min-width: 240px; background: #FFFFFF; font-size: 0.82rem;">
+            <label class="btn btn-secondary" style="margin: 0; padding: 0.55rem 1rem; font-size: 0.78rem; cursor: pointer; white-space: nowrap; background: #0284C7; border-color: #0284C7; color: #FFF; font-weight: 800; border-radius: 8px;">
+              Upload PDF
+              <input type="file" id="edit-event-rulebook-file" accept="application/pdf" style="display: none;" onchange="handleAdminEventRulebookFileUpload(this.files[0], 'edit-modal')">
+            </label>
+          </div>
+
+          <div id="edit-event-rulebook-preview-wrap" style="display: none; align-items: center; justify-content: space-between; background: #FFFFFF; border: 1px solid #BAE6FD; padding: 0.6rem 0.8rem; border-radius: 8px; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.2rem;">??</span>
+              <div>
+                <div id="edit-event-rulebook-filename" style="font-size: 0.78rem; font-weight: 700; color: #0F172A;">Event Rulebook Attached</div>
+                <div style="font-size: 0.72rem; color: #059669; font-weight: 600;">Ready to save &amp; sync globally</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 0.4rem;">
+              <button type="button" class="btn btn-ghost" onclick="previewEventRulebookFromEditModal()" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #0284C7; border-color: #BAE6FD; font-weight: 700; background: #F0F9FF;">
+                Preview ?
+              </button>
+              <button type="button" class="btn btn-ghost" onclick="clearEventRulebookInEditModal()" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #EF4444; border-color: #FECACA; font-weight: 700; background: #FEF2F2;">
+                Remove PDF
+              </button>
             </div>
           </div>
         </div>
@@ -2446,7 +2547,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminEventVenueModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ‚úï
+          ?
         </button>
       </div>
 
@@ -2495,6 +2596,78 @@
   </div>
 
   <!-- ========================================================================
+       MODAL: DEDICATED INDIVIDUAL EVENT RULEBOOK (PDF) MANAGER
+       ======================================================================== -->
+  <div id="admin-event-rulebook-modal" class="admin-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
+    <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.25); position: relative; color: #0F172A;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 0.8rem; margin-bottom: 1.2rem;">
+        <div>
+          <span class="section-tag" style="margin: 0; color: #0369A1; background: #E0F2FE; border-color: #BAE6FD;">EVENT RULEBOOK PDF</span>
+          <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.25rem; margin: 0.2rem 0 0;" id="event-rulebook-modal-heading">
+            Manage Event Rulebook (PDF)
+          </h3>
+        </div>
+        <button type="button" class="btn btn-ghost" onclick="closeAdminEventRulebookModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
+          ?
+        </button>
+      </div>
+
+      <input type="hidden" id="event-rulebook-target-id">
+      <input type="hidden" id="event-rulebook-data-pdf">
+
+      <div style="margin-bottom: 1.2rem; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 1rem;">
+        <div style="font-size: 0.74rem; color: #64748B; font-weight: 700; text-transform: uppercase; margin-bottom: 0.3rem;">Selected Arena</div>
+        <div id="event-rulebook-modal-event-name" style="font-size: 1.05rem; font-weight: 800; color: #0F172A;">ó</div>
+        <div id="event-rulebook-modal-status-text" style="font-size: 0.8rem; color: #0284C7; font-weight: 600; margin-top: 0.2rem;">
+          Currently using Master Fest Rulebook
+        </div>
+      </div>
+
+      <!-- File Upload Box -->
+      <div style="margin-bottom: 1.2rem; border: 2px dashed #BAE6FD; background: #F0F9FF; border-radius: 12px; padding: 1.4rem; text-align: center;">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="2" style="margin-bottom: 0.5rem;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <div style="font-weight: 800; font-size: 0.92rem; color: #0F172A; margin-bottom: 0.2rem;">Upload PDF Document</div>
+        <div style="font-size: 0.78rem; color: #64748B; margin-bottom: 0.8rem;">Supports official tournament rulebooks, rule sheets (.pdf up to 10MB)</div>
+        <input type="file" id="event-rulebook-modal-file-input" accept="application/pdf" style="display: none;" onchange="handleAdminEventRulebookFileUpload(this.files[0], 'quick-modal')">
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('event-rulebook-modal-file-input').click()" style="font-size: 0.82rem; font-weight: 700; background: #0284C7; border-color: #0284C7;">
+          Choose PDF File from Device
+        </button>
+      </div>
+
+      <!-- External URL Option -->
+      <div class="admin-form-group" style="margin-bottom: 1.2rem;">
+        <label class="admin-label" for="event-rulebook-modal-url" style="font-weight: 800; color: #0F172A; font-size: 0.82rem;">
+          OR PASTE EXTERNAL CLOUD / DRIVE LINK
+        </label>
+        <input type="url" id="event-rulebook-modal-url" class="admin-input" placeholder="https://drive.google.com/... or https://.../event-rulebook.pdf">
+        <span style="font-size: 0.72rem; color: #64748B;">If you host the rulebook on Google Drive or OneDrive, paste the public share link here.</span>
+      </div>
+
+      <!-- Preview & Clear Actions -->
+      <div id="event-rulebook-modal-preview-bar" style="display: flex; justify-content: space-between; align-items: center; background: #F1F5F9; border: 1px solid #CBD5E1; border-radius: 8px; padding: 0.6rem 0.8rem; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.5rem;">
+        <span id="event-rulebook-modal-file-info" style="font-size: 0.78rem; font-weight: 700; color: #0F172A;">
+          No custom PDF attached
+        </span>
+        <div style="display: flex; gap: 0.4rem;">
+          <button type="button" class="btn btn-ghost" onclick="previewEventRulebookFromQuickModal()" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #0284C7; font-weight: 700; background: #FFF; border: 1px solid #CBD5E1;">
+            Preview ?
+          </button>
+          <button type="button" class="btn btn-ghost" onclick="clearEventRulebookInQuickModal()" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #EF4444; font-weight: 700; background: #FFF; border: 1px solid #FECACA;">
+            Remove
+          </button>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.8rem; border-top: 1.5px solid #E2E8F0; padding-top: 1rem;">
+        <button type="button" class="btn btn-ghost" onclick="closeAdminEventRulebookModal()" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="saveAdminEventRulebookModal()" style="padding: 0.5rem 1.6rem; font-size: 0.85rem; font-weight: 800; background: #000000; color: #FFFFFF;">
+          SAVE RULEBOOK &amp; SYNC CLOUD
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
        MODAL: ADD / EDIT TEAM MEMBER & VOLUNTEER
        ======================================================================== -->
   <div id="admin-team-member-modal" class="admin-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
@@ -2507,7 +2680,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminTeamMemberModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ‚úï
+          ?
         </button>
       </div>
 
@@ -2608,7 +2781,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminCoordModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ‚úï
+          ?
         </button>
       </div>
 
@@ -2633,11 +2806,11 @@
             <label class="admin-label" style="font-size: 0.76rem; color: #475569; font-weight: 700;">QUICK ASSIGN PRESET</label>
             <select id="coord1-quick-select" class="admin-input" style="font-size: 0.82rem; background: #FFFFFF;" onchange="onCoordPresetSelected(1, this.value)">
               <option value="">-- Choose from Core Committee or type below --</option>
-              <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ¬∑ Arenium.official@gmail.com)</option>
-              <option value="vimal">Vimal Raj (+91 96201 92249 ¬∑ Arenium.official@gmail.com)</option>
-              <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ¬∑ Arenium.official@gmail.com)</option>
-              <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ¬∑ Arenium.official@gmail.com)</option>
-              <option value="keren">Ms. Keren Lois Daniel (SOIS Office ¬∑ Arenium.official@gmail.com)</option>
+              <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ∑ Arenium.official@gmail.com)</option>
+              <option value="vimal">Vimal Raj (+91 96201 92249 ∑ Arenium.official@gmail.com)</option>
+              <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ∑ Arenium.official@gmail.com)</option>
+              <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ∑ Arenium.official@gmail.com)</option>
+              <option value="keren">Ms. Keren Lois Daniel (SOIS Office ∑ Arenium.official@gmail.com)</option>
             </select>
           </div>
 
@@ -2694,11 +2867,11 @@
               <label class="admin-label" style="font-size: 0.76rem; color: #475569; font-weight: 700;">QUICK ASSIGN PRESET</label>
               <select id="coord2-quick-select" class="admin-input" style="font-size: 0.82rem; background: #FFFFFF;" onchange="onCoordPresetSelected(2, this.value)">
                 <option value="">-- Choose from Core Committee or type below --</option>
-                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ¬∑ Arenium.official@gmail.com)</option>
-                <option value="vimal">Vimal Raj (+91 96201 92249 ¬∑ Arenium.official@gmail.com)</option>
-                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ¬∑ Arenium.official@gmail.com)</option>
-                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ¬∑ Arenium.official@gmail.com)</option>
-                <option value="keren">Ms. Keren Lois Daniel (SOIS Office ¬∑ Arenium.official@gmail.com)</option>
+                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ∑ Arenium.official@gmail.com)</option>
+                <option value="vimal">Vimal Raj (+91 96201 92249 ∑ Arenium.official@gmail.com)</option>
+                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ∑ Arenium.official@gmail.com)</option>
+                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ∑ Arenium.official@gmail.com)</option>
+                <option value="keren">Ms. Keren Lois Daniel (SOIS Office ∑ Arenium.official@gmail.com)</option>
               </select>
             </div>
 
@@ -2756,11 +2929,11 @@
               <label class="admin-label" style="font-size: 0.76rem; color: #475569; font-weight: 700;">QUICK ASSIGN PRESET</label>
               <select id="coord3-quick-select" class="admin-input" style="font-size: 0.82rem; background: #FFFFFF;" onchange="onCoordPresetSelected(3, this.value)">
                 <option value="">-- Choose from Core Committee or type below --</option>
-                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ¬∑ Arenium.official@gmail.com)</option>
-                <option value="vimal">Vimal Raj (+91 96201 92249 ¬∑ Arenium.official@gmail.com)</option>
-                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ¬∑ Arenium.official@gmail.com)</option>
-                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ¬∑ Arenium.official@gmail.com)</option>
-                <option value="keren">Ms. Keren Lois Daniel (SOIS Office ¬∑ Arenium.official@gmail.com)</option>
+                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ∑ Arenium.official@gmail.com)</option>
+                <option value="vimal">Vimal Raj (+91 96201 92249 ∑ Arenium.official@gmail.com)</option>
+                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ∑ Arenium.official@gmail.com)</option>
+                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ∑ Arenium.official@gmail.com)</option>
+                <option value="keren">Ms. Keren Lois Daniel (SOIS Office ∑ Arenium.official@gmail.com)</option>
               </select>
             </div>
 
@@ -2829,7 +3002,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminCoordinatorEditModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ‚úï
+          ?
         </button>
       </div>
 
