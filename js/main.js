@@ -1856,6 +1856,55 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
+const TEAM_CATEGORY_META = {
+  lead: {
+    badgeUpper: "STUDENT LEAD",
+    badgeTitle: "Student Lead",
+    bg: "#E0F2FE",
+    color: "#0284C7",
+    border: "#BAE6FD"
+  },
+  faculty: {
+    badgeUpper: "FACULTY MENTOR",
+    badgeTitle: "Faculty Mentor",
+    bg: "#FEF3C7",
+    color: "#D97706",
+    border: "#FDE68A"
+  },
+  volunteer: {
+    badgeUpper: "VOLUNTEER & CREW",
+    badgeTitle: "Volunteer & Crew",
+    bg: "#F1F5F9",
+    color: "#475569",
+    border: "#CBD5E1"
+  },
+  "event-head": {
+    badgeUpper: "EVENT HEAD",
+    badgeTitle: "Event Head",
+    bg: "#EDE9FE",
+    color: "#7C3AED",
+    border: "#DDD6FE"
+  },
+  "student-coordinator": {
+    badgeUpper: "STUDENT COORDINATOR",
+    badgeTitle: "Student Coordinator",
+    bg: "#DCFCE7",
+    color: "#15803D",
+    border: "#BBF7D0"
+  },
+  "student-volunteer": {
+    badgeUpper: "STUDENT VOLUNTEER",
+    badgeTitle: "Student Volunteer",
+    bg: "#F1F5F9",
+    color: "#475569",
+    border: "#CBD5E1"
+  }
+};
+
+function getTeamCategoryMeta(category) {
+  return TEAM_CATEGORY_META[category] || TEAM_CATEGORY_META.volunteer;
+}
+
 function initOurTeamPage(db) {
   try {
     const grid = document.getElementById("our-team-grid");
@@ -1907,25 +1956,12 @@ function initOurTeamPage(db) {
         card.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.04)";
         card.style.transition = "transform 0.25s ease, box-shadow 0.25s ease";
 
+        const catMeta = getTeamCategoryMeta(m.category);
         const badgeText = (m.badge && m.badge.trim())
           ? m.badge.trim().toUpperCase()
-          : (m.category === "lead" ? "STUDENT LEAD" : (m.category === "faculty" ? "FACULTY MENTOR" : "VOLUNTEER & CREW"));
+          : catMeta.badgeUpper;
 
-        let badgeBg = "#F1F5F9";
-        let badgeColor = "#475569";
-        let badgeBorder = "#CBD5E1";
-
-        if (m.category === "lead") {
-          badgeBg = "#E0F2FE";
-          badgeColor = "#0284C7";
-          badgeBorder = "#BAE6FD";
-        } else if (m.category === "faculty") {
-          badgeBg = "#FEF3C7";
-          badgeColor = "#D97706";
-          badgeBorder = "#FDE68A";
-        }
-
-        const catBadge = `<span class="team-card-badge-pill" style="background: ${badgeBg}; color: ${badgeColor}; border: 1px solid ${badgeBorder}; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">${escapeHtml(badgeText)}</span>`;
+        const catBadge = `<span class="team-card-badge-pill" style="background: ${catMeta.bg}; color: ${catMeta.color}; border: 1px solid ${catMeta.border}; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">${escapeHtml(badgeText)}</span>`;
 
         const photoSrc = resolveAssetPath(m.photo, "images/coord-generic.svg");
         const email = m.email || "Arenium.official@gmail.com";
@@ -4808,16 +4844,12 @@ function renderAdminTeam(db) {
   list.forEach(m => {
     const tr = document.createElement("tr");
 
+    const catMeta = getTeamCategoryMeta(m.category);
     const badgeText = (m.badge && m.badge.trim())
       ? m.badge.trim()
-      : (m.category === "lead" ? "Student Lead" : (m.category === "faculty" ? "Faculty Mentor" : "Volunteer & Crew"));
+      : catMeta.badgeTitle;
 
-    let catBadge = `<span class="badge" style="background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; font-weight: 700;">${escapeHtml(badgeText)}</span>`;
-    if (m.category === "lead") {
-      catBadge = `<span class="badge" style="background: #E0F2FE; color: #0284C7; border: 1px solid #BAE6FD; font-weight: 700;">${escapeHtml(badgeText)}</span>`;
-    } else if (m.category === "faculty") {
-      catBadge = `<span class="badge" style="background: #FEF3C7; color: #D97706; border: 1px solid #FDE68A; font-weight: 700;">${escapeHtml(badgeText)}</span>`;
-    }
+    const catBadge = `<span class="badge" style="background: ${catMeta.bg}; color: ${catMeta.color}; border: 1px solid ${catMeta.border}; font-weight: 700;">${escapeHtml(badgeText)}</span>`;
 
     const photoSrc = resolveAssetPath(m.photo, "images/coord-generic.svg");
     const descText = (m.bio || m.description || "—");
@@ -4865,10 +4897,9 @@ function handleTeamCategoryChange(cat) {
   const badgeInput = document.getElementById("team-member-badge");
   if (!badgeInput) return;
   const currentVal = badgeInput.value.trim().toUpperCase();
-  if (!currentVal || currentVal === "VOLUNTEER & CREW" || currentVal === "STUDENT LEAD" || currentVal === "FACULTY MENTOR") {
-    if (cat === "lead") badgeInput.value = "STUDENT LEAD";
-    else if (cat === "faculty") badgeInput.value = "FACULTY MENTOR";
-    else badgeInput.value = "VOLUNTEER & CREW";
+  const isDefaultBadge = !currentVal || Object.values(TEAM_CATEGORY_META).some(meta => meta.badgeUpper === currentVal);
+  if (isDefaultBadge) {
+    badgeInput.value = getTeamCategoryMeta(cat).badgeUpper;
   }
 }
 window.handleTeamCategoryChange = handleTeamCategoryChange;
@@ -4896,8 +4927,8 @@ function openAdminTeamMemberModal(id) {
     if (heading) heading.textContent = `Edit Team Member (${m.name})`;
     if (idInput) idInput.value = m.id;
     if (nameInput) nameInput.value = m.name || "";
-    if (catSelect) catSelect.value = m.category || "volunteer";
-    if (badgeInput) badgeInput.value = m.badge || (m.category === "lead" ? "STUDENT LEAD" : (m.category === "faculty" ? "FACULTY MENTOR" : "VOLUNTEER & CREW"));
+    if (catSelect) catSelect.value = TEAM_CATEGORY_META[m.category] ? m.category : "volunteer";
+    if (badgeInput) badgeInput.value = m.badge || getTeamCategoryMeta(m.category).badgeUpper;
     if (roleInput) roleInput.value = m.role || "";
     if (descInput) descInput.value = m.bio || m.description || "";
     if (phoneInput) phoneInput.value = m.phone || "";
@@ -4979,7 +5010,7 @@ async function saveAdminTeamMemberModal() {
     return;
   }
 
-  const defaultBadge = (category === "lead" ? "STUDENT LEAD" : (category === "faculty" ? "FACULTY MENTOR" : "VOLUNTEER & CREW"));
+  const defaultBadge = getTeamCategoryMeta(category).badgeUpper;
   const memberPayload = {
     id: id || `team-mem-${Date.now()}`,
     name,

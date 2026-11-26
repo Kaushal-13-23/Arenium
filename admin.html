@@ -23,7 +23,7 @@
 
     <style>
     /* ========================================================================
-       ARENIUM'27 SUPERADMIN CONSOLE ó DEDICATED CRISP WHITE / LIGHT SYSTEM
+       ARENIUM'27 SUPERADMIN CONSOLE ‚Äî DEDICATED CRISP WHITE / LIGHT SYSTEM
        Clean, modern, high-contrast executive light dashboard
        ======================================================================== */
     
@@ -856,12 +856,12 @@
       </div>
 
       <div class="admin-gateway-badge">
-         SECURITY CLEARANCE REQUIRED ∑ LEVEL 5
+         SECURITY CLEARANCE REQUIRED ¬∑ LEVEL 5
       </div>
 
       <h1 class="admin-gateway-title">SUPERADMIN GATEWAY</h1>
       <p class="admin-gateway-subtitle">
-        School of Information Science (SOIS) ∑ Presidency University<br>
+        School of Information Science (SOIS) ¬∑ Presidency University<br>
         Access restricted to authorized fest committee leads.
       </p>
 
@@ -870,7 +870,7 @@
       </div>
 
       <div id="admin-auth-success" class="admin-auth-success" role="alert">
-         ACCESS GRANTED ∑ INITIALIZING TERMINAL...
+         ACCESS GRANTED ¬∑ INITIALIZING TERMINAL...
       </div>
 
       <form id="admin-login-form" onsubmit="event.preventDefault(); submitAdminLogin();">
@@ -993,7 +993,7 @@
         if (nameEl) nameEl.textContent = admin.name;
         if (roleEl) roleEl.textContent = admin.role;
         if (ovNameEl) ovNameEl.textContent = admin.name;
-        if (ovMetaEl) ovMetaEl.textContent = `${admin.email} ∑ ${admin.role}`;
+        if (ovMetaEl) ovMetaEl.textContent = `${admin.email} ¬∑ ${admin.role}`;
       }
 
       function checkAuth() {
@@ -1092,7 +1092,7 @@
           if (err) err.style.display = "none";
           if (succ) {
             succ.style.display = "block";
-            succ.textContent = ` ACCESS GRANTED ∑ WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
+            succ.textContent = ` ACCESS GRANTED ¬∑ WELCOME ${matched.name.toUpperCase()} (${matched.role.toUpperCase()})...`;
           }
 
           setTimeout(function() {
@@ -1178,7 +1178,7 @@
              VIEW LIVE WEBSITE &gt;
           </a>
           <a href="https://arenium-27-core.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="padding: 0.5rem 0.9rem; font-size: 0.75rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF; font-weight: 800;" title="Open ARENIUM 27 CORE Operations Platform">
-             ARENIUM CORE ?
+             ARENIUM CORE ‚Üó
           </a>
           <button id="admin-cloud-sync-btn" type="button" class="btn btn-secondary" onclick="syncFestConfigToCloudManual()" style="padding: 0.5rem 0.9rem; font-size: 0.75rem; background: #059669; border-color: #059669; color: #FFFFFF; font-weight: 800;" title="Push all settings, events and coordinators to Cloud MongoDB Atlas so all devices get the update">
              SYNC CLOUD
@@ -1235,7 +1235,7 @@
          Uploaded Certificates
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-announcements" onclick="switchAdminTab('tab-announcements')">
-         ?1.5L Ticker &amp; Alerts
+         ‚Çπ1.5L Ticker &amp; Alerts
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-sponsors" onclick="switchAdminTab('tab-sponsors')">
          Sponsors &amp; Partners
@@ -1272,11 +1272,11 @@
             <div>
               <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">CURRENT ACTIVE ADMINISTRATOR</div>
               <div id="overview-admin-name" style="font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Kaushal Kumar Singh</div>
-              <div id="overview-admin-meta" style="font-family: var(--font-mono); font-size: 0.78rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600;">singhkaushal.2507@gmail.com ∑ Finance &amp; Registration Manager</div>
+              <div id="overview-admin-meta" style="font-family: var(--font-mono); font-size: 0.78rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600;">singhkaushal.2507@gmail.com ¬∑ Finance &amp; Registration Manager</div>
             </div>
           </div>
           <div style="display: flex; align-items: center; gap: 0.6rem;">
-            <span class="admin-quick-pill-badge" style="background: rgba(0, 255, 170, 0.15); border-color: #00ffaa; color: #00ffaa;">? ACTIVE SESSION</span>
+            <span class="admin-quick-pill-badge" style="background: rgba(0, 255, 170, 0.15); border-color: #00ffaa; color: #00ffaa;">‚óè ACTIVE SESSION</span>
             <button class="btn btn-ghost" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;" onclick="adminLogout()"> SWITCH ADMIN</button>
           </div>
         </div>
@@ -1381,7 +1381,7 @@
                 Upload Master PDF
               </button>
               <button type="button" class="btn btn-secondary" onclick="openMasterRulebookPreview()" style="font-size: 0.82rem; font-weight: 700; background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0F172A;">
-                Preview Rulebook ?
+                Preview Rulebook ‚Üó
               </button>
               <button type="button" class="btn btn-ghost" onclick="resetMasterRulebookToDefault()" style="font-size: 0.82rem; color: #EF4444; border-color: #FECACA;" title="Reset to default rulebook.pdf">
                 Reset Default
@@ -1455,7 +1455,7 @@
               + Add Walk-in
             </button>
             <a href="register.html" target="_blank" class="btn btn-ghost">
-              ? Live Portal View
+              ‚Üó Live Portal View
             </a>
           </div>
         </div>
@@ -1515,7 +1515,7 @@
                   INTERNAL PARTICIPANTS PAYMENT LINK (PRESIDENCY UNIVERSITY)
                 </label>
                 <span id="gateway-status-badge-internal" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
-                  ? ACTIVE
+                  ‚óè ACTIVE
                 </span>
               </div>
 
@@ -1543,7 +1543,7 @@
                   EXTERNAL PARTICIPANTS EVENT / REGISTRATION LINK (OTHER COLLEGES)
                 </label>
                 <span id="gateway-status-badge-external" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #DCFCE7; color: #166534; border: 1.5px solid #10B981;">
-                  ? ACTIVE
+                  ‚óè ACTIVE
                 </span>
               </div>
 
@@ -1836,7 +1836,7 @@
           </div>
           <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
             <a href="team.html" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="font-size: 0.82rem; font-weight: 700; padding: 0.55rem 1rem; border: 1.5px solid #CBD5E1; color: #0284C7; text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
-              ?? View Public Page ?
+              üëÅ View Public Page ‚Üó
             </a>
             <button type="button" class="btn btn-primary" onclick="openAdminTeamMemberModal('')" style="font-size: 0.84rem; font-weight: 800; padding: 0.55rem 1.25rem; display: flex; align-items: center; gap: 0.5rem; background: #0284C7; border-color: #0284C7; color: #FFFFFF;">
               + Add Team Member / Volunteer
@@ -1971,9 +1971,9 @@
               <div class="admin-form-group" style="margin-bottom: 0;">
                 <label class="admin-label" for="admin-cert-award">CERTIFICATE TYPE / TIER <span style="color: var(--neon-pink);">*</span></label>
                 <select id="admin-cert-award" class="admin-select" required>
-                  <option value="CHAMPION ∑ FIRST PLACE"> CHAMPION ∑ FIRST PLACE</option>
-                  <option value="RUNNER UP ∑ SECOND PLACE"> RUNNER UP ∑ SECOND PLACE</option>
-                  <option value="2ND RUNNER UP ∑ THIRD PLACE"> 2ND RUNNER UP ∑ THIRD PLACE</option>
+                  <option value="CHAMPION ¬∑ FIRST PLACE"> CHAMPION ¬∑ FIRST PLACE</option>
+                  <option value="RUNNER UP ¬∑ SECOND PLACE"> RUNNER UP ¬∑ SECOND PLACE</option>
+                  <option value="2ND RUNNER UP ¬∑ THIRD PLACE"> 2ND RUNNER UP ¬∑ THIRD PLACE</option>
                   <option value="SPECIAL MERIT & INNOVATION"> SPECIAL MERIT & INNOVATION</option>
                   <option value="CERTIFICATE OF MERIT & PARTICIPATION" selected> CERTIFICATE OF MERIT & PARTICIPATION</option>
                 </select>
@@ -2148,7 +2148,7 @@
                 INTERNAL PARTICIPANTS PAYMENT GATEWAY LINK (PRESIDENCY UNIVERSITY)
               </label>
               <span id="admin-setting-gateway-status-internal" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
-                ? ACTIVE
+                ‚óè ACTIVE
               </span>
             </div>
             <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
@@ -2171,7 +2171,7 @@
                 EXTERNAL PARTICIPANTS EVENT / REGISTRATION LINK (OTHER COLLEGES)
               </label>
               <span id="admin-setting-gateway-status-external" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(16, 185, 129, 0.2); color: #10B981; border: 1px solid #10B981;">
-                ? ACTIVE
+                ‚óè ACTIVE
               </span>
             </div>
             <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
@@ -2242,31 +2242,31 @@
                   <td><strong>Kaushal Kumar Singh</strong></td>
                   <td><code>singhkaushal.2507@gmail.com</code></td>
                   <td>Finance &amp; Registration Manager</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
                 </tr>
                 <tr>
                   <td><strong>Abhyas Kathuria</strong></td>
                   <td><code>Kathuriaabhyas@gmail.com</code></td>
                   <td>Technical Manager</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
                 </tr>
                 <tr>
                   <td><strong>Ashlin Siddharth</strong></td>
                   <td><code>ashlinsiddharth1@gmail.com</code></td>
                   <td>Marketing &amp; Registration Manager</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
                 </tr>
                 <tr>
                   <td><strong>Vimal Raj</strong></td>
                   <td><code>vimalrajsnkk@gmail.com</code></td>
                   <td>Event Manager</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
                 </tr>
                 <tr>
                   <td><strong>Ms. Keren Lois Daniel</strong></td>
                   <td><code>kerenlois@presidencyuniversity.in</code></td>
                   <td>Faculty Co-ordinator &amp; Programme Lead</td>
-                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">? LEVEL 5 ACTIVE</span></td>
+                  <td><span class="admin-quick-pill-badge" style="color: #00ffaa; border-color: #00ffaa;">‚óè LEVEL 5 ACTIVE</span></td>
                 </tr>
               </tbody>
             </table>
@@ -2313,7 +2313,7 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_RULEBOOK_UPLOAD_V50"></script>
+  <script src="js/main.js?v=2027_TEAM_CATEGORIES_V51"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
@@ -2341,7 +2341,7 @@
 
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.2rem; flex-wrap: wrap; gap: 0.8rem;">
         <a id="proof-modal-open-btn" href="#" target="_blank" class="btn btn-ghost" style="padding: 0.4rem 1rem; font-size: 0.8rem;">
-          ? Open Original Image
+          ‚Üó Open Original Image
         </a>
         <button type="button" class="btn btn-primary" onclick="closeAdminProofModal()" style="padding: 0.4rem 1.4rem; font-size: 0.8rem;">
           Close Preview
@@ -2395,7 +2395,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminEditEventModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ?
+          ‚úï
         </button>
       </div>
 
@@ -2414,7 +2414,7 @@
           </div>
           <div>
             <label class="admin-label" for="edit-event-prize" style="font-weight: 800; color: #0F172A;">PRIZE POOL *</label>
-            <input type="text" id="edit-event-prize" class="admin-input" placeholder="e.g. ?15,000" required>
+            <input type="text" id="edit-event-prize" class="admin-input" placeholder="e.g. ‚Çπ15,000" required>
           </div>
         </div>
 
@@ -2504,7 +2504,7 @@
 
           <div id="edit-event-rulebook-preview-wrap" style="display: none; align-items: center; justify-content: space-between; background: #FFFFFF; border: 1px solid #BAE6FD; padding: 0.6rem 0.8rem; border-radius: 8px; flex-wrap: wrap; gap: 0.5rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
-              <span style="font-size: 1.2rem;">??</span>
+              <span style="font-size: 1.2rem;">üìÑ</span>
               <div>
                 <div id="edit-event-rulebook-filename" style="font-size: 0.78rem; font-weight: 700; color: #0F172A;">Event Rulebook Attached</div>
                 <div style="font-size: 0.72rem; color: #059669; font-weight: 600;">Ready to save &amp; sync globally</div>
@@ -2512,7 +2512,7 @@
             </div>
             <div style="display: flex; gap: 0.4rem;">
               <button type="button" class="btn btn-ghost" onclick="previewEventRulebookFromEditModal()" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #0284C7; border-color: #BAE6FD; font-weight: 700; background: #F0F9FF;">
-                Preview ?
+                Preview ‚Üó
               </button>
               <button type="button" class="btn btn-ghost" onclick="clearEventRulebookInEditModal()" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #EF4444; border-color: #FECACA; font-weight: 700; background: #FEF2F2;">
                 Remove PDF
@@ -2547,7 +2547,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminEventVenueModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ?
+          ‚úï
         </button>
       </div>
 
@@ -2608,7 +2608,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminEventRulebookModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ?
+          ‚úï
         </button>
       </div>
 
@@ -2617,7 +2617,7 @@
 
       <div style="margin-bottom: 1.2rem; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 1rem;">
         <div style="font-size: 0.74rem; color: #64748B; font-weight: 700; text-transform: uppercase; margin-bottom: 0.3rem;">Selected Arena</div>
-        <div id="event-rulebook-modal-event-name" style="font-size: 1.05rem; font-weight: 800; color: #0F172A;">ó</div>
+        <div id="event-rulebook-modal-event-name" style="font-size: 1.05rem; font-weight: 800; color: #0F172A;">‚Äî</div>
         <div id="event-rulebook-modal-status-text" style="font-size: 0.8rem; color: #0284C7; font-weight: 600; margin-top: 0.2rem;">
           Currently using Master Fest Rulebook
         </div>
@@ -2650,7 +2650,7 @@
         </span>
         <div style="display: flex; gap: 0.4rem;">
           <button type="button" class="btn btn-ghost" onclick="previewEventRulebookFromQuickModal()" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #0284C7; font-weight: 700; background: #FFF; border: 1px solid #CBD5E1;">
-            Preview ?
+            Preview ‚Üó
           </button>
           <button type="button" class="btn btn-ghost" onclick="clearEventRulebookInQuickModal()" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; color: #EF4444; font-weight: 700; background: #FFF; border: 1px solid #FECACA;">
             Remove
@@ -2680,7 +2680,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminTeamMemberModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ?
+          ‚úï
         </button>
       </div>
 
@@ -2699,6 +2699,9 @@
               <option value="volunteer">Student Volunteer / Crew</option>
               <option value="lead">Student Lead / Coordinator</option>
               <option value="faculty">Faculty Mentor / Patron</option>
+              <option value="event-head">Event Head</option>
+              <option value="student-coordinator">Student Coordinator</option>
+              <option value="student-volunteer">Student Volunteer</option>
             </select>
           </div>
           <div>
@@ -2781,7 +2784,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminCoordModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ?
+          ‚úï
         </button>
       </div>
 
@@ -2806,11 +2809,11 @@
             <label class="admin-label" style="font-size: 0.76rem; color: #475569; font-weight: 700;">QUICK ASSIGN PRESET</label>
             <select id="coord1-quick-select" class="admin-input" style="font-size: 0.82rem; background: #FFFFFF;" onchange="onCoordPresetSelected(1, this.value)">
               <option value="">-- Choose from Core Committee or type below --</option>
-              <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ∑ Arenium.official@gmail.com)</option>
-              <option value="vimal">Vimal Raj (+91 96201 92249 ∑ Arenium.official@gmail.com)</option>
-              <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ∑ Arenium.official@gmail.com)</option>
-              <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ∑ Arenium.official@gmail.com)</option>
-              <option value="keren">Ms. Keren Lois Daniel (SOIS Office ∑ Arenium.official@gmail.com)</option>
+              <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ¬∑ Arenium.official@gmail.com)</option>
+              <option value="vimal">Vimal Raj (+91 96201 92249 ¬∑ Arenium.official@gmail.com)</option>
+              <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ¬∑ Arenium.official@gmail.com)</option>
+              <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ¬∑ Arenium.official@gmail.com)</option>
+              <option value="keren">Ms. Keren Lois Daniel (SOIS Office ¬∑ Arenium.official@gmail.com)</option>
             </select>
           </div>
 
@@ -2867,11 +2870,11 @@
               <label class="admin-label" style="font-size: 0.76rem; color: #475569; font-weight: 700;">QUICK ASSIGN PRESET</label>
               <select id="coord2-quick-select" class="admin-input" style="font-size: 0.82rem; background: #FFFFFF;" onchange="onCoordPresetSelected(2, this.value)">
                 <option value="">-- Choose from Core Committee or type below --</option>
-                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ∑ Arenium.official@gmail.com)</option>
-                <option value="vimal">Vimal Raj (+91 96201 92249 ∑ Arenium.official@gmail.com)</option>
-                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ∑ Arenium.official@gmail.com)</option>
-                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ∑ Arenium.official@gmail.com)</option>
-                <option value="keren">Ms. Keren Lois Daniel (SOIS Office ∑ Arenium.official@gmail.com)</option>
+                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ¬∑ Arenium.official@gmail.com)</option>
+                <option value="vimal">Vimal Raj (+91 96201 92249 ¬∑ Arenium.official@gmail.com)</option>
+                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ¬∑ Arenium.official@gmail.com)</option>
+                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ¬∑ Arenium.official@gmail.com)</option>
+                <option value="keren">Ms. Keren Lois Daniel (SOIS Office ¬∑ Arenium.official@gmail.com)</option>
               </select>
             </div>
 
@@ -2929,11 +2932,11 @@
               <label class="admin-label" style="font-size: 0.76rem; color: #475569; font-weight: 700;">QUICK ASSIGN PRESET</label>
               <select id="coord3-quick-select" class="admin-input" style="font-size: 0.82rem; background: #FFFFFF;" onchange="onCoordPresetSelected(3, this.value)">
                 <option value="">-- Choose from Core Committee or type below --</option>
-                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ∑ Arenium.official@gmail.com)</option>
-                <option value="vimal">Vimal Raj (+91 96201 92249 ∑ Arenium.official@gmail.com)</option>
-                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ∑ Arenium.official@gmail.com)</option>
-                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ∑ Arenium.official@gmail.com)</option>
-                <option value="keren">Ms. Keren Lois Daniel (SOIS Office ∑ Arenium.official@gmail.com)</option>
+                <option value="kaushal">Kaushal Kumar Singh (+91 87977 86686 ¬∑ Arenium.official@gmail.com)</option>
+                <option value="vimal">Vimal Raj (+91 96201 92249 ¬∑ Arenium.official@gmail.com)</option>
+                <option value="ashlin">Ashlin Siddharth (+91 91087 40761 ¬∑ Arenium.official@gmail.com)</option>
+                <option value="abhyas">Abhyas Kathuria (+91 85958 48421 ¬∑ Arenium.official@gmail.com)</option>
+                <option value="keren">Ms. Keren Lois Daniel (SOIS Office ¬∑ Arenium.official@gmail.com)</option>
               </select>
             </div>
 
@@ -3002,7 +3005,7 @@
           </h3>
         </div>
         <button type="button" class="btn btn-ghost" onclick="closeAdminCoordinatorEditModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close">
-          ?
+          ‚úï
         </button>
       </div>
 
