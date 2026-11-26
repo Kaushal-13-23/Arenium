@@ -12357,3 +12357,82 @@ span#team-page-pill.section-tag,
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
+
+/* ==========================================================================
+   HOMEPAGE BOTTOM-LEFT FLOATING SITE VISIT COUNTER PILL
+   ========================================================================== */
+#site-visit-pill.site-visit-pill {
+  position: fixed !important;
+  left: 1.15rem !important;
+  bottom: 1.15rem !important;
+  z-index: 950 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.48rem 0.9rem !important;
+  border-radius: 9999px !important;
+  background: rgba(15, 23, 42, 0.92) !important;
+  background-color: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.45) !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28) !important;
+  width: fit-content !important;
+  max-width: calc(100vw - 2.3rem) !important;
+  line-height: 1.2 !important;
+}
+
+#site-visit-pill.site-visit-pill.is-hidden {
+  display: none !important;
+}
+
+#site-visit-pill .site-visit-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #10B981 !important;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.85) !important;
+  flex-shrink: 0 !important;
+}
+
+#site-visit-pill .site-visit-label {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #CBD5E1 !important;
+  -webkit-text-fill-color: #CBD5E1 !important;
+  white-space: nowrap !important;
+}
+
+#site-visit-pill .site-visit-count {
+  font-family: 'Inter', -apple-system, sans-serif !important;
+  font-size: 0.78rem !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-variant-numeric: tabular-nums !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 640px) {
+  #site-visit-pill.site-visit-pill {
+    left: 0.75rem !important;
+    bottom: 0.75rem !important;
+    padding: 0.4rem 0.75rem !important;
+    gap: 0.4rem !important;
+  }
+  #site-visit-pill .site-visit-label {
+    font-size: 0.65rem !important;
+  }
+  #site-visit-pill .site-visit-count {
+    font-size: 0.74rem !important;
+  }
+}
+
+@media print {
+  #site-visit-pill.site-visit-pill {
+    display: none !important;
+  }
+}

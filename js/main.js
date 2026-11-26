@@ -1259,6 +1259,53 @@ window.ThemeEngine = ThemeEngine;
 // 2. CORE SYSTEM INITIALISATION
 // ==========================================================================
 
+async function initSiteVisitCounter() {
+  const pillEl = document.getElementById("site-visit-pill");
+  const countEl = document.getElementById("site-visit-count");
+  if (!pillEl || !countEl) return;
+
+  const NAMESPACE = "arenium27-sois-presidency";
+  const KEY = "site-visits";
+  const SESSION_FLAG = "arenium27_visit_counted_v1";
+
+  let alreadyCounted = false;
+  try {
+    alreadyCounted = sessionStorage.getItem(SESSION_FLAG) === "1";
+  } catch (e) {}
+
+  const fetchCounter = async (action) => {
+    const res = await fetch(`https://abacus.jasoncameron.dev/${action}/${NAMESPACE}/${KEY}`, {
+      cache: "no-store"
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (typeof data.value !== "number" || !Number.isFinite(data.value)) {
+      throw new Error("Invalid counter payload");
+    }
+    return data.value;
+  };
+
+  try {
+    const value = await fetchCounter(alreadyCounted ? "get" : "hit");
+    countEl.textContent = value.toLocaleString("en-IN");
+    if (!alreadyCounted) {
+      try {
+        sessionStorage.setItem(SESSION_FLAG, "1");
+      } catch (e) {}
+    }
+  } catch (err) {
+    if (alreadyCounted) {
+      try {
+        const value = await fetchCounter("hit");
+        countEl.textContent = value.toLocaleString("en-IN");
+        return;
+      } catch (e) {}
+    }
+    pillEl.classList.add("is-hidden");
+  }
+}
+window.initSiteVisitCounter = initSiteVisitCounter;
+
 document.addEventListener("DOMContentLoaded", () => {
   ThemeEngine.init();
   initParallaxBackground();
@@ -1281,6 +1328,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initSponsorsPage(db);
   initRulebookModal();
   initAdminPanel();
+  initSiteVisitCounter();
 
   // Automatic real-time Cloud Sync from MongoDB Atlas on all devices
   FestDB.pullFromCloud().then(cloudDb => {
