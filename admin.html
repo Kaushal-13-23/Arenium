@@ -670,8 +670,10 @@
     }
 
     /* Modal Styling for White Theme */
-    body#admin-app #admin-proof-modal {
-      background: rgba(15, 23, 42, 0.6) !important;
+    body#admin-app .admin-modal-overlay,
+    body#admin-app #admin-proof-modal,
+    body#admin-app #admin-pass-modal {
+      background: rgba(15, 23, 42, 0.65) !important;
       backdrop-filter: blur(8px) !important;
     }
 
@@ -681,6 +683,21 @@
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15) !important;
       color: #0F172A !important;
       border-radius: 18px !important;
+    }
+
+    body#admin-app .admin-modal-close-btn {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      transition: background-color 0.15s ease, border-color 0.15s ease !important;
+    }
+
+    body#admin-app .admin-modal-close-btn:hover {
+      background: #E2E8F0 !important;
+      border-color: #94A3B8 !important;
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
     }
 
     body#admin-app #proof-modal-meta {
@@ -975,6 +992,9 @@
           if (targetTabId === "tab-events") {
             if (typeof renderAdminEvents === "function") renderAdminEvents(db);
             if (typeof renderMasterRulebookStatus === "function") renderMasterRulebookStatus(db);
+          } else if (targetTabId === "tab-registrations") {
+            if (typeof renderAdminRegistrations === "function") renderAdminRegistrations(db);
+            if (typeof renderRegistrationManualStatus === "function") renderRegistrationManualStatus(db);
           } else if (targetTabId === "tab-our-team") {
             if (typeof renderAdminTeam === "function") renderAdminTeam(db);
           } else if (targetTabId === "tab-overview") {
@@ -1460,6 +1480,49 @@
           </div>
         </div>
 
+        <!-- REGISTRATION MANUAL (OFFICIAL PDF) MANAGER CARD -->
+        <div class="admin-card" style="background: #FFFFFF; border: 1.5px solid #93C5FD; border-radius: 14px; padding: 1.4rem; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(2,132,199,0.06);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; flex-wrap: wrap;">
+                <span class="section-tag" style="margin: 0; background: #E0F2FE; color: #0284C7; border-color: #BAE6FD;">REGISTRATION MANUAL (PDF)</span>
+                <span id="reg-manual-status-badge" style="font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 9999px; background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">
+                  Not Configured (Hidden on register.html)
+                </span>
+              </div>
+              <h3 style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: #0F172A; margin: 0 0 0.3rem;">
+                OFFICIAL REGISTRATION MANUAL (PDF) FOR REGISTER PAGE
+              </h3>
+              <p style="font-size: 0.84rem; color: #475569; margin: 0; font-weight: 500; max-width: 640px;">
+                Upload a step-by-step Registration Manual PDF (up to 10MB) or paste a direct cloud link. When configured, a "View Registration Manual (PDF)" button appears automatically on <strong style="color:#0F172A;">register.html</strong> and syncs to MongoDB Atlas.
+              </p>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+              <input type="file" id="admin-reg-manual-file" accept="application/pdf" style="display: none;" onchange="handleRegistrationManualUpload(this.files[0])">
+              <button type="button" class="btn btn-primary" onclick="document.getElementById('admin-reg-manual-file').click()" style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 700; background: #0284C7; border-color: #0284C7;">
+                Upload Manual PDF
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="openRegistrationManualPreview()" style="font-size: 0.82rem; font-weight: 700; background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0F172A;">
+                Preview Manual ↗
+              </button>
+              <button type="button" class="btn btn-ghost" onclick="removeRegistrationManual()" style="font-size: 0.82rem; color: #EF4444; border-color: #FECACA;" title="Remove registration manual PDF">
+                Remove Manual
+              </button>
+            </div>
+          </div>
+
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #E2E8F0; display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <label for="admin-reg-manual-url" style="font-size: 0.78rem; font-weight: 800; color: #0F172A; white-space: nowrap;">
+              Or Cloud / Drive PDF Link:
+            </label>
+            <input type="url" id="admin-reg-manual-url" class="admin-input" placeholder="https://drive.google.com/... or https://.../registration-manual.pdf" style="flex: 1; min-width: 260px; font-size: 0.82rem; padding: 0.45rem 0.8rem; background: #F8FAFC;">
+            <button type="button" class="btn btn-secondary" onclick="saveRegistrationManualUrl()" style="font-size: 0.8rem; font-weight: 700; padding: 0.45rem 0.9rem; background: #000000; color: #FFFFFF;">
+              Save Link
+            </button>
+          </div>
+        </div>
+
         <!-- Portal Customization Card -->
         <div class="cyber-card" style="padding: 1.5rem; margin-bottom: 2rem;">
           <h3 style="color: #000000 !important; font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 1rem; font-weight: 800; -webkit-text-fill-color: #000000 !important;">
@@ -1563,6 +1626,34 @@
                 Embedded into the <strong style="color: #000000 !important;">"PAY / REGISTER (EXTERNAL)"</strong> button on <strong style="color: #000000 !important;">register.html</strong> when delegates from other institutions register.
               </span>
             </div>
+
+            <!-- 3. Guest Pass Payment Link (Faculty / Attender - Rs 100 - Max 1 Per Team) -->
+            <div class="admin-form-group" style="grid-column: 1 / -1; background: #FFFBEB; border: 2px solid #D97706; border-radius: 12px; padding: 1.2rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+                <label class="admin-label" for="reg-admin-gateway-url-guest" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
+                  GUEST PASS PAYMENT LINK (FACULTY / ATTENDER · ₹100 · MAX 1/TEAM · NO QR)
+                </label>
+                <span id="gateway-status-badge-guest" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #FEE2E2; color: #991B1B; border: 1.5px solid #EF4444;">
+                  ○ NO LINK (DISABLED)
+                </span>
+              </div>
+
+              <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                <input type="url" id="reg-admin-gateway-url-guest" class="admin-input" placeholder="https://paytm.me/... or ₹100 Guest Pass payment link" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; font-weight: 600; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important;">
+
+                <button type="button" id="admin-test-gateway-guest-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; color: #000000 !important; background: #E2E8F0 !important; border: 1.5px solid #94A3B8 !important;">
+                  Test Link
+                </button>
+
+                <button type="button" id="admin-remove-gateway-guest-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.82rem; background: #FEE2E2 !important; border: 1.5px solid #EF4444 !important; color: #991B1B !important; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove Guest Pass payment link">
+                  Remove Link
+                </button>
+              </div>
+
+              <span style="font-size: 0.82rem; color: #000000 !important; margin-top: 0.5rem; display: block; line-height: 1.5; font-weight: 600; -webkit-text-fill-color: #000000 !important;">
+                Embedded into the <strong style="color: #000000 !important;">"PAY NOW (₹100) — GUEST PASS LINK"</strong> button on <strong style="color: #000000 !important;">register.html</strong> for faculty or attenders (strictly 1 per team, no QR issued).
+              </span>
+            </div>
             <!-- Hidden inputs for backward compatibility -->
             <input type="hidden" id="reg-admin-gateway-url">
             <input type="hidden" id="reg-admin-external-url">
@@ -1588,6 +1679,11 @@
             <div class="admin-form-group">
               <label class="admin-label" for="reg-admin-external-add">EXTERNAL 3RD EVENT ADDITIONAL FEE</label>
               <input type="number" id="reg-admin-external-add" class="admin-input" placeholder="300" value="300">
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-label" for="reg-admin-guest-fee">GUEST PASS FEE (FACULTY / ATTENDER · MAX 1/TEAM)</label>
+              <input type="number" id="reg-admin-guest-fee" class="admin-input" placeholder="100" value="100">
             </div>
           </div>
 
@@ -2187,6 +2283,29 @@
               Embedded into the <strong>"PAY / REGISTER"</strong> button on <code>register.html</code> when external delegates register.
             </span>
           </div>
+
+          <div class="admin-form-group" style="background: rgba(15, 23, 42, 0.65); border: 1.5px solid #F59E0B; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+              <label class="admin-label" for="admin-setting-gatewayurl-guest" style="margin: 0; font-size: 0.88rem; color: #FBBF24; font-weight: 700;">
+                GUEST PASS PAYMENT LINK (FACULTY / ATTENDER · ₹100 · MAX 1/TEAM · NO QR)
+              </label>
+              <span id="admin-setting-gateway-status-guest" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(239, 68, 68, 0.2); color: #EF4444; border: 1px solid #EF4444;">
+                ○ NO LINK (DISABLED)
+              </span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+              <input type="url" id="admin-setting-gatewayurl-guest" class="admin-input" placeholder="https://paytm.me/... or ₹100 Guest Pass payment link" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
+              <button type="button" id="admin-setting-test-gateway-guest-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                Test Link
+              </button>
+              <button type="button" id="admin-setting-remove-gateway-guest-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; color: #FCA5A5; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove Guest Pass link">
+                Remove Link
+              </button>
+            </div>
+            <span style="font-size: 0.74rem; color: var(--text-muted); margin-top: 0.4rem; display: block; line-height: 1.4;">
+              Embedded into the <strong>"PAY NOW (₹100) — GUEST PASS LINK"</strong> button on <code>register.html</code> for faculty/attenders.
+            </span>
+          </div>
           <!-- Hidden fallback elements -->
           <input type="hidden" id="admin-setting-gatewayurl">
           <span id="admin-setting-gateway-status" style="display:none;"></span>
@@ -2313,22 +2432,20 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_VISIT_COUNTER_V54"></script>
+  <script src="js/main.js?v=2027_REG_MANUAL_PDF_V59"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
-  <div id="admin-proof-modal" class="admin-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
+  <div id="admin-proof-modal" class="admin-modal-overlay" onclick="if (event.target === this) closeAdminProofModal()" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
     <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 18px; width: 100%; max-width: 620px; max-height: 90vh; overflow-y: auto; padding: 1.5rem; box-shadow: 0 25px 60px rgba(0,0,0,0.18); position: relative;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 0.8rem; margin-bottom: 1rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 0.8rem; margin-bottom: 1rem;">
         <div>
           <span class="section-tag" style="margin: 0; color: #0369A1; background: #E0F2FE; border-color: #BAE6FD;">VERIFICATION PROOF</span>
           <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.2rem; margin: 0.2rem 0 0;" id="proof-modal-title">
             Payment Screenshot Proof
           </h3>
         </div>
-        <button type="button" class="btn btn-ghost" onclick="closeAdminProofModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close preview">
-          
-        </button>
+        <button type="button" class="btn btn-ghost admin-modal-close-btn" onclick="closeAdminProofModal()" aria-label="Close preview" title="Close preview" style="padding: 0.4rem 0.8rem !important; font-size: 1.1rem !important; font-weight: 800; line-height: 1; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; background: #F1F5F9 !important; border: 1.5px solid #CBD5E1 !important; border-radius: 10px; flex-shrink: 0;">✕</button>
       </div>
 
       <div id="proof-modal-meta" style="background: #F8FAFC; border-radius: 10px; padding: 0.8rem 1rem; margin-bottom: 1rem; font-size: 0.84rem; color: #334155; line-height: 1.6; border: 1px solid #E2E8F0; border-left: 3px solid #0284C7;">
@@ -2353,18 +2470,16 @@
   <!-- ========================================================================
        ADMIN DELEGATE PASS & QR PREVIEW MODAL
        ======================================================================== -->
-  <div id="admin-pass-modal" class="admin-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
+  <div id="admin-pass-modal" class="admin-modal-overlay" onclick="if (event.target === this) closeAdminPassModal()" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 100000; align-items: center; justify-content: center; padding: 1.5rem;">
     <div class="admin-modal-content" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 20px; width: 100%; max-width: 680px; max-height: 92vh; overflow-y: auto; padding: 1.8rem; box-shadow: 0 25px 60px rgba(0,0,0,0.22); position: relative; color: #0F172A;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 0.8rem; margin-bottom: 1rem;">
+      <div style="position: sticky; top: -1.8rem; background: #FFFFFF; z-index: 20; margin: -1.8rem -1.8rem 1rem; padding: 1.25rem 1.8rem 0.85rem; border-radius: 18px 18px 0 0; display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-bottom: 1.5px solid #E2E8F0;">
         <div>
           <span class="section-tag" style="margin: 0; color: #0369A1; background: #E0F2FE; border-color: #BAE6FD;">DELEGATE CREDENTIALS &amp; QR</span>
           <h3 style="color: #0F172A; font-family: var(--font-display); font-size: 1.25rem; margin: 0.2rem 0 0;" id="admin-pass-modal-title">
             Official Delegate Pass &amp; Terminal QR
           </h3>
         </div>
-        <button type="button" class="btn btn-ghost" onclick="closeAdminPassModal()" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;" title="Close pass">
-          
-        </button>
+        <button type="button" class="btn btn-ghost admin-modal-close-btn" onclick="closeAdminPassModal()" aria-label="Close pass" title="Close pass" style="padding: 0.4rem 0.8rem !important; font-size: 1.1rem !important; font-weight: 800; line-height: 1; color: #0F172A !important; -webkit-text-fill-color: #0F172A !important; background: #F1F5F9 !important; border: 1.5px solid #CBD5E1 !important; border-radius: 10px; flex-shrink: 0;">✕</button>
       </div>
 
       <div id="admin-pass-modal-body">
@@ -2373,7 +2488,7 @@
 
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; flex-wrap: wrap; gap: 0.8rem; border-top: 1.5px solid #E2E8F0; padding-top: 1rem;">
         <button type="button" class="btn btn-primary" onclick="printAdminPassModal()" style="padding: 0.5rem 1.4rem; font-size: 0.82rem;">
-           Print Pass
+          Print Pass
         </button>
         <button type="button" class="btn btn-ghost" onclick="closeAdminPassModal()" style="padding: 0.5rem 1.2rem; font-size: 0.82rem;">
           Close

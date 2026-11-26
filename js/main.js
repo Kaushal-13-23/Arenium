@@ -43,6 +43,7 @@ const FestDB = {
         registerUrl: "register.html",
         paymentGatewayUrlInternal: "https://pages.razorpay.com/arenium27-pay",
         paymentGatewayUrlExternal: "https://presidencyuniversity.in/arenium27-register",
+        paymentGatewayUrlGuest: "",
         paymentGatewayUrl: "https://pages.razorpay.com/arenium27-pay",
         registrationConfig: {
           googleSheetUrl: "https://script.google.com/macros/s/AKfycbyQf200fHwcydhLqNW2YXVaADme2a4p0RXyc0at1YspDawEJ9oBIQw75tKY97LN35QH/exec",
@@ -51,6 +52,7 @@ const FestDB = {
           externalUrl: "https://presidencyuniversity.in/arenium27-register",
           paymentGatewayUrlInternal: "https://pages.razorpay.com/arenium27-pay",
           paymentGatewayUrlExternal: "https://presidencyuniversity.in/arenium27-register",
+          paymentGatewayUrlGuest: "",
           paymentGatewayUrl: "https://pages.razorpay.com/arenium27-pay",
           upiId: "arenium27@icici",
           qrCodeImg: "images/qrcode.png",
@@ -58,6 +60,7 @@ const FestDB = {
           internalAddFee: 0,
           externalFee: 300,
           externalAddFee: 0,
+          guestFee: 100,
           instructions: "REGISTRATION FEE STRUCTURE: Internal Participants (Presidency University): ₹200 covers up to 2 competitive events. External Participants: ₹300 covers up to 2 competitive events. Participation in 2nd event is optional and 100% FREE (Maximum 2 events in total). Please verify event schedules to ensure non-overlapping timings.",
           fees: {
             "tech-odyssey": "₹200 Internal / ₹300 External (Team of 2–4)",
@@ -967,6 +970,12 @@ const FestDB = {
         if (!regConfig.paymentGatewayUrlExternal) {
           regConfig.paymentGatewayUrlExternal = regConfig.externalUrl || regConfig.paymentGatewayUrl || "https://presidencyuniversity.in/arenium27-register";
         }
+        if (regConfig.paymentGatewayUrlGuest === undefined) {
+          regConfig.paymentGatewayUrlGuest = (parsed.settings && parsed.settings.paymentGatewayUrlGuest) || defaults.settings.paymentGatewayUrlGuest || "";
+        }
+        if (!regConfig.guestFee) {
+          regConfig.guestFee = defaults.settings.registrationConfig.guestFee || 100;
+        }
 
         const state = {
           settings: {
@@ -974,6 +983,7 @@ const FestDB = {
             ...(parsed.settings || {}),
             paymentGatewayUrlInternal: regConfig.paymentGatewayUrlInternal,
             paymentGatewayUrlExternal: regConfig.paymentGatewayUrlExternal,
+            paymentGatewayUrlGuest: regConfig.paymentGatewayUrlGuest,
             registrationConfig: regConfig
           },
           coordinators: (() => {
@@ -1076,6 +1086,24 @@ const FestDB = {
       }
     }
     return "rulebook.pdf";
+  },
+
+  getRegistrationManualUrl(db) {
+    const currentDb = db || this.getData();
+    if (currentDb && currentDb.settings) {
+      if (currentDb.settings.registrationManualPdf && currentDb.settings.registrationManualPdf.trim()) {
+        return currentDb.settings.registrationManualPdf.trim();
+      }
+      if (currentDb.settings.registrationManualUrl && currentDb.settings.registrationManualUrl.trim()) {
+        return currentDb.settings.registrationManualUrl.trim();
+      }
+      const rc = currentDb.settings.registrationConfig;
+      if (rc) {
+        if (rc.manualPdf && rc.manualPdf.trim()) return rc.manualPdf.trim();
+        if (rc.manualUrl && rc.manualUrl.trim()) return rc.manualUrl.trim();
+      }
+    }
+    return "";
   },
 
   getEventRulebookUrl(evId, db) {
@@ -1327,6 +1355,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initGalleryPage(db);
   initSponsorsPage(db);
   initRulebookModal();
+  if (typeof syncRegistrationManualLinks === "function") syncRegistrationManualLinks(db);
   initAdminPanel();
   initSiteVisitCounter();
 
@@ -1338,6 +1367,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof initSchedulePage === "function") initSchedulePage(cloudDb);
       if (typeof renderAdminEvents === "function") renderAdminEvents(cloudDb);
       if (typeof renderAdminOverview === "function") renderAdminOverview(cloudDb);
+      if (typeof renderAdminRegistrations === "function") renderAdminRegistrations(cloudDb);
+      if (typeof renderRegistrationManualStatus === "function") renderRegistrationManualStatus(cloudDb);
       if (typeof initRegistrationButtons === "function") initRegistrationButtons(cloudDb);
       if (typeof initTeamSections === "function") initTeamSections(cloudDb);
       if (typeof initOurTeamPage === "function") initOurTeamPage(cloudDb);
@@ -1345,6 +1376,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof renderAdminLeadership === "function") renderAdminLeadership(cloudDb);
       if (typeof renderAdminTeam === "function") renderAdminTeam(cloudDb);
       if (typeof syncGlobalRulebookLinks === "function") syncGlobalRulebookLinks(cloudDb);
+      if (typeof syncRegistrationManualLinks === "function") syncRegistrationManualLinks(cloudDb);
     }
   });
 
@@ -1360,8 +1392,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (typeof initSchedulePage === "function") initSchedulePage(updated);
         if (typeof renderAdminCoordinators === "function") renderAdminCoordinators(updated);
         if (typeof renderAdminEvents === "function") renderAdminEvents(updated);
+        if (typeof renderAdminRegistrations === "function") renderAdminRegistrations(updated);
+        if (typeof renderRegistrationManualStatus === "function") renderRegistrationManualStatus(updated);
         if (typeof renderAdminTeam === "function") renderAdminTeam(updated);
         if (typeof syncGlobalRulebookLinks === "function") syncGlobalRulebookLinks(updated);
+        if (typeof syncRegistrationManualLinks === "function") syncRegistrationManualLinks(updated);
       } catch (err) {}
     }
   });
@@ -1373,8 +1408,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof initEventsPage === "function") initEventsPage(updated);
     if (typeof initMovingCardsMarquee === "function") initMovingCardsMarquee(updated);
     if (typeof initSchedulePage === "function") initSchedulePage(updated);
+    if (typeof renderRegistrationManualStatus === "function") renderRegistrationManualStatus(updated);
     if (typeof renderAdminTeam === "function") renderAdminTeam(updated);
     if (typeof syncGlobalRulebookLinks === "function") syncGlobalRulebookLinks(updated);
+    if (typeof syncRegistrationManualLinks === "function") syncRegistrationManualLinks(updated);
   });
 });
 
@@ -2114,11 +2151,15 @@ function initEventsPage(db) {
       const card = document.createElement("article");
       card.className = "editorial-card event-card reveal-on-scroll is-visible";
       
-      const isDay1 = !ev.date || ev.date.includes("Day 1") || ev.date.includes("4 Feb");
-      const isDay2 = !ev.date || ev.date.includes("Day 2") || ev.date.includes("5 Feb");
-      const isHack = ev.id.includes("hackathon") || ev.id.includes("technova") || (ev.category && ev.category.toLowerCase().includes("flagship"));
-      const isTech = ev.group === "technical" || (!ev.category.toLowerCase().includes("non-technical") && (ev.category.toLowerCase().includes("tech") || isHack));
-      const isNonTech = ev.group === "non-technical" || ev.category.toLowerCase().includes("non-technical");
+      const dateStr = (ev.date || "").toLowerCase();
+      const catLower = (ev.category || "").toLowerCase();
+      const grpLower = (ev.group || "").toLowerCase();
+      const idLower = (ev.id || "").toLowerCase();
+      const isDay1 = !dateStr || dateStr.includes("day 1") || /\b4\s*(?:th\s*)?feb/i.test(dateStr);
+      const isDay2 = !dateStr || dateStr.includes("day 2") || /\b5\s*(?:th\s*)?feb/i.test(dateStr);
+      const isHack = idLower.includes("hack") || idLower.includes("technova") || ev.slotId === "hackathon_24h" || /hackathon|flagship/.test(catLower);
+      const isNonTech = grpLower === "non-technical" || (!grpLower && catLower.includes("non-technical"));
+      const isTech = !isNonTech && (grpLower === "technical" || catLower.includes("tech") || isHack);
 
       card.setAttribute("data-event-id", ev.id);
       card.setAttribute("data-day1", isDay1 ? "true" : "false");
@@ -2200,32 +2241,39 @@ function initEventsPage(db) {
     });
 
     // Filter Chips
-    const chips = document.querySelectorAll(".filter-chip");
-    const cards = mainContainer.querySelectorAll(".event-card");
+    const chips = document.querySelectorAll(".filter-chips-container .filter-chip[data-filter]");
+    const cards = Array.from(mainContainer.querySelectorAll(".event-card"));
+    const filterPredicates = {
+      all: () => true,
+      day1: (card) => card.getAttribute("data-day1") === "true",
+      day2: (card) => card.getAttribute("data-day2") === "true",
+      hackathon: (card) => card.getAttribute("data-hackathon") === "true",
+      technical: (card) => card.getAttribute("data-tech") === "true",
+      tech: (card) => card.getAttribute("data-tech") === "true",
+      "non-technical": (card) => card.getAttribute("data-nontech") === "true",
+      nontech: (card) => card.getAttribute("data-nontech") === "true"
+    };
+
+    function applyEventFilter(filterKey) {
+      const normalized = (filterKey || "all").toLowerCase();
+      const matches = filterPredicates[normalized] || filterPredicates.all;
+      cards.forEach(card => {
+        const visible = Boolean(matches(card));
+        card.classList.toggle("is-filtered-out", !visible);
+        card.style.setProperty("display", visible ? "flex" : "none", "important");
+      });
+    }
 
     chips.forEach(chip => {
-      chip.addEventListener("click", () => {
+      chip.onclick = () => {
         chips.forEach(c => c.classList.remove("active"));
         chip.classList.add("active");
-
-        const filter = chip.getAttribute("data-filter");
-        cards.forEach(card => {
-          if (filter === "all") {
-            card.style.display = "flex";
-          } else if (filter === "day1") {
-            card.style.display = card.getAttribute("data-day1") === "true" ? "flex" : "none";
-          } else if (filter === "day2") {
-            card.style.display = card.getAttribute("data-day2") === "true" ? "flex" : "none";
-          } else if (filter === "hackathon") {
-            card.style.display = card.getAttribute("data-hackathon") === "true" ? "flex" : "none";
-          } else if (filter === "tech") {
-            card.style.display = card.getAttribute("data-tech") === "true" ? "flex" : "none";
-          } else if (filter === "nontech") {
-            card.style.display = card.getAttribute("data-nontech") === "true" ? "flex" : "none";
-          }
-        });
-      });
+        applyEventFilter(chip.getAttribute("data-filter"));
+      };
     });
+
+    const activeChip = document.querySelector(".filter-chips-container .filter-chip[data-filter].active");
+    applyEventFilter(activeChip ? activeChip.getAttribute("data-filter") : "all");
   } catch (err) {
     console.error("Error initializing events page:", err);
   }
@@ -2981,6 +3029,42 @@ function syncGlobalRulebookLinks(db) {
   }
 }
 window.syncGlobalRulebookLinks = syncGlobalRulebookLinks;
+
+function syncRegistrationManualLinks(db) {
+  try {
+    const currentDb = db || FestDB.getData();
+    const manualUrl = FestDB.getRegistrationManualUrl(currentDb);
+    const banner = document.getElementById("reg-manual-banner");
+    const filenameEl = document.getElementById("reg-manual-filename");
+    const s = (currentDb && currentDb.settings) || {};
+
+    if (!banner) return;
+    if (manualUrl) {
+      banner.style.display = "flex";
+      if (filenameEl) {
+        filenameEl.textContent = s.registrationManualPdfName
+          ? `PDF Document: ${s.registrationManualPdfName}`
+          : "Official step-by-step registration instructions & fee guide (PDF)";
+      }
+    } else {
+      banner.style.display = "none";
+    }
+  } catch (err) {
+    console.warn("syncRegistrationManualLinks error:", err);
+  }
+}
+window.syncRegistrationManualLinks = syncRegistrationManualLinks;
+
+window.openRegistrationManualPdf = function() {
+  const db = FestDB.getData();
+  const url = FestDB.getRegistrationManualUrl(db);
+  if (!url) {
+    alert("No Registration Manual PDF has been uploaded yet.");
+    return;
+  }
+  const filename = (db.settings && db.settings.registrationManualPdfName) || "Arenium27_Registration_Manual.pdf";
+  openPdfInNewTab(url, filename);
+};
 
 window.openRulebookModal = function(evId) {
   const db = FestDB.getData();
@@ -4293,6 +4377,141 @@ window.resetMasterRulebookToDefault = async function() {
   }
 };
 
+// ==========================================================================
+// REGISTRATION MANUAL (OFFICIAL PDF) MANAGEMENT SYSTEM
+// ==========================================================================
+function renderRegistrationManualStatus(db) {
+  const currentDb = db || FestDB.getData();
+  const badge = document.getElementById("reg-manual-status-badge");
+  const urlInput = document.getElementById("admin-reg-manual-url");
+  const s = currentDb.settings || {};
+
+  const hasPdf = !!(s.registrationManualPdf && s.registrationManualPdf.trim());
+  const hasUrl = !!(s.registrationManualUrl && s.registrationManualUrl.trim());
+
+  if (urlInput) {
+    urlInput.value = s.registrationManualUrl || "";
+  }
+
+  if (badge) {
+    if (hasPdf) {
+      badge.style.background = "#DCFCE7";
+      badge.style.color = "#15803D";
+      badge.style.borderColor = "#86EFAC";
+      badge.textContent = s.registrationManualPdfName ? `Custom PDF: ${s.registrationManualPdfName}` : "Custom PDF Active";
+    } else if (hasUrl) {
+      badge.style.background = "#E0F2FE";
+      badge.style.color = "#0369A1";
+      badge.style.borderColor = "#BAE6FD";
+      badge.textContent = "External Cloud Link Active";
+    } else {
+      badge.style.background = "#F1F5F9";
+      badge.style.color = "#475569";
+      badge.style.borderColor = "#CBD5E1";
+      badge.textContent = "Not Configured (Hidden on register.html)";
+    }
+  }
+}
+window.renderRegistrationManualStatus = renderRegistrationManualStatus;
+
+window.handleRegistrationManualUpload = async function(file) {
+  if (!file) return;
+  if (!file.name.toLowerCase().endsWith(".pdf") && file.type !== "application/pdf") {
+    alert("Please select a valid PDF file (.pdf).");
+    return;
+  }
+
+  const maxBytes = 10 * 1024 * 1024;
+  if (file.size > maxBytes) {
+    alert(`File is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Please choose a PDF under 10MB or paste a direct Google Drive link.`);
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onerror = function() {
+    alert("Error reading Registration Manual PDF file.");
+  };
+  reader.onload = async function(e) {
+    try {
+      const dataUrl = e.target.result;
+      const db = FestDB.getData();
+      if (!db.settings) db.settings = {};
+      if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
+      db.settings.registrationManualPdf = dataUrl;
+      db.settings.registrationManualPdfName = file.name;
+      db.settings.registrationConfig.manualPdf = dataUrl;
+      FestDB.saveData(db);
+      renderRegistrationManualStatus(db);
+      syncRegistrationManualLinks(db);
+      try {
+        await FestDB.pushToCloud(db);
+        alert(`Registration Manual ("${file.name}") uploaded and published to register.html!`);
+      } catch (err) {
+        alert(`Registration Manual saved locally. Cloud notice: ${err.message}`);
+      }
+    } catch (err) {
+      console.error("Registration manual upload error:", err);
+      alert("Failed to upload registration manual: " + err.message);
+    }
+  };
+  reader.readAsDataURL(file);
+};
+
+window.saveRegistrationManualUrl = async function() {
+  const urlInput = document.getElementById("admin-reg-manual-url");
+  const url = urlInput ? urlInput.value.trim() : "";
+  const db = FestDB.getData();
+  if (!db.settings) db.settings = {};
+  if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
+  db.settings.registrationManualUrl = url;
+  db.settings.registrationConfig.manualUrl = url;
+  FestDB.saveData(db);
+  renderRegistrationManualStatus(db);
+  syncRegistrationManualLinks(db);
+  try {
+    await FestDB.pushToCloud(db);
+    alert(url ? "Registration Manual link saved and published on register.html!" : "Registration Manual external link cleared.");
+  } catch (err) {
+    alert("Saved locally. Cloud notice: " + err.message);
+  }
+};
+
+window.openRegistrationManualPreview = function() {
+  const db = FestDB.getData();
+  const url = FestDB.getRegistrationManualUrl(db);
+  if (!url) {
+    alert("No Registration Manual PDF or link has been configured yet. Upload a PDF or save a link first.");
+    return;
+  }
+  const filename = (db.settings && db.settings.registrationManualPdfName) || "Arenium27_Registration_Manual.pdf";
+  openPdfInNewTab(url, filename);
+};
+
+window.removeRegistrationManual = async function() {
+  if (!confirm("Remove the Registration Manual PDF from register.html?")) {
+    return;
+  }
+  const db = FestDB.getData();
+  if (db.settings) {
+    delete db.settings.registrationManualPdf;
+    delete db.settings.registrationManualPdfName;
+    delete db.settings.registrationManualUrl;
+    if (db.settings.registrationConfig) {
+      delete db.settings.registrationConfig.manualPdf;
+      delete db.settings.registrationConfig.manualUrl;
+    }
+  }
+  FestDB.saveData(db);
+  renderRegistrationManualStatus(db);
+  syncRegistrationManualLinks(db);
+  try {
+    await FestDB.pushToCloud(db);
+    alert("Registration Manual removed cleanly.");
+  } catch (err) {
+    alert("Removed locally. Cloud notice: " + err.message);
+  }
+};
+
 window.previewEventRulebookFromEditModal = function() {
   const pdfVal = document.getElementById("edit-event-rulebook-pdf")?.value;
   const urlVal = document.getElementById("edit-event-rulebook-url")?.value.trim();
@@ -5547,6 +5766,7 @@ function renderAdminSettings(db) {
   const gatewayUrlInput = document.getElementById("admin-setting-gatewayurl");
   const gatewayUrlInternalInp = document.getElementById("admin-setting-gatewayurl-internal") || gatewayUrlInput;
   const gatewayUrlExternalInp = document.getElementById("admin-setting-gatewayurl-external");
+  const gatewayUrlGuestInp = document.getElementById("admin-setting-gatewayurl-guest");
   
   const testGatewayInternalBtn = document.getElementById("admin-setting-test-gateway-internal-btn") || document.getElementById("admin-setting-test-gateway-btn");
   const removeGatewayInternalBtn = document.getElementById("admin-setting-remove-gateway-internal-btn") || document.getElementById("admin-setting-remove-gateway-btn");
@@ -5555,6 +5775,10 @@ function renderAdminSettings(db) {
   const testGatewayExternalBtn = document.getElementById("admin-setting-test-gateway-external-btn");
   const removeGatewayExternalBtn = document.getElementById("admin-setting-remove-gateway-external-btn");
   const gatewayBadgeExternal = document.getElementById("admin-setting-gateway-status-external");
+
+  const testGatewayGuestBtn = document.getElementById("admin-setting-test-gateway-guest-btn");
+  const removeGatewayGuestBtn = document.getElementById("admin-setting-remove-gateway-guest-btn");
+  const gatewayBadgeGuest = document.getElementById("admin-setting-gateway-status-guest");
 
   const saveBtn = document.getElementById("admin-save-settings-btn");
 
@@ -5566,6 +5790,10 @@ function renderAdminSettings(db) {
   const currentGatewayExternal = (regConfig.paymentGatewayUrlExternal !== undefined)
     ? regConfig.paymentGatewayUrlExternal
     : (regConfig.externalUrl || "https://presidencyuniversity.in/arenium27-register");
+
+  const currentGatewayGuest = (regConfig.paymentGatewayUrlGuest !== undefined)
+    ? regConfig.paymentGatewayUrlGuest
+    : (db.settings.paymentGatewayUrlGuest || "");
 
   function updateStatus(badgeEl, val) {
     if (!badgeEl) return;
@@ -5594,6 +5822,12 @@ function renderAdminSettings(db) {
     gatewayUrlExternalInp.oninput = () => updateStatus(gatewayBadgeExternal, gatewayUrlExternalInp.value);
   }
 
+  if (gatewayUrlGuestInp) {
+    gatewayUrlGuestInp.value = currentGatewayGuest || "";
+    updateStatus(gatewayBadgeGuest, gatewayUrlGuestInp.value);
+    gatewayUrlGuestInp.oninput = () => updateStatus(gatewayBadgeGuest, gatewayUrlGuestInp.value);
+  }
+
   if (testGatewayInternalBtn) {
     testGatewayInternalBtn.onclick = () => {
       const url = gatewayUrlInternalInp ? gatewayUrlInternalInp.value.trim() : "";
@@ -5606,6 +5840,14 @@ function renderAdminSettings(db) {
     testGatewayExternalBtn.onclick = () => {
       const url = gatewayUrlExternalInp ? gatewayUrlExternalInp.value.trim() : "";
       if (!url) { alert("Please enter an external registration URL first before testing."); return; }
+      window.open(url, "_blank", "noopener,noreferrer");
+    };
+  }
+
+  if (testGatewayGuestBtn) {
+    testGatewayGuestBtn.onclick = () => {
+      const url = gatewayUrlGuestInp ? gatewayUrlGuestInp.value.trim() : "";
+      if (!url) { alert("Please enter a ₹100 Guest Pass payment link first before testing."); return; }
       window.open(url, "_blank", "noopener,noreferrer");
     };
   }
@@ -5632,6 +5874,17 @@ function renderAdminSettings(db) {
     };
   }
 
+  if (removeGatewayGuestBtn) {
+    removeGatewayGuestBtn.onclick = () => {
+      if (confirm("Remove Guest Pass payment link?")) {
+        if (gatewayUrlGuestInp) {
+          gatewayUrlGuestInp.value = "";
+          updateStatus(gatewayBadgeGuest, "");
+        }
+      }
+    };
+  }
+
   if (regUrlInput) regUrlInput.value = db.settings.registerUrl || "";
   if (eventDateInput) eventDateInput.value = db.settings.eventDate || "";
   if (qrImgInput) qrImgInput.value = db.settings.qrCodeImg || "";
@@ -5640,14 +5893,17 @@ function renderAdminSettings(db) {
     saveBtn.onclick = () => {
       const gInternal = gatewayUrlInternalInp ? gatewayUrlInternalInp.value.trim() : "";
       const gExternal = gatewayUrlExternalInp ? gatewayUrlExternalInp.value.trim() : "";
+      const gGuest = gatewayUrlGuestInp ? gatewayUrlGuestInp.value.trim() : "";
       if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
       db.settings.registrationConfig.paymentGatewayUrlInternal = gInternal;
       db.settings.registrationConfig.paymentGatewayUrlExternal = gExternal;
+      db.settings.registrationConfig.paymentGatewayUrlGuest = gGuest;
       db.settings.registrationConfig.paymentGatewayUrl = gInternal;
       db.settings.registrationConfig.externalUrl = gExternal;
       db.settings.paymentGatewayUrl = gInternal;
       db.settings.paymentGatewayUrlInternal = gInternal;
       db.settings.paymentGatewayUrlExternal = gExternal;
+      db.settings.paymentGatewayUrlGuest = gGuest;
       db.settings.registerUrl = regUrlInput ? regUrlInput.value.trim() : "";
       db.settings.eventDate = eventDateInput ? eventDateInput.value.trim() : "";
       if (qrImgInput) db.settings.qrCodeImg = qrImgInput.value.trim();
@@ -5662,6 +5918,9 @@ function renderAdminSettings(db) {
 // 18. ADMIN REGISTRATIONS & PORTAL CUSTOMIZATION LOGIC
 // ==========================================================================
 function renderAdminRegistrations(db) {
+  if (typeof renderRegistrationManualStatus === "function") {
+    renderRegistrationManualStatus(db);
+  }
   const tableBody = document.getElementById("admin-registrations-table-body");
   if (!tableBody) return;
 
@@ -5682,6 +5941,7 @@ function renderAdminRegistrations(db) {
   const gatewayUrlInp = document.getElementById("reg-admin-gateway-url");
   const gatewayUrlInternalInp = document.getElementById("reg-admin-gateway-url-internal") || gatewayUrlInp;
   const gatewayUrlExternalInp = document.getElementById("reg-admin-gateway-url-external") || extUrlInput;
+  const gatewayUrlGuestInp = document.getElementById("reg-admin-gateway-url-guest");
 
   const testGatewayInternalBtn = document.getElementById("admin-test-gateway-internal-btn") || document.getElementById("admin-test-gateway-btn");
   const removeGatewayInternalBtn = document.getElementById("admin-remove-gateway-internal-btn") || document.getElementById("admin-remove-gateway-btn");
@@ -5690,12 +5950,18 @@ function renderAdminRegistrations(db) {
   const testGatewayExternalBtn = document.getElementById("admin-test-gateway-external-btn");
   const removeGatewayExternalBtn = document.getElementById("admin-remove-gateway-external-btn");
   const gatewayStatusBadgeExternal = document.getElementById("gateway-status-badge-external");
+
+  const testGatewayGuestBtn = document.getElementById("admin-test-gateway-guest-btn");
+  const removeGatewayGuestBtn = document.getElementById("admin-remove-gateway-guest-btn");
+  const gatewayStatusBadgeGuest = document.getElementById("gateway-status-badge-guest");
+
   const upiInput = document.getElementById("reg-admin-upi");
   const qrInput = document.getElementById("reg-admin-qr");
   const internalFeeInp = document.getElementById("reg-admin-internal-fee");
   const internalAddInp = document.getElementById("reg-admin-internal-add");
   const externalFeeInp = document.getElementById("reg-admin-external-fee");
   const externalAddInp = document.getElementById("reg-admin-external-add");
+  const guestFeeInp = document.getElementById("reg-admin-guest-fee");
   const instructionsTextarea = document.getElementById("reg-admin-instructions");
   const sheetUrlInp = document.getElementById("reg-admin-sheet-url");
   const testSheetBtn = document.getElementById("admin-test-sheet-btn");
@@ -5756,6 +6022,10 @@ function renderAdminRegistrations(db) {
     ? regConfig.paymentGatewayUrlExternal
     : (regConfig.externalUrl || "https://presidencyuniversity.in/arenium27-register");
 
+  const currentGatewayGuest = (regConfig.paymentGatewayUrlGuest !== undefined)
+    ? regConfig.paymentGatewayUrlGuest
+    : (db.settings.paymentGatewayUrlGuest || "");
+
   function updateBadgeHelper(badgeEl, val) {
     if (!badgeEl) return;
     if (val && val.trim()) {
@@ -5783,6 +6053,12 @@ function renderAdminRegistrations(db) {
     gatewayUrlExternalInp.oninput = () => updateBadgeHelper(gatewayStatusBadgeExternal, gatewayUrlExternalInp.value);
   }
 
+  if (gatewayUrlGuestInp) {
+    gatewayUrlGuestInp.value = currentGatewayGuest || "";
+    updateBadgeHelper(gatewayStatusBadgeGuest, gatewayUrlGuestInp.value);
+    gatewayUrlGuestInp.oninput = () => updateBadgeHelper(gatewayStatusBadgeGuest, gatewayUrlGuestInp.value);
+  }
+
   if (testGatewayInternalBtn) {
     testGatewayInternalBtn.onclick = () => {
       const url = gatewayUrlInternalInp ? gatewayUrlInternalInp.value.trim() : "";
@@ -5795,6 +6071,14 @@ function renderAdminRegistrations(db) {
     testGatewayExternalBtn.onclick = () => {
       const url = gatewayUrlExternalInp ? gatewayUrlExternalInp.value.trim() : "";
       if (!url) { alert("Please enter an external registration URL first."); return; }
+      window.open(url, "_blank", "noopener,noreferrer");
+    };
+  }
+
+  if (testGatewayGuestBtn) {
+    testGatewayGuestBtn.onclick = () => {
+      const url = gatewayUrlGuestInp ? gatewayUrlGuestInp.value.trim() : "";
+      if (!url) { alert("Please enter a ₹100 Guest Pass payment link first."); return; }
       window.open(url, "_blank", "noopener,noreferrer");
     };
   }
@@ -5821,6 +6105,17 @@ function renderAdminRegistrations(db) {
     };
   }
 
+  if (removeGatewayGuestBtn) {
+    removeGatewayGuestBtn.onclick = () => {
+      if (confirm("Are you sure you want to remove the ₹100 Guest Pass payment link?")) {
+        if (gatewayUrlGuestInp) {
+          gatewayUrlGuestInp.value = "";
+          updateBadgeHelper(gatewayStatusBadgeGuest, "");
+        }
+      }
+    };
+  }
+
   if (statusSelect) statusSelect.value = regConfig.status || "open";
   if (modeSelect) modeSelect.value = regConfig.portalMode || "internal";
   if (extUrlInput) extUrlInput.value = regConfig.externalUrl || "";
@@ -5830,6 +6125,7 @@ function renderAdminRegistrations(db) {
   if (internalAddInp) internalAddInp.value = regConfig.internalAddFee || 200;
   if (externalFeeInp) externalFeeInp.value = regConfig.externalFee || 300;
   if (externalAddInp) externalAddInp.value = regConfig.externalAddFee || 300;
+  if (guestFeeInp) guestFeeInp.value = regConfig.guestFee || 100;
   if (instructionsTextarea) instructionsTextarea.value = regConfig.instructions || "";
 
   // Event fees editor grid
@@ -5860,14 +6156,17 @@ function renderAdminRegistrations(db) {
       if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
       const gatewayInternalVal = gatewayUrlInternalInp ? gatewayUrlInternalInp.value.trim() : "";
       const gatewayExternalVal = gatewayUrlExternalInp ? gatewayUrlExternalInp.value.trim() : "";
+      const gatewayGuestVal = gatewayUrlGuestInp ? gatewayUrlGuestInp.value.trim() : "";
       
       db.settings.registrationConfig.paymentGatewayUrlInternal = gatewayInternalVal;
       db.settings.registrationConfig.paymentGatewayUrlExternal = gatewayExternalVal;
+      db.settings.registrationConfig.paymentGatewayUrlGuest = gatewayGuestVal;
       db.settings.registrationConfig.paymentGatewayUrl = gatewayInternalVal;
       db.settings.registrationConfig.externalUrl = gatewayExternalVal;
       db.settings.paymentGatewayUrl = gatewayInternalVal;
       db.settings.paymentGatewayUrlInternal = gatewayInternalVal;
       db.settings.paymentGatewayUrlExternal = gatewayExternalVal;
+      db.settings.paymentGatewayUrlGuest = gatewayGuestVal;
       db.settings.registrationConfig.googleSheetUrl = sheetUrlInp ? sheetUrlInp.value.trim() : "https://script.google.com/macros/s/AKfycbyQf200fHwcydhLqNW2YXVaADme2a4p0RXyc0at1YspDawEJ9oBIQw75tKY97LN35QH/exec";
       db.settings.registrationConfig.status = statusSelect ? statusSelect.value : "open";
       db.settings.registrationConfig.portalMode = modeSelect ? modeSelect.value : "internal";
@@ -5878,6 +6177,7 @@ function renderAdminRegistrations(db) {
       db.settings.registrationConfig.internalAddFee = internalAddInp ? parseInt(internalAddInp.value) || 200 : 200;
       db.settings.registrationConfig.externalFee = externalFeeInp ? parseInt(externalFeeInp.value) || 300 : 300;
       db.settings.registrationConfig.externalAddFee = externalAddInp ? parseInt(externalAddInp.value) || 300 : 300;
+      db.settings.registrationConfig.guestFee = guestFeeInp ? parseInt(guestFeeInp.value) || 100 : 100;
       db.settings.registrationConfig.instructions = instructionsTextarea ? instructionsTextarea.value.trim() : "";
       db.settings.registrationConfig.fees = updatedFees;
 
@@ -5944,21 +6244,26 @@ function renderAdminRegistrations(db) {
         statusBadge = `<span class="admin-badge-rejected">REJECTED</span>`;
       }
 
-      const isInt = (r.category === 'internal' || !r.category);
-      const catBadge = isInt 
-        ? `<span style="background:rgba(56,189,248,0.15); color:#38BDF8; border:1px solid #38BDF8; font-size:0.7rem; padding:2px 6px; border-radius:4px; font-weight:700;">INTERNAL</span>`
-        : `<span style="background:rgba(244,114,182,0.15); color:#F472B6; border:1px solid #F472B6; font-size:0.7rem; padding:2px 6px; border-radius:4px; font-weight:700;">EXTERNAL</span>`;
+      const isGuest = (r.category === "guest" || r.isGuestPass === true);
+      const isInt = (!isGuest && (r.category === "internal" || !r.category));
+      const catBadge = isGuest
+        ? `<span style="background:rgba(245,158,11,0.18); color:#D97706; border:1px solid #F59E0B; font-size:0.7rem; padding:2px 6px; border-radius:4px; font-weight:800;">GUEST PASS</span>`
+        : (isInt 
+          ? `<span style="background:rgba(56,189,248,0.15); color:#38BDF8; border:1px solid #38BDF8; font-size:0.7rem; padding:2px 6px; border-radius:4px; font-weight:700;">INTERNAL</span>`
+          : `<span style="background:rgba(244,114,182,0.15); color:#F472B6; border:1px solid #F472B6; font-size:0.7rem; padding:2px 6px; border-radius:4px; font-weight:700;">EXTERNAL</span>`);
       
-      let eventsDisplay = `<strong>1:</strong> ${r.event1Name || r.eventName || '-'}`;
-      if (r.event2Name) eventsDisplay += `<br><span style="color:#10B981; font-size:0.75rem;"><strong>2:</strong> ${r.event2Name} (FREE)</span>`;
-      if (r.event3Name) eventsDisplay += `<br><span style="color:#F59E0B; font-size:0.75rem;"><strong>3:</strong> ${r.event3Name} (+Fee)</span>`;
+      let eventsDisplay = isGuest
+        ? `<strong>Guest Pass (${r.guestRole || 'Faculty / Attender'})</strong><br><span style="color:#D97706; font-size:0.74rem; font-weight:700;">No QR Required · Max 1/Team</span>`
+        : `<strong>1:</strong> ${r.event1Name || r.eventName || '-'}`;
+      if (!isGuest && r.event2Name) eventsDisplay += `<br><span style="color:#10B981; font-size:0.75rem;"><strong>2:</strong> ${r.event2Name} (FREE)</span>`;
+      if (!isGuest && r.event3Name) eventsDisplay += `<br><span style="color:#F59E0B; font-size:0.75rem;"><strong>3:</strong> ${r.event3Name} (+Fee)</span>`;
 
       tr.innerHTML = `
         <td><strong style="color:#60A5FA; font-family:var(--font-mono);">${r.id}</strong><br><span style="font-size:0.72rem; color:#94A3B8;">${r.timestamp ? new Date(r.timestamp).toLocaleDateString() : ''}</span></td>
         <td><strong>${r.fullName}</strong><br><span style="color:#94A3B8; font-size:0.75rem;">${r.email}</span><br><span style="color:#CBD5E1; font-size:0.75rem;"> ${r.phone}</span></td>
         <td><strong>${r.college}</strong><br><span style="color:#93C5FD; font-size:0.75rem; font-family:var(--font-mono);">${r.usn}</span><br><span style="color:#94A3B8; font-size:0.72rem;">${r.department || ''}</span></td>
-        <td>${catBadge}<br><strong style="color:#34D399; font-size:0.85rem;">${r.feePaid || '₹200'}</strong></td>
-        <td><div style="font-size:0.8rem; line-height:1.4;">${eventsDisplay}</div><span style="font-size:0.72rem; color:#94A3B8;">${r.regType === 'Team' ? ' ' + (r.teamName || 'Squad') : (r.teamName ? 'Solo (' + r.teamName + ')' : 'Solo')}</span></td>
+        <td>${catBadge}<br><strong style="color:#34D399; font-size:0.85rem;">${r.feePaid || (isGuest ? '₹100' : '₹200')}</strong></td>
+        <td><div style="font-size:0.8rem; line-height:1.4;">${eventsDisplay}</div><span style="font-size:0.72rem; color:#94A3B8;">${isGuest ? ('Team: ' + (r.teamName || '-')) : (r.regType === 'Team' ? ' ' + (r.teamName || 'Squad') : (r.teamName ? 'Solo (' + r.teamName + ')' : 'Solo'))}</span></td>
         <td>
           <code style="background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:4px; font-size:0.8rem; color:#FCD34D;">${r.utrId}</code>
           ${r.paymentScreenshot ? `
@@ -5977,7 +6282,7 @@ function renderAdminRegistrations(db) {
         </td>
         <td>${statusBadge}</td>
         <td style="white-space: nowrap;">
-          <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#0284C7; border-color:#0284C7; margin-right:4px;" onclick="viewAdminPassModal('${r.id}')" title="View Pass & Terminal QR">Pass &amp; QR</button>
+          <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#0284C7; border-color:#0284C7; margin-right:4px;" onclick="viewAdminPassModal('${r.id}')" title="${isGuest ? 'View Guest Pass (No QR)' : 'View Pass & Terminal QR'}">${isGuest ? 'View Pass' : 'Pass &amp; QR'}</button>
           <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#34D399; border-color:#34D399;" onclick="setAdminRegStatus('${r.id}', 'Confirmed')"> Approve</button>
           <button class="btn btn-ghost" style="padding:0.25rem 0.5rem; font-size:0.72rem; color:#F87171; border-color:#F87171;" onclick="setAdminRegStatus('${r.id}', 'Rejected')">Reject</button>
           <button class="btn btn-ghost" style="padding:0.25rem 0.4rem; font-size:0.72rem; color:#94A3B8;" onclick="deleteAdminRegistration('${r.id}')" title="Delete record"></button>
@@ -6471,14 +6776,47 @@ window.closeAdminProofModal = function() {
   if (modal) modal.style.display = "none";
 };
 
-// Close modal on Escape key
+window.closeAdminPassModal = function() {
+  const modal = document.getElementById("admin-pass-modal");
+  if (modal) modal.style.display = "none";
+};
+
+window.closeAllAdminModals = function() {
+  [
+    "admin-proof-modal",
+    "admin-pass-modal",
+    "pass-proof-modal",
+    "dynamic-rulebook-modal",
+    "admin-event-edit-modal",
+    "admin-event-venue-modal",
+    "admin-event-rulebook-modal",
+    "admin-team-member-modal",
+    "admin-coord-modal",
+    "admin-coord-profile-modal"
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
+};
+
+// Close open modals on Escape key
 document.addEventListener("keydown", function(e) {
   if (e.key === "Escape") {
-    window.closeAdminProofModal();
-    const pModal = document.getElementById("pass-proof-modal");
-    if (pModal) pModal.style.display = "none";
-    const aModal = document.getElementById("admin-pass-modal");
-    if (aModal) aModal.style.display = "none";
+    window.closeAllAdminModals();
+  }
+});
+
+// Close read/preview modals when clicking dark backdrop overlay
+document.addEventListener("click", function(e) {
+  const target = e.target;
+  if (!target || !target.id) return;
+  if (
+    target.id === "admin-pass-modal" ||
+    target.id === "admin-proof-modal" ||
+    target.id === "pass-proof-modal" ||
+    target.id === "dynamic-rulebook-modal"
+  ) {
+    target.style.display = "none";
   }
 });
 
@@ -6580,10 +6918,11 @@ window.viewAdminPassModal = function(regId) {
   if (!modal || !modalBody) return;
 
   const isVerified = (reg.status === "Confirmed" || reg.status === "Checked In" || reg.paymentVerified === true);
-  const isInt = (reg.category === "internal" || !reg.category);
-  const catLabel = reg.categoryLabel || (isInt ? "Internal (Presidency University)" : "External (Other Institution)");
-  const isTeam = reg.regType === "Team";
-  const teamDisplayName = isTeam ? (reg.teamName || "Squad") : (reg.teamName ? `${reg.fullName} (${reg.teamName})` : reg.fullName);
+  const isGuest = (reg.category === "guest" || reg.isGuestPass === true);
+  const isInt = (!isGuest && (reg.category === "internal" || !reg.category));
+  const catLabel = reg.categoryLabel || (isGuest ? `Guest Pass (${reg.guestRole || "Faculty / Attender"} · Max 1/Team)` : (isInt ? "Internal (Presidency University)" : "External (Other Institution)"));
+  const isTeam = !isGuest && reg.regType === "Team";
+  const teamDisplayName = isGuest ? (reg.teamName || "Associated Team") : (isTeam ? (reg.teamName || "Squad") : (reg.teamName ? `${reg.fullName} (${reg.teamName})` : reg.fullName));
   
   let memberCount = 1;
   if (isTeam && reg.teamMembers) {
@@ -6594,11 +6933,13 @@ window.viewAdminPassModal = function(regId) {
       memberCount = Math.max(parts.length, 2);
     }
   }
-  const participantsLabel = isTeam ? `${memberCount} Confirmed Members` : "1 Participant (Solo)";
+  const participantsLabel = isGuest ? `1 Guest (${reg.guestRole || "Faculty / Attender"} · Max 1/Team)` : (isTeam ? `${memberCount} Confirmed Members` : "1 Participant (Solo)");
 
-  const arenas = [reg.event1Name || reg.eventName, reg.event2Name, reg.event3Name].filter(Boolean).join(", ");
+  const arenas = isGuest
+    ? `Guest Companion Entry (${reg.guestRole || "Faculty / Attender"}) — Associated Team: ${reg.teamName || "-"} (No QR Required)`
+    : [reg.event1Name || reg.eventName, reg.event2Name, reg.event3Name].filter(Boolean).join(", ");
 
-  const qrDataPayload = [
+  const qrDataPayload = isGuest ? "" : [
     "=== ARENIUM'27 OFFICIAL GATE PASS ===",
     `REG ID: ${reg.id}`,
     `TYPE: ${isTeam ? 'Team Entry' : 'Solo Entry'}`,
@@ -6620,7 +6961,7 @@ window.viewAdminPassModal = function(regId) {
       ${!isVerified ? `
         <div style="background:#FFFBEB; border:1.5px solid #FCD34D; border-radius:8px; padding:0.6rem 0.9rem; margin-bottom:0.9rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
           <span style="font-size:0.78rem; color:#B45309; font-weight:700;">
-            Payment Pending Verification — This pass &amp; QR are LOCKED on the student portal until approved.
+            Payment Pending Verification — This ${isGuest ? 'Guest Pass is LOCKED' : 'pass &amp; QR are LOCKED'} on the student portal until approved.
           </span>
           <button type="button" class="btn btn-primary" onclick="setAdminRegStatus('${reg.id}', 'Confirmed'); viewAdminPassModal('${reg.id}');" style="padding:4px 10px; font-size:0.75rem; font-weight:700;">
             Approve Payment &amp; Unlock Pass Now
@@ -6631,7 +6972,7 @@ window.viewAdminPassModal = function(regId) {
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; border-bottom: 1px dashed #CBD5E1; padding-bottom: 0.6rem;">
         <div>
           <div style="font-size: 0.72rem; color: #0284C7; font-weight: 700; letter-spacing: 1px;">PRESIDENCY UNIVERSITY • SOIS</div>
-          <div style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: #0F172A;">ARENIUM'27 DELEGATE PASS</div>
+          <div style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: #0F172A;">${isGuest ? "ARENIUM'27 GUEST PASS (FACULTY / ATTENDER)" : "ARENIUM'27 DELEGATE PASS"}</div>
         </div>
         <div style="text-align: right;">
           <span style="background: ${isVerified ? '#ECFDF5' : '#FEF3C7'}; color: ${isVerified ? '#047857' : '#B45309'}; border: 1px solid ${isVerified ? '#A7F3D0' : '#FCD34D'}; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 6px;">
@@ -6642,58 +6983,68 @@ window.viewAdminPassModal = function(regId) {
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; font-size: 0.85rem; margin-bottom: 1rem;">
-        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">Delegate / Lead:</strong> <strong>${reg.fullName}</strong></div>
-        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">Category:</strong> <span style="color: #0369A1; font-weight: 700;">${catLabel}</span></div>
+        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">${isGuest ? 'Guest Name:' : 'Delegate / Lead:'}</strong> <strong>${reg.fullName}</strong></div>
+        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">Category:</strong> <span style="color: ${isGuest ? '#B45309' : '#0369A1'}; font-weight: 700;">${catLabel}</span></div>
         <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">College:</strong> ${reg.college}</div>
-        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">USN / ID:</strong> ${reg.usn}</div>
-        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">Participation:</strong> <strong>${isTeam ? 'Team: ' + teamDisplayName : 'Solo'}</strong></div>
-        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">Fee Paid:</strong> <strong style="color: ${isVerified ? '#047857' : '#B45309'};">${reg.feePaid || '₹200'} (${isVerified ? 'Verified' : 'Pending'})</strong></div>
-        <div style="grid-column: 1 / -1;"><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">Registered Arenas:</strong> <div style="color: #0F172A; font-weight: 600;">${arenas}</div></div>
+        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">${isGuest ? 'Faculty / Govt ID:' : 'USN / ID:'}</strong> ${reg.usn}</div>
+        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">${isGuest ? 'Associated Team:' : 'Participation:'}</strong> <strong>${isGuest ? (reg.teamName || '-') : (isTeam ? 'Team: ' + teamDisplayName : 'Solo')}</strong></div>
+        <div><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">Fee Paid:</strong> <strong style="color: ${isVerified ? '#047857' : '#B45309'};">${reg.feePaid || (isGuest ? '₹100' : '₹200')} (${isVerified ? 'Verified' : 'Pending'})</strong></div>
+        <div style="grid-column: 1 / -1;"><strong style="color: #64748B; font-size: 0.72rem; display: block; text-transform: uppercase;">${isGuest ? 'Access Scope:' : 'Registered Arenas:'}</strong> <div style="color: #0F172A; font-weight: 600;">${arenas}</div></div>
       </div>
 
-      <!-- QR Code Section -->
-      <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-          <div id="admin-pass-qr-target" style="padding: 6px; background: #FFF; border-radius: 8px; border: 1px solid #E2E8F0; min-width: 120px; min-height: 120px; display: flex; align-items: center; justify-content: center;"></div>
-          <div>
-            <div style="font-size: 0.72rem; color: #0284C7; font-weight: 800; letter-spacing: 0.5px;">OFFICIAL GATE TERMINAL QR</div>
-            <div style="font-weight: 800; font-size: 1.05rem; color: #0F172A; margin: 2px 0;">${isTeam ? 'Squad: ' + teamDisplayName : 'Delegate: ' + teamDisplayName}</div>
-            <div style="font-size: 0.8rem; color: #475569;"><strong>Participants:</strong> <span style="color: #047857; font-weight: 700;">${participantsLabel}</span></div>
-            <div style="font-size: 0.8rem; color: #475569;"><strong>Category:</strong> <span style="color: #0369A1; font-weight: 700;">${catLabel}</span></div>
+      ${isGuest ? `
+        <div style="background: #FFFBEB; border: 1.5px solid #FCD34D; border-radius: 12px; padding: 0.9rem 1rem; color: #92400E; font-size: 0.84rem; font-weight: 700; text-align: center;">
+          NON-COMPETING GUEST PASS · Strictly 1 Guest allowed per team · No Gate QR Code Required
+        </div>
+      ` : `
+        <!-- QR Code Section -->
+        <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <div id="admin-pass-qr-target" style="padding: 6px; background: #FFF; border-radius: 8px; border: 1px solid #E2E8F0; min-width: 120px; min-height: 120px; display: flex; align-items: center; justify-content: center;"></div>
+            <div>
+              <div style="font-size: 0.72rem; color: #0284C7; font-weight: 800; letter-spacing: 0.5px;">OFFICIAL GATE TERMINAL QR</div>
+              <div style="font-weight: 800; font-size: 1.05rem; color: #0F172A; margin: 2px 0;">${isTeam ? 'Squad: ' + teamDisplayName : 'Delegate: ' + teamDisplayName}</div>
+              <div style="font-size: 0.8rem; color: #475569;"><strong>Participants:</strong> <span style="color: #047857; font-weight: 700;">${participantsLabel}</span></div>
+              <div style="font-size: 0.8rem; color: #475569;"><strong>Category:</strong> <span style="color: #0369A1; font-weight: 700;">${catLabel}</span></div>
+            </div>
+          </div>
+          <div style="font-size: 0.72rem; color: #64748B; max-width: 220px; line-height: 1.4; border-left: 1.5px solid #E2E8F0; padding-left: 0.8rem;">
+            Scan with phone camera or terminal barcode scanner at gate to verify registration validity and event roster.
           </div>
         </div>
-        <div style="font-size: 0.72rem; color: #64748B; max-width: 220px; line-height: 1.4; border-left: 1.5px solid #E2E8F0; padding-left: 0.8rem;">
-          Scan with phone camera or terminal barcode scanner at gate to verify registration validity and event roster.
-        </div>
-      </div>
+      `}
     </div>
   `;
 
   modal.style.display = "flex";
+  const modalContent = modal.querySelector(".admin-modal-content");
+  if (modalContent) modalContent.scrollTop = 0;
 
-  const qrTarget = document.getElementById("admin-pass-qr-target");
-  if (qrTarget) {
-    qrTarget.innerHTML = "";
-    let qrDone = false;
-    if (typeof QRCode !== "undefined") {
-      try {
-        new QRCode(qrTarget, {
-          text: qrDataPayload,
-          width: 110,
-          height: 110,
-          colorDark: "#0F172A",
-          colorLight: "#FFFFFF",
-          correctLevel: QRCode.CorrectLevel.M
-        });
-        qrDone = true;
-      } catch(e){}
-    }
-    if (!qrDone) {
-      const img = document.createElement("img");
-      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&format=png&data=${encodeURIComponent(qrDataPayload)}`;
-      img.style.width = "110px";
-      img.style.height = "110px";
-      qrTarget.appendChild(img);
+  if (!isGuest) {
+    const qrTarget = document.getElementById("admin-pass-qr-target");
+    if (qrTarget) {
+      qrTarget.innerHTML = "";
+      let qrDone = false;
+      if (typeof QRCode !== "undefined") {
+        try {
+          new QRCode(qrTarget, {
+            text: qrDataPayload,
+            width: 110,
+            height: 110,
+            colorDark: "#0F172A",
+            colorLight: "#FFFFFF",
+            correctLevel: QRCode.CorrectLevel.M
+          });
+          qrDone = true;
+        } catch(e){}
+      }
+      if (!qrDone) {
+        const img = document.createElement("img");
+        img.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&format=png&data=${encodeURIComponent(qrDataPayload)}`;
+        img.style.width = "110px";
+        img.style.height = "110px";
+        qrTarget.appendChild(img);
+      }
     }
   }
 };
