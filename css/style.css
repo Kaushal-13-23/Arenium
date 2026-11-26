@@ -12344,3 +12344,16 @@ span#team-page-pill.section-tag,
     white-space: nowrap !important;
   }
 }
+
+#our-team-grid .team-card-badge-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  padding: 0.2rem 0.55rem !important;
+  font-size: 0.65rem !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}

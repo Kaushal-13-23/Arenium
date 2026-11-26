@@ -1961,7 +1961,7 @@ function initOurTeamPage(db) {
           ? m.badge.trim().toUpperCase()
           : catMeta.badgeUpper;
 
-        const catBadge = `<span class="team-card-badge-pill" style="background: ${catMeta.bg}; color: ${catMeta.color}; border: 1px solid ${catMeta.border}; padding: 0.25rem 0.65rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;">${escapeHtml(badgeText)}</span>`;
+        const catBadge = `<span class="team-card-badge-pill" style="display: inline-flex; align-items: center; width: fit-content; max-width: 100%; background: ${catMeta.bg}; color: ${catMeta.color}; -webkit-text-fill-color: ${catMeta.color}; border: 1px solid ${catMeta.border}; padding: 0.2rem 0.55rem; border-radius: 9999px; font-size: 0.65rem; font-weight: 800; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(badgeText)}</span>`;
 
         const photoSrc = resolveAssetPath(m.photo, "images/coord-generic.svg");
         const email = m.email || "Arenium.official@gmail.com";
@@ -1969,9 +1969,9 @@ function initOurTeamPage(db) {
         const cleanPhone = (m.phone || "").replace(/[^0-9+]/g, "");
 
         card.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.35rem 0.5rem; margin-bottom: 1rem;">
             ${catBadge}
-            <span style="font-size: 0.72rem; color: #94A3B8; font-weight: 700; text-transform: uppercase;">ARENIUM '27</span>
+            <span style="font-size: 0.68rem; color: #94A3B8; -webkit-text-fill-color: #94A3B8; font-weight: 700; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;">ARENIUM '27</span>
           </div>
 
           <div style="width: 100%; height: 210px; border-radius: 12px; overflow: hidden; background: #F8FAFC; border: 1px solid #E2E8F0; margin-bottom: 1rem; position: relative;">
@@ -4849,7 +4849,7 @@ function renderAdminTeam(db) {
       ? m.badge.trim()
       : catMeta.badgeTitle;
 
-    const catBadge = `<span class="badge" style="background: ${catMeta.bg}; color: ${catMeta.color}; border: 1px solid ${catMeta.border}; font-weight: 700;">${escapeHtml(badgeText)}</span>`;
+    const catBadge = `<span class="badge" style="display: inline-flex; align-items: center; width: fit-content; background: ${catMeta.bg}; color: ${catMeta.color}; -webkit-text-fill-color: ${catMeta.color}; border: 1px solid ${catMeta.border}; padding: 0.2rem 0.55rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 700; line-height: 1.2; white-space: nowrap;">${escapeHtml(badgeText)}</span>`;
 
     const photoSrc = resolveAssetPath(m.photo, "images/coord-generic.svg");
     const descText = (m.bio || m.description || "—");
