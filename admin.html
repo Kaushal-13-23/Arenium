@@ -1660,11 +1660,11 @@
               </span>
             </div>
 
-            <!-- 3. Guest Pass Payment Link (Faculty / Attender - Rs 100 - Max 1 Per Team) -->
+            <!-- 3. Guest Pass Payment Link (Faculty / Attender - Rs 100/attender - Max 2 Per Team; Bio Chroma Free / 1 Max) -->
             <div class="admin-form-group" style="grid-column: 1 / -1; background: #FFFBEB; border: 2px solid #D97706; border-radius: 12px; padding: 1.2rem;">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
                 <label class="admin-label" for="reg-admin-gateway-url-guest" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
-                  GUEST PASS PAYMENT LINK (FACULTY / ATTENDER · ₹100 · MAX 1/TEAM · NO QR)
+                  GUEST PASS PAYMENT LINK (₹100/ATTENDER · MAX 2/TEAM · BIO CHROMA: 1 FREE · ENTRY QR WITH NAME &amp; ID)
                 </label>
                 <span id="gateway-status-badge-guest" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #FEE2E2; color: #991B1B; border: 1.5px solid #EF4444;">
                   ○ NO LINK (DISABLED)
@@ -1684,7 +1684,35 @@
               </div>
 
               <span style="font-size: 0.82rem; color: #000000 !important; margin-top: 0.5rem; display: block; line-height: 1.5; font-weight: 600; -webkit-text-fill-color: #000000 !important;">
-                Embedded into the <strong style="color: #000000 !important;">"PAY NOW (₹100) — GUEST PASS LINK"</strong> button on <strong style="color: #000000 !important;">register.html</strong> for faculty or attenders (strictly 1 per team, no QR issued).
+                Embedded into the <strong style="color: #000000 !important;">"PAY NOW — GUEST PASS LINK"</strong> button on <strong style="color: #000000 !important;">register.html</strong> for faculty or attenders (₹100 each, max 2 per team; Bio Chroma is FREE with 1 attender strictly).
+              </span>
+            </div>
+
+            <!-- 4. Optional Accommodation Payment Link (Separate Payment 2 · Rs 500/person) -->
+            <div class="admin-form-group" style="grid-column: 1 / -1; background: #F5F3FF; border: 2px solid #7C3AED; border-radius: 12px; padding: 1.2rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+                <label class="admin-label" for="reg-admin-gateway-url-accommodation" style="margin: 0; font-size: 0.92rem; color: #000000 !important; font-weight: 800; letter-spacing: 0.5px; -webkit-text-fill-color: #000000 !important;">
+                  ACCOMMODATION PAYMENT LINK (OPTIONAL · SEPARATE PAYMENT 2 · ₹500 / PERSON)
+                </label>
+                <span id="gateway-status-badge-accommodation" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.65rem; border-radius: 6px; font-weight: 800; background: #FEE2E2; color: #991B1B; border: 1.5px solid #EF4444;">
+                  ○ NO LINK (DISABLED)
+                </span>
+              </div>
+
+              <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                <input type="url" id="reg-admin-gateway-url-accommodation" class="admin-input" placeholder="https://paytm.me/... or ₹500/person Accommodation payment link" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem; color: #000000 !important; font-weight: 600; -webkit-text-fill-color: #000000 !important; background: #FFFFFF !important; border: 1.5px solid #94A3B8 !important;">
+
+                <button type="button" id="admin-test-gateway-accommodation-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; color: #000000 !important; background: #E2E8F0 !important; border: 1.5px solid #94A3B8 !important;">
+                  Test Link
+                </button>
+
+                <button type="button" id="admin-remove-gateway-accommodation-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.82rem; background: #FEE2E2 !important; border: 1.5px solid #EF4444 !important; color: #991B1B !important; font-weight: 700; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove Accommodation payment link">
+                  Remove Link
+                </button>
+              </div>
+
+              <span style="font-size: 0.82rem; color: #000000 !important; margin-top: 0.5rem; display: block; line-height: 1.5; font-weight: 600; -webkit-text-fill-color: #000000 !important;">
+                Embedded into <strong style="color: #000000 !important;">"PAYMENT 2 — PAY ACCOMMODATION FEE"</strong> on <strong style="color: #000000 !important;">register.html</strong> when participants opt for accommodation (kept completely separate from Event Registration Payment 1 &amp; its invoice).
               </span>
             </div>
             <!-- Hidden inputs for backward compatibility -->
@@ -1715,8 +1743,13 @@
             </div>
 
             <div class="admin-form-group">
-              <label class="admin-label" for="reg-admin-guest-fee">GUEST PASS FEE (FACULTY / ATTENDER · MAX 1/TEAM)</label>
+              <label class="admin-label" for="reg-admin-guest-fee">GUEST PASS FEE PER ATTENDER (MAX 2/TEAM · BIO CHROMA: 1 FREE)</label>
               <input type="number" id="reg-admin-guest-fee" class="admin-input" placeholder="100" value="100">
+            </div>
+
+            <div class="admin-form-group">
+              <label class="admin-label" for="reg-admin-accommodation-fee">ACCOMMODATION FEE PER PERSON (OPTIONAL · SEPARATE INVOICE 2)</label>
+              <input type="number" id="reg-admin-accommodation-fee" class="admin-input" placeholder="500" value="500">
             </div>
           </div>
 
@@ -2320,7 +2353,7 @@
           <div class="admin-form-group" style="background: rgba(15, 23, 42, 0.65); border: 1.5px solid #F59E0B; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
               <label class="admin-label" for="admin-setting-gatewayurl-guest" style="margin: 0; font-size: 0.88rem; color: #FBBF24; font-weight: 700;">
-                GUEST PASS PAYMENT LINK (FACULTY / ATTENDER · ₹100 · MAX 1/TEAM · NO QR)
+                GUEST PASS PAYMENT LINK (₹100/ATTENDER · MAX 2/TEAM · BIO CHROMA: 1 FREE · ENTRY QR WITH NAME &amp; ID)
               </label>
               <span id="admin-setting-gateway-status-guest" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(239, 68, 68, 0.2); color: #EF4444; border: 1px solid #EF4444;">
                 ○ NO LINK (DISABLED)
@@ -2336,7 +2369,30 @@
               </button>
             </div>
             <span style="font-size: 0.74rem; color: var(--text-muted); margin-top: 0.4rem; display: block; line-height: 1.4;">
-              Embedded into the <strong>"PAY NOW (₹100) — GUEST PASS LINK"</strong> button on <code>register.html</code> for faculty/attenders.
+              Embedded into the <strong>"PAY NOW — GUEST PASS LINK"</strong> button on <code>register.html</code> for faculty/attenders (₹100 each, max 2 per team; Bio Chroma is 100% FREE with 1 attender strictly).
+            </span>
+          </div>
+
+          <div class="admin-form-group" style="background: rgba(15, 23, 42, 0.65); border: 1.5px solid #8B5CF6; border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+              <label class="admin-label" for="admin-setting-gatewayurl-accommodation" style="margin: 0; font-size: 0.88rem; color: #C4B5FD; font-weight: 700;">
+                ACCOMMODATION PAYMENT GATEWAY LINK (SEPARATE PAYMENT 2 · ₹500 / PERSON)
+              </label>
+              <span id="admin-setting-gateway-status-accommodation" style="font-family: var(--font-mono); font-size: 0.72rem; padding: 0.2rem 0.6rem; border-radius: 6px; font-weight: 700; background: rgba(239, 68, 68, 0.2); color: #EF4444; border: 1px solid #EF4444;">
+                ○ NO LINK (DISABLED)
+              </span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+              <input type="url" id="admin-setting-gatewayurl-accommodation" class="admin-input" placeholder="https://paytm.me/... or ₹500/person Accommodation payment link" style="flex: 1; min-width: 280px; font-family: var(--font-mono); font-size: 0.88rem;">
+              <button type="button" id="admin-setting-test-gateway-accommodation-btn" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+                Test Link
+              </button>
+              <button type="button" id="admin-setting-remove-gateway-accommodation-btn" class="btn" style="padding: 0.6rem 1rem; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); border: 1.5px solid #EF4444; color: #FCA5A5; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;" title="Clear and remove Accommodation payment link">
+                Remove Link
+              </button>
+            </div>
+            <span style="font-size: 0.74rem; color: var(--text-muted); margin-top: 0.4rem; display: block; line-height: 1.4;">
+              Embedded into the separate <strong>Payment 2 (Accommodation — ₹500/person)</strong> button on <code>register.html</code> for participants opting into accommodation.
             </span>
           </div>
           <!-- Hidden fallback elements -->
@@ -2487,7 +2543,7 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_REG_MANUAL_ACCESS_V60"></script>
+  <script src="js/main.js?v=2027_ACCOMMODATION_V65"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->
