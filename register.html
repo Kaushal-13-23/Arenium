@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css?v=2027_REG_MANUAL_PDF_V59">
+  <link rel="stylesheet" href="css/style.css?v=2027_ACCOM_BLACK_TEXT_V66">
 </head>
 <body class="subpage-body register-page">
     
@@ -243,17 +243,17 @@
             </div>
 
             <!-- Optional Accommodation Highlight Banner -->
-            <div style="margin-top: 0.9rem; background: #F5F3FF; border: 1.5px solid #C4B5FD; border-left: 5px solid #7C3AED; border-radius: 12px; padding: 0.85rem 1.1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
-              <div>
+            <div id="fee-accom-banner" class="fee-accom-banner" style="margin-top: 0.9rem; background: #F5F3FF !important; border: 1.5px solid #C4B5FD !important; border-left: 5px solid #7C3AED !important; border-radius: 12px; padding: 0.85rem 1.1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
+              <div style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.2rem;">
-                  <span style="font-size: 0.76rem; color: #5B21B6; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;">OPTIONAL CAMPUS ACCOMMODATION</span>
-                  <span style="font-size: 0.7rem; background: #EDE9FE; color: #5B21B6; border: 1px solid #C4B5FD; padding: 0.12rem 0.5rem; border-radius: 9999px; font-weight: 800;">PER PERSON · SEPARATE PAYMENT 2 &amp; INVOICE</span>
+                  <span style="font-size: 0.78rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;">OPTIONAL CAMPUS ACCOMMODATION</span>
+                  <span style="font-size: 0.7rem; background: #EDE9FE !important; color: #000000 !important; -webkit-text-fill-color: #000000 !important; border: 1px solid #C4B5FD !important; padding: 0.12rem 0.5rem; border-radius: 9999px; font-weight: 800;">PER PERSON · SEPARATE PAYMENT 2 &amp; INVOICE</span>
                 </div>
-                <div style="font-size: 0.84rem; color: #1E293B; font-weight: 600;">
-                  <strong style="color: #6D28D9; font-weight: 900;">+₹500 / Selected Person</strong> — Choose individual participants requiring stay below. Paid separately from event registration with its own gateway link, UTR &amp; Invoice 2.
+                <div style="font-size: 0.84rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600;">
+                  <strong style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 900;">+₹500 / Selected Person</strong> — Choose individual participants requiring stay below. Paid separately from event registration with its own gateway link, UTR &amp; Invoice 2.
                 </div>
               </div>
-              <button type="button" class="btn btn-secondary" onclick="var c=document.getElementById('reg-accom-enabled'); if(c){c.checked=true; c.dispatchEvent(new Event('change')); var s=document.getElementById('accommodation-opt-section'); if(s) s.scrollIntoView({behavior:'smooth'});}" style="padding: 0.45rem 0.9rem; font-size: 0.78rem; font-weight: 800; background: #FFFFFF; color: #6D28D9; border: 1.5px solid #7C3AED; cursor: pointer;">
+              <button type="button" id="fee-accom-btn" class="fee-accom-btn" onclick="var c=document.getElementById('reg-accom-enabled'); if(c){c.checked=true; c.dispatchEvent(new Event('change')); var s=document.getElementById('accommodation-opt-section'); if(s) s.scrollIntoView({behavior:'smooth'});}" style="padding: 0.5rem 1.05rem; font-size: 0.8rem; font-weight: 800; background: #FFFFFF !important; color: #000000 !important; -webkit-text-fill-color: #000000 !important; border: 1.5px solid #7C3AED !important; border-radius: 9999px; cursor: pointer; white-space: nowrap;">
                 Add Accommodation (+₹500) ↓
               </button>
             </div>
@@ -703,37 +703,37 @@
             <!-- SECTION 2B: OPTIONAL ACCOMMODATION PER PERSON (+Rs 500/PERSON · SEPARATE PAYMENT 2) -->
             <div id="accommodation-opt-section" style="margin-top: 2rem;">
               <div style="margin-bottom: 1rem; border-bottom: 1.5px solid #DDD6FE; padding-bottom: 0.5rem;">
-                <span class="section-tag" style="background: #EDE9FE; color: #5B21B6; border-color: #8B5CF6;">02B · OPTIONAL CAMPUS ACCOMMODATION (₹500 / PERSON)</span>
+                <span class="section-tag" style="background: #EDE9FE !important; color: #000000 !important; -webkit-text-fill-color: #000000 !important; border-color: #8B5CF6 !important;">02B · OPTIONAL CAMPUS ACCOMMODATION (₹500 / PERSON)</span>
               </div>
 
-              <div style="background: #F5F3FF; border: 1.5px solid #8B5CF6; border-left: 5px solid #6D28D9; border-radius: 14px; padding: 1.15rem 1.3rem;">
-                <label for="reg-accom-enabled" style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; margin: 0;">
+              <div style="background: #F5F3FF !important; border: 1.5px solid #8B5CF6 !important; border-left: 5px solid #6D28D9 !important; border-radius: 14px; padding: 1.15rem 1.3rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
+                <label for="reg-accom-enabled" style="display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; margin: 0; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                   <input type="checkbox" id="reg-accom-enabled" style="width: 19px; height: 19px; margin-top: 0.15rem; accent-color: #6D28D9; cursor: pointer; flex-shrink: 0;">
-                  <div>
-                    <div style="font-size: 0.96rem; font-weight: 800; color: #4C1D95;">
-                      Require Optional Accommodation? <span id="accom-rate-pill" style="background: #6D28D9; color: #FFFFFF; font-size: 0.74rem; padding: 0.15rem 0.55rem; border-radius: 9999px; font-weight: 800; margin-left: 0.35rem;">+₹500 / PERSON</span>
+                  <div style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
+                    <div style="font-size: 0.96rem; font-weight: 800; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
+                      Require Optional Accommodation? <span id="accom-rate-pill" style="background: #6D28D9 !important; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important; font-size: 0.74rem; padding: 0.15rem 0.55rem; border-radius: 9999px; font-weight: 800; margin-left: 0.35rem;">+₹500 / PERSON</span>
                     </div>
-                    <div style="font-size: 0.8rem; color: #475569; margin-top: 0.2rem; line-height: 1.45; font-weight: 600;">
-                      Optional add-on. Check this box to select individual participant(s) per-person wise. Accommodation has its own separate <strong>Payment 2 Link, Participant Names, UTR &amp; Invoice 2</strong> below.
+                    <div style="font-size: 0.8rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; margin-top: 0.2rem; line-height: 1.45; font-weight: 600;">
+                      Optional add-on. Check this box to select individual participant(s) per-person wise. Accommodation has its own separate <strong style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Payment 2 Link, Participant Names, UTR &amp; Invoice 2</strong> below.
                     </div>
                   </div>
                 </label>
 
-                <div id="accom-details-box" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1.5px dashed #C4B5FD;">
+                <div id="accom-details-box" style="display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1.5px dashed #C4B5FD; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                   <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.75rem;">
                     <div>
-                      <strong style="font-size: 0.84rem; color: #4C1D95; text-transform: uppercase; letter-spacing: 0.4px; display: block;">
+                      <strong style="font-size: 0.84rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; text-transform: uppercase; letter-spacing: 0.4px; display: block;">
                         Select Participants Needing Accommodation (Per Person Wise):
                       </strong>
-                      <span style="font-size: 0.75rem; color: #64748B; font-weight: 600;">
-                        Only ticked participants are charged ₹<span id="accom-rate-value">500</span> each in Payment 2.
+                      <span style="font-size: 0.75rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600;">
+                        Only ticked participants are charged ₹<span id="accom-rate-value" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">500</span> each in Payment 2.
                       </span>
                     </div>
                     <div style="display: flex; gap: 0.5rem;">
-                      <button type="button" id="btn-accom-select-all" class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.74rem; font-weight: 800; background: #FFFFFF; border: 1.5px solid #7C3AED; color: #6D28D9; cursor: pointer;">
+                      <button type="button" id="btn-accom-select-all" class="btn btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.74rem; font-weight: 800; background: #FFFFFF !important; border: 1.5px solid #7C3AED !important; color: #000000 !important; -webkit-text-fill-color: #000000 !important; cursor: pointer;">
                         Select All
                       </button>
-                      <button type="button" id="btn-accom-clear-all" class="btn btn-ghost" style="padding: 0.35rem 0.75rem; font-size: 0.74rem; font-weight: 700; color: #64748B; border-color: #CBD5E1; cursor: pointer;">
+                      <button type="button" id="btn-accom-clear-all" class="btn btn-ghost" style="padding: 0.35rem 0.75rem; font-size: 0.74rem; font-weight: 700; color: #000000 !important; -webkit-text-fill-color: #000000 !important; border-color: #CBD5E1 !important; cursor: pointer;">
                         Clear
                       </button>
                     </div>
@@ -743,9 +743,9 @@
                     <!-- Dynamically populated per-person checkboxes -->
                   </div>
 
-                  <div id="accom-selected-summary" style="margin-top: 0.85rem; background: #FFFFFF; border: 1.5px solid #A78BFA; border-radius: 10px; padding: 0.7rem 0.95rem; font-size: 0.82rem; color: #4C1D95; font-weight: 700; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-                    <span>No participant selected yet — tick at least 1 person above.</span>
-                    <span style="font-family: var(--font-mono); font-weight: 900; color: #6D28D9;">₹0</span>
+                  <div id="accom-selected-summary" style="margin-top: 0.85rem; background: #FFFFFF !important; border: 1.5px solid #A78BFA !important; border-radius: 10px; padding: 0.7rem 0.95rem; font-size: 0.82rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                    <span style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">No participant selected yet — tick at least 1 person above.</span>
+                    <span style="font-family: var(--font-mono); font-weight: 900; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">₹0</span>
                   </div>
                 </div>
               </div>
@@ -852,82 +852,82 @@
               </div>
 
               <!-- SECTION 4: SEPARATE PAYMENT 2 (ACCOMMODATION · +Rs 500/PERSON) -->
-              <div id="payment-2-accommodation-section" class="form-field-group full-width" style="display: none; margin-top: 1.25rem;">
+              <div id="payment-2-accommodation-section" class="form-field-group full-width" style="display: none; margin-top: 1.25rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                 <div style="margin-bottom: 1rem; border-bottom: 1.5px solid #DDD6FE; padding-bottom: 0.5rem;">
-                  <span class="section-tag" style="background: #EDE9FE; color: #5B21B6; border-color: #7C3AED;">04 · PAYMENT 2 — ACCOMMODATION PAYMENT &amp; INVOICE 2 (SEPARATE TRANSACTION)</span>
+                  <span class="section-tag" style="background: #EDE9FE !important; color: #000000 !important; -webkit-text-fill-color: #000000 !important; border-color: #7C3AED !important;">04 · PAYMENT 2 — ACCOMMODATION PAYMENT &amp; INVOICE 2 (SEPARATE TRANSACTION)</span>
                 </div>
 
-                <div style="background: #F5F3FF; border: 2px solid #7C3AED; border-radius: 16px; padding: 1.25rem 1.4rem; color: #0F172A;">
+                <div style="background: #F5F3FF !important; border: 2px solid #7C3AED !important; border-radius: 16px; padding: 1.25rem 1.4rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                   <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1rem;">
                     <div>
-                      <div style="font-size: 0.74rem; color: #5B21B6; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">PAYMENT 2 (INVOICE 2) · ACCOMMODATION FEE PAYABLE</div>
-                      <div id="reg-accom-fee-amount" style="font-size: 2rem; font-weight: 900; color: #6D28D9; line-height: 1.2; margin: 0.15rem 0;">₹500</div>
-                      <div id="reg-accom-fee-breakdown" style="font-size: 0.84rem; color: #3B0764; font-weight: 700;">1 Person Selected × ₹500 = ₹500</div>
+                      <div style="font-size: 0.74rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; text-transform: uppercase; letter-spacing: 1px; font-weight: 800;">PAYMENT 2 (INVOICE 2) · ACCOMMODATION FEE PAYABLE</div>
+                      <div id="reg-accom-fee-amount" style="font-size: 2rem; font-weight: 900; color: #000000 !important; -webkit-text-fill-color: #000000 !important; line-height: 1.2; margin: 0.15rem 0;">₹500</div>
+                      <div id="reg-accom-fee-breakdown" style="font-size: 0.84rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700;">1 Person Selected × ₹500 = ₹500</div>
                     </div>
-                    <span style="background: #EDE9FE; border: 1.5px solid #7C3AED; color: #5B21B6; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 800; padding: 0.3rem 0.7rem; border-radius: 20px;">
+                    <span style="background: #EDE9FE !important; border: 1.5px solid #7C3AED !important; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.72rem; font-family: var(--font-mono); font-weight: 800; padding: 0.3rem 0.7rem; border-radius: 20px;">
                       SEPARATE PAYMENT 2 &amp; INVOICE 2
                     </span>
                   </div>
 
                   <!-- Selected Participant Names for Accommodation Payment -->
-                  <div style="background: #FFFFFF; border: 1.5px solid #C4B5FD; border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 1rem;">
-                    <div style="font-size: 0.74rem; color: #5B21B6; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 0.35rem;">
+                  <div style="background: #FFFFFF !important; border: 1.5px solid #C4B5FD !important; border-radius: 10px; padding: 0.85rem 1rem; margin-bottom: 1rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
+                    <div style="font-size: 0.74rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 0.35rem;">
                       PARTICIPANT NAME(S) INCLUDED IN ACCOMMODATION PAYMENT 2:
                     </div>
-                    <div id="accom-invoice-names" style="font-size: 0.85rem; color: #1E293B; font-weight: 700; line-height: 1.55;">
+                    <div id="accom-invoice-names" style="font-size: 0.85rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 700; line-height: 1.55;">
                       Select participants above to include them here.
                     </div>
                   </div>
 
                   <!-- Admin Configured Accommodation Payment Button -->
                   <div style="text-align: center; margin-bottom: 1rem;">
-                    <a id="btn-pay-accom" href="#" class="btn btn-pay-now" style="width: 100%; max-width: 100%; box-sizing: border-box; white-space: normal; justify-content: center; text-align: center; background: linear-gradient(135deg, #6D28D9, #4C1D95) !important; border-color: #5B21B6 !important; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">
+                    <a id="btn-pay-accom" href="#" class="btn btn-pay-accom" style="width: 100%; max-width: 100%; box-sizing: border-box; white-space: normal; justify-content: center; text-align: center; background: linear-gradient(135deg, #6D28D9, #4C1D95) !important; border: 1.5px solid #5B21B6 !important; border-radius: 50px !important; padding: 0.85rem 1.4rem !important; font-weight: 800 !important; display: inline-flex !important; color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">
                       <span id="btn-pay-accom-text" style="color: #FFFFFF !important; -webkit-text-fill-color: #FFFFFF !important;">PAY NOW (₹500) — ACCOMMODATION LINK ↗</span>
                     </a>
-                    <div id="pay-accom-status-hint" style="font-size: 0.78rem; color: #5B21B6; margin-top: 0.45rem; font-weight: 600;">
+                    <div id="pay-accom-status-hint" style="font-size: 0.78rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; margin-top: 0.45rem; font-weight: 600;">
                       Click above to pay Accommodation fee separately via the official Admin Accommodation Link, then enter your separate UTR &amp; screenshot below.
                     </div>
                   </div>
 
                   <div class="register-form-grid">
                     <div class="form-field-group" id="group-reg-accom-utr">
-                      <label class="form-label" for="reg-accom-utr">
+                      <label class="form-label" for="reg-accom-utr" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                         ACCOMMODATION 12-DIGIT UTR / REF NO. (PAYMENT 2) <span class="req">*</span>
                       </label>
                       <input type="text" id="reg-accom-utr" class="form-input" placeholder="e.g. Separate Accom UTR / Ref No." maxlength="24">
-                      <span style="font-size: 0.74rem; color: #475569; margin-top: 0.25rem; font-weight: 600;">
+                      <span style="font-size: 0.74rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; margin-top: 0.25rem; font-weight: 600;">
                         Must be a separate transaction from Payment 1 (Event Registration UTR).
                       </span>
                     </div>
 
                     <div class="form-field-group" id="group-reg-accom-screenshot">
-                      <label class="form-label" for="reg-accom-screenshot">
+                      <label class="form-label" for="reg-accom-screenshot" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                         ACCOMMODATION PAYMENT SCREENSHOT (SS) (PAYMENT 2) <span class="req">*</span>
                       </label>
                       <div id="accom-payment-dropzone" style="position: relative;">
                         <input type="file" id="reg-accom-screenshot" accept="image/*" style="display: none;">
-                        <div id="accom-upload-idle-state" onclick="document.getElementById('reg-accom-screenshot').click()" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; cursor: pointer; text-align: center; border: 2px dashed #C4B5FD; border-radius: 12px; background: #FFFFFF;">
-                          <span style="font-size: 0.84rem; font-weight: 700; color: #6D28D9; display: block; margin-bottom: 0.15rem;">Upload Accommodation SS</span>
-                          <strong style="font-size: 0.85rem; color: #0F172A;">Upload Payment 2 Screenshot (Proof)</strong>
-                          <span style="font-size: 0.74rem; color: #64748B; margin-top: 0.15rem;">PNG, JPG, WEBP showing Accommodation amount &amp; UTR</span>
+                        <div id="accom-upload-idle-state" onclick="document.getElementById('reg-accom-screenshot').click()" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; cursor: pointer; text-align: center; border: 2px dashed #C4B5FD; border-radius: 12px; background: #FFFFFF !important; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
+                          <span style="font-size: 0.84rem; font-weight: 700; color: #000000 !important; -webkit-text-fill-color: #000000 !important; display: block; margin-bottom: 0.15rem;">Upload Accommodation SS</span>
+                          <strong style="font-size: 0.85rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Upload Payment 2 Screenshot (Proof)</strong>
+                          <span style="font-size: 0.74rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; margin-top: 0.15rem;">PNG, JPG, WEBP showing Accommodation amount &amp; UTR</span>
                         </div>
-                        <div id="accom-upload-preview-state" style="display: none; align-items: center; justify-content: space-between; gap: 0.8rem; padding: 0.7rem 0.9rem; border: 1.5px solid #7C3AED; border-radius: 12px; background: #FFFFFF;">
+                        <div id="accom-upload-preview-state" style="display: none; align-items: center; justify-content: space-between; gap: 0.8rem; padding: 0.7rem 0.9rem; border: 1.5px solid #7C3AED; border-radius: 12px; background: #FFFFFF !important; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
                           <div style="display: flex; align-items: center; gap: 0.75rem; overflow: hidden;">
                             <img id="accom-upload-img-preview" src="" alt="Accommodation Proof Preview" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px; border: 1.5px solid #7C3AED; flex-shrink: 0;">
                             <div style="overflow: hidden; text-align: left;">
-                              <div id="accom-upload-file-name" style="font-size: 0.82rem; font-weight: 700; color: #4C1D95; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">accom-proof.png</div>
-                              <div style="font-size: 0.72rem; color: #6D28D9;">Accommodation proof attached</div>
+                              <div id="accom-upload-file-name" style="font-size: 0.82rem; font-weight: 700; color: #000000 !important; -webkit-text-fill-color: #000000 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">accom-proof.png</div>
+                              <div style="font-size: 0.72rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Accommodation proof attached</div>
                             </div>
                           </div>
-                          <button type="button" id="btn-remove-accom-screenshot" class="btn btn-ghost" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; color: #DC2626; border-color: #F87171;">Change</button>
+                          <button type="button" id="btn-remove-accom-screenshot" class="btn btn-ghost" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; border-color: #F87171;">Change</button>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div id="accom-combined-summary-box" style="margin-top: 0.9rem; background: #FFFFFF; border: 1px solid #DDD6FE; border-radius: 10px; padding: 0.65rem 0.9rem; font-size: 0.8rem; color: #334155; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-                    <span>Dual Payment Summary: <strong id="accom-sum-ev">Event ₹200</strong> + <strong id="accom-sum-acc">Accommodation ₹500</strong></span>
-                    <span style="font-weight: 900; color: #4C1D95;">Total Across Both Invoices: <span id="accom-sum-grand">₹700</span></span>
+                  <div id="accom-combined-summary-box" style="margin-top: 0.9rem; background: #FFFFFF !important; border: 1px solid #DDD6FE !important; border-radius: 10px; padding: 0.65rem 0.9rem; font-size: 0.8rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                    <span style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Dual Payment Summary: <strong id="accom-sum-ev" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Event ₹200</strong> + <strong id="accom-sum-acc" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Accommodation ₹500</strong></span>
+                    <span style="font-weight: 900; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">Total Across Both Invoices: <span id="accom-sum-grand" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">₹700</span></span>
                   </div>
                 </div>
               </div>
@@ -990,14 +990,14 @@
                 </div>
               </div>
 
-              <div id="receipt-accom-invoice-box" style="display: none; background: #F5F3FF; border: 1.5px solid #8B5CF6; border-radius: 14px; padding: 1.15rem 1.2rem; max-width: 650px; margin: 0 auto 1.5rem auto; text-align: left; font-size: 0.86rem;">
-                <div style="font-size: 0.74rem; color: #5B21B6; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 0.65rem; border-bottom: 1px dashed #C4B5FD; padding-bottom: 0.35rem;">
+              <div id="receipt-accom-invoice-box" style="display: none; background: #F5F3FF !important; border: 1.5px solid #8B5CF6 !important; border-radius: 14px; padding: 1.15rem 1.2rem; max-width: 650px; margin: 0 auto 1.5rem auto; text-align: left; font-size: 0.86rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important;">
+                <div style="font-size: 0.74rem; color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 0.65rem; border-bottom: 1px dashed #C4B5FD; padding-bottom: 0.35rem;">
                   INVOICE 2 · CAMPUS ACCOMMODATION RECEIPT (SEPARATE PAYMENT 2)
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem;">
-                  <div><span style="color: #6D28D9; font-size: 0.72rem; text-transform: uppercase; font-weight: 700; display: block;">Invoice 2 Fee (Accommodation):</span> <strong id="receipt-accom-fee" style="color: #5B21B6; font-size: 1rem;">-</strong></div>
-                  <div><span style="color: #6D28D9; font-size: 0.72rem; text-transform: uppercase; font-weight: 700; display: block;">Accommodation UTR ID:</span> <code id="receipt-accom-utr" style="color: #4C1D95; font-weight: 800; font-family: var(--font-mono);">-</code></div>
-                  <div style="grid-column: 1 / -1;"><span style="color: #6D28D9; font-size: 0.72rem; text-transform: uppercase; font-weight: 700; display: block;">Participants Covered (Names):</span> <strong id="receipt-accom-names" style="color: #0F172A;">-</strong></div>
+                  <div><span style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.72rem; text-transform: uppercase; font-weight: 700; display: block;">Invoice 2 Fee (Accommodation):</span> <strong id="receipt-accom-fee" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 1rem;">-</strong></div>
+                  <div><span style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.72rem; text-transform: uppercase; font-weight: 700; display: block;">Accommodation UTR ID:</span> <code id="receipt-accom-utr" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 800; font-family: var(--font-mono);">-</code></div>
+                  <div style="grid-column: 1 / -1;"><span style="color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-size: 0.72rem; text-transform: uppercase; font-weight: 700; display: block;">Participants Covered (Names):</span> <strong id="receipt-accom-names" style="color: #000000 !important; -webkit-text-fill-color: #000000 !important;">-</strong></div>
                 </div>
               </div>
 
@@ -1380,7 +1380,7 @@
   <!-- Scripts -->
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_ACCOMMODATION_V65"></script>
+  <script src="js/main.js?v=2027_ACCOM_BLACK_TEXT_V66"></script>
   <script>
     // Live Registration Page Controller
     document.addEventListener("DOMContentLoaded", () => {
@@ -3377,9 +3377,9 @@
           state.candidates.forEach(c => {
             const checked = accomSelectedKeys.has(c.key);
             const lbl = document.createElement("label");
-            lbl.style.cssText = `display:flex; justify-content:space-between; align-items:center; gap:0.75rem; background:${checked ? "#EDE9FE" : "#FFFFFF"}; border:1.5px solid ${checked ? "#7C3AED" : "#E2E8F0"}; border-radius:10px; padding:0.65rem 0.9rem; cursor:pointer;`;
+            lbl.style.cssText = `display:flex; justify-content:space-between; align-items:center; gap:0.75rem; background:${checked ? "#EDE9FE" : "#FFFFFF"} !important; border:1.5px solid ${checked ? "#7C3AED" : "#E2E8F0"} !important; border-radius:10px; padding:0.65rem 0.9rem; cursor:pointer; color:#000000 !important; -webkit-text-fill-color:#000000 !important;`;
             const left = document.createElement("div");
-            left.style.cssText = "display:flex; align-items:center; gap:0.65rem; flex:1;";
+            left.style.cssText = "display:flex; align-items:center; gap:0.65rem; flex:1; color:#000000 !important; -webkit-text-fill-color:#000000 !important;";
             const cb = document.createElement("input");
             cb.type = "checkbox";
             cb.checked = checked;
@@ -3393,11 +3393,11 @@
             });
             const info = document.createElement("div");
             const displayName = c.name || `${c.role} (Enter name above)`;
-            info.innerHTML = `<div style="font-size:0.86rem; font-weight:800; color:${c.name ? "#0F172A" : "#94A3B8"};">${displayName}</div><div style="font-size:0.74rem; color:#475569; font-weight:600;">${c.role}${c.usn ? " · ID: " + c.usn : ""}</div>`;
+            info.innerHTML = `<div style="font-size:0.86rem; font-weight:800; color:#000000 !important; -webkit-text-fill-color:#000000 !important;">${displayName}</div><div style="font-size:0.74rem; color:#000000 !important; -webkit-text-fill-color:#000000 !important; font-weight:600;">${c.role}${c.usn ? " · ID: " + c.usn : ""}</div>`;
             left.appendChild(cb);
             left.appendChild(info);
             const rightBadge = document.createElement("span");
-            rightBadge.style.cssText = `font-family:var(--font-mono); font-size:0.76rem; font-weight:800; color:${checked ? "#FFFFFF" : "#6D28D9"}; background:${checked ? "#6D28D9" : "#F5F3FF"}; border:1px solid #8B5CF6; padding:0.2rem 0.55rem; border-radius:9999px; white-space:nowrap;`;
+            rightBadge.style.cssText = `font-family:var(--font-mono); font-size:0.76rem; font-weight:800; color:#000000 !important; -webkit-text-fill-color:#000000 !important; background:${checked ? "#DDD6FE" : "#FFFFFF"} !important; border:1.5px solid #7C3AED !important; padding:0.2rem 0.55rem; border-radius:9999px; white-space:nowrap;`;
             rightBadge.textContent = `+₹${accomFeePerPerson}`;
             lbl.appendChild(left);
             lbl.appendChild(rightBadge);
@@ -3408,16 +3408,16 @@
         if (accomSummaryEl) {
           const namesText = state.selectedPeople.map(p => p.name || p.role).join(", ");
           accomSummaryEl.innerHTML = state.count > 0
-            ? `<span><strong>${state.count} Person${state.count > 1 ? "s" : ""} Selected:</strong> ${namesText}</span><span style="font-family:var(--font-mono); font-weight:900; color:#6D28D9;">₹${state.totalFee}</span>`
-            : `<span>No participant selected yet — tick at least 1 person above.</span><span style="font-family:var(--font-mono); font-weight:900; color:#6D28D9;">₹0</span>`;
+            ? `<span style="color:#000000 !important; -webkit-text-fill-color:#000000 !important;"><strong style="color:#000000 !important; -webkit-text-fill-color:#000000 !important;">${state.count} Person${state.count > 1 ? "s" : ""} Selected:</strong> ${namesText}</span><span style="font-family:var(--font-mono); font-weight:900; color:#000000 !important; -webkit-text-fill-color:#000000 !important;">₹${state.totalFee}</span>`
+            : `<span style="color:#000000 !important; -webkit-text-fill-color:#000000 !important;">No participant selected yet — tick at least 1 person above.</span><span style="font-family:var(--font-mono); font-weight:900; color:#000000 !important; -webkit-text-fill-color:#000000 !important;">₹0</span>`;
         }
 
         if (accomFeeAmountEl) accomFeeAmountEl.textContent = `₹${state.totalFee}`;
         if (accomFeeBreakdownEl) accomFeeBreakdownEl.textContent = `${state.count} Person${state.count === 1 ? "" : "s"} Selected × ₹${accomFeePerPerson} = ₹${state.totalFee}`;
         if (accomInvoiceNamesEl) {
           accomInvoiceNamesEl.innerHTML = state.count > 0
-            ? state.selectedPeople.map((p, idx) => `<div><strong>${idx + 1}.</strong> ${p.name || `<span style="color:#DC2626;">(${p.role} — enter name above)</span>`}${p.usn ? ` <span style="color:#6D28D9; font-family:var(--font-mono);">(${p.usn})</span>` : ""}</div>`).join("")
-            : `<span style="color:#94A3B8;">Tick participants in Section 02B to list their names on Accommodation Payment 2.</span>`;
+            ? state.selectedPeople.map((p, idx) => `<div style="color:#000000 !important; -webkit-text-fill-color:#000000 !important;"><strong style="color:#000000 !important; -webkit-text-fill-color:#000000 !important;">${idx + 1}.</strong> ${p.name || `<span>(${p.role} — enter name above)</span>`}${p.usn ? ` <span style="font-family:var(--font-mono); color:#000000 !important; -webkit-text-fill-color:#000000 !important;">(${p.usn})</span>` : ""}</div>`).join("")
+            : `<span style="color:#000000 !important; -webkit-text-fill-color:#000000 !important;">Tick participants in Section 02B to list their names on Accommodation Payment 2.</span>`;
         }
 
         syncAccomGatewayButton(state);
