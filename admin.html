@@ -1169,6 +1169,8 @@
        AUTHENTICATED ADMIN INTERFACE
        ======================================================================== -->
   <div id="admin-main-interface" style="display: none;">
+    <!-- Global Registration Manual file input (kept outside hidden tab panes so all shortcut buttons can open it) -->
+    <input type="file" id="admin-reg-manual-file" accept="application/pdf" style="display: none;" onchange="handleRegistrationManualUpload(this.files[0]); this.value='';">
 
     <!-- ========================================================================
          ADMIN TOP BAR
@@ -1231,7 +1233,7 @@
          Events &amp; Rulebooks
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-registrations" onclick="switchAdminTab('tab-registrations')">
-         Registrations &amp; Portal
+         Registrations, Manual &amp; Portal
       </button>
       <button type="button" class="admin-nav-btn" data-tab="tab-scanner" onclick="switchAdminTab('tab-scanner')" style="color: #0284C7; font-weight: 800;">
          Gate QR Scanner Terminal
@@ -1341,6 +1343,9 @@
              QUICK ADMIN SHORTCUTS
           </h3>
           <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <button type="button" class="btn btn-secondary" onclick="openAdminRegistrationManualSection()" style="background: rgba(2, 132, 199, 0.14); border: 1.5px solid #0284C7; color: #0284C7; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem;">
+               Add / Manage Registration Manual (PDF)
+            </button>
             <button class="btn btn-secondary" onclick="switchAdminTab('tab-scanner')" style="background: rgba(2, 132, 199, 0.15); border: 1.5px solid #0284C7; color: #0284C7; font-weight: 800; display: inline-flex; align-items: center; gap: 0.4rem;">
                Launch Gate QR Scanner
             </button>
@@ -1421,6 +1426,32 @@
           </div>
         </div>
 
+        <!-- REGISTRATION PAGE MANUAL (PDF) QUICK-ACCESS CARD -->
+        <div class="admin-card" style="background: #F0F9FF; border: 1.5px solid #7DD3FC; border-radius: 14px; padding: 1.15rem 1.4rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; flex-wrap: wrap;">
+              <span class="section-tag" style="margin: 0; background: #E0F2FE; color: #0369A1; border-color: #BAE6FD;">REGISTRATION PAGE MANUAL (PDF)</span>
+              <span class="reg-manual-status-badge-sync" style="font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 9999px; background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">
+                Not Configured (Hidden on register.html)
+              </span>
+            </div>
+            <div style="font-size: 0.85rem; color: #0F172A; font-weight: 600;">
+              Add or update the Registration Manual PDF shown directly on <strong style="color:#0369A1;">register.html</strong>.
+            </div>
+          </div>
+          <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center;">
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('admin-reg-manual-file').click()" style="font-size: 0.8rem; font-weight: 700; background: #0284C7; border-color: #0284C7;">
+              Upload Manual PDF
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="openAdminRegistrationManualSection()" style="font-size: 0.8rem; font-weight: 700; background: #FFFFFF; border: 1.5px solid #0284C7; color: #0284C7;">
+              Open Manual Settings / Link
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="openRegistrationManualPreview()" style="font-size: 0.8rem; font-weight: 700; background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0F172A;">
+              Preview ↗
+            </button>
+          </div>
+        </div>
+
         <div style="overflow-x: auto;">
           <table class="admin-table">
             <thead>
@@ -1481,12 +1512,12 @@
         </div>
 
         <!-- REGISTRATION MANUAL (OFFICIAL PDF) MANAGER CARD -->
-        <div class="admin-card" style="background: #FFFFFF; border: 1.5px solid #93C5FD; border-radius: 14px; padding: 1.4rem; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(2,132,199,0.06);">
+        <div id="admin-reg-manual-card" class="admin-card" style="background: #FFFFFF; border: 1.5px solid #93C5FD; border-radius: 14px; padding: 1.4rem; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(2,132,199,0.06); transition: box-shadow 0.25s ease;">
           <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
             <div>
               <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; flex-wrap: wrap;">
                 <span class="section-tag" style="margin: 0; background: #E0F2FE; color: #0284C7; border-color: #BAE6FD;">REGISTRATION MANUAL (PDF)</span>
-                <span id="reg-manual-status-badge" style="font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 9999px; background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">
+                <span id="reg-manual-status-badge" class="reg-manual-status-badge-sync" style="font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 9999px; background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">
                   Not Configured (Hidden on register.html)
                 </span>
               </div>
@@ -1494,18 +1525,20 @@
                 OFFICIAL REGISTRATION MANUAL (PDF) FOR REGISTER PAGE
               </h3>
               <p style="font-size: 0.84rem; color: #475569; margin: 0; font-weight: 500; max-width: 640px;">
-                Upload a step-by-step Registration Manual PDF (up to 10MB) or paste a direct cloud link. When configured, a "View Registration Manual (PDF)" button appears automatically on <strong style="color:#0F172A;">register.html</strong> and syncs to MongoDB Atlas.
+                Upload a step-by-step Registration Manual PDF (up to 2.2MB direct upload, or paste any Google Drive / cloud PDF link below for larger files). Once saved, a "View Registration Manual (PDF)" button appears automatically on <strong style="color:#0F172A;">register.html</strong> and syncs to MongoDB Atlas.
               </p>
             </div>
 
             <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
-              <input type="file" id="admin-reg-manual-file" accept="application/pdf" style="display: none;" onchange="handleRegistrationManualUpload(this.files[0])">
               <button type="button" class="btn btn-primary" onclick="document.getElementById('admin-reg-manual-file').click()" style="display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 700; background: #0284C7; border-color: #0284C7;">
                 Upload Manual PDF
               </button>
               <button type="button" class="btn btn-secondary" onclick="openRegistrationManualPreview()" style="font-size: 0.82rem; font-weight: 700; background: #F8FAFC; border: 1.5px solid #CBD5E1; color: #0F172A;">
                 Preview Manual ↗
               </button>
+              <a href="register.html" target="_blank" class="btn btn-secondary" style="font-size: 0.82rem; font-weight: 700; background: #EFF6FF; border: 1.5px solid #93C5FD; color: #0369A1;">
+                View Register Page ↗
+              </a>
               <button type="button" class="btn btn-ghost" onclick="removeRegistrationManual()" style="font-size: 0.82rem; color: #EF4444; border-color: #FECACA;" title="Remove registration manual PDF">
                 Remove Manual
               </button>
@@ -2325,6 +2358,28 @@
             <input type="text" id="admin-setting-eventdate" class="admin-input" placeholder="2027-02-04T08:30:00+05:30">
           </div>
 
+          <div class="admin-form-group" style="background: rgba(2, 132, 199, 0.08); border: 1.5px solid #0284C7; border-radius: 12px; padding: 1.1rem; margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem;">
+            <div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; flex-wrap: wrap;">
+                <span style="font-family: var(--font-display); font-size: 0.88rem; font-weight: 800; color: #0369A1;">REGISTRATION MANUAL (PDF) FOR REGISTER PAGE</span>
+                <span class="reg-manual-status-badge-sync" style="font-size: 0.72rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 9999px; background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1;">
+                  Not Configured (Hidden on register.html)
+                </span>
+              </div>
+              <span style="font-size: 0.78rem; color: var(--text-muted); display: block;">
+                Upload a PDF (up to 2.2MB) or paste a Google Drive link to show the official Registration Manual on <code>register.html</code>.
+              </span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+              <button type="button" class="btn btn-primary" onclick="document.getElementById('admin-reg-manual-file').click()" style="padding: 0.55rem 0.95rem; font-size: 0.8rem; font-weight: 700; background: #0284C7; border-color: #0284C7;">
+                Upload Manual PDF
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="openAdminRegistrationManualSection()" style="padding: 0.55rem 0.95rem; font-size: 0.8rem; font-weight: 700; background: #FFFFFF; border: 1.5px solid #0284C7; color: #0284C7;">
+                Manage Link / Settings
+              </button>
+            </div>
+          </div>
+
           <button id="admin-save-settings-btn" class="btn btn-primary" style="margin-top: 1rem;">
              SAVE CONFIGURATION
           </button>
@@ -2432,7 +2487,7 @@
   <script src="js/xlsx.full.min.js"></script>
   <script src="js/html5-qrcode.min.js"></script>
   <script src="js/qrcode.min.js"></script>
-  <script src="js/main.js?v=2027_REG_MANUAL_PDF_V59"></script>
+  <script src="js/main.js?v=2027_REG_MANUAL_ACCESS_V60"></script>
   <!-- ========================================================================
        PAYMENT PROOF PREVIEW MODAL
        ======================================================================== -->

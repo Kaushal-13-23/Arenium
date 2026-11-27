@@ -1121,7 +1121,7 @@ const FestDB = {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data));
       window.dispatchEvent(new CustomEvent("arenium_db_change", { detail: data }));
       if (shouldPushToCloud !== false) {
-        this.pushToCloud(data);
+        this.pushToCloud(data).catch(() => {});
       }
       return true;
     } catch (e) {
@@ -1143,12 +1143,26 @@ const FestDB = {
         headers: { "Content-Type": "application/json", "Cache-Control": "no-cache" },
         body: JSON.stringify({ festConfig: payload })
       });
+      if (!res.ok) {
+        if (res.status === 413) {
+          throw new Error("Payload exceeds Cloud API limit (~4.5MB). Please upload a smaller PDF (under 2.2MB) or paste a Google Drive / Cloud PDF link.");
+        }
+        const errText = await res.text().catch(() => "");
+        let errMsg = `Cloud server returned HTTP ${res.status}`;
+        try {
+          const parsed = JSON.parse(errText);
+          if (parsed && (parsed.error || parsed.message)) errMsg = parsed.error || parsed.message;
+        } catch (parseErr) {
+          if (errText) errMsg += `: ${errText.slice(0, 140)}`;
+        }
+        throw new Error(errMsg);
+      }
       const json = await res.json();
       if (json && json.success) {
         console.log("[FestDB] Cloud MongoDB Atlas synchronization successful.");
         return true;
       }
-      return false;
+      throw new Error((json && (json.error || json.message)) || "Cloud sync rejected update.");
     } catch (err) {
       console.warn("[FestDB] Cloud push warning:", err);
       throw err;
@@ -1169,12 +1183,20 @@ const FestDB = {
         const cloudConfig = json.festConfig;
         let changed = false;
 
-        // Settings diff check
+        // Settings diff check (preserve nested registrationConfig fields across partial updates)
         if (cloudConfig.settings) {
+          const mergedSettings = Object.assign({}, localData.settings || {}, cloudConfig.settings);
+          if ((localData.settings && localData.settings.registrationConfig) || cloudConfig.settings.registrationConfig) {
+            mergedSettings.registrationConfig = Object.assign(
+              {},
+              (localData.settings && localData.settings.registrationConfig) || {},
+              cloudConfig.settings.registrationConfig || {}
+            );
+          }
           const s1 = JSON.stringify(localData.settings || {});
-          const s2 = JSON.stringify(Object.assign({}, localData.settings, cloudConfig.settings));
+          const s2 = JSON.stringify(mergedSettings);
           if (s1 !== s2) {
-            localData.settings = Object.assign({}, localData.settings, cloudConfig.settings);
+            localData.settings = mergedSettings;
             changed = true;
           }
         }
@@ -4382,18 +4404,25 @@ window.resetMasterRulebookToDefault = async function() {
 // ==========================================================================
 function renderRegistrationManualStatus(db) {
   const currentDb = db || FestDB.getData();
-  const badge = document.getElementById("reg-manual-status-badge");
+  const badges = [];
+  const primaryBadge = document.getElementById("reg-manual-status-badge");
+  if (primaryBadge) badges.push(primaryBadge);
+  document.querySelectorAll(".reg-manual-status-badge-sync").forEach(el => {
+    if (el !== primaryBadge) badges.push(el);
+  });
   const urlInput = document.getElementById("admin-reg-manual-url");
   const s = currentDb.settings || {};
+  const rc = s.registrationConfig || {};
 
-  const hasPdf = !!(s.registrationManualPdf && s.registrationManualPdf.trim());
-  const hasUrl = !!(s.registrationManualUrl && s.registrationManualUrl.trim());
+  const hasPdf = !!((s.registrationManualPdf && s.registrationManualPdf.trim()) || (rc.manualPdf && rc.manualPdf.trim()));
+  const activeUrl = (s.registrationManualUrl && s.registrationManualUrl.trim()) || (rc.manualUrl && rc.manualUrl.trim()) || "";
+  const hasUrl = !!activeUrl;
 
   if (urlInput) {
-    urlInput.value = s.registrationManualUrl || "";
+    urlInput.value = activeUrl;
   }
 
-  if (badge) {
+  badges.forEach(badge => {
     if (hasPdf) {
       badge.style.background = "#DCFCE7";
       badge.style.color = "#15803D";
@@ -4410,7 +4439,7 @@ function renderRegistrationManualStatus(db) {
       badge.style.borderColor = "#CBD5E1";
       badge.textContent = "Not Configured (Hidden on register.html)";
     }
-  }
+  });
 }
 window.renderRegistrationManualStatus = renderRegistrationManualStatus;
 
@@ -4421,9 +4450,9 @@ window.handleRegistrationManualUpload = async function(file) {
     return;
   }
 
-  const maxBytes = 10 * 1024 * 1024;
+  const maxBytes = 2.2 * 1024 * 1024; // ~2.95MB Base64 fits safely within browser localStorage (5MB) & Cloud API (4.5MB)
   if (file.size > maxBytes) {
-    alert(`File is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Please choose a PDF under 10MB or paste a direct Google Drive link.`);
+    alert(`File is ${(file.size / (1024 * 1024)).toFixed(2)}MB. Direct PDF uploads are capped at 2.2MB to fit browser storage and Cloud sync limits.\n\nFor larger PDFs, upload to Google Drive / cloud storage and paste the PDF link right below.`);
     return;
   }
 
@@ -4439,15 +4468,19 @@ window.handleRegistrationManualUpload = async function(file) {
       if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
       db.settings.registrationManualPdf = dataUrl;
       db.settings.registrationManualPdfName = file.name;
-      db.settings.registrationConfig.manualPdf = dataUrl;
-      FestDB.saveData(db);
+      delete db.settings.registrationConfig.manualPdf; // Store single Base64 copy to avoid doubling storage/cloud payload
+      const savedOk = FestDB.saveData(db, false);
+      if (!savedOk) {
+        alert("Browser local storage quota exceeded! Try a smaller PDF under 2.2MB, remove an old uploaded rulebook PDF, or paste a Google Drive / Cloud PDF link below.");
+        return;
+      }
       renderRegistrationManualStatus(db);
       syncRegistrationManualLinks(db);
       try {
         await FestDB.pushToCloud(db);
         alert(`Registration Manual ("${file.name}") uploaded and published to register.html!`);
       } catch (err) {
-        alert(`Registration Manual saved locally. Cloud notice: ${err.message}`);
+        alert(`Registration Manual saved locally in this browser. Cloud notice: ${err.message}`);
       }
     } catch (err) {
       console.error("Registration manual upload error:", err);
@@ -4459,13 +4492,27 @@ window.handleRegistrationManualUpload = async function(file) {
 
 window.saveRegistrationManualUrl = async function() {
   const urlInput = document.getElementById("admin-reg-manual-url");
-  const url = urlInput ? urlInput.value.trim() : "";
+  let url = urlInput ? urlInput.value.trim() : "";
+  if (url && /^(www\.|drive\.google\.com|docs\.google\.com)/i.test(url)) {
+    url = `https://${url}`;
+    if (urlInput) urlInput.value = url;
+  }
   const db = FestDB.getData();
   if (!db.settings) db.settings = {};
   if (!db.settings.registrationConfig) db.settings.registrationConfig = {};
+  if (url) {
+    // Switching to an external cloud URL supersedes any stored Base64 PDF and frees storage quota
+    db.settings.registrationManualPdf = "";
+    db.settings.registrationManualPdfName = "";
+    delete db.settings.registrationConfig.manualPdf;
+  }
   db.settings.registrationManualUrl = url;
   db.settings.registrationConfig.manualUrl = url;
-  FestDB.saveData(db);
+  const savedOk = FestDB.saveData(db, false);
+  if (!savedOk) {
+    alert("Failed to save link in browser storage (quota exceeded). Try clearing old uploaded PDFs first.");
+    return;
+  }
   renderRegistrationManualStatus(db);
   syncRegistrationManualLinks(db);
   try {
@@ -4492,16 +4539,17 @@ window.removeRegistrationManual = async function() {
     return;
   }
   const db = FestDB.getData();
-  if (db.settings) {
-    delete db.settings.registrationManualPdf;
-    delete db.settings.registrationManualPdfName;
-    delete db.settings.registrationManualUrl;
-    if (db.settings.registrationConfig) {
-      delete db.settings.registrationConfig.manualPdf;
-      delete db.settings.registrationConfig.manualUrl;
-    }
+  if (!db.settings) db.settings = {};
+  db.settings.registrationManualPdf = "";
+  db.settings.registrationManualPdfName = "";
+  db.settings.registrationManualUrl = "";
+  if (db.settings.registrationConfig) {
+    delete db.settings.registrationConfig.manualPdf;
+    db.settings.registrationConfig.manualUrl = "";
   }
-  FestDB.saveData(db);
+  const urlInput = document.getElementById("admin-reg-manual-url");
+  if (urlInput) urlInput.value = "";
+  FestDB.saveData(db, false);
   renderRegistrationManualStatus(db);
   syncRegistrationManualLinks(db);
   try {
@@ -4510,6 +4558,25 @@ window.removeRegistrationManual = async function() {
   } catch (err) {
     alert("Removed locally. Cloud notice: " + err.message);
   }
+};
+
+window.openAdminRegistrationManualSection = function() {
+  if (typeof window.switchAdminTab === "function") {
+    window.switchAdminTab("tab-registrations");
+  }
+  renderRegistrationManualStatus(FestDB.getData());
+  setTimeout(() => {
+    const card = document.getElementById("admin-reg-manual-card");
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.style.boxShadow = "0 0 0 4px rgba(2, 132, 199, 0.32), 0 8px 25px rgba(2, 132, 199, 0.16)";
+      setTimeout(() => {
+        card.style.boxShadow = "0 4px 15px rgba(2,132,199,0.06)";
+      }, 1800);
+    }
+    const urlInput = document.getElementById("admin-reg-manual-url");
+    if (urlInput && typeof urlInput.focus === "function") urlInput.focus({ preventScroll: true });
+  }, 60);
 };
 
 window.previewEventRulebookFromEditModal = function() {
@@ -6181,7 +6248,33 @@ function renderAdminRegistrations(db) {
       db.settings.registrationConfig.instructions = instructionsTextarea ? instructionsTextarea.value.trim() : "";
       db.settings.registrationConfig.fees = updatedFees;
 
-      FestDB.saveData(db);
+      const manualUrlInp = document.getElementById("admin-reg-manual-url");
+      if (manualUrlInp) {
+        let manualUrlVal = manualUrlInp.value.trim();
+        if (manualUrlVal && /^(www\.|drive\.google\.com|docs\.google\.com)/i.test(manualUrlVal)) {
+          manualUrlVal = `https://${manualUrlVal}`;
+          manualUrlInp.value = manualUrlVal;
+        }
+        const prevManualUrl = (db.settings.registrationManualUrl || db.settings.registrationConfig.manualUrl || "").trim();
+        if (manualUrlVal && manualUrlVal !== prevManualUrl) {
+          db.settings.registrationManualPdf = "";
+          db.settings.registrationManualPdfName = "";
+          delete db.settings.registrationConfig.manualPdf;
+          db.settings.registrationManualUrl = manualUrlVal;
+          db.settings.registrationConfig.manualUrl = manualUrlVal;
+        } else if (!manualUrlVal && prevManualUrl) {
+          db.settings.registrationManualUrl = "";
+          db.settings.registrationConfig.manualUrl = "";
+        }
+      }
+
+      const savedOk = FestDB.saveData(db);
+      if (typeof renderRegistrationManualStatus === "function") renderRegistrationManualStatus(db);
+      if (typeof syncRegistrationManualLinks === "function") syncRegistrationManualLinks(db);
+      if (!savedOk) {
+        alert("Browser local storage quota exceeded! Try clearing oversized uploaded PDFs or using a Cloud PDF link.");
+        return;
+      }
       alert("Registration Portal Settings & Event Fees updated live across the website!");
     };
   }
